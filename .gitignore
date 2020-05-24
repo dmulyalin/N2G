@@ -1,0 +1,12 @@
+*.pyc
+Data/*
+Output/*
+ttp.egg-info/*
+dist/*
+build/*
+private/*
+docs/build/*
+docs/make.bat
+docs/Makefile
+Diagrams/*
+Pics/*
