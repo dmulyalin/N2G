@@ -23,32 +23,33 @@ v0.0 xx/xx/xx
     
 """sample usage yed"""
 yed_diagram = yed_diagram()
-#graph1.addnode('a', top_label = 'top', bottom_label = 'bot')
-#graph1.addnode('b', label = 'somelabel', top_label = 'top', bottom_label = 'bot')
-#graph1.addedge('a', 'b', label = 'DF', src_label = 'Gi0/1', trgt_label = 'Fas1/2')
-#graph1.addnode('XR12', pic = 'router.svg')
-#graph1.addnode('XR14', pic = 'router')
-#graph1.addedge('XR12', 'a', description = """
-#vlans_trunked: 1,22,33,44,55
-#state: up
-#""")
-#graph1.addedge('XR14', 'XR12')
-##graph1.save(display = True)
+yed_diagram.addnode('a', top_label = 'top', bottom_label = 'bot')
+yed_diagram.addnode('b', label = 'somelabel', top_label = 'top', bottom_label = 'bot')
+yed_diagram.addedge('a', 'b', label = 'DF', src_label = 'Gi0/1', trgt_label = 'Fas1/2')
+yed_diagram.addnode('XR12', pic = 'router.svg')
+yed_diagram.addnode('XR13', pic = 'router.svg')
+yed_diagram.addnode('XR14', pic = 'router')
+yed_diagram.addedge('XR12', 'a', description = """
+vlans_trunked: 1,22,33,44,55
+state: up
+""")
+yed_diagram.addedge('XR14', 'XR12')
+yed_diagram.dump_file()
 
-sample_graph={
-'nodes': [
-{'id': 'a', 'pic': 'router', 'label': 'R1' }, 
-{'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
-{'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-{'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'}], 
-'edges': [
-{'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
-{'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-{'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
-{'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
-]}
-yed_diagram.fromdict(sample_graph)
-yed_diagram.save()
+# sample_graph={
+# 'nodes': [
+# {'id': 'a', 'pic': 'router', 'label': 'R1' }, 
+# {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+# {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
+# {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'}], 
+# 'edges': [
+# {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
+# {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+# {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+# {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
+# ]}
+# yed_diagram.fromdict(sample_graph)
+# yed_diagram.dump_file()
 
 #compare_graph = {
 #'nodes': [
@@ -70,7 +71,7 @@ yed_diagram.save()
 #graph3.addedge('somelabel', 'somelabel1')
 #graph3.fromdict(sample_graph, dublicates = 'skip')
 #graph3.compare(compare_graph)
-#graph3.save()
+#graph3.dump_file()
 #print("graph3.ids_dict: ", graph3.ids_dict)
 #print("graph3.nodes_dict: ", graph3.nodes_dict)
 #print("graph3.edges_dict: ", graph3.edges_dict)
@@ -78,7 +79,7 @@ yed_diagram.save()
 #graph1 = graph()
 #graph1.addnode('a', top_label = 'top', bottom_label = 'bot', group = True, description = 'some description', url='123.com')
 #graph1.addnode('a', top_label = 'top', bottom_label = 'bot', parent = 'a', description = 'some description', url='123.com')
-#graph1.save(display = True)
+#graph1.dump_file(display = True)
 
 
 """sample usage drawio"""

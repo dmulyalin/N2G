@@ -136,8 +136,8 @@ class drawio_diagram:
         self.current_root.append(link)
 
     def dump_xml(self):
-        ret = ET.tostring(self.drawing)  # return bytes string
-        return ret.decode(encoding="utf-8")  # return decoded string
+        ret = ET.tostring(self.drawing, encoding="unicode")
+        return ret
 
     def dump_file(self, filename=None, folder="./Output/"):
         import os
