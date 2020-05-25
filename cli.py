@@ -1,6 +1,6 @@
 from argparse import ArgumentParser as argparse_ArgumentParser
 from N2G import drawio_diagram
-from N2G import yed_diagram
+from N2G import yed_diagram as create_yed_diagram
 
 #form arg parser menu:
 argparser = argparse_ArgumentParser(description="Need to Graph CLI script.")
@@ -22,56 +22,56 @@ v0.0 xx/xx/xx
     """)
     
 """sample usage yed"""
-yed_diagram = yed_diagram()
-yed_diagram.addnode('a', top_label = 'top', bottom_label = 'bot')
-yed_diagram.addnode('b', label = 'somelabel', top_label = 'top', bottom_label = 'bot')
-yed_diagram.addedge('a', 'b', label = 'DF', src_label = 'Gi0/1', trgt_label = 'Fas1/2')
-yed_diagram.addnode('XR12', pic = 'router.svg')
-yed_diagram.addnode('XR13', pic = 'router.svg')
-yed_diagram.addnode('XR14', pic = 'router')
-yed_diagram.addedge('XR12', 'a', description = """
-vlans_trunked: 1,22,33,44,55
-state: up
-""")
-yed_diagram.addedge('XR14', 'XR12')
-yed_diagram.dump_file()
-
-# sample_graph={
-# 'nodes': [
-# {'id': 'a', 'pic': 'router', 'label': 'R1' }, 
-# {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
-# {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-# {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'}], 
-# 'edges': [
-# {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
-# {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-# {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
-# {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
-# ]}
-# yed_diagram.fromdict(sample_graph)
+yed_diagram = create_yed_diagram()
+# yed_diagram.add_node('a', top_label = 'top', bottom_label = 'bot')
+# yed_diagram.add_node('b', label = 'somelabel', top_label = 'top', bottom_label = 'bot')
+# yed_diagram.add_link('a', 'b', label = 'DF', src_label = 'Gi0/1', trgt_label = 'Fas1/2')
+# yed_diagram.add_node('XR12', pic = 'router.svg')
+# yed_diagram.add_node('XR13', pic = 'router.svg')
+# yed_diagram.add_node('XR14', pic = 'router')
+# yed_diagram.add_link('XR12', 'a', description = """
+# vlans_trunked: 1,22,33,44,55
+# state: up
+# """)
+# yed_diagram.add_link('XR14', 'XR12')
 # yed_diagram.dump_file()
 
-#compare_graph = {
-#'nodes': [
-#{'id': 'a', 'pic': 'router', 'label': 'R1' }, 
-#{'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
-#{'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-#{'id': 'e', 'label': 'somelabel111'}], 
-#'edges': [
-#{'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
-#{'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-##{'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
-#{'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'},
-#{'source': 'e', 'src_label': 'Gig0/11', 'label': 'ed', 'target': 'c', 'trgt_label': 'Gig0/8'}
-#]}
+sample_graph={
+'nodes': [
+{'id': 'a', 'pic': 'router', 'label': 'R1' }, 
+{'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+{'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
+{'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'}], 
+'edges': [
+{'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
+{'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+{'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+{'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
+]}
+# yed_diagram.from_dict(sample_graph)
+# yed_diagram.dump_file()
 
-#graph3 = graph('./Data/garph_2.graphml')
-#graph3.addnode(id = 'e', label = 'R101', top_label = 'top', bottom_label = 'bot', description='some node description')
-#graph3.addedge('e', 'c')
-#graph3.addedge('somelabel', 'somelabel1')
-#graph3.fromdict(sample_graph, dublicates = 'skip')
-#graph3.compare(compare_graph)
-#graph3.dump_file()
+compare_graph = {
+'nodes': [
+{'id': 'a', 'pic': 'router', 'label': 'R1' }, 
+{'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+{'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
+{'id': 'e', 'label': 'somelabel111'}], 
+'edges': [
+{'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
+{'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+#{'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+{'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'},
+{'source': 'e', 'src_label': 'Gig0/11', 'label': 'ed', 'target': 'c', 'trgt_label': 'Gig0/8'}
+]}
+
+yed_diagram.from_file("./Output/test_load.graphml")
+yed_diagram.add_node(id = 'e', label = 'R101', top_label = 'top', bottom_label = 'bot', description='some node description')
+yed_diagram.add_link('e', 'c', label="some blabla")
+yed_diagram.add_link('a', 'd')
+yed_diagram.from_dict(sample_graph, dublicates = 'skip')
+# yed_diagram.compare(compare_graph)
+yed_diagram.dump_file()
 #print("graph3.ids_dict: ", graph3.ids_dict)
 #print("graph3.nodes_dict: ", graph3.nodes_dict)
 #print("graph3.edges_dict: ", graph3.edges_dict)
@@ -103,7 +103,7 @@ yed_diagram.dump_file()
 ## drawing.layout(algo="kk")
 ## drawing.dump_file()
 
-# test fromdict
+# test from_dict
 ## data = {
 ##     "nodes": [
 ##         {"id": "node-1"},

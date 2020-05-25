@@ -1,7 +1,3 @@
-## try:
-##     from lxml import etree
-## except ImportError:
-##     raise SystemExit("ERROR: 'lxml' module not installed. Install: 'python -m pip install lxml'; Exiting")
 import xml.etree.ElementTree as ET
 import hashlib
 import uuid
@@ -59,6 +55,7 @@ class yed_diagram:
         <default/>
     </key>
     <graph edgedefault="directed" id="G">
+    
     </graph>
     <data key="d7">
         <y:Resources>
@@ -158,9 +155,10 @@ class yed_diagram:
 
     def __init__(self):
         self.drawing = ET.fromstring(self.graph_xml)
+        self.graph_root = self.drawing.find("./_default_ns_:graph", self.namespaces)
         self.y_attr = {}
         self.edges_ids = []
-        self.nodes_ids = []
+        self.nodes_ids = {}
         self.svg_pics_dict = {}
         self._load_yattrs()
         # register name spaces names to dump them properly in XML output
@@ -195,11 +193,11 @@ class yed_diagram:
         self,
         xml_template,  # string, name of XML label template
         label="",  # string, center label of edge/nodes
-        path="",  # string, xpath formatted 'path', if empty, work with element tag
+        path="",  # string, xml tree path, if empty, work with element tag
         **kwargs  # attributes for edge/node label lement at "path" tag
     ):
         """
-        function to create label elemnts forappending to edge/nodes' elements
+        function to create label elemnts for appending to edge/nodes' elements
         """
         element = ET.fromstring(xml_template)
         if label != "":
@@ -227,7 +225,7 @@ class yed_diagram:
             elif dublicates == "update":
                 self.update_node(self.nodes_dict[id], label, attributes, description)
             return True
-        self.nodes_ids.append(id)
+        self.nodes_ids[id] = id
 
     def _addshapenode(
         self,
@@ -300,7 +298,7 @@ class yed_diagram:
         # set attributes for the node:
         if attributes:
             self.set_attributes(ShapeNode, attributes)
-        self.drawing.append(node)
+        self.graph_root.append(node)
 
     def _addsvgnode(
         self,
@@ -329,7 +327,7 @@ class yed_diagram:
             )
         )
 
-        # check wether svg pic with given name already been loaded, if yes, use it:
+        # check if svg pic with given name already been loaded, if yes, use it:
         svg_pic_already_loaded = False
         for path, params in self.svg_pics_dict.items():
             if path == pic_path + pic:  # hence svg pic already been loaded
@@ -415,7 +413,7 @@ class yed_diagram:
         )
 
         # add node to the graph and delete node_element:
-        self.drawing.append(svg_node)
+        self.graph_root.append(svg_node)
 
     def _addgroupnode(
         self,
@@ -441,25 +439,25 @@ class yed_diagram:
         self.nodes_dict[id] = id
         node.set("id", id)
         # set id for groupnode graph:
-        node.xpath("./graph", namespaces=self.ns_dict)[0].set("id", "{}:".format(id))
+        node.find("./_default_ns_:graph", self.namespaces).attrib["id"] = "{}:".format(id)
 
         # add labels and description data to the node:
-        GroupNode = node.xpath(
+        GroupNode = node.find(
             "./data/y:ProxyAutoBoundsNode/y:Realizers/y:GroupNode",
-            namespaces=self.ns_dict,
-        )[0]
+            self.namespaces
+        )
         if label != "":
             GroupNode.append(
-                self._create_label_element(node_label_xml, label, modelPosition="c")
+                self._create_label_element(self.node_label_xml, label, modelPosition="c")
             )
         if top_label != "":
             GroupNode.append(
-                self._create_label_element(node_label_xml, top_label, modelPosition="t")
+                self._create_label_element(self.node_label_xml, top_label, modelPosition="t")
             )
         if bottom_label != "":
             GroupNode.append(
                 self._create_label_element(
-                    node_label_xml, bottom_label, modelPosition="b"
+                    self.node_label_xml, bottom_label, modelPosition="b"
                 )
             )
         if description != "":
@@ -485,11 +483,9 @@ class yed_diagram:
         # set attributes for the node:
         if attributes:
             self.set_attributes(GroupNode, attributes)
-        self.drawing.xpath("//_default_ns_:graph", namespaces=self.ns_dict)[0].append(
-            node
-        )
+        self.graph_root.append(node)
 
-    def addnode(
+    def add_node(
         self,
         id,  # string, name of the node
         label="",  # string, label at the center of shape node or above the top of svg node
@@ -554,7 +550,7 @@ class yed_diagram:
             return True
         self.edges_ids.append(id)
 
-    def addedge(
+    def add_link(
         self,
         source,  # string, name of the source node
         target,  # string, name of the terget node
@@ -566,7 +562,7 @@ class yed_diagram:
         src_label_attribs={},  #
         trgt_label_attribs={},  #
         attributes={},  # dict, edge attributes
-        dublicates="skip",  #
+        dublicates="log",  #
         url="",  # string, data to add to edge URL
     ):
         """method to add edge
@@ -578,12 +574,22 @@ class yed_diagram:
         if self._edge_exists(edge_id, dublicates, edge_tup):
             return
         # create edge element:
+        try:
+            source_id = self.nodes_ids[source]
+        except KeyError:
+            log.error("add_link: no source node found, node id - '{}'".format(source))
+            return
+        try:
+            target_id = self.nodes_ids[target]
+        except KeyError:
+            log.error("add_link: no target node found, node id - '{}'".format(target))
+            return
         edge = ET.fromstring(
             self.edge_xml.format(
                 attrib_id=self.y_attr["edge"]["edgegraphics"],
                 id=edge_id,
-                source=source,
-                target=target,
+                source=source_id,
+                target=target_id
             )
         )
         # fill labels and description:
@@ -637,29 +643,57 @@ class yed_diagram:
         if attributes:
             self.set_attributes(PolyLineEdge, attributes)
         # append edge element to graph:
-        self.drawing.append(edge)
+        self.graph_root.append(edge)
 
-    def fromdict(
+    def from_dict(
         self,
-        graph_dictionary,  # dictionary, structure: {nodes:[{node1 kwargs}], edges:[{edge1 kwargs}]}
+        data,  # dictionary, structure: {nodes:[{node1 kwargs}], edges:[{edge1 kwargs}]}
         dublicates="exit",  # string, action to do with dublicates
     ):
         """
         method to load graph from dictionary structured data.
         """
-        # have to search edges and nodes keys first, as order shouldbe createNodes->addEdges, but dictionaryacn be hased in such a way that edges will appear before keys
-        for key in graph_dictionary.keys():
-            if "NODES" in key.upper():
-                nodes_key = key
-            elif "EDGES" in key.upper() or "LINKS" in key.upper():
-                edges_key = key
-        for item in graph_dictionary[nodes_key]:
-            self.addnode(dublicates=dublicates, **item)
-        for item in graph_dictionary[edges_key]:
-            self.addedge(dublicates=dublicates, **item)
+        for node in data.get("nodes", []):
+            self.add_node(dublicates=dublicates, **node)
+        for link in data.get("links", []):
+            self.add_link(dublicates=dublicates, **link)
+        for edge in data.get("edges", []):
+            self.add_link(dublicates=dublicates, **edge)
 
+    def from_file(self, filename):
+        with open(filename, "r") as f:
+            self.drawing = ET.fromstring(f.read())
+        # load graph details
+        self.graph_root = self.drawing.find("./_default_ns_:graph", self.namespaces)
+        self._load_yattrs()
+        # load all nodes IDs and build mapping between previously saved ID and ID generated by yED
+        nmetadata_id = self.y_attr["node"]["nmetadata"]
+        for node in self.graph_root.findall("./_default_ns_:node", self.namespaces):
+            node_data = node.find("./_default_ns_:data[@key='{}']".format(nmetadata_id), self.namespaces)
+            node_data = json_loads(node_data.text)
+            self.nodes_ids[node_data["id"]] = node.attrib["id"]
+        # add all edges IDs to self.edges_ids list
+        emetadata_id = self.y_attr["edge"]["emetadata"]
+        for edge in self.graph_root.findall("./_default_ns_:edge", self.namespaces):
+            edge_data = edge.find("./_default_ns_:data[@key='{}']".format(emetadata_id), self.namespaces)
+            edge_data = json_loads(edge_data.text)
+            source = edge_data["sid"]
+            target = edge_data["tid"]
+            for label_item in edge.findall(".//*/y:EdgeLabel", self.namespaces):
+                placement = label_item.attrib.get("preferredPlacement", "")
+                if "center" in placement:
+                    label = label_item.text
+                elif "source" in placement:
+                    src_label = label_item.text
+                elif "target" in placement:
+                    trgt_label = label_item.text
+            edge_tup = tuple(sorted([source, target, label, src_label, trgt_label,]))
+            edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+            self.edges_ids.append(edge_id)
+        
     def dump_xml(self):
-        ret = ET.tostring(self.drawing, encoding="unicode").replace("_default_ns_:", "")
+        ret = ET.tostring(self.drawing, encoding="unicode")
+        ret = ret.replace("_default_ns_:", "").replace(":_default_ns_", "")
         return ret
 
     def dump_file(self, filename=None, folder="./Output/"):
@@ -786,7 +820,7 @@ class yed_diagram:
                         node["attributes"].update(new_nodes)
                     else:
                         node["attributes"] = new_nodes
-                    results_graph.addnode(**node)
+                    results_graph.add_node(**node)
                 elif node["id"] in self.nodes_dict:
                     not_missing_nodes.append(self.nodes_dict[node["id"]])
             # find missing nodes:
@@ -808,7 +842,7 @@ class yed_diagram:
                         edge["attributes"].update(new_edges)
                     else:
                         edge["attributes"] = new_edges
-                    results_graph.addedge(**edge)
+                    results_graph.add_link(**edge)
                     continue
                 # try to find target node:
                 if edge["target"] in self.nodes_dict:
@@ -819,7 +853,7 @@ class yed_diagram:
                         edge["attributes"].update(new_edges)
                     else:
                         edge["attributes"] = new_edges
-                    results_graph.addedge(**edge)
+                    results_graph.add_link(**edge)
                     continue
                 # fill in the rest of labels to form tuple:
                 if "label" in edge:
@@ -843,7 +877,7 @@ class yed_diagram:
                         edge["attributes"].update(new_edges)
                     else:
                         edge["attributes"] = new_edges
-                    results_graph.addedge(**edge)
+                    results_graph.add_link(**edge)
                 # if edge_tup in self_edges_dict - means existing edge:
                 elif edge_tup in self.edges_dict:
                     not_missing_edges.append(self.edges_dict[edge_tup])
