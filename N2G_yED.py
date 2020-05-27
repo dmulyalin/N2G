@@ -71,7 +71,7 @@ class yed_diagram:
           <y:Geometry height="62.0" width="80.0"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="3.0"/>
-          <y:Shape type="rectangle"/>
+          <y:Shape type="{shape_type}"/>
         </y:ShapeNode>
       </data>
     </node>
@@ -81,12 +81,12 @@ class yed_diagram:
     <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml">
       <data key="{attrib_id}">
         <y:SVGNode>
-          <y:Geometry height="50" width="50"/>
+          <y:Geometry width="{width}" height="{height}"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:SVGNodeProperties usingVisualBounds="true"/>
           <y:SVGModel svgBoundsPolicy="0">
-            <y:SVGContent refid="svgPicID"/>
+            <y:SVGContent refid="{refid}"/>
           </y:SVGModel>
         </y:SVGNode>
       </data>
@@ -115,13 +115,6 @@ class yed_diagram:
     </node>
     """
 
-    node_label_xml = """
-    <y:NodeLabel xmlns:y="http://www.yworks.com/xml/graphml" alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" 
-    fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" 
-    iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" 
-    width="70">NodeLabel</y:NodeLabel>
-    """
-
     edge_xml = """
     <edge xmlns:y="http://www.yworks.com/xml/graphml" id="{id}" source="{source}" target="{target}">
       <data key="{attrib_id}">
@@ -133,13 +126,20 @@ class yed_diagram:
       </data>
     </edge>
     """
-
+    
+    node_label_xml = """
+    <y:NodeLabel xmlns:y="http://www.yworks.com/xml/graphml" alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" 
+    fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" 
+    iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" 
+    width="70">NodeLabel</y:NodeLabel>
+    """
+    
     edge_label_xml = """
     <y:EdgeLabel xmlns:y="http://www.yworks.com/xml/graphml" alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">EdgeLabel<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
     """
 
     resource_xml = """
-    <y:Resource id="1" xmlns:y="http://www.yworks.com/xml/graphml">
+    <y:Resource id="{id}" xmlns:y="http://www.yworks.com/xml/graphml">{text_data}
     </y:Resource>
     """
 
@@ -158,11 +158,11 @@ class yed_diagram:
         self.graph_root = self.drawing.find("./_default_ns_:graph", self.namespaces)
         self.y_attr = {}
         self.edges_ids = []
-        self.nodes_ids = {}
+        self.nodes_ids = {} # dictionary of "human friendly node id": "generated node id"
         self.svg_pics_dict = {}
         self._load_yattrs()
         # register name spaces names to dump them properly in XML output
-        _ = [ET.register_namespace(k, v) for k, v in self.namespaces.items()]
+        [ET.register_namespace(k, v) for k, v in self.namespaces.items()]
 
     def _load_yattrs(self):
         """
@@ -191,7 +191,7 @@ class yed_diagram:
 
     def _create_label_element(
         self,
-        xml_template,  # string, name of XML label template
+        xml_template, # string, name of XML label template
         label="",  # string, center label of edge/nodes
         path="",  # string, xml tree path, if empty, work with element tag
         **kwargs  # attributes for edge/node label lement at "path" tag
@@ -229,17 +229,26 @@ class yed_diagram:
 
     def _addshapenode(
         self,
-        id,  # string, name of the node
-        label="",  # string, label at the center of the node
-        top_label="",  # string, label at the top of the node
-        bottom_label="",  # string, label at the bottom of the node
-        attributes={},  # dictionary, contains node attributes
-        description="",  # string, data to add in node description
-        dublicates="log",  # string, action if node dublicate found
-        url="",  # string, data to add tonode URL
+        id,
+        label="",
+        top_label="",
+        bottom_label="",
+        attributes={},
+        description="",
+        dublicates="log",
+        shape_type="roundrectangle",
+        url="",
     ):
         """
-        method to add node of type "shape", by default shape is "rectangle"
+        Method to add node of type "shape", by default shape is "roundrectangle"
+        
+        **Arguments**
+        
+            * attributes - dictionary of yEd graphml tag name and its attributes, e.g.:
+                {
+                    'Shape'     : {'type': 'roundrectangle'},
+                    'DropShadow': { 'color': '#B3A691', 'offsetX': '5', 'offsetY': '5'}
+                }
         """
         # check duplicates
         if self._node_exists(id, dublicates):
@@ -247,22 +256,21 @@ class yed_diagram:
         # create node element:
         node = ET.fromstring(
             self.shape_node_xml.format(
-                attrib_id=self.y_attr["node"]["nodegraphics"], id=id
+                attrib_id=self.y_attr["node"]["nodegraphics"],
+                id=id,
+                shape_type=shape_type,
             )
         )
 
         # add labels and description data to the node:
         ShapeNode = node.find("./data/y:ShapeNode", self.namespaces)
         if label == "":
-            ShapeNode.append(
-                self._create_label_element(self.node_label_xml, id, modelPosition="c")
+            label = id
+        ShapeNode.append(
+            self._create_label_element(
+                self.node_label_xml, label, modelPosition="c"
             )
-        if label != "":
-            ShapeNode.append(
-                self._create_label_element(
-                    self.node_label_xml, label, modelPosition="c"
-                )
-            )
+        )
         if top_label != "":
             ShapeNode.append(
                 self._create_label_element(
@@ -285,30 +293,27 @@ class yed_diagram:
             node.append(
                 self._create_data_element(id=self.y_attr["node"]["url"], text=url)
             )
-        # save original id in node custom attribute:
+        # save original node ID in nmetadata attribute - used to loadg raph from file:
         node.append(
             self._create_data_element(
-                id=self.y_attr["node"]["nmetadata"],
-                text=json_dumps(
-                    {"id": id}
-                ),
+                id=self.y_attr["node"]["nmetadata"], text=json_dumps({"id": id}),
             )
         )
 
-        # set attributes for the node:
-        if attributes:
-            self.set_attributes(ShapeNode, attributes)
+        # set attributes for the node children:
+        self.set_attributes(ShapeNode, attributes)
+        # addnode to graph
         self.graph_root.append(node)
 
     def _addsvgnode(
         self,
-        pic,  # string, name of SVG picture file to use
-        id,  # string, name of the node
-        pic_path="./Pics/",  # string, OS path to SVG picture file
-        label="",  # string, label to display above the top of the node
-        attributes={},  # dictionary, contains node attributes
-        description="",  # string, data to add in node description
-        dublicates="exit",  # string, action if node dublicate found
+        pic,
+        id,
+        pic_path="./Pics/",
+        label="",
+        attributes={},
+        description="",
+        dublicates="log",
         url="",  # string, data to add tonode URL
     ):
         """
@@ -320,81 +325,66 @@ class yed_diagram:
         # sanitize pic:
         if not pic.endswith(".svg"):
             pic += ".svg"
-        # create svg_node element:
-        svg_node = ET.fromstring(
-            self.svg_node_xml.format(
-                attrib_id=self.y_attr["node"]["nodegraphics"], id=id
-            )
-        )
+        pic_file_path = pic_path + pic
 
-        # check if svg pic with given name already been loaded, if yes, use it:
-        svg_pic_already_loaded = False
-        for path, params in self.svg_pics_dict.items():
-            if path == pic_path + pic:  # hence svg pic already been loaded
-                svg_node.find(
-                    "./data/y:SVGNode/y:SVGModel/y:SVGContent", self.namespaces
-                ).attrib["refid"] = str(params[0])
-                svg_node.find("./data/y:SVGNode/y:Geometry", self.namespaces).attrib[
-                    "width"
-                ] = str(params[1])
-                svg_node.find("./data/y:SVGNode/y:Geometry", self.namespaces).attrib[
-                    "height"
-                ] = str(params[2])
-                svg_pic_already_loaded = True
-                break
         # load svg pic resource into graph resources section if not yet loaded:
-        if svg_pic_already_loaded == False:
-            with open(pic_path + pic) as pic_file:
-                pic_xml = pic_file.read()
-                # extract pic width and height that can be contained in viewBox attribute as well:
-                pic_element = ET.fromstring(pic_xml.encode("utf8"))
-                pic_viewbox = pic_element.attrib.get("viewBox")
-                if pic_viewbox:
-                    pic_width = pic_viewbox.split(" ")[3]
-                    pic_height = pic_viewbox.split(" ")[2]
-                else:
-                    pic_width = pic_element.attrib.get("width")
-                    pic_height = pic_element.attrib.get("height")
-                del pic_element
-                # modify pic_xml for inclusion into resource element
-                pic_xml = pic_xml.replace("\<", "&lt;").replace("\>", "&gt;")
+        if not pic_file_path in self.svg_pics_dict:
             resource_id = str(uuid.uuid1())
+            with open(pic_file_path, "r") as pic_file:
+                pic_xml = pic_file.read()
+                # extract pic width and height that can be containedin viewBox attribute as well:
+                pic_element = ET.fromstring(pic_xml.encode('utf8'))
+                if pic_element.attrib.get("viewBox"):
+                    _, _, pic_width, pic_height = pic_element.attrib.get("viewBox").split(" ")
+                elif pic_element.find(".//*/{http://www.w3.org/2000/svg}svg"):
+                    _, _, pic_width, pic_height = pic_element.find(".//*/{http://www.w3.org/2000/svg}svg").attrib.get("viewBox").split(" ")
+                else:
+                    pic_width = pic_element.get("width", 50)
+                    pic_height = pic_element.get("height", 50)
+                del(pic_element)
+                pic_width = float(pic_width)
+                pic_height = float(pic_height)
+                # scale width and height down to 100px if size more than 100px
+                if  max(pic_width, pic_height) > 100:
+                    factor = max(pic_width, pic_height) / 100
+                    pic_width = pic_width / factor
+                    pic_height = pic_height / factor
+                # modify pic_xml for inclusion into resource element
+                pic_xml = pic_xml.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&apos;")
 
-            # save pic and it's params into sgv_pics_dict dictionary:
-            self.svg_pics_dict[pic_path + pic] = [resource_id, pic_width, pic_height]
+            # save pic id and it's params into sgv_pics_dict dictionary:
+            self.svg_pics_dict[pic_file_path] = {"refid": resource_id, "height": pic_height, "width": pic_width}
 
             # create resource element:
-            svg_resource_element = ET.fromstring(self.resource_xml)
-            svg_resource_element.attrib["id"] = resource_id
-            svg_resource_element.text = pic_xml
+            svg_resource_element = ET.fromstring(self.resource_xml.format(
+                id=resource_id,
+                text_data=pic_xml
+            ))
             self.drawing.find(
                 "./_default_ns_:data/y:Resources", self.namespaces
             ).append(svg_resource_element)
             del svg_resource_element
-
-            # add svg resource refid, width, height parametrs to svg_node element:
-            svg_node.find(
-                "./data/y:SVGNode/y:SVGModel/y:SVGContent", self.namespaces
-            ).attrib["refid"] = resource_id
-            svg_node.find("./data/y:SVGNode/y:Geometry", self.namespaces).attrib[
-                "width"
-            ] = pic_width
-            svg_node.find("./data/y:SVGNode/y:Geometry", self.namespaces).attrib[
-                "height"
-            ] = pic_height
+        
+        params = self.svg_pics_dict[pic_file_path]
+        # create svg_node element:
+        svg_node = ET.fromstring(
+            self.svg_node_xml.format(
+                attrib_id=self.y_attr["node"]["nodegraphics"], 
+                id=id,
+                refid=params["refid"],
+                height=params["height"],
+                width=params["width"]
+            )
+        )
+            
         # add label and description data to the node:
         if label == "":
-            svg_node.find("./data/y:SVGNode", self.namespaces).append(
-                self._create_label_element(
-                    self.node_label_xml, id, modelName="sandwich", modelPosition="n"
-                )
+            label = id 
+        svg_node.find("./data/y:SVGNode", self.namespaces).append(
+            self._create_label_element(
+                self.node_label_xml, label, modelName="sandwich", modelPosition="n"
             )
-        elif label != "":
-            svg_node.find("./data/y:SVGNode", self.namespaces).append(
-                self._create_label_element(
-                    self.node_label_xml, label, modelName="sandwich", modelPosition="n"
-                )
-            )
+        )
         if description != "":
             svg_node.append(
                 self._create_data_element(
@@ -439,20 +429,25 @@ class yed_diagram:
         self.nodes_dict[id] = id
         node.set("id", id)
         # set id for groupnode graph:
-        node.find("./_default_ns_:graph", self.namespaces).attrib["id"] = "{}:".format(id)
+        node.find("./_default_ns_:graph", self.namespaces).attrib["id"] = "{}:".format(
+            id
+        )
 
         # add labels and description data to the node:
         GroupNode = node.find(
-            "./data/y:ProxyAutoBoundsNode/y:Realizers/y:GroupNode",
-            self.namespaces
+            "./data/y:ProxyAutoBoundsNode/y:Realizers/y:GroupNode", self.namespaces
         )
         if label != "":
             GroupNode.append(
-                self._create_label_element(self.node_label_xml, label, modelPosition="c")
+                self._create_label_element(
+                    self.node_label_xml, label, modelPosition="c"
+                )
             )
         if top_label != "":
             GroupNode.append(
-                self._create_label_element(self.node_label_xml, top_label, modelPosition="t")
+                self._create_label_element(
+                    self.node_label_xml, top_label, modelPosition="t"
+                )
             )
         if bottom_label != "":
             GroupNode.append(
@@ -485,57 +480,17 @@ class yed_diagram:
             self.set_attributes(GroupNode, attributes)
         self.graph_root.append(node)
 
-    def add_node(
-        self,
-        id,  # string, name of the node
-        label="",  # string, label at the center of shape node or above the top of svg node
-        top_label="",  # string, label at the top of the node, ignored if pic is present
-        bottom_label="",  # string, label at the bottom of the node, ignored if pic is present
-        pic="",  # string, name of SVG picture file to use
-        pic_path="./Pics/",  # string, OS path to SVG picture file
-        attributes={},  #
-        description="",  #
-        url="",  # string, data to add to node URL
-        dublicates="exit",  #
-        group=False,  # boolean, to indicate if node is a group if True or relation to group
-    ):
+    def add_node(self, **kwargs):
         """
         method to add node, by calling one of internal methods, decision made based on presence of 
         'pic', e.g., if present, create svg node, if not, create shape node
         """
-        if group == True:
-            self._addgroupnode(
-                id=id,
-                label=label,
-                top_label=top_label,
-                bottom_label=bottom_label,
-                attributes=attributes,
-                description=description,
-                dublicates=dublicates,
-                url=url,
-            )
-        elif pic == "":
-            self._addshapenode(
-                id=id,
-                label=label,
-                top_label=top_label,
-                bottom_label=bottom_label,
-                attributes=attributes,
-                description=description,
-                dublicates=dublicates,
-                url=url,
-            )
+        if kwargs.get("group") == True:
+            self._addgroupnode(**kwargs)
+        elif kwargs.get("pic"):
+            self._addsvgnode(**kwargs)
         else:
-            self._addsvgnode(
-                id=id,
-                pic=pic,
-                pic_path=pic_path,
-                label=label,
-                attributes=attributes,
-                description=description,
-                dublicates=dublicates,
-                url=url,
-            )
+            self._addshapenode(**kwargs)
 
     def _edge_exists(self, id, dublicates, edge_tup):
         """method, used to check dublicate edges 
@@ -558,9 +513,6 @@ class yed_diagram:
         src_label="",  # string, label to display at source end of the edge
         trgt_label="",  # string, label to display at target end of the edge
         description="",  # string, text to add as description data to the edge
-        label_attribs={},  #
-        src_label_attribs={},  #
-        trgt_label_attribs={},  #
         attributes={},  # dict, edge attributes
         dublicates="log",  #
         url="",  # string, data to add to edge URL
@@ -589,7 +541,7 @@ class yed_diagram:
                 attrib_id=self.y_attr["edge"]["edgegraphics"],
                 id=edge_id,
                 source=source_id,
-                target=target_id
+                target=target_id,
             )
         )
         # fill labels and description:
@@ -645,20 +597,25 @@ class yed_diagram:
         # append edge element to graph:
         self.graph_root.append(edge)
 
-    def from_dict(
-        self,
-        data,  # dictionary, structure: {nodes:[{node1 kwargs}], edges:[{edge1 kwargs}]}
-        dublicates="exit",  # string, action to do with dublicates
-    ):
+    def from_dict(self, data, dublicates="exit"):
         """
-        method to load graph from dictionary structured data.
+        Method to load graph from dictionary structured data.
+        
+        data dictionary example::
+            
+            sample_graph = {
+                'nodes': [
+                    {'id': 'a', 'pic': 'router', 'label': 'R1' }, 
+                    {'id': 'b', label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'}
+                ], 
+                'edges': [
+                    {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}
+                ]
+            }
         """
-        for node in data.get("nodes", []):
-            self.add_node(dublicates=dublicates, **node)
-        for link in data.get("links", []):
-            self.add_link(dublicates=dublicates, **link)
-        for edge in data.get("edges", []):
-            self.add_link(dublicates=dublicates, **edge)
+        [self.add_node(dublicates=dublicates, **node) for node in data.get("nodes", [])]
+        [self.add_link(dublicates=dublicates, **link) for link in data.get("links", [])]
+        [self.add_link(dublicates=dublicates, **edge) for edge in data.get("edges", [])]
 
     def from_file(self, filename):
         with open(filename, "r") as f:
@@ -666,19 +623,25 @@ class yed_diagram:
         # load graph details
         self.graph_root = self.drawing.find("./_default_ns_:graph", self.namespaces)
         self._load_yattrs()
-        # load all nodes IDs and build mapping between previously saved ID and ID generated by yED
+        # load all nodes IDs and build mapping between nmetadata ID and ID generated by yED
         nmetadata_id = self.y_attr["node"]["nmetadata"]
         for node in self.graph_root.findall("./_default_ns_:node", self.namespaces):
-            node_data = node.find("./_default_ns_:data[@key='{}']".format(nmetadata_id), self.namespaces)
+            node_data = node.find(
+                "./_default_ns_:data[@key='{}']".format(nmetadata_id), self.namespaces
+            )
             node_data = json_loads(node_data.text)
             self.nodes_ids[node_data["id"]] = node.attrib["id"]
         # add all edges IDs to self.edges_ids list
         emetadata_id = self.y_attr["edge"]["emetadata"]
         for edge in self.graph_root.findall("./_default_ns_:edge", self.namespaces):
-            edge_data = edge.find("./_default_ns_:data[@key='{}']".format(emetadata_id), self.namespaces)
+            edge_data = edge.find(
+                "./_default_ns_:data[@key='{}']".format(emetadata_id), self.namespaces
+            )
             edge_data = json_loads(edge_data.text)
             source = edge_data["sid"]
             target = edge_data["tid"]
+            # get lables from edge
+            label, src_label, trgt_label = "", "", ""
             for label_item in edge.findall(".//*/y:EdgeLabel", self.namespaces):
                 placement = label_item.attrib.get("preferredPlacement", "")
                 if "center" in placement:
@@ -687,10 +650,11 @@ class yed_diagram:
                     src_label = label_item.text
                 elif "target" in placement:
                     trgt_label = label_item.text
+            # form edge hash
             edge_tup = tuple(sorted([source, target, label, src_label, trgt_label,]))
             edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
             self.edges_ids.append(edge_id)
-        
+
     def dump_xml(self):
         ret = ET.tostring(self.drawing, encoding="unicode")
         ret = ret.replace("_default_ns_:", "").replace(":_default_ns_", "")
@@ -713,7 +677,7 @@ class yed_diagram:
 
     def set_attributes(
         self,
-        element,  # lxml object to update attributes in
+        element,  # lxml object to update attributes for
         attributes={},  # dictionary of attributes to update
     ):
         """method to update attributes into element"""
@@ -752,7 +716,6 @@ class yed_diagram:
             NODE = ShapeNode[0]
         elif SVGNode:
             NODE = SVGNode[0]
-
         # update node attributes:
         self.set_attributes(NODE, attributes)
 
@@ -868,7 +831,6 @@ class yed_diagram:
                     edge_tup.append(edge["trgt_label"])
                 else:
                     edge_tup.append("")
-
                 edge_tup = tuple(sorted(edge_tup))
 
                 # if no edge_tup in self_edges_dict - means new edge:

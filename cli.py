@@ -41,7 +41,8 @@ sample_graph={
 {'id': 'a', 'pic': 'router', 'label': 'R1' }, 
 {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
 {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-{'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'}], 
+{'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
+{'id': 'e', 'pic': 'router2', 'label': 'R1' }], 
 'edges': [
 {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
 {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
