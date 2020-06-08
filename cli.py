@@ -1,5 +1,5 @@
 from argparse import ArgumentParser as argparse_ArgumentParser
-from N2G import drawio_diagram
+from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
 
 #form arg parser menu:
@@ -92,7 +92,7 @@ yed_diagram.from_list(sample_list_graph)
 yed_diagram.dump_file()
 
 """sample usage drawio"""
-# drawing = drawio_diagram()
+# drawing = create_drawio_diagram()
 
 # test adding one by one
 ## drawing.add_diagram("Page-1")
