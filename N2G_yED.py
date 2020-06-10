@@ -65,7 +65,7 @@ class yed_diagram:
     """
 
     shape_node_xml = """
-    <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml">
+    <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns">
       <data key="{attrib_id}">
         <y:ShapeNode>
           <y:Geometry height="62.0" width="80.0"/>
@@ -78,7 +78,7 @@ class yed_diagram:
     """
 
     svg_node_xml = """
-    <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml">
+    <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns">
       <data key="{attrib_id}">
         <y:SVGNode>
           <y:Geometry width="{width}" height="{height}"/>
@@ -94,7 +94,7 @@ class yed_diagram:
     """
 
     group_node_xml = """
-    <node xmlns:y="http://www.yworks.com/xml/graphml" id="nNodeID" yfiles.foldertype="group">
+    <node xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns" id="nNodeID" yfiles.foldertype="group">
     <data key="{attrib_id}">
         <y:ProxyAutoBoundsNode>
         <y:Realizers active="0">
@@ -116,7 +116,7 @@ class yed_diagram:
     """
 
     edge_xml = """
-    <edge xmlns:y="http://www.yworks.com/xml/graphml" id="{id}" source="{source}" target="{target}">
+    <edge xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns" id="{id}" source="{source}" target="{target}">
       <data key="{attrib_id}">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0"/>
@@ -128,21 +128,20 @@ class yed_diagram:
     """
     
     node_label_xml = """
-    <y:NodeLabel xmlns:y="http://www.yworks.com/xml/graphml" alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" 
-    fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" 
+    <y:NodeLabel xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns" alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" 
     iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" 
     width="70">NodeLabel</y:NodeLabel>
     """
     
     edge_label_xml = """
-    <y:EdgeLabel xmlns:y="http://www.yworks.com/xml/graphml" alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">
+    <y:EdgeLabel xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns" alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">
     EdgeLabel
     <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow"/>
     </y:EdgeLabel>
     """
 
     resource_xml = """
-    <y:Resource id="{id}" xmlns:y="http://www.yworks.com/xml/graphml">{text_data}
+    <y:Resource id="{id}" xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns">{text_data}
     </y:Resource>
     """
 
@@ -156,13 +155,12 @@ class yed_diagram:
         "yed": "http://www.yworks.com/xml/yed/3",
     }
 
-    def __init__(self, node_dublicates="skip", link_dublicates="skip", missing_nodes="add"):
+    def __init__(self, node_dublicates="skip", link_dublicates="skip"):
         self.drawing = ET.fromstring(self.graph_xml)
         self.graph_root = self.drawing.find("./_default_ns_:graph", self.namespaces)
         self.y_attr = {}
         self.node_dublicates=node_dublicates
         self.link_dublicates=link_dublicates
-        self.missing_nodes=missing_nodes
         self.edges_ids = {} # dictionary of "edge id hash": "yed generated edge id"
         self.nodes_ids = {} # dictionary of "human friendly node id": "yed generated node id"
         self.svg_pics_dict = {}
@@ -230,7 +228,7 @@ class yed_diagram:
             elif self.node_dublicates == "skip":
                 pass
             elif self.node_dublicates == "update":
-                self.update_node(self.nodes_ids[id], **kwargs)
+                self.update_node(id, **kwargs)
             return True
         else:
             return False
@@ -275,7 +273,7 @@ class yed_diagram:
         if label == "":
             label = id
         labels = {"c": label, "t": top_label, "b": bottom_label}
-        ShapeNode = node.find("./data/y:ShapeNode", self.namespaces)
+        ShapeNode = node.find("./_default_ns_:data/y:ShapeNode", self.namespaces)
         for position, label_text in labels.items():
             if label_text.strip():
                 ShapeNode.append(
@@ -381,7 +379,7 @@ class yed_diagram:
         # add label and description data to the node:
         if label == "":
             label = id 
-        svg_node.find("./data/y:SVGNode", self.namespaces).append(
+        svg_node.find("./_default_ns_:data/y:SVGNode", self.namespaces).append(
             self._create_label_element(
                 self.node_label_xml, label, modelName="sandwich", modelPosition="n"
             )
@@ -435,28 +433,21 @@ class yed_diagram:
             id
         )
 
-        # add labels and description data to the node:
+        # add labels
         GroupNode = node.find(
-            "./data/y:ProxyAutoBoundsNode/y:Realizers/y:GroupNode", self.namespaces
+            "./_default_ns_:data/y:ProxyAutoBoundsNode/y:Realizers/y:GroupNode", self.namespaces
         )
-        if label != "":
-            GroupNode.append(
-                self._create_label_element(
-                    self.node_label_xml, label, modelPosition="c"
+        if label == "":
+            label = id
+        labels = {"c": label, "t": top_label, "b": bottom_label}
+        for position, label_text in labels.items():
+            if label_text.strip():
+                GroupNode.append(
+                    self._create_label_element(
+                        self.node_label_xml, label_text, modelPosition=position
+                    )
                 )
-            )
-        if top_label != "":
-            GroupNode.append(
-                self._create_label_element(
-                    self.node_label_xml, top_label, modelPosition="t"
-                )
-            )
-        if bottom_label != "":
-            GroupNode.append(
-                self._create_label_element(
-                    self.node_label_xml, bottom_label, modelPosition="b"
-                )
-            )
+        # add description data
         if description != "":
             node.append(
                 self._create_data_element(
@@ -471,9 +462,7 @@ class yed_diagram:
         node.append(
             self._create_data_element(
                 id=self.y_attr["node"]["nmetadata"],
-                text=json_dumps(
-                    {"id": id}, sort_keys=True, indent=4, separators=(",", ": ")
-                ),
+                text=json_dumps({"id": id}),
             )
         )
 
@@ -526,38 +515,25 @@ class yed_diagram:
         """method to add edge
         """
         # check type of source and target attribute
-        source_node_dict= {}
-        if isinstance(source, dict):
-            source_node_dict = source.copy()
-            source = source_node_dict.pop("id")
-        target_node_dict= {}
-        if isinstance(target, dict):
-            target_node_dict = target.copy()
-            target = target_node_dict.pop("id")
+        source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
+        source = source_node_dict.pop("id")
+        target_node_dict = target.copy() if isinstance(target, dict) else {"id": target}
+        target = target_node_dict.pop("id")
         # create edge id
         edge_tup = tuple(sorted([label, src_label, trgt_label, source, target]))
         edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
         # check if edge already exists
         if self._link_exists(edge_id, edge_tup):
             return
-        # check if source node exists
-        if self._node_exists(source, **source_node_dict):
-            source_id = self.nodes_ids[source]
-        elif self.missing_nodes == "add":
+        # check if target and source nodes exist, add it if not, 
+        # self._node_exists method will update node
+        # if self.node_dublicates set to update, by default its set to skip
+        if not self._node_exists(source, **source_node_dict):
             self.add_node(id=source, **source_node_dict)
-            source_id = self.nodes_ids[source]
-        else:
-            log.error("add_link: no source node found, node id - '{}'".format(source))
-            return
-        # check if target node exists
-        if self._node_exists(target, **target_node_dict):
-            target_id = self.nodes_ids[target]
-        elif self.missing_nodes == "add":
+        source_id = self.nodes_ids[source]
+        if not self._node_exists(target, **target_node_dict):
             self.add_node(id=target, **target_node_dict)
-            target_id = self.nodes_ids[target]
-        else:
-            log.error("add_link: no target node found, node id - '{}'".format(target))
-            return
+        target_id = self.nodes_ids[target]
         # create edge element
         edge = ET.fromstring(
             self.edge_xml.format(
@@ -568,7 +544,7 @@ class yed_diagram:
             )
         )
         # fill labels and description:
-        PolyLineEdge = edge.find("./data/y:PolyLineEdge", self.namespaces)
+        PolyLineEdge = edge.find("./_default_ns_:data/y:PolyLineEdge", self.namespaces)
         
         labels = {"center": label, "source": src_label, "target": trgt_label}
         for position, label_text in labels.items():
@@ -662,9 +638,9 @@ class yed_diagram:
             * dictionary target/source node must contain id attribute, other attributes are optional and can be same as for nodes
             * target/source id must be unique     
 
-        By default missing_nodes action set to 'add' and node_dublicates action set to 
-        'skip' meaning that node will be added on first occurance and ignored after that. 
-        Set node_dublicates to 'update' if node with given id need to be updated by later occurances.
+        By default node_dublicates action set to 'skip' meaning that node will be added on first occurrence 
+        and ignored after that. Set node_dublicates to 'update' if node with given id need to be updated by 
+        later occurrences.
         """
         [self.add_link(**edge) for edge in data]
             
@@ -707,21 +683,23 @@ class yed_diagram:
                 "./_default_ns_:data[@key='{}']".format(emetadata_id), self.namespaces
             )
             edge_data = json_loads(edge_data.text)
-            source = edge_data["sid"]
-            target = edge_data["tid"]
-            # get lables from edge
-            label, src_label, trgt_label = "", "", ""
-            for label_item in edge.findall(".//*/y:EdgeLabel", self.namespaces):
-                placement = label_item.attrib.get("preferredPlacement", "")
-                if "center" in placement:
-                    label = label_item.text
-                elif "source" in placement:
-                    src_label = label_item.text
-                elif "target" in placement:
-                    trgt_label = label_item.text
-            # form edge hash
-            edge_tup = tuple(sorted([source, target, label, src_label, trgt_label,]))
-            edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+            source = edge_data.get("sid")
+            target = edge_data.get("tid")
+            edge_id = edge_data.get("id")
+            if not edge_id:
+                # get labels from edge and for. edge hash id
+                label, src_label, trgt_label = "", "", ""
+                for label_item in edge.findall(".//*/y:EdgeLabel", self.namespaces):
+                    placement = label_item.attrib.get("preferredPlacement", "")
+                    if "center" in placement:
+                        label = label_item.text
+                    elif "source" in placement:
+                        src_label = label_item.text
+                    elif "target" in placement:
+                        trgt_label = label_item.text
+                # form edge hash
+                edge_tup = tuple(sorted([source, target, label, src_label, trgt_label,]))
+                edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
             self.edges_ids.update({edge_id: edge.attrib["id"]})
 
     def dump_xml(self):
@@ -775,22 +753,22 @@ class yed_diagram:
     ):
         # get node element:
         node = self.graph_root.find(
-            "./node[@id='{}']".format(self.nodes_ids.get(id, id)), self.namespaces
+            "./_default_ns_:node[@id='{}']".format(self.nodes_ids.get(id, id)), self.namespaces
         )
         if node is None:
-            log.error("update_node, cannot find node with id - {}".format(id))
+            log.error("update_node, cannot find node with id - {}".format(self.nodes_ids.get(id, id)))
             return
         labels = {"c": label, "n": label, "t": top_label, "b": bottom_label}
         # try to find shapenode element
         node_elem = node.find(
-            "./data/y:ShapeNode", self.namespaces
+            "./_default_ns_:data/y:ShapeNode", self.namespaces
         )
         # try to find svgnode element
-        if not node_elem:
-            node_elem = node.find("./data/y:SVGNode", self.namespaces)
+        if node_elem is None:
+            node_elem = node.find("./_default_ns_:data/y:SVGNode", self.namespaces)
             labels = {"n": label}
-        if not node_elem:
-            log.error("Failed to find ShapeNode or SVGNode for node with id: '{}'".format(id))
+        if node_elem is None:
+            log.error("Failed to find ShapeNode or SVGNode for node with id: '{}'".format(self.nodes_ids.get(id, id)))
             return
         # update attributes, update description if it does not exists
         self.set_attributes(node_elem, attributes)
@@ -819,7 +797,8 @@ class yed_diagram:
                 )
             )
 
-    def update_edge(self, 
+    def update_link(self, 
+        edge_id="",
         label="", 
         src_label="", 
         trgt_label="", 
@@ -836,6 +815,7 @@ class yed_diagram:
         label, src_label, trgt_label, source, target attributes.
         
         **Kwargs**
+            * edge_id - md5 hash edge id, if not provided, will be generated based on existing labels
             * label - existing edge label
             * src_label - existing edge src_label 
             * trgt_label - existing edge tgt_label
@@ -853,9 +833,9 @@ class yed_diagram:
         new_trgt_label = new_trgt_label if new_trgt_label.strip() else trgt_label
         # generate existing and new edge ID
         edge_tup = tuple(sorted([label, src_label, trgt_label, source, target]))
-        new_edge_tup = tuple(sorted([new_label, new_src_label, new_trgt_label, source, target]))
-        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
-        new_edge_id = hashlib.md5(",".join(new_edge_tup).encode()).hexdigest()
+        new_edge_tup = tuple(sorted([new_label, new_src_label, new_trgt_label, source, target])) 
+        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest() if not edge_id else edge_id
+        new_edge_id = hashlib.md5(",".join(new_edge_tup).encode()).hexdigest() if not edge_id else edge_id
         if edge_id in self.edges_ids:
             self.edges_ids.update(
                     {
@@ -863,11 +843,11 @@ class yed_diagram:
                 }
             )
             
-        edge = self.graph_root.find('./edge[@id="{}"]'.format(edge_id), namespaces=self.namespaces)
-        PolyLineEdge = edge.find("./data/y:PolyLineEdge", self.namespaces)
+        edge = self.graph_root.find('./_default_ns_:edge[@id="{}"]'.format(self.edges_ids.get(edge_id, edge_id)), namespaces=self.namespaces)
+        PolyLineEdge = edge.find("./_default_ns_:data/y:PolyLineEdge", self.namespaces)
         
         # update edge id
-        edge.attrib["id"] = new_edge_id
+        edge.attrib["id"] = self.edges_ids[new_edge_id]
         
         # update description
         if description:
@@ -927,73 +907,46 @@ class yed_diagram:
     ):
         """method to compare data graph with self.drawing producing third, resulting graph
         """
-        if type(data) == dict:
-            # find new nodes:
-            not_missing_nodes = []
+        if isinstance(data, dict):
+            # find new nodes
+            existing_nodes = []
+            new_nodes_list = []
             for node in data["nodes"]:
                 node.setdefault("attributes", {})
                 if not node["id"] in self.nodes_ids:
                     node["attributes"].update(new_nodes)
                     self.add_node(**node)
-                elif node["id"] in self.nodes_ids:
-                    not_missing_nodes.append(node["id"])
-            # find missing nodes:
+                    new_nodes_list.append(node["id"])
+                else:
+                    existing_nodes.append(node["id"])
+            # find missing nodes
             for id in self.nodes_ids.keys():
-                if not id in not_missing_nodes:
+                if not id in existing_nodes and not id in new_nodes_list:
                     self.update_node(id=id, attributes=missing_nodes)
+                    
             # find new edges:
-            not_missing_edges = []
+            existing_edges = []
+            new_edges_list = []
             for edge in data["edges"]:
                 edge.setdefault("attributes", {})
-                # create edge tuple:
-                edge_tup = []
-
-                # try to find source node:
-                if edge["source"] in self.nodes_ids:
-                    edge_tup.append(edge["source"])
-                # if no such node, means we have new edge, add it:
-                else:
+                # create edge id
+                edge_tup = tuple(sorted(
+                    [
+                        edge["source"], 
+                        edge["target"], 
+                        edge.get("label", ""), 
+                        edge.get("src_label", ""), 
+                        edge.get("trgt_label", "")
+                    ]))
+                edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+                # add new edge
+                if not edge_id in self.edges_ids:
                     edge["attributes"].update(new_edges)
                     self.add_link(**edge)
-                    continue
-                # try to find target node:
-                if edge["target"] in self.nodes_ids:
-                    edge_tup.append(edge["target"])
-                # if no such node, means we have new edge, add it:
+                    new_edges_list.append(edge_id)
                 else:
-                    if "attributes" in edge:
-                        edge["attributes"].update(new_edges)
-                    else:
-                        edge["attributes"] = new_edges
-                    results_graph.add_link(**edge)
-                    continue
-                # fill in the rest of labels to form tuple:
-                if "label" in edge:
-                    edge_tup.append(edge["label"])
-                else:
-                    edge_tup.append("")
-                if "src_label" in edge:
-                    edge_tup.append(edge["src_label"])
-                else:
-                    edge_tup.append("")
-                if "trgt_label" in edge:
-                    edge_tup.append(edge["trgt_label"])
-                else:
-                    edge_tup.append("")
-                edge_tup = tuple(sorted(edge_tup))
-
-                # if no edge_tup in self_edges_dict - means new edge:
-                if not edge_tup in self.edges_dict:
-                    if "attributes" in edge:
-                        edge["attributes"].update(new_edges)
-                    else:
-                        edge["attributes"] = new_edges
-                    results_graph.add_link(**edge)
-                # if edge_tup in self_edges_dict - means existing edge:
-                elif edge_tup in self.edges_dict:
-                    not_missing_edges.append(self.edges_dict[edge_tup])
+                    existing_edges.append(edge_id)                
             # find missing edges:
-            for id in self.edges_dict.values():
-                if not id in not_missing_edges:
-                    results_graph.update_edge(edge_id=id, attributes=missing_edges)
-        results_graph.save(file=ctime + "_compare_result.graphml")
+            for id in self.edges_ids.keys():
+                if not id in existing_edges and not id in new_edges_list:
+                    self.update_link(edge_id=id, attributes=missing_edges)

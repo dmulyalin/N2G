@@ -22,7 +22,10 @@ v0.0 xx/xx/xx
     """)
     
 """sample usage yed"""
-yed_diagram = create_yed_diagram()
+###########################################
+# Test adding elements one by one
+###########################################
+# yed_diagram = create_yed_diagram()
 # yed_diagram.add_node('a', top_label = 'top', bottom_label = 'bot')
 # yed_diagram.add_node('b', label = 'somelabel', top_label = 'top', bottom_label = 'bot')
 # yed_diagram.add_link('a', 'b', label = 'DF', src_label = 'Gi0/1', trgt_label = 'Fas1/2')
@@ -36,52 +39,80 @@ yed_diagram = create_yed_diagram()
 # yed_diagram.add_link('XR14', 'XR12')
 # yed_diagram.dump_file()
 
-sample_graph={
-'nodes': [
-{'id': 'a', 'pic': 'router', 'label': 'R1' }, 
-{'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
-{'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-{'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
-{'id': 'e', 'pic': 'router2', 'label': 'R1' }], 
-'edges': [
-{'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
-{'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-{'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
-{'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
-]}
-# yed_diagram.from_dict(sample_graph)
-# yed_diagram.dump_file()
-
-# compare_graph = {
+###########################################
+# Test from dict method
+###########################################
+# yed_diagram = create_yed_diagram()
+# sample_graph={
 # 'nodes': [
-# {'id': 'a', 'pic': 'router', 'label': 'R1' }, 
+# {'id': 'a', 'pic': 'router_round', 'label': 'R1' }, 
 # {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
 # {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-# {'id': 'e', 'label': 'somelabel111'}], 
+# {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
+# {'id': 'e', 'pic': 'router_angles', 'label': 'R1' }], 
 # 'edges': [
 # {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
 # {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-# #{'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
-# {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'},
+# {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+# {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
+# ]}
+# yed_diagram.from_dict(sample_graph)
+# yed_diagram.dump_file()
+
+
+###########################################
+# Test graph compare
+###########################################
+# yed_diagram = create_yed_diagram()
+# compare_graph = {
+# 'nodes': [
+# {'id': 'a', 'pic': 'router_round', 'label': 'R1' }, 
+# {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+# {'id': 'e', 'pic': 'router_angles', 'label': 'R1' }], 
+# 'edges': [
+# {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
+# {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+# {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+# # {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'},
 # {'source': 'e', 'src_label': 'Gig0/11', 'label': 'ed', 'target': 'c', 'trgt_label': 'Gig0/8'}
 # ]}
-# 
-#yed_diagram.from_file("./Output/test_load.graphml")
-#yed_diagram.add_node(id = 'e', label = 'R101', top_label = 'top', bottom_label = 'bot', description='some node description')
-#yed_diagram.add_link('e', 'c', label="some blabla")
-#yed_diagram.add_link('a', 'd')
-#yed_diagram.from_dict(sample_graph)
-#yed_diagram.compare(compare_graph)
-#yed_diagram.dump_file()
-#print("graph3.ids_dict: ", graph3.ids_dict)
-#print("graph3.nodes_dict: ", graph3.nodes_dict)
-#print("graph3.edges_dict: ", graph3.edges_dict)
+# yed_diagram.from_file("./Output/test_load.graphml")
+# yed_diagram.compare(compare_graph)
+# yed_diagram.dump_file()
 
-#graph1 = graph()
-#graph1.addnode('a', top_label = 'top', bottom_label = 'bot', group = True, description = 'some description', url='123.com')
-#graph1.addnode('a', top_label = 'top', bottom_label = 'bot', parent = 'a', description = 'some description', url='123.com')
-#graph1.dump_file(display = True)
+###########################################
+# Test graph load from file with adding 
+# new and overlapping element
+###########################################
+# sample_graph={
+# 'nodes': [
+# {'id': 'a', 'pic': 'router_round', 'label': 'R1' }, 
+# {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+# {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
+# {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
+# {'id': 'e', 'pic': 'router_angles', 'label': 'R1' }], 
+# 'edges': [
+# {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
+# {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+# {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+# {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
+# ]}
+# yed_diagram = create_yed_diagram()
+# yed_diagram.from_file("./Output/test_load.graphml")
+# yed_diagram.add_node(id = 'e', label = 'R101', top_label = 'top', bottom_label = 'bot', description='some node description')
+# yed_diagram.add_link('e', 'c', label="some blabla")
+# yed_diagram.add_link('a', 'd')
+# yed_diagram.from_dict(sample_graph)
+# yed_diagram.dump_file()
 
+
+
+###########################################
+# Test graph load from list and 
+# edge update method and node_dublicates update 
+# behavior
+###########################################
+yed_diagram = create_yed_diagram()
 sample_list_graph = [
 {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'},
 {'source': {'id':'b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
@@ -94,12 +125,15 @@ new_edges={
     "LineStyle": {"color": "#00FF00", "width": "1.0"},
     "EdgeLabel": {"textColor": "#00FF00"},
 }
-yed_diagram.update_edge(
+yed_diagram.update_link(
     label="Copper", src_label="Gig0/0", trgt_label="Gig0/2", source="b", target="c", 
-    new_label="UTP", 
-	new_src_label="Gi0/0", new_trgt_label="Gi0/3", description="some additional data", attributes=new_edges
+    new_label="UTP", new_src_label="Gi0/0", new_trgt_label="Gi0/3", 
+    description="some additional data", attributes=new_edges
 )
 yed_diagram.dump_file()
+
+
+
 
 """sample usage drawio"""
 # drawing = create_drawio_diagram()
