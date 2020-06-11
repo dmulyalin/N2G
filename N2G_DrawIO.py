@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import uuid
+import hashlib
 
 import logging
 
@@ -33,7 +34,7 @@ class drawio_diagram:
     """
 
     drawio_diagram_xml = """
-    <diagram id="{id}" name="{diagram_name}">
+    <diagram id="{id}" name="{name}">
       <mxGraphModel dx="{width}" dy="{height}" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
         <root>
           <mxCell id="0"/>   
@@ -59,8 +60,14 @@ class drawio_diagram:
     </object>
     """
 
-    def __init__(self):
+    def __init__(self, node_dublicates="skip", link_dublicates="skip"):
         self.drawing = ET.fromstring(self.drawio_drawing_xml)
+        self.nodes_ids = {} # dictionary of {diagram_name: [node_id1, node_id2]}
+        self.edges_ids = {} # dictionary of {diagram_name: [edge_id1, edge_id2]}
+        self.node_dublicates = node_dublicates
+        self.link_dublicates = link_dublicates
+        self.current_diagram = None
+        self.current_diagram_id = ""
 
     def go_to_diagram(self, diagram_name=None, diagram_index=None):
         if diagram_name != None:
@@ -73,16 +80,22 @@ class drawio_diagram:
             except IndexError:
                 self.current_diagram = self.drawing.findall("./diagram")[-1]
         self.current_root = self.current_diagram.find("./mxGraphModel/root")
+        self.current_diagram_id = self.current_diagram.attrib["id"]
 
-    def add_diagram(self, diagram_name, width=1360, height=864):
-        id = str(uuid.uuid1())
+    def add_diagram(self, id, name="", width=1360, height=864):
+        if id in self.nodes_ids or id in self.edges_ids:
+            return
+        if not name.strip():
+            name = id
         diagram = ET.fromstring(
             self.drawio_diagram_xml.format(
-                id=id, diagram_name=diagram_name, width=width, height=height
+                id=id, name=name, width=width, height=height
             )
         )
+        self.nodes_ids[id] = []
+        self.edges_ids[id] = []
         self.drawing.append(diagram)
-        self.go_to_diagram(diagram_name)
+        self.go_to_diagram(diagram_name=name)
 
     def add_data_or_url(self, element, data, link):
         # add data if any
@@ -98,41 +111,76 @@ class drawio_diagram:
             attribs["link"] = link
         element.attrib.update(attribs)
         return element
+        
+    def _node_exists(self, id, **kwargs):       
+        # check if node with given id already exists
+        if id in self.nodes_ids[self.current_diagram_id]:
+            if self.node_dublicates == "log":
+                log.error("add_shape_node: node '{}' already added to graph".format(id))
+            elif self.node_dublicates == "skip":
+                pass
+            elif self.node_dublicates == "update":
+                self.update_node(id, **kwargs)
+            return True
+        else:
+            return False
 
-    def add_node(self, id="", data={}, url=""):
+    def add_node(self, id, label="", data={}, url=""):
+        if self._node_exists(id, label=label, data=data, url=url):
+            return
+        self.nodes_ids[self.current_diagram_id].append(id)
+        if not label.strip():
+            label = id
         node = ET.fromstring(
             self.drawio_node_object_xml.format(
-                id=str(uuid.uuid1()), 
-                label=id
+                id=id, 
+                label=label
             )
         )
         node = self.add_data_or_url(node, data, url)
         self.current_root.append(node)
 
-    def add_link(self, source, target, label="", data={}, url=""):
-        # search node object with given name
-        source_node = self.current_root.find(
-            "./object[@label='{}']".format(source)
-        )
-        target_node = self.current_root.find(
-            "./object[@label='{}']".format(target)
-        )
-        # run checks
-        if source_node is None:
-            log.error("add_link: no source node '{}' found".format(source))
+    def _link_exists(self, id, edge_tup):
+        """method, used to check dublicate edges 
+        """
+        # check if edge with given id already exists
+        if id in self.edges_ids[self.current_diagram_id]:
+            if self.link_dublicates == "log":
+                log.error(
+                    "_link_exists: edge '{}' already added to graph".format(
+                        ",".join(edge_tup)
+                    )
+                )
+            elif self.link_dublicates == "skip":
+                pass
+            return True
+        self.edges_ids[self.current_diagram_id].append(id)
+        
+    def add_link(self, source, target, label="", data={}, url=""):    
+        # check if target and source nodes exist, add it if not, 
+        # self._node_exists method will update node
+        # if self.node_dublicates set to update, by default its set to skip
+        if not self._node_exists(source):
+            self.add_node(source)
+        if not self._node_exists(target):
+            self.add_node(target)
+        # create edge id
+        edge_tup = tuple(sorted([label, source, target]))
+        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+        if self._link_exists(edge_id, edge_tup):
             return
-        if target_node is None:
-            log.error("add_link: no target node '{}' found".format(target))
-            return
+        # create link
         link = ET.fromstring(
             self.drawio_link_object_xml.format(
-                id=str(uuid.uuid1()),
+                id=edge_id,
                 label=label,
-                source_id=source_node.get("id"),
-                target_id=target_node.get("id"),
+                source_id=source,
+                target_id=target,
             )
         )
+        # add links data and url
         link = self.add_data_or_url(link, data, url)
+        # save link to graph
         self.current_root.append(link)
 
     def dump_xml(self):
@@ -210,12 +258,7 @@ class drawio_diagram:
                     "./object[@id='{id}']/mxCell/mxGeometry".format(id=node_id)
                 )
                 node_geometry_element.set("x", str(round(x_coord)))
-                node_geometry_element.set("y", str(round(y_coord)))
-
-    def from_file(self, filename):
-        with open(filename, "r") as f:
-            self.drawing = ET.fromstring(f.read())
-        self.go_to_diagram(diagram_index=0)
+                node_geometry_element.set("y", str(round(y_coord)))        
 
     def from_dict(self, data, diagram_name="Page-1", width=1360, height=864):
         self.add_diagram(diagram_name, width, height)
@@ -225,6 +268,29 @@ class drawio_diagram:
             self.add_link(**link)
         for edge in data.get("edges", []):
             self.add_link(**edge)
+            
+    def from_file(self, filename):
+        """
+        Method to load nodes and links from yed graphml file.
+        
+        **Args**
+        
+            * filename - OS path to .graphml file to load
+        """
+        with open(filename, "r") as f:
+            self.from_text(f.read())
+            
+    def from_text(self, text_data):
+        """
+        Method to load graph from .graphml XML text produced by yEd
+        
+        **Args**
+        
+            * text_data - text data to load
+        """
+        self.drawing = ET.fromstring(text_data)
+        # extract diagrams, nodes, edges IDs
+        self.go_to_diagram(diagram_index=0)
 
     def compare(self, old, new):
         """

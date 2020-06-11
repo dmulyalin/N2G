@@ -221,7 +221,7 @@ class yed_diagram:
         return elem
 
     def _node_exists(self, id, **kwargs):
-        # check if node with given name already exists, if so, raise error and stop programm:
+        # check if node with given name already exists
         if id in self.nodes_ids:
             if self.node_dublicates == "log":
                 log.error("add_shape_node: node '{}' already added to graph".format(id))

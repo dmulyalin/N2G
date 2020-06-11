@@ -112,72 +112,83 @@ v0.0 xx/xx/xx
 # edge update method and node_dublicates update 
 # behavior
 ###########################################
-yed_diagram = create_yed_diagram()
-sample_list_graph = [
-{'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'},
-{'source': {'id':'b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-{'source': {'id':'b', 'bottom_label': 'node_b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'e', 'trgt_label': 'Gig0/2'}
-]
-yed_diagram.node_dublicates="update"
-yed_diagram.from_list(sample_list_graph)
-new_edges={
-    # dict, attributes to apply to new edges
-    "LineStyle": {"color": "#00FF00", "width": "1.0"},
-    "EdgeLabel": {"textColor": "#00FF00"},
-}
-yed_diagram.update_link(
-    label="Copper", src_label="Gig0/0", trgt_label="Gig0/2", source="b", target="c", 
-    new_label="UTP", new_src_label="Gi0/0", new_trgt_label="Gi0/3", 
-    description="some additional data", attributes=new_edges
-)
-yed_diagram.dump_file()
+# yed_diagram = create_yed_diagram()
+# sample_list_graph = [
+# {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'},
+# {'source': {'id':'b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+# {'source': {'id':'b', 'bottom_label': 'node_b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'e', 'trgt_label': 'Gig0/2'}
+# ]
+# yed_diagram.node_dublicates="update"
+# yed_diagram.from_list(sample_list_graph)
+# new_edges={
+#     # dict, attributes to apply to new edges
+#     "LineStyle": {"color": "#00FF00", "width": "1.0"},
+#     "EdgeLabel": {"textColor": "#00FF00"},
+# }
+# yed_diagram.update_link(
+#     label="Copper", src_label="Gig0/0", trgt_label="Gig0/2", source="b", target="c", 
+#     new_label="UTP", new_src_label="Gi0/0", new_trgt_label="Gi0/3", 
+#     description="some additional data", attributes=new_edges
+# )
+# yed_diagram.dump_file()
 
 
 
 
 """sample usage drawio"""
+###########################################
+# Test adding elements one by one
+###########################################
+drawing = create_drawio_diagram()
+drawing.add_diagram("Page-1")
+drawing.add_node(id="node-1")
+drawing.add_node(id="node-2")
+drawing.add_node(id="node-3")
+drawing.add_node(id="node-4")
+drawing.add_node(id="node-5")
+drawing.add_node(id="node-2")
+drawing.add_node(id="node-6", data={"a": "b", "c": "d"}, url="http://google.com")
+drawing.add_link("node-1", "node-2", label="bla1")
+drawing.add_link("node-1", "node-3", label="bla2")
+drawing.add_link("node-3", "node-5", label="bla3")
+drawing.add_link("node-3", "node-4", label="bla4")
+drawing.add_link("node-33", "node-44", label="bla77")
+drawing.add_link("node-6", "node-1", label="bla6", data={"cd": 123, "ef": 456})
+drawing.add_diagram("page_2", name="PAGE 2")
+drawing.add_node(id="node-25", url="Page-1")
+drawing.add_node(id="node-2", label="node-2 same id is on page 1")
+drawing.add_diagram("page_2")
+drawing.layout(algo="kk")
+drawing.dump_file()
+
+###########################################
+# Test from_dict method
+###########################################
 # drawing = create_drawio_diagram()
+# data = {
+#     "nodes": [
+#         {"id": "node-1"},
+#         {"id": "node-2"},
+#         {"id": "node-3"},
+#         {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"}
+#     ],
+#     "links": [
+#         {"source": "node-1", "target": "node-2", "label": "bla1"},
+#         {"source": "node-2", "target": "node-3", "label": "bla2"},
+#         {"source": "node-3", "target": "node-1", "label": "bla3"},
+#         {"source": "node-4", "target": "node-3", "label": "bla4"}
+#     ]
+# }
+# drawing.from_dict(data, diagram_name="Page-1")
+# drawing.layout(algo="kk")
+# drawing.dump_file()
 
-# test adding one by one
-## drawing.add_diagram("Page-1")
-## drawing.add_node(id="node-1")
-## drawing.add_node(id="node-2")
-## drawing.add_node(id="node-3")
-## drawing.add_node(id="node-4")
-## drawing.add_node(id="node-5")
-## drawing.add_node(id="node-6", data={"a": "b", "c": "d"}, url="http://google.com")
-## drawing.add_link("node-1", "node-2", label="bla1")
-## drawing.add_link("node-1", "node-3", label="bla2")
-## drawing.add_link("node-3", "node-5", label="bla3")
-## drawing.add_link("node-3", "node-4", label="bla4")
-## drawing.add_link("node-6", "node-1", label="bla6", data={"cd": 123, "ef": 456})
-## drawing.add_diagram("page_2")
-## drawing.add_node(id="node-25", url="Page-1")
-## drawing.layout(algo="kk")
-## drawing.dump_file()
-
-# test from_dict
-## data = {
-##     "nodes": [
-##         {"id": "node-1"},
-##         {"id": "node-2"},
-##         {"id": "node-3"},
-##         {"id": "node-4", "data": {"a": "b", "c": "d"}, "link": "http://google.com"}
-##     ],
-##     "links": [
-##         {"source": "node-1", "target": "node-2", "label": "bla1"},
-##         {"source": "node-2", "target": "node-3", "label": "bla2"},
-##         {"source": "node-3", "target": "node-1", "label": "bla3"},
-##         {"source": "node-4", "target": "node-3", "label": "bla4"}
-##     ]
-## }
-## drawing.from_dict(data, diagram_name="Page-1")
-## drawing.layout(algo="kk")
-## drawing.dump_file()
-
-#test loading from file
-## drawing.from_file("./Output/test_load.xml")
-## drawing.add_node(id="node-55")
-## drawing.add_link("node-55", "node-3")
-## drawing.layout(algo="kk")
-## drawing.dump_file()
+###########################################
+# Test loading from file
+###########################################
+# drawing = create_drawio_diagram()
+# drawing.from_file("./Output/test_load.xml")
+# drawing.add_node(id="node-55")
+# drawing.add_link("node-55", "node-3")
+# drawing.layout(algo="kk")
+# drawing.dump_file()
