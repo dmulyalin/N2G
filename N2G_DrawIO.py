@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
-import uuid
+import os
 import hashlib
-
 import logging
 
 # initiate logging
@@ -46,8 +45,8 @@ class drawio_diagram:
 
     drawio_node_object_xml = """
     <object id="{id}" label="{label}">
-      <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="200" y="150" width="120" height="60" as="geometry"/>
+      <mxCell style="{style}" vertex="1" parent="1">
+          <mxGeometry x="{x_pos}" y="{y_pos}" width="{width}" height="{height}" as="geometry"/>
       </mxCell>
     </object>
     """
@@ -68,6 +67,7 @@ class drawio_diagram:
         self.link_dublicates = link_dublicates
         self.current_diagram = None
         self.current_diagram_id = ""
+        self.default_node_style = "rounded=1;whiteSpace=wrap;html=1;"
 
     def go_to_diagram(self, diagram_name=None, diagram_index=None):
         if diagram_name != None:
@@ -101,7 +101,7 @@ class drawio_diagram:
         # add data if any
         attribs = {k: str(v) for k, v in data.items()}
         # add URL link if any
-        if link:
+        if link.strip():
             # check if link is another diagram name
             diagram_link = self.drawing.find("./diagram[@name='{}']".format(link))
             if diagram_link is not None:
@@ -125,21 +125,57 @@ class drawio_diagram:
         else:
             return False
 
-    def add_node(self, id, label="", data={}, url=""):
+    def add_node(self, id, label="", data={}, url="", style="", width=120, height=60, x_pos=200, y_pos=150):
         if self._node_exists(id, label=label, data=data, url=url):
             return
         self.nodes_ids[self.current_diagram_id].append(id)
         if not label.strip():
             label = id
+        # get style
+        if os.path.isfile(style[:5000]):
+            with open(style, "r") as style_file:
+                mxCell_elem = node.find("./mxCell")
+                mxCell_elem.attrib["style"] = style_file.read()
+        elif style.strip():
+            mxCell_elem = node.find("./mxCell")
+            mxCell_elem.attrib["style"] = style 
+        # create node element    
         node = ET.fromstring(
             self.drawio_node_object_xml.format(
                 id=id, 
-                label=label
+                label=label,
+                width=width,
+                height=height,
+                x_pos=x_pos,
+                y_pos=y_pos,
+                style=style if style else self.default_node_style
             )
         )
+        # add data attributes and/or url to node
         node = self.add_data_or_url(node, data, url)
         self.current_root.append(node)
 
+    def update_node(self, id, label="", data={}, url="", style="", width="", height=""):
+        node = self.current_root.find("./object[@id='{}']".format(id))
+        # update dat and url attributes
+        node = self.add_data_or_url(node, data, url)
+        # update label
+        if label.strip():
+            node.attrib["label"] = label
+        # update style
+        mxCell_elem = node.find("./mxCell")
+        if os.path.isfile(style[:5000]):
+            with open(style, "r") as style_file:
+                mxCell_elem.attrib["style"] = style_file.read()
+        elif style.strip():
+            mxCell_elem.attrib["style"] = style    
+        # update size
+        mxGeometry_elem = node.find("./mxCell/mxGeometry")
+        if width:
+            mxGeometry_elem.attrib["width"] = str(width)
+        if height:
+            mxGeometry_elem.attrib["height"] = str(height)              
+        
     def _link_exists(self, id, edge_tup):
         """method, used to check dublicate edges 
         """
@@ -188,7 +224,6 @@ class drawio_diagram:
         return ret
 
     def dump_file(self, filename=None, folder="./Output/"):
-        import os
         import time
 
         # check output folder, if not exists, create it
@@ -197,7 +232,7 @@ class drawio_diagram:
         # create file name
         if not filename:
             ctime = time.ctime().replace(":", "-")
-            filename = "{}_output.xml".format(ctime)
+            filename = "{}_output.drawio".format(ctime)
         # save file to disk
         with open(folder + filename, "w") as outfile:
             outfile.write(self.dump_xml())
@@ -290,6 +325,18 @@ class drawio_diagram:
         """
         self.drawing = ET.fromstring(text_data)
         # extract diagrams, nodes, edges IDs
+        for diagram_elem in self.drawing.findall("./diagram"):
+            self.nodes_ids.setdefault(diagram_elem.attrib["id"], [])
+            self.edges_ids.setdefault(diagram_elem.attrib["id"], [])
+            # iterate over mxcells to extract nodes and edges
+            for object in diagram_elem.findall("./mxGraphModel/root/object"):
+                object_id = object.attrib["id"]
+                mxCell = object.find("./mxCell")
+                # check if this is the edge
+                if "source" in mxCell.attrib and "target" in mxCell.attrib:
+                    self.edges_ids[diagram_elem.attrib["id"]].append(object_id)
+                else:
+                    self.nodes_ids[diagram_elem.attrib["id"]].append(object_id)
         self.go_to_diagram(diagram_index=0)
 
     def compare(self, old, new):

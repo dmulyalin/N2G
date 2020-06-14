@@ -139,27 +139,27 @@ v0.0 xx/xx/xx
 ###########################################
 # Test adding elements one by one
 ###########################################
-drawing = create_drawio_diagram()
-drawing.add_diagram("Page-1")
-drawing.add_node(id="node-1")
-drawing.add_node(id="node-2")
-drawing.add_node(id="node-3")
-drawing.add_node(id="node-4")
-drawing.add_node(id="node-5")
-drawing.add_node(id="node-2")
-drawing.add_node(id="node-6", data={"a": "b", "c": "d"}, url="http://google.com")
-drawing.add_link("node-1", "node-2", label="bla1")
-drawing.add_link("node-1", "node-3", label="bla2")
-drawing.add_link("node-3", "node-5", label="bla3")
-drawing.add_link("node-3", "node-4", label="bla4")
-drawing.add_link("node-33", "node-44", label="bla77")
-drawing.add_link("node-6", "node-1", label="bla6", data={"cd": 123, "ef": 456})
-drawing.add_diagram("page_2", name="PAGE 2")
-drawing.add_node(id="node-25", url="Page-1")
-drawing.add_node(id="node-2", label="node-2 same id is on page 1")
-drawing.add_diagram("page_2")
-drawing.layout(algo="kk")
-drawing.dump_file()
+# drawing = create_drawio_diagram()
+# drawing.add_diagram("Page-1")
+# drawing.add_node(id="node-1")
+# drawing.add_node(id="node-2")
+# drawing.add_node(id="node-3")
+# drawing.add_node(id="node-4")
+# drawing.add_node(id="node-5")
+# drawing.add_node(id="node-2")
+# drawing.add_node(id="node-6", data={"a": "b", "c": "d"}, url="http://google.com")
+# drawing.add_link("node-1", "node-2", label="bla1")
+# drawing.add_link("node-1", "node-3", label="bla2")
+# drawing.add_link("node-3", "node-5", label="bla3")
+# drawing.add_link("node-3", "node-4", label="bla4")
+# drawing.add_link("node-33", "node-44", label="bla77")
+# drawing.add_link("node-6", "node-1", label="bla6", data={"cd": 123, "ef": 456})
+# drawing.add_diagram("page_2", name="PAGE 2")
+# drawing.add_node(id="node-25", url="Page-1")
+# drawing.add_node(id="node-2", label="node-2 same id is on page 1")
+# drawing.add_diagram("page_2")
+# drawing.layout(algo="kk")
+# drawing.dump_file()
 
 ###########################################
 # Test from_dict method
@@ -184,11 +184,61 @@ drawing.dump_file()
 # drawing.dump_file()
 
 ###########################################
-# Test loading from file
+# Test loading from file and dups handling
 ###########################################
+# data = {
+#     "nodes": [
+#         {"id": "node-1"},
+#         {"id": "node-2"},
+#         {"id": "node-3"},
+#         {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"}
+#     ],
+#     "links": [
+#         {"source": "node-1", "target": "node-2", "label": "bla1"},
+#         {"source": "node-2", "target": "node-3", "label": "bla2"},
+#         {"source": "node-3", "target": "node-1", "label": "bla3"},
+#         {"source": "node-4", "target": "node-3", "label": "bla4"}
+#     ]
+# }
 # drawing = create_drawio_diagram()
 # drawing.from_file("./Output/test_load.xml")
+# drawing.from_dict(data, diagram_name="Page-1")
 # drawing.add_node(id="node-55")
 # drawing.add_link("node-55", "node-3")
 # drawing.layout(algo="kk")
 # drawing.dump_file()
+
+###########################################
+# Test nodes styles from drawio library
+###########################################
+# building_style="shape=mxgraph.cisco.buildings.generic_building;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;"
+# drawing = create_drawio_diagram()
+# drawing.from_file("./Output/test_load.xml")
+# drawing.add_diagram("Page-1")
+# drawing.add_node(id="Router-1", style="./Pics/cisco_router.txt", width=78, height=53)
+# drawing.add_node(id="Router-2", style="./Pics/cisco_router.txt", width=78, height=53)
+# drawing.add_node(id="Router-3", style="./Pics/cisco_router.txt", width=78, height=53)
+# drawing.add_node(id="Switch-1", style="./Pics/cisco_l3_switch.txt", width=64, height=82)
+# drawing.add_node(id="Building-1", style=building_style, width=90, height=136)
+# drawing.add_link("Router-1", "Router-2")
+# drawing.add_link("Router-1", "Router-3")
+# drawing.add_link("Router-1", "node-2")
+# drawing.add_link("Switch-1", "Router-3")
+# drawing.add_link("Building-1", "Router-3")
+# drawing.layout(algo="kk")
+# drawing.dump_file()
+
+###########################################
+# Test node update
+###########################################
+# qsfp_router_style="shape=mxgraph.cisco.misc.asr_1000_series;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;"
+# drawing = create_drawio_diagram()
+# drawing.from_file("./Output/test_load.xml")
+# drawing.update_node(id="node-2", label="node-2 Updated label")
+# drawing.update_node(id="node-3", style=qsfp_router_style, width=88, height=86, label="node_qfp")
+# drawing.update_node(id="node-1", data={"k1": "v1", "k2": "v2"}, url="http://ya.ru")
+# drawing.dump_file()
+
+###########################################
+# Test link update
+###########################################
