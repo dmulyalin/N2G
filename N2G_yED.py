@@ -68,7 +68,7 @@ class yed_diagram:
     <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns">
       <data key="{attrib_id}">
         <y:ShapeNode>
-          <y:Geometry height="62.0" width="80.0"/>
+          <y:Geometry height="62.0" width="80.0" x="0" y="0"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="3.0"/>
           <y:Shape type="{shape_type}"/>
@@ -81,7 +81,7 @@ class yed_diagram:
     <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns">
       <data key="{attrib_id}">
         <y:SVGNode>
-          <y:Geometry width="{width}" height="{height}"/>
+          <y:Geometry width="{width}" height="{height}" x="0" y="0"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:SVGNodeProperties usingVisualBounds="true"/>
@@ -842,13 +842,17 @@ class yed_diagram:
                     new_edge_id: self.edges_ids.pop(edge_id)
                 }
             )
-            
+        else:
+            log.warning("update_link, link does not exist - source '{}', target '{}', label '{}', src_label '{}', trgt_label '{}'".format(
+                    source, target, label, src_label, trgt_label
+                )
+            )            
+            return            
+		# find edge element
         edge = self.graph_root.find('./_default_ns_:edge[@id="{}"]'.format(self.edges_ids.get(edge_id, edge_id)), namespaces=self.namespaces)
         PolyLineEdge = edge.find("./_default_ns_:data/y:PolyLineEdge", self.namespaces)
-        
         # update edge id
         edge.attrib["id"] = self.edges_ids[new_edge_id]
-        
         # update description
         if description:
             description_elem = edge.find(".//y:data[@key='{}']".format(self.y_attr["edge"]["description"]), self.namespaces)
@@ -860,7 +864,6 @@ class yed_diagram:
                 )
             else:
                 description_elem.text=description
-                
         # update labels
         labels = {"center": new_label, "source": new_src_label, "target": new_trgt_label}
         # iterate over existing labels
@@ -881,7 +884,6 @@ class yed_diagram:
                     placement=position,
                 )
             )
-            
         # update attributes
         self.set_attributes(PolyLineEdge, attributes)
 
@@ -905,7 +907,7 @@ class yed_diagram:
             "EdgeLabel": {"textColor": "#00FF00"},
         },
     ):
-        """method to compare data graph with self.drawing producing third, resulting graph
+        """method to compare data graph with self.drawing and produce resulting graph
         """
         if isinstance(data, dict):
             # find new nodes

@@ -242,3 +242,50 @@ v0.0 xx/xx/xx
 ###########################################
 # Test link update
 ###########################################
+# new_link_style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;"
+# drawing = create_drawio_diagram()
+# drawing.from_file("./Output/test_load.xml")
+# drawing.update_link(source="node-1", target="node-2", label="bla1", new_label="edge new label", style=new_link_style, data={"a": "b"}, url="http://ya.ru")
+# drawing.update_link(source="node-1", target="node-3", label="bla3", style=new_link_style)
+# drawing.update_link(source="node-1", target="node-3", label="bla24", style=new_link_style)
+# drawing.dump_file()
+
+###########################################
+# Test compare method
+###########################################
+# existing_graph = {
+#     "nodes": [
+#         {"id": "node-1"},
+#         {"id": "node-2"},
+#         {"id": "node-3"},
+#         {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"},
+#         {"id": "node-55", "style": "./Pics/cisco_l3_switch.txt", "width": 64, "height": 82},
+# ],
+#     "links": [
+#         {"source": "node-1", "target": "node-2", "label": "bla1"},
+#         {"source": "node-2", "target": "node-3", "label": "bla2"},
+#         {"source": "node-3", "target": "node-1", "label": "bla3"},
+#         {"source": "node-4", "target": "node-3", "label": "bla4"},
+#         {"source": "node-55", "target": "node-1", "label": "bla155"},        
+#     ]
+# }
+# new_graph = {
+#     "nodes": [
+#         {"id": "node-99"},
+#         {"id": "node-100", "style": "./Pics/cisco_router.txt", "width": 78, "height": 53},
+#         {"id": "node-2"},
+#         {"id": "node-3"},
+#         {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"}
+#     ],
+#     "links": [
+#         {"source": "node-2", "target": "node-3", "label": "bla2"},
+#         {"source": "node-4", "target": "node-3", "label": "bla4"},
+#         {"source": "node-99", "target": "node-3", "label": "bla99"},
+#         {"source": "node-100", "target": "node-99", "label": "bla10099"},
+#     ]
+# }
+# drawing = create_drawio_diagram()
+# drawing.from_dict(data=existing_graph)
+# drawing.compare(new_graph)
+# drawing.layout(algo="kk")
+# drawing.dump_file()
