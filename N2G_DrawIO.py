@@ -102,7 +102,7 @@ class drawio_diagram:
         # add data if any
         attribs = {k: str(v) for k, v in data.items()}
         # add URL if any
-        if url.strip():
+        if url:
             # check if url is another diagram name
             diagram_link = self.drawing.find("./diagram[@name='{}']".format(url))
             if diagram_link is not None:
@@ -152,19 +152,19 @@ class drawio_diagram:
         node = self.add_data_or_url(node, data, url)
         self.current_root.append(node)
 
-    def update_node(self, id, label="", data={}, url="", style="", width="", height=""):
+    def update_node(self, id, label=None, data={}, url=None, style="", width="", height=""):
         node = self.current_root.find("./object[@id='{}']".format(id))
         # update data and url attributes
         node = self.add_data_or_url(node, data, url)
         # update label
-        if label.strip():
+        if not label is None:
             node.attrib["label"] = label
         # update style
         mxCell_elem = node.find("./mxCell")
         if os.path.isfile(style[:5000]):
             with open(style, "r") as style_file:
                 mxCell_elem.attrib["style"] = style_file.read()
-        elif style.strip():
+        elif style:
             mxCell_elem.attrib["style"] = style    
         # update size
         mxGeometry_elem = node.find("./mxCell/mxGeometry")
@@ -346,7 +346,7 @@ class drawio_diagram:
         label="", 
         source="", 
         target="", 
-        new_label="", 
+        new_label=None, 
         data={}, 
         url="",
         style=""
@@ -366,7 +366,7 @@ class drawio_diagram:
             * style - OS path to file or sting containing edge style
         """
         # get new label
-        new_label = new_label if new_label.strip() else label
+        new_label = new_label if new_label != None else label
         # create edge id
         edge_tup = tuple(sorted([label, source, target]))
         new_edge_tup = tuple(sorted([new_label, source, target]))
