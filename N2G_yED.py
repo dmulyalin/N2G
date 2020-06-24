@@ -68,7 +68,7 @@ class yed_diagram:
     <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns">
       <data key="{attrib_id}">
         <y:ShapeNode>
-          <y:Geometry height="62.0" width="80.0" x="0" y="0"/>
+          <y:Geometry height="{height}" width="{width}" x="{x}" y="{y}"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="3.0"/>
           <y:Shape type="{shape_type}"/>
@@ -81,7 +81,7 @@ class yed_diagram:
     <node id="{id}" xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns">
       <data key="{attrib_id}">
         <y:SVGNode>
-          <y:Geometry width="{width}" height="{height}" x="0" y="0"/>
+          <y:Geometry width="{width}" height="{height}" x="{x}" y="{y}"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:SVGNodeProperties usingVisualBounds="true"/>
@@ -242,7 +242,7 @@ class yed_diagram:
         attributes={},
         description="",
         shape_type="roundrectangle",
-        url="",
+        url="", width=120, height=60, x_pos=200, y_pos=150
     ):
         """
         Method to add node of type "shape", by default shape is "roundrectangle"
@@ -266,9 +266,12 @@ class yed_diagram:
                 attrib_id=self.y_attr["node"]["nodegraphics"],
                 id=id,
                 shape_type=shape_type,
+                width=width,
+                height=height,
+                x=x_pos,
+                y=y_pos
             )
         )
-
         # add labels
         if label == "":
             label = id
@@ -281,7 +284,7 @@ class yed_diagram:
                         self.node_label_xml, label_text, modelPosition=position
                     )
                 )
-        # add description data
+        # add description data and url
         if description != "":
             node.append(
                 self._create_data_element(
@@ -313,6 +316,7 @@ class yed_diagram:
         attributes={},
         description="",
         url="",  # string, data to add tonode URL
+        width=50, height=50, x_pos=200, y_pos=150
     ):
         """
         method to add svg picture node. This method loads SVG picture as resource content into the XML graph file.
@@ -338,8 +342,8 @@ class yed_diagram:
                 elif pic_element.find(".//*/{http://www.w3.org/2000/svg}svg"):
                     _, _, pic_width, pic_height = pic_element.find(".//*/{http://www.w3.org/2000/svg}svg").attrib.get("viewBox").split(" ")
                 else:
-                    pic_width = pic_element.get("width", 50)
-                    pic_height = pic_element.get("height", 50)
+                    pic_width = pic_element.get("width", width)
+                    pic_height = pic_element.get("height", height)
                 del(pic_element)
                 pic_width = float(pic_width)
                 pic_height = float(pic_height)
@@ -372,7 +376,9 @@ class yed_diagram:
                 id=id,
                 refid=params["refid"],
                 height=params["height"],
-                width=params["width"]
+                width=params["width"],
+                x=x_pos,
+                y=y_pos
             )
         )
             
@@ -744,12 +750,13 @@ class yed_diagram:
 
     def update_node(
         self,
-        id,  # string, name of the node
-        label="",  # string, label at the center of the node
-        top_label="",  # string, label at the top of the node
-        bottom_label="",  # string, label at the bottom of the node
-        attributes={},  # dictionary, contains node attributes
-        description="",  # string, data to add in node description
+        id,                 # string, name of the node
+        label=None,         # string, label at the center of the node
+        top_label=None,     # string, label at the top of the node
+        bottom_label=None,  # string, label at the bottom of the node
+        attributes={},      # dictionary, contains node attributes
+        description=None,   # string, data to add in node description
+        width="", height=""
     ):
         # get node element:
         node = self.graph_root.find(
@@ -785,17 +792,23 @@ class yed_diagram:
         # iterate over existing labels
         for label_elem in node_elem.findall(".//y:NodeLabel", self.namespaces):
             position = label_elem.attrib.get("modelPosition")
-            if labels.get(position, "").strip():
+            if not labels.get(position, "") is None:
                 label_elem.text = labels.pop(position)
         # add new labels
         for label_position, label in labels.items():
-            if not label.strip():
+            if label is None:
                 continue
             node_elem.append(
                 self._create_label_element(
                     self.node_label_xml, label, modelPosition=label_position
                 )
             )
+        # set width and height
+        node_geometry_element = node.find(".//*/y:Geometry", self.namespaces)
+        if width:
+            node_geometry_element.set("width", str(width))
+        if height:
+            node_geometry_element.set("height", str(height))
 
     def update_link(self, 
         edge_id="",
@@ -804,9 +817,9 @@ class yed_diagram:
         trgt_label="", 
         source="", 
         target="", 
-        new_label="", 
-        new_src_label="", 
-        new_trgt_label="", 
+        new_label=None, 
+        new_src_label=None, 
+        new_trgt_label=None, 
         description="", 
         attributes={}
         ):
@@ -828,9 +841,9 @@ class yed_diagram:
             * attributes - dictionary of attributes to apply to edge element        
         """
         # get edge new labels
-        new_label = new_label if new_label.strip() else label
-        new_src_label = new_src_label if new_src_label.strip() else src_label
-        new_trgt_label = new_trgt_label if new_trgt_label.strip() else trgt_label
+        new_label = new_label if new_label != None else label
+        new_src_label = new_src_label if new_src_label != None else src_label
+        new_trgt_label = new_trgt_label if new_trgt_label !=None else trgt_label
         # generate existing and new edge ID
         edge_tup = tuple(sorted([label, src_label, trgt_label, source, target]))
         new_edge_tup = tuple(sorted([new_label, new_src_label, new_trgt_label, source, target])) 
@@ -848,7 +861,7 @@ class yed_diagram:
                 )
             )            
             return            
-		# find edge element
+        # find edge element
         edge = self.graph_root.find('./_default_ns_:edge[@id="{}"]'.format(self.edges_ids.get(edge_id, edge_id)), namespaces=self.namespaces)
         PolyLineEdge = edge.find("./_default_ns_:data/y:PolyLineEdge", self.namespaces)
         # update edge id
@@ -952,3 +965,60 @@ class yed_diagram:
             for id in self.edges_ids.keys():
                 if not id in existing_edges and not id in new_edges_list:
                     self.update_link(edge_id=id, attributes=missing_edges)
+
+    def layout(self, algo="kk", width=1360, height=864, **kwargs):
+        """
+        Ref:: https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms
+        
+        Layout algorithms
+        algo name                       description
+        circle, circular                Deterministic layout that places the vertices on a circle
+        drl                             The Distributed Recursive Layout algorithm for large graphs
+        fr                              Fruchterman-Reingold force-directed algorithm
+        fr3d, fr_3d                     Fruchterman-Reingold force-directed algorithm in three dimensions
+        grid_fr                         Fruchterman-Reingold force-directed algorithm with grid heuristics for large graphs
+        kk                              Kamada-Kawai force-directed algorithm
+        kk3d, kk_3d                     Kamada-Kawai force-directed algorithm in three dimensions
+        large, lgl, large_graph         The Large Graph Layout algorithm for large graphs
+        random                          Places the vertices completely randomly
+        random_3d                       Places the vertices completely randomly in 3D
+        rt, tree                        Reingold-Tilford tree layout, useful for (almost) tree-like graphs
+        rt_circular, tree               Reingold-Tilford tree layout with a polar coordinate post-transformation, useful for (almost) tree-like graphs
+        sphere, spherical, circular_3d  Deterministic layout that places the vertices evenly on the surface of a sphere
+        """
+        try:
+            from igraph import Graph as ig
+        except ImportError:
+            raise SystemExit(
+                "Failed to import igraph, install - pip install python-igraph"
+            )
+        igraph_graph = ig()
+        # iterate over diagrams and layout elements
+        nodes_iterator = self.graph_root.iterfind(
+            "./_default_ns_:node", self.namespaces
+        )        
+        links_iterator = self.graph_root.iterfind(
+            "./_default_ns_:edge", self.namespaces
+        )        
+        # populate igraph with nodes 
+        for item in nodes_iterator:
+            igraph_graph.add_vertex(name=item.attrib["id"])
+        # populate igraph with edges
+        for item in links_iterator:
+            igraph_graph.add_edge(
+                source=item.attrib["source"], target=item.attrib["target"]
+            )        
+        # calculate layout
+        layout = igraph_graph.layout(layout=algo, **kwargs)
+        # scale layout to diagram size
+        layout.fit_into(bbox=(width, height))
+        # add coordinates from layout to diagram nodes
+        for index, coord_item in enumerate(layout.coords):
+            x_coord, y_coord = coord_item
+            node_id = igraph_graph.vs[index].attributes()["name"]
+            node = self.graph_root.find(
+                "./_default_ns_:node[@id='{}']".format(node_id), self.namespaces
+            )
+            node_geometry_element = node.find(".//*/y:Geometry", self.namespaces)
+            node_geometry_element.set("x", str(round(x_coord)))
+            node_geometry_element.set("y", str(round(y_coord))) 
