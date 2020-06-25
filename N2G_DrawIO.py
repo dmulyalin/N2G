@@ -306,7 +306,7 @@ class drawio_diagram:
         for edge in data.get("edges", []):
             self.add_link(**edge)
             
-    def from_file(self, filename):
+    def from_file(self, filename, file_load="xml"):
         """
         Method to load nodes and links from yed graphml file.
         
@@ -315,9 +315,10 @@ class drawio_diagram:
             * filename - OS path to .graphml file to load
         """
         with open(filename, "r") as f:
-            self.from_text(f.read())
+            if file_load == "xml":
+                self.from_xml(f.read())
             
-    def from_text(self, text_data):
+    def from_xml(self, text_data):
         """
         Method to load graph from .graphml XML text produced by yEd
         

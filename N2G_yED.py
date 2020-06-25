@@ -242,7 +242,7 @@ class yed_diagram:
         attributes={},
         description="",
         shape_type="roundrectangle",
-        url="", width=120, height=60, x_pos=200, y_pos=150
+        url="", width=120, height=60, x_pos=200, y_pos=150, **kwargs
     ):
         """
         Method to add node of type "shape", by default shape is "roundrectangle"
@@ -316,7 +316,7 @@ class yed_diagram:
         attributes={},
         description="",
         url="",  # string, data to add tonode URL
-        width=50, height=50, x_pos=200, y_pos=150
+        width=50, height=50, x_pos=200, y_pos=150, **kwargs
     ):
         """
         method to add svg picture node. This method loads SVG picture as resource content into the XML graph file.
@@ -485,9 +485,9 @@ class yed_diagram:
             * If group attribute in kwargs and equal to True, add group node
             * Add shape node asa default action
         """
-        if kwargs.get("group") == True:
+        if kwargs.get("group", "").strip() == True:
             self.add_group_node(**kwargs)
-        elif kwargs.get("pic"):
+        elif kwargs.get("pic", "").strip():
             self.add_svg_node(**kwargs)
         else:
             self.add_shape_node(**kwargs)
@@ -586,12 +586,13 @@ class yed_diagram:
         # append edge element to graph:
         self.graph_root.append(edge)
 
-    def from_dict(self, data):
+    def from_dict(self, data, action="add"):
         """
         Method to load graph from dictionary structured data.
         
         **Args**
         
+            * action - add or update or delete
             * data - dictionary with nodes and link/edges details, example::
             
                 sample_graph = {
@@ -642,8 +643,7 @@ class yed_diagram:
             * each edge dictionary must have target and source defined 
             * target/source can be a string or a dictionary 
             * dictionary target/source node must contain id attribute, other attributes are optional and can be same as for nodes
-            * target/source id must be unique     
-
+            
         By default node_dublicates action set to 'skip' meaning that node will be added on first occurrence 
         and ignored after that. Set node_dublicates to 'update' if node with given id need to be updated by 
         later occurrences.
@@ -651,18 +651,22 @@ class yed_diagram:
         [self.add_link(**edge) for edge in data]
             
 
-    def from_file(self, filename):
+    def from_file(self, filename, file_load="xml"):
         """
         Method to load nodes and links from yed graphml file.
         
         **Args**
         
             * filename - OS path to .graphml file to load
+            * load - loader to use, xml or csv
         """
         with open(filename, "r") as f:
-            self.from_text(f.read())
+            if file_load == "xml":
+                self.from_xml(f.read())
+            elif file_load == "csv":
+                self.from_csv(data=csv_load)
             
-    def from_text(self, text_data):
+    def from_xml(self, text_data):
         """
         Method to load graph from .graphml XML text produced by yEd
         
@@ -707,7 +711,32 @@ class yed_diagram:
                 edge_tup = tuple(sorted([source, target, label, src_label, trgt_label,]))
                 edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
             self.edges_ids.update({edge_id: edge.attrib["id"]})
-
+            
+    def from_csv(self, data):
+        """
+        Method to load graph from csv data
+        
+        **Args**
+        
+            * csv_links - csv data with links details, will use from_list method to process
+            * csv_nodes - csv data with nodes details, will use from_dict method to process
+        """
+        # import libs
+        from io import StringIO
+        import csv
+        # need to handle text data as file like object for csv reader to work
+        iostring = StringIO(newline='')
+        iostring.write(data)
+        iostring.seek(0)
+        # load csv data
+        dict_reader = csv.DictReader(iostring)
+        data_list = list(dict_reader)
+        # if id given - meaning it is nodes data
+        if data_list[0].get("id"):
+            self.from_dict({"nodes": data_list})
+        else:
+            self.from_list(data_list)  
+        
     def dump_xml(self):
         ret = ET.tostring(self.drawing, encoding="unicode")
         ret = ret.replace("_default_ns_:", "").replace(":_default_ns_", "")

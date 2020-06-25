@@ -132,33 +132,53 @@ v0.0 xx/xx/xx
 # edge update method and node_dublicates update 
 # behavior
 ###########################################
-yed_diagram = create_yed_diagram()
-sample_list_graph = [
-{'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'},
-{'source': {'id':'b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-{'source': {'id':'b', 'bottom_label': 'node_b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'e', 'trgt_label': 'Gig0/2'}
-]
-yed_diagram.node_dublicates="update"
-yed_diagram.from_list(sample_list_graph)
-new_edges={
-    # dict, attributes to apply to new edges
-    "LineStyle": {"color": "#00FF00", "width": "1.0"},
-    "EdgeLabel": {"textColor": "#00FF00"},
-}
-yed_diagram.update_link(
-    label="Copper", src_label="Gig0/0", trgt_label="Gig0/2", source="b", target="c", 
-    new_label="UTP", new_src_label="Gi0/0", new_trgt_label="Gi0/3", 
-    description="some additional data", attributes=new_edges
-)
-yed_diagram.update_node(
-    id="a", width=300, height=300, top_label="top llbl"
-)
-yed_diagram.update_node(
-    id="b", width=200, height=150, top_label="top llbl2"
-)
-yed_diagram.dump_file()
+# yed_diagram = create_yed_diagram()
+# sample_list_graph = [
+# {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'},
+# {'source': {'id':'b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+# {'source': {'id':'b', 'bottom_label': 'node_b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'e', 'trgt_label': 'Gig0/2'}
+# ]
+# yed_diagram.node_dublicates="update"
+# yed_diagram.from_list(sample_list_graph)
+# new_edges={
+#     # dict, attributes to apply to new edges
+#     "LineStyle": {"color": "#00FF00", "width": "1.0"},
+#     "EdgeLabel": {"textColor": "#00FF00"},
+# }
+# yed_diagram.update_link(
+#     label="Copper", src_label="Gig0/0", trgt_label="Gig0/2", source="b", target="c", 
+#     new_label="UTP", new_src_label="Gi0/0", new_trgt_label="Gi0/3", 
+#     description="some additional data", attributes=new_edges
+# )
+# yed_diagram.update_node(
+#     id="a", width=300, height=300, top_label="top llbl"
+# )
+# yed_diagram.update_node(
+#     id="b", width=200, height=150, top_label="top llbl2"
+# )
+# yed_diagram.dump_file()
 
-
+###########################################
+# Test graph load from csv 
+###########################################
+# yed_diagram = create_yed_diagram()
+# csv_links_data = """"source","src_label","label","target","trgt_label","description"
+# "a","Gig0/0\nUP","DF","b","Gig0/1","vlans_trunked: 1,2,3\nstate: up"
+# "b","Gig0/0","Copper","c","Gig0/2",
+# "b","Gig0/0","Copper","e","Gig0/2",
+# d,Gig0/21,FW,e,Gig0/23,
+# """
+# csv_nodes_data=""""id","pic","label","bottom_label","top_label","description"
+# a,router_round,"R1,2",,,
+# "b",,,"some","top_some",
+# "c",,"somelabel","botlabel","toplabel","some node description"
+# "d","firewall.svg","somelabel1",,,"some node description"
+# "e","router_angles","R1",,,
+# """
+# yed_diagram.from_csv(csv_nodes_data)
+# yed_diagram.from_csv(csv_links_data)
+# yed_diagram.layout()
+# yed_diagram.dump_file()
 
 
 """sample usage drawio"""
