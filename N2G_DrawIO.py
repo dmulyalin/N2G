@@ -141,8 +141,8 @@ class drawio_diagram:
             self.drawio_node_object_xml.format(
                 id=id, 
                 label=label,
-                width=width,
-                height=height,
+                width=width if str(width).strip() else 120,
+                height=height if str(height).strip() else 60,
                 x_pos=x_pos,
                 y_pos=y_pos,
                 style=style if style else self.default_node_style
@@ -348,6 +348,31 @@ class drawio_diagram:
                     self.nodes_ids[diagram_elem.attrib["id"]].append(object_id)
         self.go_to_diagram(diagram_index=0)
 
+    def from_csv(self, data):
+        """
+        Method to load graph from csv data
+        
+        **Args**
+        
+            * data - csv data with links or nodes details
+        """
+        # import libs
+        from io import StringIO
+        import csv
+        # need to handle text data as file like object for csv reader to work
+        iostring = StringIO(newline='')
+        iostring.write(data)
+        iostring.seek(0)
+        # load csv data
+        dict_reader = csv.DictReader(iostring)
+        data_list = list(dict_reader)
+        # if id given - meaning it is nodes data
+        if data_list[0].get("id"):
+            self.from_dict({"nodes": data_list})
+        else:
+            self.from_list(data_list)  
+        
+        
     def update_link(self, 
         edge_id="",
         label="", 

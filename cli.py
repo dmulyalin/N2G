@@ -244,6 +244,28 @@ v0.0 xx/xx/xx
 # drawing.dump_file()
 
 ###########################################
+# Test from_csv method
+###########################################
+drawing = create_drawio_diagram()
+csv_links_data = """"source","label","target"
+"a","DF","b"
+"b","Copper","c"
+"b","Copper","e"
+d,FW,e
+"""
+csv_nodes_data=""""id","label","style","width","height"
+a,"R1,2","./Pics/cisco_router.txt",78,53
+"b","some",,,
+"c","somelabel",,,
+"d","somelabel1",,,
+"e","R1",,,
+"""
+drawing.from_csv(csv_nodes_data)
+drawing.from_csv(csv_links_data)
+drawing.layout(algo="kk")
+drawing.dump_file()
+
+###########################################
 # Test loading from file and dups handling
 ###########################################
 # data = {

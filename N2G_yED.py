@@ -718,8 +718,7 @@ class yed_diagram:
         
         **Args**
         
-            * csv_links - csv data with links details, will use from_list method to process
-            * csv_nodes - csv data with nodes details, will use from_dict method to process
+            * data - csv data with links or nodes details
         """
         # import libs
         from io import StringIO
