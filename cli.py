@@ -230,6 +230,20 @@ v0.0 xx/xx/xx
 # drawing.dump_file()
 
 ###########################################
+# Test from_list method
+###########################################
+# drawing = create_drawio_diagram()
+# data = [
+#     {"source": {"id": "node-1"}, "target": "node-2", "label": "bla1"},
+#     {"source": "node-2", "target": "node-3", "label": "bla2", "data": {"abc": 123}},
+#     {"source": "node-3", "target": "node-1", "label": "bla3"},
+#     {"source": {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"}, "target": "node-3", "label": "bla4"}
+# ]
+# drawing.from_list(data, diagram_name="Page-1")
+# drawing.layout(algo="kk")
+# drawing.dump_file()
+
+###########################################
 # Test loading from file and dups handling
 ###########################################
 # data = {

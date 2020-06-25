@@ -190,13 +190,18 @@ class drawio_diagram:
         self.edges_ids[self.current_diagram_id].append(id)
         
     def add_link(self, source, target, style="", label="", data={}, url=""):    
+        # check type of source and target attribute
+        source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
+        source = source_node_dict.pop("id")
+        target_node_dict = target.copy() if isinstance(target, dict) else {"id": target}
+        target = target_node_dict.pop("id")
         # check if target and source nodes exist, add it if not, 
         # self._node_exists method will update node
         # if self.node_dublicates set to update, by default its set to skip
-        if not self._node_exists(source):
-            self.add_node(source)
-        if not self._node_exists(target):
-            self.add_node(target)
+        if not self._node_exists(source, **source_node_dict):
+            self.add_node(id=source, **source_node_dict)
+        if not self._node_exists(target, **target_node_dict):
+            self.add_node(id=target, **target_node_dict)
         # create edge id
         edge_tup = tuple(sorted([label, source, target]))
         edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
@@ -299,12 +304,13 @@ class drawio_diagram:
 
     def from_dict(self, data, diagram_name="Page-1", width=1360, height=864):
         self.add_diagram(id=diagram_name, width=width, height=height)
-        for node in data.get("nodes", []):
-            self.add_node(**node)
-        for link in data.get("links", []):
-            self.add_link(**link)
-        for edge in data.get("edges", []):
-            self.add_link(**edge)
+        [self.add_node(**node) for node in data.get("nodes", [])]            
+        [self.add_link(**link) for link in data.get("links", [])]
+        [self.add_link(**edge) for edge in data.get("edges", [])]
+
+    def from_list(self, data, diagram_name="Page-1", width=1360, height=864):
+        self.add_diagram(id=diagram_name, width=width, height=height)
+        [self.add_link(**edge) for edge in data]
             
     def from_file(self, filename, file_load="xml"):
         """
