@@ -61,8 +61,8 @@ class drawio_diagram:
 
     def __init__(self, node_dublicates="skip", link_dublicates="skip"):
         self.drawing = ET.fromstring(self.drawio_drawing_xml)
-        self.nodes_ids = {} # dictionary of {diagram_name: [node_id1, node_id2]}
-        self.edges_ids = {} # dictionary of {diagram_name: [edge_id1, edge_id2]}
+        self.nodes_ids = {}  # dictionary of {diagram_name: [node_id1, node_id2]}
+        self.edges_ids = {}  # dictionary of {diagram_name: [edge_id1, edge_id2]}
         self.node_dublicates = node_dublicates
         self.link_dublicates = link_dublicates
         self.current_diagram = None
@@ -89,16 +89,14 @@ class drawio_diagram:
         if not name.strip():
             name = id
         diagram = ET.fromstring(
-            self.drawio_diagram_xml.format(
-                id=id, name=name, width=width, height=height
-            )
+            self.drawio_diagram_xml.format(id=id, name=name, width=width, height=height)
         )
         self.nodes_ids[id] = []
         self.edges_ids[id] = []
         self.drawing.append(diagram)
         self.go_to_diagram(diagram_name=name)
 
-    def add_data_or_url(self, element, data, url):
+    def _add_data_or_url(self, element, data, url):
         # add data if any
         attribs = {k: str(v) for k, v in data.items()}
         # add URL if any
@@ -112,8 +110,8 @@ class drawio_diagram:
             attribs["link"] = url
         element.attrib.update(attribs)
         return element
-        
-    def _node_exists(self, id, **kwargs):       
+
+    def _node_exists(self, id, **kwargs):
         # check if node with given id already exists
         if id in self.nodes_ids[self.current_diagram_id]:
             if self.node_dublicates == "log":
@@ -126,7 +124,18 @@ class drawio_diagram:
         else:
             return False
 
-    def add_node(self, id, label="", data={}, url="", style="", width=120, height=60, x_pos=200, y_pos=150):
+    def add_node(
+        self,
+        id,
+        label="",
+        data={},
+        url="",
+        style="",
+        width=120,
+        height=60,
+        x_pos=200,
+        y_pos=150,
+    ):
         if self._node_exists(id, label=label, data=data, url=url):
             return
         self.nodes_ids[self.current_diagram_id].append(id)
@@ -136,26 +145,28 @@ class drawio_diagram:
         if os.path.isfile(style[:5000]):
             with open(style, "r") as style_file:
                 style = style_file.read()
-        # create node element    
+        # create node element
         node = ET.fromstring(
             self.drawio_node_object_xml.format(
-                id=id, 
+                id=id,
                 label=label,
                 width=width if str(width).strip() else 120,
                 height=height if str(height).strip() else 60,
                 x_pos=x_pos,
                 y_pos=y_pos,
-                style=style if style else self.default_node_style
+                style=style if style else self.default_node_style,
             )
         )
         # add data attributes and/or url to node
-        node = self.add_data_or_url(node, data, url)
+        node = self._add_data_or_url(node, data, url)
         self.current_root.append(node)
 
-    def update_node(self, id, label=None, data={}, url=None, style="", width="", height=""):
+    def update_node(
+        self, id, label=None, data={}, url=None, style="", width="", height=""
+    ):
         node = self.current_root.find("./object[@id='{}']".format(id))
         # update data and url attributes
-        node = self.add_data_or_url(node, data, url)
+        node = self._add_data_or_url(node, data, url)
         # update label
         if not label is None:
             node.attrib["label"] = label
@@ -165,14 +176,14 @@ class drawio_diagram:
             with open(style, "r") as style_file:
                 mxCell_elem.attrib["style"] = style_file.read()
         elif style:
-            mxCell_elem.attrib["style"] = style    
+            mxCell_elem.attrib["style"] = style
         # update size
         mxGeometry_elem = node.find("./mxCell/mxGeometry")
         if width:
             mxGeometry_elem.attrib["width"] = str(width)
         if height:
-            mxGeometry_elem.attrib["height"] = str(height)              
-        
+            mxGeometry_elem.attrib["height"] = str(height)
+
     def _link_exists(self, id, edge_tup):
         """method, used to check dublicate edges 
         """
@@ -188,14 +199,14 @@ class drawio_diagram:
                 pass
             return True
         self.edges_ids[self.current_diagram_id].append(id)
-        
-    def add_link(self, source, target, style="", label="", data={}, url=""):    
+
+    def add_link(self, source, target, style="", label="", data={}, url=""):
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
         source = source_node_dict.pop("id")
         target_node_dict = target.copy() if isinstance(target, dict) else {"id": target}
         target = target_node_dict.pop("id")
-        # check if target and source nodes exist, add it if not, 
+        # check if target and source nodes exist, add it if not,
         # self._node_exists method will update node
         # if self.node_dublicates set to update, by default its set to skip
         if not self._node_exists(source, **source_node_dict):
@@ -218,11 +229,11 @@ class drawio_diagram:
                 label=label,
                 source_id=source,
                 target_id=target,
-                style=style if style else self.default_link_style
+                style=style if style else self.default_link_style,
             )
         )
         # add links data and url
-        link = self.add_data_or_url(link, data, url)
+        link = self._add_data_or_url(link, data, url)
         # save link to graph
         self.current_root.append(link)
 
@@ -275,7 +286,7 @@ class drawio_diagram:
             igraph_graph = ig()
             self.go_to_diagram(diagram.attrib["name"])
             # populate igraph with nodes and edges from object tags
-            for item in self.current_root.findall("./object"):
+            for item in self.current_root.iterfind("./object"):
                 # add edges, item[0] refernece to object's mxCell child tag
                 if item[0].get("source") and item[0].get("target"):
                     igraph_graph.add_vertex(name=item[0].get("source"))
@@ -300,18 +311,18 @@ class drawio_diagram:
                     "./object[@id='{id}']/mxCell/mxGeometry".format(id=node_id)
                 )
                 node_geometry_element.set("x", str(round(x_coord)))
-                node_geometry_element.set("y", str(round(y_coord)))        
+                node_geometry_element.set("y", str(round(y_coord)))
 
     def from_dict(self, data, diagram_name="Page-1", width=1360, height=864):
         self.add_diagram(id=diagram_name, width=width, height=height)
-        [self.add_node(**node) for node in data.get("nodes", [])]            
+        [self.add_node(**node) for node in data.get("nodes", [])]
         [self.add_link(**link) for link in data.get("links", [])]
         [self.add_link(**edge) for edge in data.get("edges", [])]
 
     def from_list(self, data, diagram_name="Page-1", width=1360, height=864):
         self.add_diagram(id=diagram_name, width=width, height=height)
         [self.add_link(**edge) for edge in data]
-            
+
     def from_file(self, filename, file_load="xml"):
         """
         Method to load nodes and links from yed graphml file.
@@ -323,7 +334,7 @@ class drawio_diagram:
         with open(filename, "r") as f:
             if file_load == "xml":
                 self.from_xml(f.read())
-            
+
     def from_xml(self, text_data):
         """
         Method to load graph from .graphml XML text produced by yEd
@@ -359,8 +370,9 @@ class drawio_diagram:
         # import libs
         from io import StringIO
         import csv
+
         # need to handle text data as file like object for csv reader to work
-        iostring = StringIO(newline='')
+        iostring = StringIO(newline="")
         iostring.write(data)
         iostring.seek(0)
         # load csv data
@@ -370,19 +382,19 @@ class drawio_diagram:
         if data_list[0].get("id"):
             self.from_dict({"nodes": data_list})
         else:
-            self.from_list(data_list)  
-        
-        
-    def update_link(self, 
+            self.from_list(data_list)
+
+    def update_link(
+        self,
         edge_id="",
-        label="", 
-        source="", 
-        target="", 
-        new_label=None, 
-        data={}, 
+        label="",
+        source="",
+        target="",
+        new_label=None,
+        data={},
         url="",
-        style=""
-        ):
+        style="",
+    ):
         """
         Method to update edge/link. Element to update looked up by ID. IT calculated based on
         label, src_label, trgt_label, source, target attributes.
@@ -402,41 +414,43 @@ class drawio_diagram:
         # create edge id
         edge_tup = tuple(sorted([label, source, target]))
         new_edge_tup = tuple(sorted([new_label, source, target]))
-        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest() if not edge_id else edge_id
-        new_edge_id = hashlib.md5(",".join(new_edge_tup).encode()).hexdigest() if not edge_id else edge_id
+        edge_id = (
+            hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+            if not edge_id
+            else edge_id
+        )
+        new_edge_id = (
+            hashlib.md5(",".join(new_edge_tup).encode()).hexdigest()
+            if not edge_id
+            else edge_id
+        )
         # update edge id
         if edge_id in self.edges_ids[self.current_diagram_id]:
             self.edges_ids[self.current_diagram_id].remove(edge_id)
             self.edges_ids[self.current_diagram_id].append(new_edge_id)
         else:
-            log.warning("update_link, link does not exist - source '{}', target '{}', label '{}'".format(
+            log.warning(
+                "update_link, link does not exist - source '{}', target '{}', label '{}'".format(
                     source, target, label
                 )
-            )            
+            )
             return
         # find edge element
         edge = self.current_root.find("./object[@id='{}']".format(edge_id))
         # update label and id
-        edge.attrib.update({
-            "id": new_edge_id,
-            "label": new_label
-        })
+        edge.attrib.update({"id": new_edge_id, "label": new_label})
         # replace edge data and url
-        edge = self.add_data_or_url(edge, data, url)
+        edge = self._add_data_or_url(edge, data, url)
         # update style
         mxCell_elem = edge.find("./mxCell")
         if os.path.isfile(style[:5000]):
             with open(style, "r") as style_file:
                 mxCell_elem.attrib["style"] = style_file.read()
         elif style.strip():
-            mxCell_elem.attrib["style"] = style 
+            mxCell_elem.attrib["style"] = style
 
     def compare(
-        self, 
-        data,
-        diagram_name=None,
-        missing_colour="#C0C0C0",
-        new_colour="#00FF00"
+        self, data, diagram_name=None, missing_colour="#C0C0C0", new_colour="#00FF00"
     ):
         """method to compare data graph with self.drawing and produce resulting graph
         applying new styles
@@ -450,20 +464,22 @@ class drawio_diagram:
             new_elements = []
             # combine all edges under "links" key
             if data.get("links"):
-                data["links"] += data.pop("edges") if data.get("edges") else []            
+                data["links"] += data.pop("edges") if data.get("edges") else []
             # find new node elements and add them to graph
             for node in data.get("nodes", []):
                 all_new_data_ids.add(node["id"])
                 if not node["id"] in self.nodes_ids[self.current_diagram_id]:
-                    new_elements.append(node["id"]) 
+                    new_elements.append(node["id"])
                     # add new node
-                    self.add_node(**node)     
+                    self.add_node(**node)
             # find new link elements and add them to graph
             for link in data["links"]:
-                link_tup = tuple(sorted([link.get("label", ""), link["source"], link["target"]]))
-                id = hashlib.md5(",".join(link_tup).encode()).hexdigest()    
+                link_tup = tuple(
+                    sorted([link.get("label", ""), link["source"], link["target"]])
+                )
+                id = hashlib.md5(",".join(link_tup).encode()).hexdigest()
                 all_new_data_ids.add(id)
-                if not id in self.edges_ids[self.current_diagram_id]:     
+                if not id in self.edges_ids[self.current_diagram_id]:
                     new_elements.append(id)
                     # add new link
                     self.add_link(**link)
@@ -471,27 +487,42 @@ class drawio_diagram:
             for id in new_elements:
                 mxCell = self.current_root.find("./object[@id='{}']/mxCell".format(id))
                 # convert style string to dictionary
-                style_dict = {i.split("=")[0]: i.split("=")[1] for i in mxCell.attrib["style"].split(";") if i.strip()}
+                style_dict = {
+                    i.split("=")[0]: i.split("=")[1]
+                    for i in mxCell.attrib["style"].split(";")
+                    if i.strip()
+                }
                 # update style colors
                 if "fillColor" in style_dict:
-                    style_dict["fillColor"] = new_colour 
+                    style_dict["fillColor"] = new_colour
                 else:
-                    style_dict["strokeColor"] = new_colour          
+                    style_dict["strokeColor"] = new_colour
                 style_dict["fontColor"] = new_colour
                 # recreate style string
-                mxCell.attrib["style"] = ";".join(["{}={}".format(k,v) for k,v in style_dict.items()]) 
+                mxCell.attrib["style"] = ";".join(
+                    ["{}={}".format(k, v) for k, v in style_dict.items()]
+                )
             # get all elements IDs set
-            all_elements_ids = set(self.nodes_ids[self.current_diagram_id] + self.edges_ids[self.current_diagram_id])
+            all_elements_ids = set(
+                self.nodes_ids[self.current_diagram_id]
+                + self.edges_ids[self.current_diagram_id]
+            )
             # iterate over missing elements and update color for them
             for id in all_elements_ids.difference(all_new_data_ids):
                 mxCell = self.current_root.find("./object[@id='{}']/mxCell".format(id))
                 # convert style string to dictionary
-                style_dict = {i.split("=")[0]: i.split("=")[1] for i in mxCell.attrib["style"].split(";") if i.strip()}
+                style_dict = {
+                    i.split("=")[0]: i.split("=")[1]
+                    for i in mxCell.attrib["style"].split(";")
+                    if i.strip()
+                }
                 # update style colors
                 if "fillColor" in style_dict:
                     style_dict["fillColor"] = missing_colour
                 else:
-                    style_dict["strokeColor"] = missing_colour                    
+                    style_dict["strokeColor"] = missing_colour
                 style_dict["fontColor"] = missing_colour
                 # recreate style string
-                mxCell.attrib["style"] = ";".join(["{}={}".format(k,v) for k,v in style_dict.items()])
+                mxCell.attrib["style"] = ";".join(
+                    ["{}={}".format(k, v) for k, v in style_dict.items()]
+                )

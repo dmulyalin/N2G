@@ -125,7 +125,13 @@ v0.0 xx/xx/xx
 # yed_diagram.from_dict(sample_graph)
 # yed_diagram.dump_file()
 
-
+###########################################
+# Test delete_node method
+###########################################
+yed_diagram = create_yed_diagram()
+yed_diagram.from_file("./Output/test_load.graphml")
+yed_diagram.delete_node("e", "a")
+yed_diagram.dump_file()
 
 ###########################################
 # Test graph load from list and 
@@ -246,24 +252,24 @@ v0.0 xx/xx/xx
 ###########################################
 # Test from_csv method
 ###########################################
-drawing = create_drawio_diagram()
-csv_links_data = """"source","label","target"
-"a","DF","b"
-"b","Copper","c"
-"b","Copper","e"
-d,FW,e
-"""
-csv_nodes_data=""""id","label","style","width","height"
-a,"R1,2","./Pics/cisco_router.txt",78,53
-"b","some",,,
-"c","somelabel",,,
-"d","somelabel1",,,
-"e","R1",,,
-"""
-drawing.from_csv(csv_nodes_data)
-drawing.from_csv(csv_links_data)
-drawing.layout(algo="kk")
-drawing.dump_file()
+# drawing = create_drawio_diagram()
+# csv_links_data = """"source","label","target"
+# "a","DF","b"
+# "b","Copper","c"
+# "b","Copper","e"
+# d,FW,e
+# """
+# csv_nodes_data=""""id","label","style","width","height"
+# a,"R1,2","./Pics/cisco_router.txt",78,53
+# "b","some",,,
+# "c","somelabel",,,
+# "d","somelabel1",,,
+# "e","R1",,,
+# """
+# drawing.from_csv(csv_nodes_data)
+# drawing.from_csv(csv_links_data)
+# drawing.layout(algo="kk")
+# drawing.dump_file()
 
 ###########################################
 # Test loading from file and dups handling
