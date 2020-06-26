@@ -162,9 +162,7 @@ class yed_diagram:
         self.node_dublicates = node_dublicates
         self.link_dublicates = link_dublicates
         self.edges_ids = {}  # dictionary of "edge id hash": "yed generated edge id"
-        self.nodes_ids = (
-            {}
-        )  # dictionary of "human friendly node id": "yed generated node id"
+        self.nodes_ids = {}  # dictionary of "node id": "yed generated node id"
         self.svg_pics_dict = {}
         self._load_yattrs()
         # register name spaces names to dump them properly in XML output
@@ -1129,20 +1127,63 @@ class yed_diagram:
             node_geometry_element.set("x", str(round(x_coord)))
             node_geometry_element.set("y", str(round(y_coord)))
 
-    def delete_node(self, *ids):
-        all_ids = [self.nodes_ids.get(id, "") for id in ids] + list(ids)
-        for node in self.graph_root.iterfind("./_default_ns_:node", self.namespaces):
-            if node.get("id") in all_ids:
-                node_id = node.get("id")
-                all_ids.remove(node_id)
+    def delete_node(self, id=None, ids=[]):
+        ids = ids + [id] if id else ids
+        for node_id in ids:
+            # try to find using provided id
+            node = self.graph_root.find(
+                "./_default_ns_:node[@id='{}']".format(node_id), self.namespaces
+            )        
+            if node is None:
+                # try to find using yed generated id
+                node_id = self.nodes_ids.get(node_id, "")
+                node = self.graph_root.find(
+                    "./_default_ns_:node[@id='{}']".format(node_id), self.namespaces
+                )                        
+            if not node is None:
                 self.graph_root.remove(node)
-                # delete edges
-                for edge in self.graph_root.iterfind("./_default_ns_:edge[@source='{}']".format(node_id), self.namespaces):
-                    self.graph_root.remove(edge)
-                for edge in self.graph_root.iterfind("./_default_ns_:edge[@target='{}']".format(node_id), self.namespaces):
-                    self.graph_root.remove(edge)                
-            if not all_ids:
-                break               
+                # delete edges            
+                [self.graph_root.remove(edge) for edge in self.graph_root.iterfind("./_default_ns_:edge[@source='{}']".format(node_id), self.namespaces)]           
+                [self.graph_root.remove(edge) for edge in self.graph_root.iterfind("./_default_ns_:edge[@target='{}']".format(node_id), self.namespaces)]    
+                                                    
+    def delete_link(self, 
+        id=None, 
+        ids=[], 
+        label="",
+        src_label="",
+        trgt_label="",
+        source="",
+        target=""
+    ):
+        if not id and not ids:
+            # create edge id
+            edge_tup = tuple(
+                sorted(
+                    [
+                        source,
+                        target,
+                        label,
+                        src_label,
+                        trgt_label,
+                    ]
+                )
+            )
+            ids.append(hashlib.md5(",".join(edge_tup).encode()).hexdigest())
+        else:
+            ids = ids + [id] if id else ids
+        for edge_id in ids:
+            edge = self.graph_root.find(
+                    "./_default_ns_:edge[@id='{}']".format(edge_id), self.namespaces
+                )    
+            if edge is None:
+                # try to find using yed generated id
+                edge_id = self.edges_ids.get(edge_id, "")
+                edge = self.graph_root.find(
+                    "./_default_ns_:edge[@id='{}']".format(edge_id), self.namespaces
+                )                        
+            if not edge is None:
+                self.graph_root.remove(edge)
+        
         
     def find_node(self, 
         id=None,

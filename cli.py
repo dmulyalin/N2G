@@ -128,10 +128,27 @@ v0.0 xx/xx/xx
 ###########################################
 # Test delete_node method
 ###########################################
-yed_diagram = create_yed_diagram()
-yed_diagram.from_file("./Output/test_load.graphml")
-yed_diagram.delete_node("e", "a")
-yed_diagram.dump_file()
+# yed_diagram = create_yed_diagram()
+# yed_diagram.from_file("./Output/test_load.graphml")
+# yed_diagram.add_node(id="bb")
+# yed_diagram.add_node(id="cc")
+# yed_diagram.delete_node(id="e", ids=["a", "cc"])
+# yed_diagram.dump_file()
+
+###########################################
+# Test delete_link method
+###########################################
+# yed_diagram = create_yed_diagram()
+# yed_diagram.from_file("./Output/test_load.graphml")
+# yed_diagram.add_node(id="bb")
+# yed_diagram.add_node(id="cc")
+# yed_diagram.add_node(id="dd")
+# yed_diagram.add_link('bb', 'cc')
+# yed_diagram.add_link('cc', 'dd')
+# yed_diagram.delete_link(id="e0", ids=["e1", "e2"])
+# yed_diagram.delete_link(source="cc", target="dd")
+# yed_diagram.dump_file()
+
 
 ###########################################
 # Test graph load from list and 
