@@ -1130,6 +1130,7 @@ class yed_diagram:
     def delete_node(self, id=None, ids=[]):
         ids = ids + [id] if id else ids
         for node_id in ids:
+            node_id_to_pop = str(node_id)
             # try to find using provided id
             node = self.graph_root.find(
                 "./_default_ns_:node[@id='{}']".format(node_id), self.namespaces
@@ -1142,9 +1143,32 @@ class yed_diagram:
                 )                        
             if not node is None:
                 self.graph_root.remove(node)
-                # delete edges            
-                [self.graph_root.remove(edge) for edge in self.graph_root.iterfind("./_default_ns_:edge[@source='{}']".format(node_id), self.namespaces)]           
-                [self.graph_root.remove(edge) for edge in self.graph_root.iterfind("./_default_ns_:edge[@target='{}']".format(node_id), self.namespaces)]    
+                self.nodes_ids.pop(node_id_to_pop)
+                # delete edges    
+                for edge in self.graph_root.iterfind("./_default_ns_:edge[@source='{}']".format(node_id), self.namespaces):
+                    edge_id_to_pop = edge.get("id", "")
+                    if not edge_id_to_pop in self.edges_ids:
+                        edge_id_to_pop = None
+                        # need to iterate over edges_ids values to find respective key to pop
+                        for k,v in self.edges_ids.items():
+                            if v == edge.get("id"):
+                                edge_id_to_pop = k 
+                                break
+                    if edge_id_to_pop:
+                        self.edges_ids.pop(edge_id_to_pop)   
+                    self.graph_root.remove(edge)
+                for edge in self.graph_root.iterfind("./_default_ns_:edge[@target='{}']".format(node_id), self.namespaces):
+                    edge_id_to_pop = edge.get("id", "")
+                    if not edge_id_to_pop in self.edges_ids:
+                        edge_id_to_pop = None
+                        # need to iterate over edges_ids values to find respective key to pop
+                        for k,v in self.edges_ids.items():
+                            if v == edge.get("id"):
+                                edge_id_to_pop = k 
+                                break
+                    if edge_id_to_pop:
+                        self.edges_ids.pop(edge_id_to_pop)   
+                    self.graph_root.remove(edge)  
                                                     
     def delete_link(self, 
         id=None, 
@@ -1172,6 +1196,7 @@ class yed_diagram:
         else:
             ids = ids + [id] if id else ids
         for edge_id in ids:
+            edge_id_to_pop = str(edge_id)
             edge = self.graph_root.find(
                     "./_default_ns_:edge[@id='{}']".format(edge_id), self.namespaces
                 )    
@@ -1183,7 +1208,16 @@ class yed_diagram:
                 )                        
             if not edge is None:
                 self.graph_root.remove(edge)
-        
+                # pop edge id from edges_ids dict
+                if not edge_id_to_pop in self.edges_ids:
+                    edge_id_to_pop = None
+                    # need to iterate over edges_ids values to find respective key to pop
+                    for k,v in self.edges_ids.items():
+                        if v == edge_id:
+                            edge_id_to_pop = k 
+                            break
+                if edge_id_to_pop:
+                    self.edges_ids.pop(edge_id_to_pop)                        
         
     def find_node(self, 
         id=None,

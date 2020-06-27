@@ -394,3 +394,20 @@ v0.0 xx/xx/xx
 # drawing.compare(new_graph)
 # drawing.layout(algo="kk")
 # drawing.dump_file()
+
+###########################################
+# Test delete node method
+###########################################
+# drawing = create_drawio_diagram()
+# drawing.from_file("./Output/test_load.drawio")
+# drawing.delete_node(id="node-55", ids=["node-2"])
+# drawing.dump_file()
+
+###########################################
+# Test delete edge method
+###########################################
+drawing = create_drawio_diagram()
+drawing.from_file("./Output/test_load.drawio")
+drawing.delete_link(id="3972a5fc4a57b84e0376216959d97b1c") # bla4 link
+drawing.delete_link(source="node-1", target="node-2", label="bla1")
+drawing.dump_file()

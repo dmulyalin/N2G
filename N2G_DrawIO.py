@@ -526,3 +526,47 @@ class drawio_diagram:
                 mxCell.attrib["style"] = ";".join(
                     ["{}={}".format(k, v) for k, v in style_dict.items()]
                 )
+
+    def delete_node(self, id=None, ids=[]):
+        ids = ids + [id] if id else ids
+        for node_id in ids:
+            node = self.current_root.find("./object[@id='{}']".format(node_id))
+            if not node is None:
+                self.current_root.remove(node)
+                self.nodes_ids[self.current_diagram_id].remove(node_id)
+                # remove edges:
+                # below xpath selects all parents - '..' - of children that 
+                # has source or target equal to node id
+                for edge in self.current_root.iterfind(".//mxCell[@source='{}']/..".format(node_id)):
+                    self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
+                    self.current_root.remove(edge)        
+                for edge in self.current_root.iterfind(".//mxCell[@target='{}']/..".format(node_id)):
+                    self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
+                    self.current_root.remove(edge)  
+                    
+    def delete_link(self,
+        id=None, 
+        ids=[], 
+        label="",
+        source="",
+        target=""
+    ):
+        if not id and not ids:
+            # create edge id
+            edge_tup = tuple(
+                sorted(
+                    [
+                        source,
+                        target,
+                        label
+                    ]
+                )
+            )
+            ids.append(hashlib.md5(",".join(edge_tup).encode()).hexdigest())
+        else:
+            ids = ids + [id] if id else ids
+        for edge_id in ids:
+            edge = self.current_root.find("./object[@id='{}']".format(edge_id))
+            if not edge is None:
+                self.current_root.remove(edge)
+                self.edges_ids[self.current_diagram_id].remove(edge_id)
