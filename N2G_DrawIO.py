@@ -490,7 +490,7 @@ class drawio_diagram:
                 style_dict = {
                     i.split("=")[0]: i.split("=")[1]
                     for i in mxCell.attrib["style"].split(";")
-                    if i.strip()
+                    if "=" in i
                 }
                 # update style colors
                 if "fillColor" in style_dict:
@@ -514,7 +514,7 @@ class drawio_diagram:
                 style_dict = {
                     i.split("=")[0]: i.split("=")[1]
                     for i in mxCell.attrib["style"].split(";")
-                    if i.strip()
+                    if "=" in i
                 }
                 # update style colors
                 if "fillColor" in style_dict:

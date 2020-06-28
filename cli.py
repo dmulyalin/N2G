@@ -29,14 +29,16 @@ v0.0 xx/xx/xx
 # yed_diagram.add_node('a', top_label = 'top', bottom_label = 'bot')
 # yed_diagram.add_node('b', label = 'somelabel', top_label = 'top', bottom_label = 'bot')
 # yed_diagram.add_link('a', 'b', label = 'DF', src_label = 'Gi0/1', trgt_label = 'Fas1/2')
-# yed_diagram.add_node('XR12', pic = 'router.svg')
-# yed_diagram.add_node('XR13', pic = 'router.svg')
-# yed_diagram.add_node('XR14', pic = 'router')
+# yed_diagram.add_node('XR12', pic = 'router_3.svg')
+# yed_diagram.add_node('XR13', pic = 'router_2.svg')
+# yed_diagram.add_node('XR14', pic = 'router_1')
 # yed_diagram.add_link('XR12', 'a', description = """
 # vlans_trunked: 1,22,33,44,55
 # state: up
 # """)
 # yed_diagram.add_link('XR14', 'XR12')
+# yed_diagram.add_link('a', 'XR13', label = 'LLDP', src_label = 'Gi0/21', trgt_label = 'Fas1/22')
+# yed_diagram.layout()
 # yed_diagram.dump_file()
 
 ###########################################
@@ -45,11 +47,11 @@ v0.0 xx/xx/xx
 # yed_diagram = create_yed_diagram()
 # sample_graph={
 # 'nodes': [
-# {'id': 'a', 'pic': 'router_round', 'label': 'R1' }, 
+# {'id': 'a', 'pic': 'router_2', 'label': 'R1' }, 
 # {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
 # {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
 # {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
-# {'id': 'e', 'pic': 'router_angles', 'label': 'R1' }], 
+# {'id': 'e', 'pic': 'router_1', 'label': 'R1' }], 
 # 'edges': [
 # {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
 # {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
@@ -57,6 +59,7 @@ v0.0 xx/xx/xx
 # {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
 # ]}
 # yed_diagram.from_dict(sample_graph)
+# yed_diagram.layout()
 # yed_diagram.dump_file()
 
 ###########################################
@@ -88,13 +91,15 @@ v0.0 xx/xx/xx
 # 'nodes': [
 # {'id': 'a', 'pic': 'router_round', 'label': 'R1' }, 
 # {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+# {'id': 'f', 'bottom_label':'new_node', 'top_label':'new_node_f'},
 # {'id': 'e', 'pic': 'router_angles', 'label': 'R1' }], 
 # 'edges': [
 # {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
 # {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
 # {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
 # # {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'},
-# {'source': 'e', 'src_label': 'Gig0/11', 'label': 'ed', 'target': 'c', 'trgt_label': 'Gig0/8'}
+# {'source': 'e', 'src_label': 'Gig0/11', 'label': 'ed', 'target': 'b', 'trgt_label': 'Gig0/8'},
+# {'source': 'f', 'src_label': 'Gig0/21', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/18'}
 # ]}
 # yed_diagram.from_file("./Output/test_load.graphml")
 # yed_diagram.compare(compare_graph)
@@ -106,21 +111,21 @@ v0.0 xx/xx/xx
 ###########################################
 # sample_graph={
 # 'nodes': [
-# {'id': 'a', 'pic': 'router_round', 'label': 'R1' }, 
-# {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
-# {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-# {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
-# {'id': 'e', 'pic': 'router_angles', 'label': 'R1' }], 
+#     {'id': 'a', 'pic': 'router_1', 'label': 'R1' }, 
+#     {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+#     {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
+#     {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
+#     {'id': 'e', 'pic': 'router_2', 'label': 'R1' }], 
 # 'edges': [
-# {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
-# {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
-# {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
-# {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
+#     {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
+#     {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+#     {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+#     {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'} # new link
 # ]}
 # yed_diagram = create_yed_diagram()
 # yed_diagram.from_file("./Output/test_load.graphml")
-# yed_diagram.add_node(id = 'e', label = 'R101', top_label = 'top', bottom_label = 'bot', description='some node description')
-# yed_diagram.add_link('e', 'c', label="some blabla")
+# yed_diagram.add_node(id = 'e', label = 'R101', top_label = 'top', bottom_label = 'bot', description='some node description') 
+# yed_diagram.add_link('e', 'c', label="some blabla") # new link
 # yed_diagram.add_link('a', 'd')
 # yed_diagram.from_dict(sample_graph)
 # yed_diagram.dump_file()
@@ -164,7 +169,6 @@ v0.0 xx/xx/xx
 # yed_diagram.node_dublicates="update"
 # yed_diagram.from_list(sample_list_graph)
 # new_edges={
-#     # dict, attributes to apply to new edges
 #     "LineStyle": {"color": "#00FF00", "width": "1.0"},
 #     "EdgeLabel": {"textColor": "#00FF00"},
 # }
@@ -192,11 +196,11 @@ v0.0 xx/xx/xx
 # d,Gig0/21,FW,e,Gig0/23,
 # """
 # csv_nodes_data=""""id","pic","label","bottom_label","top_label","description"
-# a,router_round,"R1,2",,,
+# a,router_1,"R1,2",,,
 # "b",,,"some","top_some",
 # "c",,"somelabel","botlabel","toplabel","some node description"
 # "d","firewall.svg","somelabel1",,,"some node description"
-# "e","router_angles","R1",,,
+# "e","router_2","R1",,,
 # """
 # yed_diagram.from_csv(csv_nodes_data)
 # yed_diagram.from_csv(csv_links_data)
@@ -306,10 +310,12 @@ v0.0 xx/xx/xx
 #     ]
 # }
 # drawing = create_drawio_diagram()
-# drawing.from_file("./Output/test_load.xml")
+# drawing.from_file("./Output/test_load.drawio")
 # drawing.from_dict(data, diagram_name="Page-1")
 # drawing.add_node(id="node-55")
-# drawing.add_link("node-55", "node-3")
+# drawing.add_node(id="node-66") # new node
+# drawing.add_link("node-55", "node-3") # new link
+# drawing.add_link("node-55", "node-66") # new link
 # drawing.layout(algo="kk")
 # drawing.dump_file()
 
@@ -318,12 +324,12 @@ v0.0 xx/xx/xx
 ###########################################
 # building_style="shape=mxgraph.cisco.buildings.generic_building;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;"
 # drawing = create_drawio_diagram()
-# drawing.from_file("./Output/test_load.xml")
+# drawing.from_file("./Output/test_load.drawio")
 # drawing.add_diagram("Page-1")
-# drawing.add_node(id="Router-1", style="./Pics/cisco_router.txt", width=78, height=53)
-# drawing.add_node(id="Router-2", style="./Pics/cisco_router.txt", width=78, height=53)
-# drawing.add_node(id="Router-3", style="./Pics/cisco_router.txt", width=78, height=53)
-# drawing.add_node(id="Switch-1", style="./Pics/cisco_l3_switch.txt", width=64, height=82)
+# drawing.add_node(id="Router-1", style="./Pics/router_1.txt", width=78, height=53)
+# drawing.add_node(id="Router-2", style="./Pics/router_1.txt", width=78, height=53)
+# drawing.add_node(id="Router-3", style="./Pics/router_1.txt", width=78, height=53)
+# drawing.add_node(id="Switch-1", style="./Pics/switch_l3.txt", width=64, height=82)
 # drawing.add_node(id="Building-1", style=building_style, width=90, height=136)
 # drawing.add_link("Router-1", "Router-2")
 # drawing.add_link("Router-1", "Router-3")
@@ -338,7 +344,7 @@ v0.0 xx/xx/xx
 ###########################################
 # qsfp_router_style="shape=mxgraph.cisco.misc.asr_1000_series;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;"
 # drawing = create_drawio_diagram()
-# drawing.from_file("./Output/test_load.xml")
+# drawing.from_file("./Output/test_load.drawio")
 # drawing.update_node(id="node-2", label="node-2 Updated label")
 # drawing.update_node(id="node-3", style=qsfp_router_style, width=88, height=86, label="node_qfp")
 # drawing.update_node(id="node-1", data={"k1": "v1", "k2": "v2"}, url="http://ya.ru")
@@ -349,10 +355,10 @@ v0.0 xx/xx/xx
 ###########################################
 # new_link_style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;"
 # drawing = create_drawio_diagram()
-# drawing.from_file("./Output/test_load.xml")
+# drawing.from_file("./Output/test_load.drawio")
 # drawing.update_link(source="node-1", target="node-2", label="bla1", new_label="edge new label", style=new_link_style, data={"a": "b"}, url="http://ya.ru")
 # drawing.update_link(source="node-1", target="node-3", label="bla3", style=new_link_style)
-# drawing.update_link(source="node-1", target="node-3", label="bla24", style=new_link_style)
+# # drawing.update_link(source="node-1", target="node-3", label="bla24", style=new_link_style)
 # drawing.dump_file()
 
 ###########################################
@@ -364,7 +370,7 @@ v0.0 xx/xx/xx
 #         {"id": "node-2"},
 #         {"id": "node-3"},
 #         {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"},
-#         {"id": "node-55", "style": "./Pics/cisco_l3_switch.txt", "width": 64, "height": 82},
+#         {"id": "node-55", "style": "./Pics/switch_l3.txt", "width": 64, "height": 82},
 # ],
 #     "links": [
 #         {"source": "node-1", "target": "node-2", "label": "bla1"},
@@ -377,7 +383,7 @@ v0.0 xx/xx/xx
 # new_graph = {
 #     "nodes": [
 #         {"id": "node-99"},
-#         {"id": "node-100", "style": "./Pics/cisco_router.txt", "width": 78, "height": 53},
+#         {"id": "node-100", "style": "./Pics/router_1.txt", "width": 78, "height": 53},
 #         {"id": "node-2"},
 #         {"id": "node-3"},
 #         {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"}
