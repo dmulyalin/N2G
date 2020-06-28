@@ -16,7 +16,7 @@ def logging_config(LOG_LEVEL, LOG_FILE):
     valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
     if LOG_LEVEL.upper() in valid_log_levels:
         logging.basicConfig(
-            format="%(asctime)s.%(msecs)d [N2G %(levelname)s] %(lineno)d; %(message)s",
+            format="%(asctime)s.%(msecs)d [N2G_YED %(levelname)s] %(lineno)d; %(message)s",
             datefmt="%m/%d/%Y %I:%M:%S",
             level=LOG_LEVEL.upper(),
             filename=LOG_FILE,
@@ -344,18 +344,20 @@ class yed_diagram:
             id, label=label, attributes=attributes, description=description
         ):
             return
-            
         # sanitize pic:
         if not pic.endswith(".svg"):
             pic += ".svg"
         pic_file_path = pic_path + pic
         # check if file exists
         if not os.path.exists(pic_file_path):
-            log.error("add_svg_node: failed to load svg, '{}' - file not found".format(pic_file_path))
-            return            
-            
+            log.error(
+                "add_svg_node: failed to load svg, '{}' - file not found".format(
+                    pic_file_path
+                )
+            )
+            return
         self.nodes_ids[id] = id
-            
+
         # load svg pic resource into graph resources section if not yet loaded:
         if not pic_file_path in self.svg_pics_dict:
             resource_id = hashlib.md5(pic_file_path.encode()).hexdigest()
@@ -1042,14 +1044,36 @@ class yed_diagram:
                 if not id in existing_nodes and not id in new_nodes_list:
                     self.update_node(id=id, attributes=missing_nodes)
                     # find edges connected to missing nodes
-                    for edge in self.graph_root.iterfind("./_default_ns_:edge[@source='{}']".format(id), self.namespaces):
-                        self.update_link(edge_id=edge.get("id"), attributes=missing_edges)
-                    for edge in self.graph_root.iterfind("./_default_ns_:edge[@source='{}']".format(self.nodes_ids.get(id, "")), self.namespaces):
-                        self.update_link(edge_id=edge.get("id"), attributes=missing_edges)
-                    for edge in self.graph_root.iterfind("./_default_ns_:edge[@target='{}']".format(id), self.namespaces):
-                        self.update_link(edge_id=edge.get("id"), attributes=missing_edges)     
-                    for edge in self.graph_root.iterfind("./_default_ns_:edge[@target='{}']".format(self.nodes_ids.get(id, "")), self.namespaces):
-                        self.update_link(edge_id=edge.get("id"), attributes=missing_edges)                        
+                    for edge in self.graph_root.iterfind(
+                        "./_default_ns_:edge[@source='{}']".format(id), self.namespaces
+                    ):
+                        self.update_link(
+                            edge_id=edge.get("id"), attributes=missing_edges
+                        )
+                    for edge in self.graph_root.iterfind(
+                        "./_default_ns_:edge[@source='{}']".format(
+                            self.nodes_ids.get(id, "")
+                        ),
+                        self.namespaces,
+                    ):
+                        self.update_link(
+                            edge_id=edge.get("id"), attributes=missing_edges
+                        )
+                    for edge in self.graph_root.iterfind(
+                        "./_default_ns_:edge[@target='{}']".format(id), self.namespaces
+                    ):
+                        self.update_link(
+                            edge_id=edge.get("id"), attributes=missing_edges
+                        )
+                    for edge in self.graph_root.iterfind(
+                        "./_default_ns_:edge[@target='{}']".format(
+                            self.nodes_ids.get(id, "")
+                        ),
+                        self.namespaces,
+                    ):
+                        self.update_link(
+                            edge_id=edge.get("id"), attributes=missing_edges
+                        )
             # find new edges:
             existing_edges = []
             new_edges_list = []
@@ -1144,106 +1168,103 @@ class yed_diagram:
             # try to find using provided id
             node = self.graph_root.find(
                 "./_default_ns_:node[@id='{}']".format(node_id), self.namespaces
-            )        
+            )
             if node is None:
                 # try to find using yed generated id
                 node_id = self.nodes_ids.get(node_id, "")
                 node = self.graph_root.find(
                     "./_default_ns_:node[@id='{}']".format(node_id), self.namespaces
-                )                        
+                )
             if not node is None:
                 self.graph_root.remove(node)
                 self.nodes_ids.pop(node_id_to_pop)
-                # delete edges    
-                for edge in self.graph_root.iterfind("./_default_ns_:edge[@source='{}']".format(node_id), self.namespaces):
+                # delete edges
+                for edge in self.graph_root.iterfind(
+                    "./_default_ns_:edge[@source='{}']".format(node_id), self.namespaces
+                ):
                     edge_id_to_pop = edge.get("id", "")
                     if not edge_id_to_pop in self.edges_ids:
                         edge_id_to_pop = None
                         # need to iterate over edges_ids values to find respective key to pop
-                        for k,v in self.edges_ids.items():
+                        for k, v in self.edges_ids.items():
                             if v == edge.get("id"):
-                                edge_id_to_pop = k 
+                                edge_id_to_pop = k
                                 break
                     if edge_id_to_pop:
-                        self.edges_ids.pop(edge_id_to_pop)   
+                        self.edges_ids.pop(edge_id_to_pop)
                     self.graph_root.remove(edge)
-                for edge in self.graph_root.iterfind("./_default_ns_:edge[@target='{}']".format(node_id), self.namespaces):
+                for edge in self.graph_root.iterfind(
+                    "./_default_ns_:edge[@target='{}']".format(node_id), self.namespaces
+                ):
                     edge_id_to_pop = edge.get("id", "")
                     if not edge_id_to_pop in self.edges_ids:
                         edge_id_to_pop = None
                         # need to iterate over edges_ids values to find respective key to pop
-                        for k,v in self.edges_ids.items():
+                        for k, v in self.edges_ids.items():
                             if v == edge.get("id"):
-                                edge_id_to_pop = k 
+                                edge_id_to_pop = k
                                 break
                     if edge_id_to_pop:
-                        self.edges_ids.pop(edge_id_to_pop)   
-                    self.graph_root.remove(edge)  
-                                                    
-    def delete_link(self, 
-        id=None, 
-        ids=[], 
+                        self.edges_ids.pop(edge_id_to_pop)
+                    self.graph_root.remove(edge)
+
+    def delete_link(
+        self,
+        id=None,
+        ids=[],
         label="",
         src_label="",
         trgt_label="",
         source="",
-        target=""
+        target="",
     ):
         if not id and not ids:
             # create edge id
-            edge_tup = tuple(
-                sorted(
-                    [
-                        source,
-                        target,
-                        label,
-                        src_label,
-                        trgt_label,
-                    ]
-                )
-            )
+            edge_tup = tuple(sorted([source, target, label, src_label, trgt_label,]))
             ids.append(hashlib.md5(",".join(edge_tup).encode()).hexdigest())
         else:
             ids = ids + [id] if id else ids
         for edge_id in ids:
             edge_id_to_pop = str(edge_id)
             edge = self.graph_root.find(
-                    "./_default_ns_:edge[@id='{}']".format(edge_id), self.namespaces
-                )    
+                "./_default_ns_:edge[@id='{}']".format(edge_id), self.namespaces
+            )
             if edge is None:
                 # try to find using yed generated id
                 edge_id = self.edges_ids.get(edge_id, "")
                 edge = self.graph_root.find(
                     "./_default_ns_:edge[@id='{}']".format(edge_id), self.namespaces
-                )                        
+                )
             if not edge is None:
                 self.graph_root.remove(edge)
                 # pop edge id from edges_ids dict
                 if not edge_id_to_pop in self.edges_ids:
                     edge_id_to_pop = None
                     # need to iterate over edges_ids values to find respective key to pop
-                    for k,v in self.edges_ids.items():
+                    for k, v in self.edges_ids.items():
                         if v == edge_id:
-                            edge_id_to_pop = k 
+                            edge_id_to_pop = k
                             break
                 if edge_id_to_pop:
-                    self.edges_ids.pop(edge_id_to_pop)                        
-        
-    def find_node(self, 
+                    self.edges_ids.pop(edge_id_to_pop)
+
+    def find_node(
+        self,
         id=None,
         label=None,
         top_label=None,
         bottom_label=None,
         description=None,
         url=None,
-        match_method="exact"
+        match_method="exact",
     ):
         """
         Method  to take node attributes and return list of matched node IDs
         """
         pass
-        
-    def find_link(self, 
+
+    def find_link(
+        self,
         edge_id=None,
         label=None,
         src_label=None,
@@ -1251,7 +1272,7 @@ class yed_diagram:
         source=None,
         target=None,
         description=None,
-        match_method="exact"
+        match_method="exact",
     ):
         """
         Method  to take node attributes and return list of matched node IDs

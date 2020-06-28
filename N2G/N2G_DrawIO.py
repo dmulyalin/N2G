@@ -13,7 +13,7 @@ def logging_config(LOG_LEVEL, LOG_FILE):
     valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
     if LOG_LEVEL.upper() in valid_log_levels:
         logging.basicConfig(
-            format="%(asctime)s.%(msecs)d [TTP %(levelname)s] %(lineno)d; %(message)s",
+            format="%(asctime)s.%(msecs)d [N2G_DRAWIO %(levelname)s] %(lineno)d; %(message)s",
             datefmt="%m/%d/%Y %I:%M:%S",
             level=LOG_LEVEL.upper(),
             filename=LOG_FILE,
@@ -535,33 +535,23 @@ class drawio_diagram:
                 self.current_root.remove(node)
                 self.nodes_ids[self.current_diagram_id].remove(node_id)
                 # remove edges:
-                # below xpath selects all parents - '..' - of children that 
+                # below xpath selects all parents - '..' - of children that
                 # has source or target equal to node id
-                for edge in self.current_root.iterfind(".//mxCell[@source='{}']/..".format(node_id)):
+                for edge in self.current_root.iterfind(
+                    ".//mxCell[@source='{}']/..".format(node_id)
+                ):
                     self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
-                    self.current_root.remove(edge)        
-                for edge in self.current_root.iterfind(".//mxCell[@target='{}']/..".format(node_id)):
+                    self.current_root.remove(edge)
+                for edge in self.current_root.iterfind(
+                    ".//mxCell[@target='{}']/..".format(node_id)
+                ):
                     self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
-                    self.current_root.remove(edge)  
-                    
-    def delete_link(self,
-        id=None, 
-        ids=[], 
-        label="",
-        source="",
-        target=""
-    ):
+                    self.current_root.remove(edge)
+
+    def delete_link(self, id=None, ids=[], label="", source="", target=""):
         if not id and not ids:
             # create edge id
-            edge_tup = tuple(
-                sorted(
-                    [
-                        source,
-                        target,
-                        label
-                    ]
-                )
-            )
+            edge_tup = tuple(sorted([source, target, label]))
             ids.append(hashlib.md5(",".join(edge_tup).encode()).hexdigest())
         else:
             ids = ids + [id] if id else ids
