@@ -9,3 +9,5 @@ docs/build/*
 docs/make.bat
 docs/Makefile
 Diagrams/*
+cli.py
+N2G.egg-info/*
