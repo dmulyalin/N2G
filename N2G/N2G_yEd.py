@@ -28,7 +28,16 @@ logging_config(LOG_LEVEL, LOG_FILE)
 
 
 class yed_diagram:
+    """
+    N2G yEd module allows to produce diagrams in yEd .graphml format.
+    
+    **Parameters**
+        
+    * ``node_dublicates`` (str) can be of value skip, log, update
+    * ``link_dublicates`` (str) can be of value skip, log, update
 
+    """
+    
     # XML string templates to create lxml etree elements from:
     graph_xml = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:java="http://www.yworks.com/xml/yfiles-common/1.0/java" xmlns:sys="http://www.yworks.com/xml/yfiles-common/markup/primitives/2.0" xmlns:x="http://www.yworks.com/xml/yfiles-common/markup/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xmlns:yed="http://www.yworks.com/xml/yed/3" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
@@ -249,19 +258,31 @@ class yed_diagram:
         **kwargs
     ):
         """
-        Method to add node of type "shape", by default shape is "roundrectangle"
+        Method to add node of type "shape". 
         
-        **Arguments**
+        **Parameters**
             
-            * id - string, unique node identifier
-            * label - string, label at the center of node, if not provided, id used as label
-            * attributes - dictionary of yEd graphml tag name and its attributes, e.g.:
-                {
-                    'Shape'     : {'type': 'roundrectangle'},
-                    'DropShadow': { 'color': '#B3A691', 'offsetX': '5', 'offsetY': '5'}
-                }
-                where keys will used as xml tags and values dictionary 
-                will be used as tag attributes
+        * ``id`` (str) mandatory, unique node identifier, usually equal to node name
+        * ``label`` (str) label at the center of the node, by default equal to id attribute
+        * ``top_label`` (str) label displayed at the top of the node
+        * ``bottom_label`` (str) label displayed at the bottom of the node
+        * ``description`` (str) string to save as node ``description`` attribute
+        * ``shape_type`` (str) shape type, default - "roundrectangle"
+        * ``url`` (str) url string to save a node ``url`` attribute
+        * ``width`` (int) node width in pixels
+        * ``height`` (int) node height in pixels
+        * ``x_pos`` (int) node position on x axis
+        * ``y_pos`` (int) node position on y axis
+        * ``attributes`` (dict) dictionary of yEd graphml tag names and attributes
+       
+        Attributes dictionary keys will be used as xml tag names and values 
+        dictionary will be used as xml tag attributes, example::
+            
+            {
+                'Shape'     : {'type': 'roundrectangle'},
+                'DropShadow': { 'color': '#B3A691', 'offsetX': '5', 'offsetY': '5'}
+            }
+            
         """
         # check duplicates
         if self._node_exists(
@@ -337,7 +358,28 @@ class yed_diagram:
         **kwargs
     ):
         """
-        method to add svg picture node. This method loads SVG picture as resource content into the XML graph file.
+        Method to add SVG picture as node by loading SVG file content into graphml
+
+        **Parameters** 
+        
+        * ``id`` (str) mandatory, unique node identifier, usually equal to node name
+        * ``pic`` (str) mandatory, name of svg file
+        * ``pic_path`` (str) OS path to SVG file folder, default is ``./Pics/``
+        * ``label`` (str) label displayed above SVG node, if not provided,  label set equal to id
+        * ``description`` (str) string to save as node ``description`` attribute
+        * ``url`` (str) url string to save as node ``url`` attribute
+        * ``width`` (int) node width in pixels
+        * ``height`` (int) node height in pixels
+        * ``x_pos`` (int) node position on x axis
+        * ``y_pos`` (int) node position on y axis
+        * ``attributes`` (dict) dictionary of yEd graphml tag names and attributes
+        
+        Attributes dictionary keys will be used as xml tag names and values 
+        dictionary will be used as xml tag attributes, example::
+            
+            {
+                'DropShadow': { 'color': '#B3A691', 'offsetX': '5', 'offsetY': '5'}
+            }
         """
         # check duplicates
         if self._node_exists(
@@ -450,7 +492,7 @@ class yed_diagram:
         # add node to the graph and delete node_element:
         self.graph_root.append(svg_node)
 
-    def add_group_node(
+    def _add_group_node(
         self,
         id,  # string, name of the node
         label="",  # string, label at the center of the node
@@ -461,7 +503,9 @@ class yed_diagram:
         url="",  # string, data to add tonode URL
     ):
         """
-        method to add node of type "shape", by default shape is "rectangle"
+        NOT IMPLEMENTED. 
+        
+        Method to add group node to join nodes in cluster.
         """
         # check for node dublicates:
         if self._node_exists(
@@ -524,16 +568,21 @@ class yed_diagram:
 
     def add_node(self, id, **kwargs):
         """
-        Method to add node, by calling one of node add methods
+        Convenience method to add node, by calling one of node add methods following
+        these rules:       
         
-        **Rules**
-            * If 'pic' attribute in kwargs - create svg node
-            * If group attribute in kwargs and equal to True, add group node
-            * Add shape node asa default action
+            * If ``pic`` attribute in kwargs, ``add_svg_node`` is called
+            * If ``group`` kwargs attribute equal to `True`, ``_add_group_node`` called
+            * ``add_shape_node`` called otherwise
+            
+        **Parameters** 
+        
+        * ``id`` (str) mandatory, unique node identifier, usually equal to node name
+        
         """
         kwargs["id"] = id
         if kwargs.get("group", "").strip() == True:
-            self.add_group_node(**kwargs)
+            self._add_group_node(**kwargs)
         elif kwargs.get("pic", "").strip():
             self.add_svg_node(**kwargs)
         else:
@@ -556,16 +605,40 @@ class yed_diagram:
 
     def add_link(
         self,
-        source,  # string, name of the source node
-        target,  # string, name of the terget node
-        label="",  # string, label to display in the center of the edge
-        src_label="",  # string, label to display at source end of the edge
-        trgt_label="",  # string, label to display at target end of the edge
-        description="",  # string, text to add as description data to the edge
-        attributes={},  # dict, edge attributes
-        url="",  # string, data to add to edge URL
+        source,  
+        target,  
+        label="",  
+        src_label="",
+        trgt_label="",
+        description="",  
+        attributes={},  
+        url="", 
     ):
-        """method to add edge
+        """
+        Method to add link between nodes.
+        
+        **Parameters** 
+        
+        * ``source`` (str) mandatory, id of source node
+        * ``target`` (str) mandatory, id of target node
+        * ``label`` (str) label at the center of the edge, by default equal to id attribute
+        * ``src_label`` (str) label to display at the source end of the edge
+        * ``trgt_label`` (str) label to display at target end of the edge
+        * ``description`` (str) string to save as link ``description`` attribute
+        * ``url`` (str) string to save as link ``url`` attribute
+        * ``attributes`` (dict) dictionary of yEd graphml tag names and attributes
+        
+        Attributes dictionary keys will be used as xml tag names and values 
+        dictionary will be used as xml tag attributes, example::
+        
+            { 
+                "LineStyle": {"color": "#00FF00", "width": "1.0"},
+                "EdgeLabel": {"textColor": "#00FF00"},
+            }
+            
+        .. note:: If source or target nodes does not exists, they will be automatically
+          created
+          
         """
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
@@ -633,35 +706,58 @@ class yed_diagram:
         # append edge element to graph:
         self.graph_root.append(edge)
 
-    def from_dict(self, data, action="add"):
+    def from_dict(self, data):
         """
-        Method to load graph from dictionary structured data.
+        Method to build graph from dictionary.
         
-        **Args**
+        **Parameters** 
         
-            * action - add or update or delete
-            * data - dictionary with nodes and link/edges details, example::
-            
-                sample_graph = {
-                    'nodes': [
-                        {'id': 'a', 'pic': 'router', 'label': 'R1' }, 
-                        {'id': 'b', label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
-                        {'id': 'e', label': 'E'}
-                    ], 
-                    'edges': [
-                        {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}
-                    ],
-                    'links': [
-                        {'source': 'a', 'target': 'e'}
-                    ]
-                }
+        * ``data`` (dict) dictionary with nodes and link/edges details, example::
+        
+            sample_graph = {
+                'nodes': [
+                    {
+                        'id': 'a', 
+                        'pic': 'router', 
+                        'label': 'R1' 
+                    }, 
+                    {
+                        'id': 'b', 
+                        'label': 'somelabel', 
+                        'bottom_label':'botlabel', 
+                        'top_label':'toplabel', 
+                        'description': 'some node description'
+                    },
+                    {
+                        'id': 'e', 
+                        'label': 'E'
+                    }
+                ], 
+                'edges': [
+                    {
+                        'source': 'a', 
+                        'src_label': 'Gig0/0', 
+                        'label': 'DF', 
+                        'target': 'b', 
+                        'trgt_label': 'Gig0/1', 
+                        'description': 'vlans_trunked: 1,2,3'
+                    }
+                ],
+                'links': [
+                    {
+                        'source': 'a', 
+                        'target': 'e'
+                    }
+                ]
+            }
                 
-        **Rules**
+        **Dictionary Content Rules**
             
-            * dictionary must contain node key with a list of nodes dictionaries
-            * each node dictionary must containunique id attribute, other attributes are optional
-            * dictionary must contain edges or links key with a list of edges dictionaries
-            * each edge dictionary must contain source and target attributes, other attributes are optional
+        * dictionary may contain ``nodes`` key with a list of nodes dictionaries
+        * each node dictionary must contain unique ``id`` attribute, other attributes are optional
+        * dictionary may contain ``edges`` or ``links`` key with a list of edges dictionaries
+        * each link dictionary must contain ``source`` and ``target`` attributes, other attributes are optional
+        
         """
         [self.add_node(**node) for node in data.get("nodes", [])]
         [self.add_link(**link) for link in data.get("links", [])]
@@ -669,56 +765,74 @@ class yed_diagram:
 
     def from_list(self, data):
         """
-        Method to load graph from list.
+        Method to build graph from list.
         
-        **Args**
+        **Parameters** 
         
-            * data - list of dictionaries with nodes and link/edges details, example::
-            
-                sample_graph = [
-                    {
-                    'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'
-                    },
-                    {
-                    'source': 'a', 'target': {
-                            {'id': 'e', label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'}
+        * ``data`` (list) list of link dictionaries, example::
+                    
+            sample_graph = [
+                {
+                    'source': 'a', 
+                    'src_label': 'Gig0/0\\nUP', 
+                    'label': 'DF', 
+                    'target': 'b', 
+                    'trgt_label': 'Gig0/1', 
+                    'description': 'vlans_trunked: 1,2,3\\nstate: up'
+                },
+                {
+                    'source': 'a', 
+                    'target': {
+                            'id': 'e', 
+                            'label': 'somelabel', 
+                            'bottom_label':'botlabel', 
+                            'top_label':'toplabel', 
+                            'description': 'some node description'
                         }
-                    }                
-                ]
+                    }
+                }                
+            ]
             
-        **Rules**
-            * each edge dictionary must have target and source defined 
-            * target/source can be a string or a dictionary 
-            * dictionary target/source node must contain id attribute, other attributes are optional and can be same as for nodes
+        **List Content Rules**
+        
+            * each list item must have ``target`` and ``source`` attributes defined 
+            * ``target``/``source`` attributes can be either a string or a dictionary 
+            * dictionary ``target``/``source`` node must contain ``id`` attribute and 
+              other supported node attributes
             
-        By default node_dublicates action set to 'skip' meaning that node will be added on first occurrence 
-        and ignored after that. Set node_dublicates to 'update' if node with given id need to be updated by 
-        later occurrences.
+        .. note::
+        
+            By default yed_diagram object ``node_dublicates`` action set to 'skip' meaning that node will be added on first occurrence 
+            and ignored after that. Set ``node_dublicates`` to 'update' if node with given id need to be updated by 
+            later occurrences in the list.
         """
         [self.add_link(**edge) for edge in data]
 
     def from_file(self, filename, file_load="xml"):
         """
-        Method to load nodes and links from yed graphml file.
+        Method to load data from file for processing. File format can
+        be yEd graphml (XML) or CSV
         
-        **Args**
+        **Parameters** 
         
-            * filename - OS path to .graphml file to load
-            * load - loader to use, xml or csv
+        * ``filename`` (str) OS path to file to load
+        * ``file_load`` (str) indicated the load of the file, supports ``xml``, ``csv``
+        
         """
         with open(filename, "r") as f:
-            if file_load == "xml":
+            if file_load.lower() == "xml":
                 self.from_xml(f.read())
-            elif file_load == "csv":
+            elif file_load.lower() == "csv":
                 self.from_csv(data=csv_load)
 
     def from_xml(self, text_data):
         """
-        Method to load graph from .graphml XML text produced by yEd
+        Method to load yEd graphml XML formatted text for processing
         
-        **Args**
+        **Parameters** 
         
-            * text_data - text data to load
+        * ``text_data`` (str) text data to load
+        
         """
         self.drawing = ET.fromstring(text_data)
         # load graph details
@@ -760,13 +874,41 @@ class yed_diagram:
                 edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
             self.edges_ids.update({edge_id: edge.attrib["id"]})
 
-    def from_csv(self, data):
+    def from_csv(self, text_data):
         """
-        Method to load graph from csv data
+        Method to build graph from CSV tables
         
-        **Args**
+        **Parameters** 
         
-            * data - csv data with links or nodes details
+        * ``text_data`` (str) CSV text with links or nodes details
+        
+        This method supports loading CSV text data that contains nodes or links
+        information. If ``id`` in headers, ``from_dict`` method will be called for CSV 
+        processing, ``from_list`` method will be used otherwise.
+        
+        CSV data with nodes details should have headers matching add node methods 
+        arguments and rules.
+        
+        CSV data with links details should have headers matching ``add_link`` method
+        arguments and rules.                
+        
+        Sample CSV table with links details::
+        
+            "source","src_label","label","target","trgt_label","description"
+            "a","Gig0/0","DF","b","Gig0/1","vlans_trunked: 1,2,3"
+            "b","Gig0/0","Copper","c","Gig0/2",
+            "b","Gig0/0","Copper","e","Gig0/2",
+            d,Gig0/21,FW,e,Gig0/23,
+        
+        Sample CSV table with nodes details::
+        
+            "id","pic","label","bottom_label","top_label","description"
+            a,router_1,"R1,2",,,
+            "b",,,"some","top_some",
+            "c",,"somelabel","botlabel","toplabel","some node description"
+            "d","firewall.svg","somelabel1",,,"some node description"
+            "e","router_2","R1",,,
+            
         """
         # import libs
         from io import StringIO
@@ -774,7 +916,7 @@ class yed_diagram:
 
         # need to handle text data as file like object for csv reader to work
         iostring = StringIO(newline="")
-        iostring.write(data)
+        iostring.write(text_data)
         iostring.seek(0)
         # load csv data
         dict_reader = csv.DictReader(iostring)
@@ -786,11 +928,26 @@ class yed_diagram:
             self.from_list(data_list)
 
     def dump_xml(self):
+        """
+        Method to return current diagram XML text
+        """
         ret = ET.tostring(self.drawing, encoding="unicode")
         ret = ret.replace("_default_ns_:", "").replace(":_default_ns_", "")
         return ret
 
     def dump_file(self, filename=None, folder="./Output/"):
+        """
+        Method to save current diagram in .graphml file.
+        
+        **Parameters** 
+        
+        * ``filename`` (str) name of the file to save diagram into
+        * ``folder`` (str) OS path to folder where to save diagram file
+        
+        If no ``filename`` provided, timestamped format will be 
+        used to produce filename, e.g.: ``Sun Jun 28 20-30-57 2020_output.graphml``
+            
+        """
         import os
         import time
 
@@ -810,7 +967,23 @@ class yed_diagram:
         element,  # lxml object to update attributes for
         attributes={},  # dictionary of attributes to update
     ):
-        """method to update attributes into element"""
+        """
+        Method to set attributes for XML element
+        
+        **Parameters** 
+        
+        * ``element`` (object) xml etree element object to set attributes for
+        * ``attributes`` (dict) dictionary of yEd graphml tag names and attributes
+        
+        Attributes dictionary keys will be used as xml tag names and values 
+        dictionary will be used as xml tag attributes, example::
+        
+            { 
+                "LineStyle": {"color": "#00FF00", "width": "1.0"},
+                "EdgeLabel": {"textColor": "#00FF00"},
+            }        
+        
+        """
         children = list(element)
         for tag, attribs in attributes.items():
             tag_exists = False
@@ -827,15 +1000,46 @@ class yed_diagram:
 
     def update_node(
         self,
-        id,  # string, name of the node
-        label=None,  # string, label at the center of the node
-        top_label=None,  # string, label at the top of the node
-        bottom_label=None,  # string, label at the bottom of the node
-        attributes={},  # dictionary, contains node attributes
-        description=None,  # string, data to add in node description
+        id,  
+        label=None,  
+        top_label=None,  
+        bottom_label=None,  
+        attributes={},  
+        description=None,  
         width="",
         height="",
     ):
+        """
+        Method to update node details
+        
+        **Parameters** 
+        
+        * ``id`` (str) mandatory, unique node identifier, usually equal to node name
+        * ``label`` (str) label at the center of the shape node or above SVG node
+        * ``top_label`` (str) label displayed at the top of the node
+        * ``bottom_label`` (str) label displayed at the bottom of the node
+        * ``description`` (str) string to save as node ``description`` attribute
+        * ``width`` (int) node width in pixels
+        * ``height`` (int) node height in pixels
+        * ``attributes`` (dict) dictionary of yEd graphml tag names and attributes
+                
+        Attributes dictionary keys will be used as xml tag names and values 
+        dictionary will be used as xml tag attributes, example::
+            
+            {
+                'Shape'     : {'type': 'roundrectangle'},
+                'DropShadow': { 'color': '#B3A691', 'offsetX': '5', 'offsetY': '5'}
+            }        
+                
+        This method will replace existing and add new labels to the node. 
+        
+        Existing description attribute will be replaced with new value.
+        
+        Height and width will override existing values.
+        
+        Attributes will replace existing values.
+        
+        """
         # get node element:
         node = self.graph_root.find(
             "./_default_ns_:node[@id='{}']".format(self.nodes_ids.get(id, id)),
@@ -913,23 +1117,42 @@ class yed_diagram:
         attributes={},
     ):
         """
-        Method to update edge/link. Element to update looked up by ID. IT calculated based on
-        label, src_label, trgt_label, source, target attributes.
+        Method to update edge/link details. 
         
-        **Kwargs**
-            * edge_id - md5 hash edge id, if not provided, will be generated based on existing labels
-            * label - existing edge label
-            * src_label - existing edge src_label 
-            * trgt_label - existing edge tgt_label
-            * source - existing edge source node ID 
-            * target - existing edge target node id 
-            * new_label - new edge label 
-            * new_src_label - new edge src_label 
-            * new_trgt_label - new edge tgt_label 
-            * description - new edge description 
-            * attributes - dictionary of attributes to apply to edge element        
+        **Parameters** 
+        
+        * ``edge_id`` (str) md5 hash edge id, if not provided, will be generated 
+          based on edge attributes
+        * ``label`` (str) existing edge label
+        * ``src_label`` (str) existing edge src_label 
+        * ``trgt_label`` (str) existing edge tgt_label
+        * ``source`` (str) existing edge source node ID 
+        * ``target`` (str) existing edge target node id 
+        * ``new_label`` (str) new edge label 
+        * ``new_src_label`` (str) new edge src_label 
+        * ``new_trgt_label`` (str) new edge tgt_label 
+        * ``description`` (str) new edge description 
+        * ``attributes`` (str) dictionary of attributes to apply to edge element    
+        
+        Either of these must be provided to find edge element to update:
+        
+        * ``edge_id`` MD5 hash or
+        * ``label, src_label, trgt_label, source, target`` attributes to calculate ``edge_id``
+        
+        ``edge_id`` calculated based on - ``label, src_label, trgt_label, source, target`` -
+        attributes following this algorithm:     
+
+        1. Edge tuple produced: ``tuple(sorted([label, src_label, trgt_label, source, target]))``
+        2. MD5 hash derived from tuple: ``hashlib.md5(",".join(edge_tup).encode()).hexdigest()``
+        
+        This method will replace existing and add new labels to the link. 
+        
+        Existing description attribute will be replaced with new value.
+                
+        Attributes will replace existing values.
+        
         """
-        # get edge new labels
+        # make new labels equal to existing labels if new label not provided
         new_label = new_label if new_label != None else label
         new_src_label = new_src_label if new_src_label != None else src_label
         new_trgt_label = new_trgt_label if new_trgt_label != None else trgt_label
@@ -1016,16 +1239,53 @@ class yed_diagram:
             "BorderStyle": {"color": "#00FF00", "width": "5.0"},
             "NodeLabel": {"textColor": "#00FF00"},
         },
-        missing_edges={  # dict, attributes to apply to missing edges
+        missing_links={  # dict, attributes to apply to missing edges
             "LineStyle": {"color": "#C0C0C0", "width": "1.0"},
             "EdgeLabel": {"textColor": "#C0C0C0"},
         },
-        new_edges={  # dict, attributes to apply to new edges
+        new_links={  # dict, attributes to apply to new edges
             "LineStyle": {"color": "#00FF00", "width": "1.0"},
             "EdgeLabel": {"textColor": "#00FF00"},
         },
     ):
-        """method to compare data graph with self.drawing and produce resulting graph
+        """
+        Method to combine two graphs - existing and new - and produce resulting 
+        graph following these rules:
+        
+        * nodes and links present in new graph but not in existing graph considered
+          as new and will be updated with ``new_nodes`` and ``new_links`` attributes by 
+          default highlighting them in green
+        * nodes and links missing from new graph but present in existing graph considered
+          as missing and will be updated with ``missing_nodes`` and ``missing_links`` attributes 
+          by default highlighting them in gray
+        * nodes and links present in both graphs will remain unchanged
+        
+        **Parameters** 
+        
+        * ``data`` (dict) dictionary containing new graph data, dictionary format should be 
+          the same as for ``from_dict`` method.
+        * ``missing_nodes`` (dict) dictionary with attributes to apply to missing nodes
+        * ``new_nodes`` (dict) dictionary with attributes to apply to new nodes
+        * ``missing_links`` (dict) dictionary with attributes to apply to missing links
+        * ``new_links`` (dict) dictionary with attributes to apply to new links
+        
+        **Sample usage**::
+        
+            from N2G import yed_diagram
+            diagram = yed_diagram()
+            new_graph = {
+                'nodes': [
+                    {'id': 'a', 'pic': 'router_round', 'label': 'R1' }
+                ],
+                'edges': [
+                    {'source': 'f', 'src_label': 'Gig0/21', 'label': 'DF', 'target': 'b'}
+                ]
+            }
+            diagram.from_file("./old_graph.graphml")
+            diagram.compare(new_graph)
+            diagram.dump_file(filename="compared_graph.graphml")
+    
+        
         """
         if isinstance(data, dict):
             # find new nodes
@@ -1048,7 +1308,7 @@ class yed_diagram:
                         "./_default_ns_:edge[@source='{}']".format(id), self.namespaces
                     ):
                         self.update_link(
-                            edge_id=edge.get("id"), attributes=missing_edges
+                            edge_id=edge.get("id"), attributes=missing_links
                         )
                     for edge in self.graph_root.iterfind(
                         "./_default_ns_:edge[@source='{}']".format(
@@ -1057,13 +1317,13 @@ class yed_diagram:
                         self.namespaces,
                     ):
                         self.update_link(
-                            edge_id=edge.get("id"), attributes=missing_edges
+                            edge_id=edge.get("id"), attributes=missing_links
                         )
                     for edge in self.graph_root.iterfind(
                         "./_default_ns_:edge[@target='{}']".format(id), self.namespaces
                     ):
                         self.update_link(
-                            edge_id=edge.get("id"), attributes=missing_edges
+                            edge_id=edge.get("id"), attributes=missing_links
                         )
                     for edge in self.graph_root.iterfind(
                         "./_default_ns_:edge[@target='{}']".format(
@@ -1072,11 +1332,11 @@ class yed_diagram:
                         self.namespaces,
                     ):
                         self.update_link(
-                            edge_id=edge.get("id"), attributes=missing_edges
+                            edge_id=edge.get("id"), attributes=missing_links
                         )
             # find new edges:
             existing_edges = []
-            new_edges_list = []
+            new_links_list = []
             for edge in data["edges"]:
                 edge.setdefault("attributes", {})
                 # create edge id
@@ -1094,35 +1354,61 @@ class yed_diagram:
                 edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
                 # add new edge
                 if not edge_id in self.edges_ids:
-                    edge["attributes"].update(new_edges)
+                    edge["attributes"].update(new_links)
                     self.add_link(**edge)
-                    new_edges_list.append(edge_id)
+                    new_links_list.append(edge_id)
                 else:
                     existing_edges.append(edge_id)
             # find missing edges:
             for id in self.edges_ids.keys():
-                if not id in existing_edges and not id in new_edges_list:
-                    self.update_link(edge_id=id, attributes=missing_edges)
+                if not id in existing_edges and not id in new_links_list:
+                    self.update_link(edge_id=id, attributes=missing_links)
 
     def layout(self, algo="kk", width=1360, height=864, **kwargs):
         """
-        Ref:: https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms
+        Method to calculate graph layout using Python 
+        `igraph <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_ 
+        library
         
-        Layout algorithms
-        algo name                       description
-        circle, circular                Deterministic layout that places the vertices on a circle
-        drl                             The Distributed Recursive Layout algorithm for large graphs
-        fr                              Fruchterman-Reingold force-directed algorithm
-        fr3d, fr_3d                     Fruchterman-Reingold force-directed algorithm in three dimensions
-        grid_fr                         Fruchterman-Reingold force-directed algorithm with grid heuristics for large graphs
-        kk                              Kamada-Kawai force-directed algorithm
-        kk3d, kk_3d                     Kamada-Kawai force-directed algorithm in three dimensions
-        large, lgl, large_graph         The Large Graph Layout algorithm for large graphs
-        random                          Places the vertices completely randomly
-        random_3d                       Places the vertices completely randomly in 3D
-        rt, tree                        Reingold-Tilford tree layout, useful for (almost) tree-like graphs
-        rt_circular, tree               Reingold-Tilford tree layout with a polar coordinate post-transformation, useful for (almost) tree-like graphs
-        sphere, spherical, circular_3d  Deterministic layout that places the vertices evenly on the surface of a sphere
+        **Parameters** 
+        
+        * ``algo`` (str) name of layout algorithm to use, default is 'kk'. Reference 
+          `Layout algorithms` table below for valid algo names
+        * ``width`` (int) width in pixels to fit layout in
+        * ``height`` (int) height in pixels to fit layout in
+        * ``kwargs`` any additional kwargs to pass to igraph ``Graph.layout`` method
+        
+        **Layout algorithms**
+        
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | algo name                       |    description                                                                                                 |
+        +=================================+================================================================================================================+
+        | circle, circular                | Deterministic layout that places the vertices on a circle                                                      |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | drl                             | The Distributed Recursive Layout algorithm for large graphs                                                    |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | fr                              | Fruchterman-Reingold force-directed algorithm                                                                  |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | fr3d, fr_3d                     | Fruchterman-Reingold force-directed algorithm in three dimensions                                              |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | grid_fr                         | Fruchterman-Reingold force-directed algorithm with grid heuristics for large graphs                            |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | kk                              | Kamada-Kawai force-directed algorithm                                                                          |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | kk3d, kk_3d                     | Kamada-Kawai force-directed algorithm in three dimensions                                                      |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | large, lgl, large_graph         | The Large Graph Layout algorithm for large graphs                                                              |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | random                          | Places the vertices completely randomly                                                                        |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | random_3d                       | Places the vertices completely randomly in 3D                                                                  |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | rt, tree                        | Reingold-Tilford tree layout, useful for (almost) tree-like graphs                                             |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | rt_circular, tree               | Reingold-Tilford tree layout with a polar coordinate post-transformation, useful for (almost) tree-like graphs |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+        | sphere, spherical, circular_3d  | Deterministic layout that places the vertices evenly on the surface of a sphere                                |
+        +---------------------------------+----------------------------------------------------------------------------------------------------------------+
         """
         try:
             from igraph import Graph as ig
@@ -1162,6 +1448,16 @@ class yed_diagram:
             node_geometry_element.set("y", str(round(y_coord)))
 
     def delete_node(self, id=None, ids=[]):
+        """
+        Method to delete node by its id. Bulk delete operation
+        supported by providing list of node ids to delete.
+        
+        **Parameters** 
+        
+        * ``id`` (str) id of single node to delete
+        * ``ids`` (list) list of node ids to delete
+
+        """
         ids = ids + [id] if id else ids
         for node_id in ids:
             node_id_to_pop = str(node_id)
@@ -1218,6 +1514,27 @@ class yed_diagram:
         source="",
         target="",
     ):
+        """
+        Method to delete link by its id. Bulk delete operation
+        supported by providing list of link ids to delete. 
+        
+        If link ``id`` or ``ids`` not provided, id calculated based on - ``label, src_label,
+        trgt_label, source, target`` - attributes using this algorithm:     
+    
+        1. Edge tuple produced: ``tuple(sorted([label, src_label, trgt_label, source, target]))``
+        2. MD5 hash derived from tuple: ``hashlib.md5(",".join(edge_tup).encode()).hexdigest()``
+        
+        **Parameters** 
+        
+        * ``id`` (str) id of single link to delete
+        * ``ids`` (list) list of link ids to delete    
+        * ``label`` (str) link label to calculate id of single link to delete
+        * ``src_label`` (str) link source label to calculate id of single link to delete
+        * ``trgt_label`` (str) link target label to calculate id of single link to delete
+        * ``source`` (str) link source to calculate id of single link to delete
+        * ``target`` (str) link target to calculate id of single link to delete
+        
+        """
         if not id and not ids:
             # create edge id
             edge_tup = tuple(sorted([source, target, label, src_label, trgt_label,]))
@@ -1248,7 +1565,7 @@ class yed_diagram:
                 if edge_id_to_pop:
                     self.edges_ids.pop(edge_id_to_pop)
 
-    def find_node(
+    def _find_node(
         self,
         id=None,
         label=None,
@@ -1259,11 +1576,13 @@ class yed_diagram:
         match_method="exact",
     ):
         """
+        NOT IMPLEMENTED
+        
         Method  to take node attributes and return list of matched node IDs
         """
         pass
 
-    def find_link(
+    def _find_link(
         self,
         edge_id=None,
         label=None,
@@ -1275,6 +1594,8 @@ class yed_diagram:
         match_method="exact",
     ):
         """
+        NOT IMPLEMENTED
+        
         Method  to take node attributes and return list of matched node IDs
         """
         pass
