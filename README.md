@@ -4,7 +4,7 @@ N2G is a library to generate diagrams in yWorks graphml or Diagrams drawio forma
 
 ## Why?
 
-How many of you had an idea of "hey I Need To Graph it ..." but didn't have enough time to do it or even start doing that. To save your time on producing consistently looking, editable diagrams of arbitrary size and complexity I am sharing with you the joy of Need To Graph library.
+How many times you had an idea of "hey I Need To Graph it ..." but didn't have enough time to do it or even start doing that. To save your time on producing consistently looking, editable diagrams of arbitrary size and complexity sharing with you the joy of Need To Graph library.
 
 ## How?
 
@@ -13,14 +13,15 @@ Not a secret that many applications use XML structured text to save their diagra
 ## What?
 
 All formats supported so far have very similar api capable of:
-	* adding nodes and links with various attributes such as shape, labels, urls, data, styles
-	* bulk graph creation using from_x methods supporting lists, dictionaries or csv data
-	* existing nodes and links attributes manipulation and update
-	* loading existing XML diagram files for processing and modification
-	* deletion of nodes and links from diagrams
-	* comparing two diagrams to highlight the difference between them
-	* layout your diagram with algorithms available in igraph library
-	* returning results in text format or saving directly into the file
+
+* adding nodes and links with various attributes such as shape, labels, urls, data, styles
+* bulk graph creation using from_x methods supporting lists, dictionaries or csv data
+* existing nodes and links attributes manipulation and update
+* loading existing XML diagram files for processing and modification
+* deletion of nodes and links from diagrams
+* comparing two diagrams to highlight the difference between them
+* layout your diagram with algorithms available in igraph library
+* returning results in text format or saving directly into the file
 
 Reference [documentation](https://n2g.readthedocs.io) for more information.
 
