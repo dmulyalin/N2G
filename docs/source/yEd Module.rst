@@ -1,4 +1,4 @@
-yEd Module usage
+yEd Module 
 ================
 
 yEd Module description goes here
@@ -9,9 +9,10 @@ Quick start
 
 .. code-block:: 
         
-    from N2G import yed_diagram as create_yed_diagram
-	
-    yed_diagram = create_yed_diagram()
+    from N2G import yed_diagram
+    
+    diagram = yed_diagram()
+    
     graph_data = [
         {
             'source': 'a', 
@@ -32,11 +33,11 @@ Quick start
             'target': 'e', 
             'trgt_label': 'Gig0/2'}
     ]
-    yed_diagram.from_list(graph_data)
-    yed_diagram.layout(algo="kk")
-    yed_diagram.dump_file(filename="Sample_graph.graphml", folder="./Output/")    
-	
-	
+    diagram.from_list(graph_data)
+    diagram.layout(algo="kk")
+    diagram.dump_file(filename="Sample_graph.graphml", folder="./Output/")    
+    
+    
 API reference
 -------------------
 
