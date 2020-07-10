@@ -25,6 +25,10 @@ All formats supported so far have very similar api capable of:
 
 Reference [documentation](https://n2g.readthedocs.io) for more information.
 
+## What it's not?
+
+N2G is not a magic bullet that will produce perfect diagrams for you, it can definitely help to simplify the process of adding elements to your diagrams, allow to alight nodes and links labels and even layout the diagram to give a quick overview of what's going on. However, (manual) efforts need to be applied to put all the elements in positions where they will satisfy your inner sense of perfection, hence, keep in mind - (normally) the more elements you have on your diagram, the more efforts required to make it looks good.
+
 ## Example
 
 ```python
