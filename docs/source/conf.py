@@ -70,3 +70,11 @@ html_static_path = ['_static']
 
 # to make cross referencing section names between documents work
 autosectionlabel_prefix_document = True
+
+# add level to nav bar - https://stackoverflow.com/questions/27669376/show-entire-toctree-in-read-the-docs-sidebar
+# and this - https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html#table-of-contents-options
+html_theme_options = {
+    'navigation_depth': 4,
+    'collapse_navigation': True,
+    'sticky_navigation': False
+}
