@@ -1,10 +1,10 @@
 # Need To Graph
 
-N2G is a library to generate diagrams in yWorks graphml or Diagrams drawio formats.
+N2G is a library to generate diagrams in [yWorks](https://www.yworks.com/) graphml or [Diagrams](https://www.diagrams.net/) drawio formats.
 
 ## Why?
 
-How many times you had an idea of "hey I Need To Graph it ..." but didn't have enough time to do it or even start doing that. To save your time on producing consistently looking, editable diagrams of arbitrary size and complexity sharing with you the joy of Need To Graph library.
+To save your time on producing consistently looking, editable diagrams of arbitrary size and complexity in a programmatic way.
 
 ## How?
 
@@ -20,14 +20,16 @@ All formats supported so far have very similar api capable of:
 * loading existing XML diagram files for processing and modification
 * deletion of nodes and links from diagrams
 * comparing two diagrams to highlight the difference between them
-* layout your diagram with algorithms available in igraph library
+* layout your diagram with algorithms available in (igraph)[https://igraph.org/2020/02/14/igraph-0.8.0-python.html] library
 * returning results in text format or saving directly into the file
 
 Reference [documentation](https://n2g.readthedocs.io) for more information.
 
 ## What it's not?
 
-N2G is not a magic bullet that will produce perfect diagrams for you, it can definitely help to simplify the process of adding elements to your diagrams, allow to alight nodes and links labels and even layout the diagram to give a quick overview of what's going on. However, (manual) efforts need to be applied to put all the elements in positions where they will satisfy your inner sense of perfection, hence, keep in mind - (normally) the more elements you have on your diagram, the more efforts required to make it looks good.
+N2G is not a magic bullet that will produce perfect diagrams for you, it can help to simplify the process of adding elements to your diagrams. However, (manual) efforts required to put all the elements in positions where they will satisfy your inner sense of perfection, as a result, keep in mind that (normally) the more elements you have on your diagram, the more efforts required to make it looks good.
+
+Quite unlikely it would ever be a tool that will support 100% of capabilities available in subject applications, however, feature requests are welcomed.
 
 ## Example
 
