@@ -9,7 +9,7 @@ Quick start
 
 Nodes and links can be added one by one using ``add_node`` and ``add_link`` methods
 
-.. code-block:: 
+.. code-block:: python 
         
     from N2G import yed_diagram
     
@@ -30,7 +30,7 @@ Adding SVG nodes
 
 By default N2G uses shape nodes, but svg image can be sourced from directory on your system and used as node image instead. However, svg images as nodes can support only one label attribute, that label will be displayed above svg picture.
 
-.. code-block:: 
+.. code-block:: python 
         
     from N2G import yed_diagram
     
@@ -50,7 +50,7 @@ Nodes and links data attributes
 
 Description and URL attributes can be added to node and link. Description attribute can be used by yEd to search for elements as well as diagrams exported in svg format can display data attributes as a tooltips.
 
-.. code-block:: 
+.. code-block:: python 
         
     from N2G import yed_diagram
     
@@ -73,7 +73,7 @@ Loading graph from dictionary
 
 Diagram elements can be loaded from dictionary structure. That dictionary may contain nodes, links and edges keys, these keys should contain list of dictionaries where each dictionary item will contain elements attributes such as id, labels, description etc. 
 
-.. code-block:: 
+.. code-block:: python 
 
     from N2G import yed_diagram
     
@@ -99,8 +99,7 @@ Diagram elements can be loaded from dictionary structure. That dictionary may co
 	
 After opening and editing diagram, it might look like this:
 
-.. raw:: html
-	:file: _images/from_dict_example.svg
+.. image:: _images/from_dict_example.png
 	
 Loading graph from csv
 ----------------------
