@@ -1,7 +1,7 @@
 yEd Module 
 ================
 
-N2G yEd Module supports producing graphml XML structured text files that can be opened by yWorks yEd Graph editor.
+N2G yEd Module supports producing graphml XML structured text files that can be opened by `yWorsk yEd Graph Editor <https://www.yworks.com/downloads#yEd>`_.
 
 
 Quick start

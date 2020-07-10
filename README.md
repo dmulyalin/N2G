@@ -4,7 +4,7 @@ N2G is a library to generate diagrams in [yWorks](https://www.yworks.com/) graph
 
 ## Why?
 
-To save your time on producing consistently looking, editable diagrams of arbitrary size and complexity in a programmatic way.
+To save your time on producing consistently looking, editable diagrams of arbitrary size and complexity in a programmatic way helping to satisfy your "Need To Graph" desire.
 
 ## How?
 
@@ -12,7 +12,7 @@ Not a secret that many applications use XML structured text to save their diagra
 
 ## What?
 
-All formats supported so far have very similar api capable of:
+All formats supported so far have very similar API capable of:
 
 * adding nodes and links with various attributes such as shape, labels, urls, data, styles
 * bulk graph creation using from_x methods supporting lists, dictionaries or csv data
@@ -20,7 +20,7 @@ All formats supported so far have very similar api capable of:
 * loading existing XML diagram files for processing and modification
 * deletion of nodes and links from diagrams
 * comparing two diagrams to highlight the difference between them
-* layout your diagram with algorithms available in (igraph)[https://igraph.org/2020/02/14/igraph-0.8.0-python.html] library
+* layout your diagram with algorithms available in [igraph](https://igraph.org/2020/02/14/igraph-0.8.0-python.html) library
 * returning results in text format or saving directly into the file
 
 Reference [documentation](https://n2g.readthedocs.io) for more information.
