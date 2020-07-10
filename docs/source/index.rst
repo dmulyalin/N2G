@@ -1,7 +1,7 @@
 N2G
 ====================
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :titlesonly:
    
    Installation

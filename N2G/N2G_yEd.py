@@ -712,7 +712,9 @@ class yed_diagram:
         
         **Parameters** 
         
-        * ``data`` (dict) dictionary with nodes and link/edges details, example::
+        * ``data`` (dict) dictionary with nodes and link/edges details.
+        
+        Example ``data`` dictionary::
         
             sample_graph = {
                 'nodes': [
@@ -769,7 +771,9 @@ class yed_diagram:
         
         **Parameters** 
         
-        * ``data`` (list) list of link dictionaries, example::
+        * ``data`` (list) list of link dictionaries, 
+        
+        Example ``data`` list::
                     
             sample_graph = [
                 {
@@ -892,7 +896,7 @@ class yed_diagram:
         CSV data with links details should have headers matching ``add_link`` method
         arguments and rules.                
         
-        Sample CSV table with links details::
+        Sample CSV table with link details::
         
             "source","src_label","label","target","trgt_label","description"
             "a","Gig0/0","DF","b","Gig0/1","vlans_trunked: 1,2,3"
@@ -900,7 +904,7 @@ class yed_diagram:
             "b","Gig0/0","Copper","e","Gig0/2",
             d,Gig0/21,FW,e,Gig0/23,
         
-        Sample CSV table with nodes details::
+        Sample CSV table with node details::
         
             "id","pic","label","bottom_label","top_label","description"
             a,router_1,"R1,2",,,

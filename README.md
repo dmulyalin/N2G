@@ -29,7 +29,7 @@ Reference [documentation](https://n2g.readthedocs.io) for more information.
 
 N2G is not a magic bullet that will produce perfect diagrams for you, it can help to simplify the process of adding elements to your diagrams. However, (manual) efforts required to put all the elements in positions where they will satisfy your inner sense of perfection, as a result, keep in mind that (normally) the more elements you have on your diagram, the more efforts required to make it looks good.
 
-Quite unlikely it would ever be a tool that will support 100% of capabilities available in subject applications, however, feature requests are welcomed.
+Quite unlikely it would ever be a tool with support of all capabilities available in subject applications, however, feature requests are welcomed.
 
 ## Example
 

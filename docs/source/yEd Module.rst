@@ -113,7 +113,7 @@ Similar to from_dict method, from_csv method can take csv data with element deta
     
     diagram = yed_diagram()
     csv_links_data = """"source","src_label","label","target","trgt_label","description"
-    "a","Gig0/0\\nUP","DF","R1","Gig0/1","vlans_trunked: 1,2,3\\nstate: up"
+    "a","Gig0/0\nUP","DF","R1","Gig0/1","vlans_trunked: 1,2,3\nstate: up"
     "R1","Gig0/0","Copper","c","Gig0/2",
     "R1","Gig0/0","Copper","e","Gig0/2",
     d,Gig0/21,FW,e,Gig0/23,
