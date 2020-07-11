@@ -181,7 +181,7 @@ N2G provides ``from_file`` and ``from_text`` methods to load existing diagram co
     
 After diagram loaded it can be modified or updated using ``add_x``, ``from_x``, ``delete_x`` or ``compare`` methods.
 
-Layout diagram
+Diagram layout
 --------------
 
 TBD

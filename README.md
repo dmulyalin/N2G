@@ -2,6 +2,10 @@
 
 N2G is a library to generate diagrams in [yWorks](https://www.yworks.com/) graphml or [Diagrams](https://www.diagrams.net/) drawio formats.
 
+<details><summary>Demo</summary>
+<img src="example.gif">  
+</details>
+
 ## Why?
 
 To save your time on producing consistently looking, editable diagrams of arbitrary size and complexity in a programmatic way helping to satisfy your "Need To Graph" desire.
@@ -48,10 +52,6 @@ sample_list_graph = [
 diagram.from_list(sample_list_graph)
 diagram.dump_file(filename="Sample_graph.graphml", folder="./")
 ```
-
-<details><summary>Demo</summary>
-<img src="example.gif">  
-</details>
 
 # Disclaimer
 
