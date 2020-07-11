@@ -107,7 +107,7 @@ Loading graph from list
 
 From list method allows to load graph from list of dictionaries, generally containing link details like source, target, labels. Additionally source and target can be defined using dictionaries as well, containing nodes details.
 
-.. note:: Non-existing node will be automatically added on first encounter, by default later occurrences of same node will not lead to node attributes update, that behavior can be changed setting ``node_dublicates`` yed_diagram attribute to `update`.
+.. note:: Non-existing node will be automatically added on first encounter, by default later occurrences of same node will not lead to node attributes change, that behavior can be changed setting ``node_dublicates`` yed_diagram attribute equal to `update` value.
 
 .. code-block:: python 
 
@@ -127,8 +127,7 @@ From list method allows to load graph from list of dictionaries, generally conta
 
 After opening and editing diagram, it might look like this:
 
-.. raw:: html
-    :file: _images/from_list_example.svg
+.. image:: _images/from_list_example.png
         
 Loading graph from csv
 ----------------------
@@ -165,7 +164,22 @@ After opening and editing diagram, it might look like this:
 Loading existing diagrams
 -------------------------
 
-TBD
+N2G yEd module uses custom ``nmetadata`` and ``emetadata`` attributes to store original node and link id. For nodes, ``nmetadata`` contains node id in a format ``{'id': 'node_id_value'}``, for links ``emetadata`` contains source and target node ids as well as link id, e.g. ``{"sid": "SW1", "tid": "R6", "id": "8e96ade0d90d33c3308721dc2a53b391"}``, where link id calculated using rules described in `API reference` section.
+
+``nmetadata`` and ``emetadata`` custom attributes used to properly load previously produced diagrams for modification, as a result:
+
+.. warning:: currently, N2G yEd module can properly load only diagrams that were created by this module in the first place or diagrams that had manually added ``nmetadata`` and ``emetadata`` attributes.
+
+N2G provides ``from_file`` and ``from_text`` methods to load existing diagram content, to load diagram from file one can use this as example:
+
+.. code-block:: python
+
+    from N2G import yed_diagram
+    
+    diagram = yed_diagram()
+    diagram.from_file("./source/diagram_old.graphml")
+    
+After diagram loaded it can be modified or updated using ``add_x``, ``from_x``, ``delete_x`` or ``compare`` methods.
 
 Layout diagram
 --------------
