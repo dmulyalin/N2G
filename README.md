@@ -1,3 +1,5 @@
+[![Documentation status](https://readthedocs.org/projects/ttp/badge/?version=latest)](http://ttp.readthedocs.io/?badge=latest)
+
 # Need To Graph
 
 N2G is a library to generate diagrams in [yWorks](https://www.yworks.com/) graphml or [Diagrams](https://www.diagrams.net/) drawio formats.
