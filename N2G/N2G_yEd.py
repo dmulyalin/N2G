@@ -519,7 +519,7 @@ class yed_diagram:
             return
         self.nodes_ids[id] = id
         # create node element:
-        node = etree.fromstring(
+        node = ET.fromstring(
             group_node_xml.format(attrib_id=self.y_attr["node"]["nodegraphics"])
         )
         self.nodes_ids[id] = id
@@ -996,7 +996,7 @@ class yed_diagram:
                     child.attrib.update(attribs)
                     tag_exists = True
             if tag_exists == False:  # create tag element:
-                tag_elem = etree.fromstring(
+                tag_elem = ET.fromstring(
                     '<y:{} xmlns:y="http://www.yworks.com/xml/graphml"/>'.format(tag)
                 )
                 tag_elem.attrib.update(attribs)
@@ -1214,9 +1214,10 @@ class yed_diagram:
             label_placement_elem = label_elem.find(
                 ".//y:PreferredPlacementDescriptor", self.namespaces
             )
-            position = label_placement_elem.attrib.get("placement")
-            if labels.get(position, "").strip():
-                label_elem.text = labels.pop(position)
+            if not label_placement_elem is None:
+                position = label_placement_elem.get("placement")
+                if labels.get(position, "").strip():
+                    label_elem.text = labels.pop(position)
         # add new labels
         for position, label_text in labels.items():
             if not label_text.strip():

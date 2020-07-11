@@ -184,12 +184,54 @@ After diagram loaded it can be modified or updated using ``add_x``, ``from_x``, 
 Diagram layout
 --------------
 
-TBD
+To arrange diagram nodes in certain way one can use ``layout`` method that relies on `igraph <https://igraph.org/2020/02/14/igraph-0.8.0-python.html>`_ library to calculate node coordinates in accordance with certain algorithm. List of supported layout algorithms and their details can be found `here <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_ together with brief description in `API Reference` section.
+
+Sample code to layout diagram:
+
+.. code-block:: python
+
+    from N2G import yed_diagram
+    
+    diagram = yed_diagram()
+    diagram.from_file("./source/diagram_old.graphml")
+    diagram.layout(algo="drl", width=500, height=500)
+    diagram.dump_file(filename="Sample_graph.graphml", folder="./Output/")
 
 Comparing diagrams
 ------------------
 
-TBD
+Comparing diagrams can useful to spot changes in your system. N2G ``compare`` method allow to calculate differences between old and new graphs and produce resulting diagram highlighting these changes.
+
+.. code-block:: python
+
+    from N2G import yed_diagram
+    
+    diagram = yed_diagram()
+    old_graph = {
+    'nodes': [
+        {'id': 'R1'}, {'id': 'R2'}, {'id': 'R3'},  
+        ], 
+    'edges': [
+        {'source': 'R1', 'target': 'R2'}, 
+        {'source': 'R2', 'target': 'R3'},
+        {'source': 'R3', 'target': 'R1'}
+    ]}
+    new_graph = {
+    'nodes': [
+        {'id': 'R1'}, {'id': 'R2'}, {'id': 'R4'},  
+        ], 
+    'edges': [
+        {'source': 'R1', 'target': 'R2'}, 
+        {'source': 'R2', 'target': 'R4'}
+    ]}
+    diagram.from_dict(old_graph)
+    diagram.compare(new_graph)
+    diagram.layout(algo="kk", width=500, height=500)
+    diagram.dump_file(filename="Sample_graph.graphml", folder="./Output/")
+	
+Original and after diagrams:
+
+.. image:: _images/compare_example.png
     
 API reference
 -------------

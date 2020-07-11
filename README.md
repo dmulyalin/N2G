@@ -1,4 +1,4 @@
-[![Documentation status](https://readthedocs.org/projects/ttp/badge/?version=latest)](http://ttp.readthedocs.io/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/n2g/badge/?version=latest)](https://n2g.readthedocs.io/en/latest/?badge=latest)
 
 # Need To Graph
 
