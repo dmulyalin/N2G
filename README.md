@@ -49,8 +49,9 @@ diagram.from_list(sample_list_graph)
 diagram.dump_file(filename="Sample_graph.graphml", folder="./")
 ```
 
-Video example:
+<details><summary>Demo</summary>
 <img src="example.gif">  
+</details>
 
 # Disclaimer
 
