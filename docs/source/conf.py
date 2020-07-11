@@ -61,7 +61,16 @@ exclude_patterns = []
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if not on_rtd:
     html_theme = 'classic'
-# html_theme = 'alabaster'
+else:
+    html_theme = 'sphinx_rtd_theme'
+    # add level to nav bar - https://stackoverflow.com/questions/27669376/show-entire-toctree-in-read-the-docs-sidebar
+    # and this - https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html#table-of-contents-options
+    html_theme_options = {
+        'navigation_depth': 4,
+        'collapse_navigation': True,
+        'sticky_navigation': False
+    }
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -70,11 +79,3 @@ html_static_path = ['_static']
 
 # to make cross referencing section names between documents work
 autosectionlabel_prefix_document = True
-
-# add level to nav bar - https://stackoverflow.com/questions/27669376/show-entire-toctree-in-read-the-docs-sidebar
-# and this - https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html#table-of-contents-options
-html_theme_options = {
-    'navigation_depth': 4,
-    'collapse_navigation': True,
-    'sticky_navigation': False
-}

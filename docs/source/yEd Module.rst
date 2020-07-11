@@ -1,7 +1,7 @@
 yEd Module 
 ================
 
-N2G yEd Module supports producing graphml XML structured text files that can be opened by `yWorsk yEd Graph Editor <https://www.yworks.com/downloads#yEd>`_.
+N2G yEd Module supports producing graphml XML structured text files that can be opened by `yWorsk yEd Graph Editor <https://www.yworks.com/downloads#yEd>`_ or `yEd web application <https://www.yworks.com/yed-live/>`_.
 
 
 Quick start
@@ -101,6 +101,34 @@ After opening and editing diagram, it might look like this:
 
 .. raw:: html
     :file: _images/from_dict_example.svg
+
+Loading graph from list
+-----------------------
+
+From list method allows to load graph from list of dictionaries, generally containing link details like source, target, labels. Additionally source and target can be defined using dictionaries as well, containing nodes details.
+
+.. note:: Non-existing node will be automatically added on first encounter, by default later occurrences of same node will not lead to node attributes update, that behavior can be changed setting ``node_dublicates`` yed_diagram attribute to `update`.
+
+.. code-block:: python 
+
+    from N2G import yed_diagram
+
+    diagram = yed_diagram()
+    sample_list_graph = [
+        {'source': {'id': 'SW1', 'top_label': 'CORE', 'bottom_label': '1,1,1,1'}, 'src_label': 'Gig0/0', 'target': 'R1', 'trgt_label': 'Gig0/1'},
+        {'source': {'id': 'R2', 'top_label': 'DC-PE'}, 'src_label': 'Gig0/0', 'target': 'SW1', 'trgt_label': 'Gig0/2'},
+        {'source': {'id':'R3', 'bottom_label': '1.1.1.3'}, 'src_label': 'Gig0/0', 'target': 'SW1', 'trgt_label': 'Gig0/3'},
+        {'source': 'SW1', 'src_label': 'Gig0/4', 'target': 'R4', 'trgt_label': 'Gig0/1'},
+        {'source': 'SW1', 'src_label': 'Gig0/5', 'target': 'R5', 'trgt_label': 'Gig0/7'},
+        {'source': 'SW1', 'src_label': 'Gig0/6', 'target': 'R6', 'trgt_label': 'Gig0/11'}
+    ]
+    diagram.from_list(sample_list_graph)
+    diagram.dump_file(filename="Sample_graph.graphml", folder="./Output/")
+
+After opening and editing diagram, it might look like this:
+
+.. raw:: html
+    :file: _images/from_list_example.svg
         
 Loading graph from csv
 ----------------------
@@ -134,8 +162,23 @@ After opening and editing diagram, it might look like this:
 .. raw:: html
     :file: _images/from_csv_example.svg
     
+Loading existing diagrams
+-------------------------
+
+TBD
+
+Layout diagram
+--------------
+
+TBD
+
+Comparing diagrams
+------------------
+
+TBD
+    
 API reference
--------------------
+-------------
 
 API reference for N2G yEd module.
 
