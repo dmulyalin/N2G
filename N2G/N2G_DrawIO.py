@@ -789,8 +789,8 @@ class drawio_diagram:
             all_new_data_ids = set()
             new_elements = []
             # combine all edges under "links" key
-            if data.get("links"):
-                data["links"] += data.pop("edges") if data.get("edges") else []
+            data.setdefault("links", [])
+            data["links"] += data.pop("edges") if data.get("edges") else []
             # find new node elements and add them to graph
             for node in data.get("nodes", []):
                 all_new_data_ids.add(node["id"])

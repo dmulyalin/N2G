@@ -23,7 +23,7 @@ Nodes and links can be added one by one using ``add_node`` and ``add_link`` meth
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/quick_start_example.svg
+    :file: _images/yed/quick_start_example.svg
     
 Adding SVG nodes 
 ----------------
@@ -43,7 +43,7 @@ By default N2G uses shape nodes, but svg image can be sourced from directory on 
     
 After opening and editing diagram, it might look like this:
 
-.. image:: _images/svg_nodes_example.png    
+.. image:: _images/yed/svg_nodes_example.png    
 
 Nodes and links data attributes
 -------------------------------
@@ -64,7 +64,7 @@ Description and URL attributes can be added to node and link. Description attrib
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/nodes_links_data_url.svg
+    :file: _images/yed/nodes_links_data_url.svg
     
 Node R1 and link should be clickable on above image as they contain URL information, tooltip should be displayed if svg will be open on its own.
 
@@ -100,7 +100,7 @@ Diagram elements can be loaded from dictionary structure. That dictionary may co
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/from_dict_example.svg
+    :file: _images/yed/from_dict_example.svg
 
 Loading graph from list
 -----------------------
@@ -127,12 +127,12 @@ From list method allows to load graph from list of dictionaries, generally conta
 
 After opening and editing diagram, it might look like this:
 
-.. image:: _images/from_list_example.png
+.. image:: _images/yed/from_list_example.png
         
 Loading graph from csv
 ----------------------
 
-Similar to from_dict method, from_csv method can take csv data with element details and add the to diagram. Two types of csv table should be provided - one for nodes, another for links.
+Similar to ``from_dict`` or ``from_list`` methods, from_csv method can take csv data with elements details and add them to diagram. Two types of csv table should be provided - one for nodes, another for links.
 
 .. code-block:: python 
 
@@ -159,7 +159,7 @@ Similar to from_dict method, from_csv method can take csv data with element deta
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/from_csv_example.svg
+    :file: _images/yed/from_csv_example.svg
     
 Loading existing diagrams
 -------------------------
@@ -170,7 +170,7 @@ N2G yEd module uses custom ``nmetadata`` and ``emetadata`` attributes to store o
 
 .. warning:: currently, N2G yEd module can properly load only diagrams that were created by this module in the first place or diagrams that had manually added ``nmetadata`` and ``emetadata`` attributes.
 
-N2G provides ``from_file`` and ``from_text`` methods to load existing diagram content, to load diagram from file one can use this as example:
+N2G yEd module provides ``from_file`` and ``from_text`` methods to load existing diagram content, to load diagram from file one can use this as example:
 
 .. code-block:: python
 
@@ -184,7 +184,7 @@ After diagram loaded it can be modified or updated using ``add_x``, ``from_x``, 
 Diagram layout
 --------------
 
-To arrange diagram nodes in certain way one can use ``layout`` method that relies on `igraph <https://igraph.org/2020/02/14/igraph-0.8.0-python.html>`_ library to calculate node coordinates in accordance with certain algorithm. List of supported layout algorithms and their details can be found `here <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_ together with brief description in `API Reference` section.
+To arrange diagram nodes in certain way one can use ``layout`` method that relies on `igraph library <https://igraph.org/2020/02/14/igraph-0.8.0-python.html>`_ to calculate node coordinates in accordance with certain algorithm. List of supported layout algorithms and their details can be found `here <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_ together with brief description in `API Reference` section.
 
 Sample code to layout diagram:
 
@@ -200,7 +200,7 @@ Sample code to layout diagram:
 Comparing diagrams
 ------------------
 
-Comparing diagrams can useful to spot changes in your system. N2G ``compare`` method allow to calculate differences between old and new graphs and produce resulting diagram highlighting these changes.
+Comparing diagrams can be useful to spot changes in your system. N2G ``compare`` method allow to calculate differences between old and new graphs and produce resulting diagram highlighting changes.
 
 .. code-block:: python
 
@@ -231,7 +231,9 @@ Comparing diagrams can useful to spot changes in your system. N2G ``compare`` me
 	
 Original and after diagrams:
 
-.. image:: _images/compare_example.png
+.. image:: _images/yed/compare_example.png
+
+R3 and its links are missing - highlighted in gray, but R4 and its link is new - highlighted in green.
     
 API reference
 -------------

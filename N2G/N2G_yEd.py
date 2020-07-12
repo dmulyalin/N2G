@@ -1342,7 +1342,10 @@ class yed_diagram:
             # find new edges:
             existing_edges = []
             new_links_list = []
-            for edge in data["edges"]:
+            # combine all edges under "links" key
+            data.setdefault("links", [])
+            data["links"] += data.pop("edges") if data.get("edges") else []
+            for edge in data["links"]:
                 edge.setdefault("attributes", {})
                 # create edge id
                 edge_tup = tuple(
