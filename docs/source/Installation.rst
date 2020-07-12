@@ -1,7 +1,7 @@
 Installation
 ============
 
-Using PIP::
+Install from `PYPI <https://pypi.org/project/N2G/>`_ using pip::
 
 	pip install N2G
 	

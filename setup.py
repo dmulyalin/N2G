@@ -7,7 +7,7 @@ __author__ = "Denis Mulyalin <d.mulyalin@gmail.com>"
 
 setup(
     name="N2G",
-    version="0.1.0",
+    version="0.1.1",
     author="Denis Mulyalin",
     author_email="d.mulyalin@gmail.com",
     description="Need To Graph",
