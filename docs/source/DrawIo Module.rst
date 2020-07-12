@@ -245,7 +245,7 @@ Comparing diagrams can help to spot changes in your system. N2G ``compare`` meth
     diagram.layout(algo="kk")
     diagram.dump_file(filename="Sample_graph.drawio", folder="./Output/")
     
-Original and after diagrams:
+Original and after diagrams combined:
 
 .. raw:: html
     :file: _images/drawio/compare_example.svg
