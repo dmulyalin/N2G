@@ -30,8 +30,8 @@ class drawio_diagram:
     
     **Parameters**
         
-    * ``node_dublicates`` (str) can be of value skip, log, update
-    * ``link_dublicates`` (str) can be of value skip, log, update
+    * ``node_duplicates`` (str) can be of value skip, log, update
+    * ``link_duplicates`` (str) can be of value skip, log, update
 
     """
 
@@ -68,12 +68,12 @@ class drawio_diagram:
     </object>
     """
 
-    def __init__(self, node_dublicates="skip", link_dublicates="skip"):
+    def __init__(self, node_duplicates="skip", link_duplicates="skip"):
         self.drawing = ET.fromstring(self.drawio_drawing_xml)
         self.nodes_ids = {}  # dictionary of {diagram_name: [node_id1, node_id2]}
         self.edges_ids = {}  # dictionary of {diagram_name: [edge_id1, edge_id2]}
-        self.node_dublicates = node_dublicates
-        self.link_dublicates = link_dublicates
+        self.node_duplicates = node_duplicates
+        self.link_duplicates = link_duplicates
         self.current_diagram = None
         self.current_diagram_id = ""
         self.default_node_style = "rounded=1;whiteSpace=wrap;html=1;"
@@ -153,11 +153,11 @@ class drawio_diagram:
     def _node_exists(self, id, **kwargs):
         # check if node with given id already exists
         if id in self.nodes_ids[self.current_diagram_id]:
-            if self.node_dublicates == "log":
+            if self.node_duplicates == "log":
                 log.error("add_shape_node: node '{}' already added to graph".format(id))
-            elif self.node_dublicates == "skip":
+            elif self.node_duplicates == "skip":
                 pass
-            elif self.node_dublicates == "update":
+            elif self.node_duplicates == "update":
                 self.update_node(id, **kwargs)
             return True
         else:
@@ -265,13 +265,13 @@ class drawio_diagram:
         """
         # check if edge with given id already exists
         if id in self.edges_ids[self.current_diagram_id]:
-            if self.link_dublicates == "log":
+            if self.link_duplicates == "log":
                 log.error(
                     "_link_exists: edge '{}' already added to graph".format(
                         ",".join(edge_tup)
                     )
                 )
-            elif self.link_dublicates == "skip":
+            elif self.link_duplicates == "skip":
                 pass
             return True
         self.edges_ids[self.current_diagram_id].append(id)
@@ -306,7 +306,7 @@ class drawio_diagram:
         target = target_node_dict.pop("id")
         # check if target and source nodes exist, add it if not,
         # self._node_exists method will update node
-        # if self.node_dublicates set to update, by default its set to skip
+        # if self.node_duplicates set to update, by default its set to skip
         if not self._node_exists(source, **source_node_dict):
             self.add_node(id=source, **source_node_dict)
         if not self._node_exists(target, **target_node_dict):
@@ -546,8 +546,8 @@ class drawio_diagram:
             
         .. note::
         
-            By default drawio_diagram object ``node_dublicates`` action set to 'skip' meaning that node will be added on first occurrence 
-            and ignored after that. Set ``node_dublicates`` to 'update' if node with given id need to be updated by 
+            By default drawio_diagram object ``node_duplicates`` action set to 'skip' meaning that node will be added on first occurrence 
+            and ignored after that. Set ``node_duplicates`` to 'update' if node with given id need to be updated by 
             later occurrences in the list.
         """        
         self.add_diagram(id=diagram_name, width=width, height=height)

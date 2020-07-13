@@ -140,7 +140,7 @@ def test_6_delete_links():
 def test_7_from_list_and_update_and_dups():   
     ###########################################
     # Test graph load from list and 
-    # edge update method and node_dublicates update 
+    # edge update method and node_duplicates update 
     # behavior
     ###########################################
     with open("./yed.test_7_from_list_and_update_and_dups.graphml", "r") as f:
@@ -151,7 +151,7 @@ def test_7_from_list_and_update_and_dups():
     {'source': {'id':'b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
     {'source': {'id':'b', 'bottom_label': 'node_b'}, 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'e', 'trgt_label': 'Gig0/2'}
     ]
-    yed_diagram.node_dublicates="update"
+    yed_diagram.node_duplicates="update"
     yed_diagram.from_list(sample_list_graph)
     new_edges={
         "LineStyle": {"color": "#00FF00", "width": "1.0"},

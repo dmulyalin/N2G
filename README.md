@@ -60,4 +60,4 @@ diagram.dump_file(filename="Sample_graph.graphml", folder="./")
 Author of this module not affiliated with any of the application Vendors mentioned so far. The choice of formats to support was primarily driven by the fact of how much functionality available in particular application for free. Moreover, this module does not use any aforementioned (diagramming) applications in any programmatic way to produce its results, in other words, none of the aforementioned applications required to be installed on the system for this (N2G) module to work.
 
 # Contributions
-Feel free to submit an issue, to report a bug or ask a question, feature requests are welcomed. [Buy Author a coffee](https://paypal.me/dmulyalin)
+Feel free to submit an issue, to report a bug or ask a question, feature requests are welcomed or [buy](https://paypal.me/dmulyalin) Author a coffee

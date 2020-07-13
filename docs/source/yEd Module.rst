@@ -107,7 +107,7 @@ Loading graph from list
 
 From list method allows to load graph from list of dictionaries, generally containing link details like source, target, labels. Additionally source and target can be defined using dictionaries as well, containing nodes details.
 
-.. note:: Non-existing node will be automatically added on first encounter, by default later occurrences of same node will not lead to node attributes change, that behavior can be changed setting ``node_dublicates`` yed_diagram attribute equal to `update` value.
+.. note:: Non-existing node will be automatically added on first encounter, by default later occurrences of same node will not lead to node attributes change, that behavior can be changed setting ``node_duplicates`` yed_diagram attribute equal to `update` value.
 
 .. code-block:: python 
 

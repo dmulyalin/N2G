@@ -33,8 +33,8 @@ class yed_diagram:
     
     **Parameters**
         
-    * ``node_dublicates`` (str) can be of value skip, log, update
-    * ``link_dublicates`` (str) can be of value skip, log, update
+    * ``node_duplicates`` (str) can be of value skip, log, update
+    * ``link_duplicates`` (str) can be of value skip, log, update
 
     """
     
@@ -163,12 +163,12 @@ class yed_diagram:
         "yed": "http://www.yworks.com/xml/yed/3",
     }
 
-    def __init__(self, node_dublicates="skip", link_dublicates="skip"):
+    def __init__(self, node_duplicates="skip", link_duplicates="skip"):
         self.drawing = ET.fromstring(self.graph_xml)
         self.graph_root = self.drawing.find("./_default_ns_:graph", self.namespaces)
         self.y_attr = {}
-        self.node_dublicates = node_dublicates
-        self.link_dublicates = link_dublicates
+        self.node_duplicates = node_duplicates
+        self.link_duplicates = link_duplicates
         self.edges_ids = {}  # dictionary of "edge id hash": "yed generated edge id"
         self.nodes_ids = {}  # dictionary of "node id": "yed generated node id"
         self.svg_pics_dict = {}
@@ -231,11 +231,11 @@ class yed_diagram:
     def _node_exists(self, id, **kwargs):
         # check if node with given name already exists
         if id in self.nodes_ids:
-            if self.node_dublicates == "log":
+            if self.node_duplicates == "log":
                 log.error("add_shape_node: node '{}' already added to graph".format(id))
-            elif self.node_dublicates == "skip":
+            elif self.node_duplicates == "skip":
                 pass
-            elif self.node_dublicates == "update":
+            elif self.node_duplicates == "update":
                 self.update_node(id, **kwargs)
             return True
         else:
@@ -507,7 +507,7 @@ class yed_diagram:
         
         Method to add group node to join nodes in cluster.
         """
-        # check for node dublicates:
+        # check for node duplicates:
         if self._node_exists(
             id,
             label=label,
@@ -592,13 +592,13 @@ class yed_diagram:
         """method, used to check dublicate edges 
         """
         if id in self.edges_ids:
-            if self.link_dublicates == "log":
+            if self.link_duplicates == "log":
                 log.error(
                     "_link_exists: edge '{}' already added to graph".format(
                         ",".join(edge_tup)
                     )
                 )
-            elif self.link_dublicates == "skip":
+            elif self.link_duplicates == "skip":
                 pass
             return True
         self.edges_ids.update({id: id})
@@ -653,7 +653,7 @@ class yed_diagram:
             return
         # check if target and source nodes exist, add it if not,
         # self._node_exists method will update node
-        # if self.node_dublicates set to update, by default its set to skip
+        # if self.node_duplicates set to update, by default its set to skip
         if not self._node_exists(source, **source_node_dict):
             self.add_node(id=source, **source_node_dict)
         source_id = self.nodes_ids[source]
@@ -806,8 +806,8 @@ class yed_diagram:
             
         .. note::
         
-            By default yed_diagram object ``node_dublicates`` action set to 'skip' meaning that node will be added on first occurrence 
-            and ignored after that. Set ``node_dublicates`` to 'update' if node with given id need to be updated by 
+            By default yed_diagram object ``node_duplicates`` action set to 'skip' meaning that node will be added on first occurrence 
+            and ignored after that. Set ``node_duplicates`` to 'update' if node with given id need to be updated by 
             later occurrences in the list.
         """
         [self.add_link(**edge) for edge in data]
