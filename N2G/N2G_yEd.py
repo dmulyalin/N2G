@@ -138,7 +138,7 @@ class yed_diagram:
     node_label_xml = """
     <y:NodeLabel xmlns:y="http://www.yworks.com/xml/graphml" xmlns="http://graphml.graphdrawing.org/xmlns" alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" 
     iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" 
-    width="70">NodeLabel</y:NodeLabel>
+    width="70"></y:NodeLabel>
     """
 
     edge_label_xml = """
@@ -211,7 +211,7 @@ class yed_diagram:
         function to create label elemnts for appending to edge/nodes' elements
         """
         element = ET.fromstring(xml_template)
-        if label != "":
+        if label != None:
             element.text = label
         if path == "":
             element.attrib.update(kwargs)
