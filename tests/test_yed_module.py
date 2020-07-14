@@ -196,3 +196,59 @@ a,router_1,"R1,2",,,
     yed_diagram.layout()
     ret = yed_diagram.dump_xml()
     assert ret == expected_output 
+    
+def test9_test_from_list_with_update():
+    """
+    Test that data2 will update switch-1 with top label
+    """
+    with open("./yed.test9_test_from_list_with_update.graphml", "r") as f:
+        expected_output = f.read() 
+    yed_diagram = create_yed_diagram(node_duplicates="update")
+    data1 = [
+                {
+                    "source": "switch-1",
+                    "src_label": "GigabitEthernet4/6",
+                    "target": {
+                        "bottom_label": "",
+                        "id": "switch-2",
+                        "top_label": "10.13.1.7"
+                    },
+                    "trgt_label": "GigabitEthernet1/5"
+                },
+                {
+                    "source": "switch-1",
+                    "src_label": "GigabitEthernet1/1",
+                    "target": {
+                        "bottom_label": "",
+                        "id": "switch-3",
+                        "top_label": "10.17.14.1"
+                    },
+                    "trgt_label": "GigabitEthernet0/1"
+                },
+                {
+                    "source": "switch-1",
+                    "src_label": "GigabitEthernet1/2",
+                    "target": {
+                        "bottom_label": "",
+                        "id": "switch-4",
+                        "top_label": "10.17.14.2"
+                    },
+                    "trgt_label": "GigabitEthernet0/10"
+                }
+            ]
+    data2 = [
+                {
+                    "source": "switch-2",
+                    "src_label": "GigabitEthernet1/5",
+                    "target": {
+                        "bottom_label": "",
+                        "id": "switch-1",
+                        "top_label": "10.13.1.17"
+                    },
+                    "trgt_label": "GigabitEthernet4/6"
+                }
+            ]
+    yed_diagram.from_list(data1)
+    yed_diagram.from_list(data2)
+    ret = yed_diagram.dump_xml()
+    assert ret == expected_output 

@@ -645,12 +645,6 @@ class yed_diagram:
         source = source_node_dict.pop("id")
         target_node_dict = target.copy() if isinstance(target, dict) else {"id": target}
         target = target_node_dict.pop("id")
-        # create edge id
-        edge_tup = tuple(sorted([label, src_label, trgt_label, source, target]))
-        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
-        # check if edge already exists
-        if self._link_exists(edge_id, edge_tup):
-            return
         # check if target and source nodes exist, add it if not,
         # self._node_exists method will update node
         # if self.node_duplicates set to update, by default its set to skip
@@ -660,6 +654,12 @@ class yed_diagram:
         if not self._node_exists(target, **target_node_dict):
             self.add_node(id=target, **target_node_dict)
         target_id = self.nodes_ids[target]
+        # create edge id
+        edge_tup = tuple(sorted([label, src_label, trgt_label, source, target]))
+        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+        # check if edge already exists
+        if self._link_exists(edge_id, edge_tup):
+            return
         # create edge element
         edge = ET.fromstring(
             self.edge_xml.format(
