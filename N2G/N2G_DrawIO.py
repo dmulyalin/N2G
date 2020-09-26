@@ -5,7 +5,7 @@ import logging
 
 # initiate logging
 log = logging.getLogger(__name__)
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "ERROR"
 LOG_FILE = None
 
 

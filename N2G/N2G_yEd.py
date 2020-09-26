@@ -8,7 +8,7 @@ import logging
 
 # initiate logging
 log = logging.getLogger(__name__)
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "ERROR"
 LOG_FILE = None
 
 
@@ -810,7 +810,7 @@ class yed_diagram:
             and ignored after that. Set ``node_duplicates`` to 'update' if node with given id need to be updated by 
             later occurrences in the list.
         """
-        [self.add_link(**edge) for edge in data]
+        [self.add_link(**edge) for edge in data if edge]
 
     def from_file(self, filename, file_load="xml"):
         """

@@ -1,3 +1,4 @@
+[![Downloads](https://pepy.tech/badge/n2g)](https://pepy.tech/project/n2g)
 [![Documentation Status](https://readthedocs.org/projects/n2g/badge/?version=latest)](https://n2g.readthedocs.io/en/latest/?badge=latest)
 
 # Need To Graph
