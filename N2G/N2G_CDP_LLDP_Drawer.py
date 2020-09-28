@@ -2,6 +2,7 @@ import logging
 from ttp import ttp
 import pprint
 import os
+import json
 
 # initiate logging
 log = logging.getLogger(__name__)
@@ -29,11 +30,20 @@ Cisco_IOS = """
 
 <input>url = "./Cisco_IOS/"</input>
 
-<group name="interfaces**.{{ local_hostname }}{{ interface }}">
-interface {{ interface }}
+<group name="{{ local_hostname }}.interfaces**.{{ interface }}">
+interface {{ interface | resuball(IfsNormalize) }}
+ description {{ description | re(".+") }}
+ switchport {{ is_l2 | set(True) }}
+ switchport access vlan {{ access_vlan }}
+ switchport mode {{ l2_mode }}
+ vrf forwarding {{ vrf }}
+ ip address {{ ip | PHRASE | joinmatches(",") }}
+ ip address {{ ip | PHRASE | joinmatches(",") }} secondary
+ switchport trunk allowed vlan {{ trunk_vlans | unrange("-", ",") | joinmatches(",") }}
+ mtu {{ mtu }}
 </group>
 
-<group name="cdp_peers*" expand="">
+<group name="{{ local_hostname }}.cdp_peers*" expand="">
 Device ID: {{ target.id }}
   IP address: {{ target.top_label }}
 Platform: {{ target.bottom_label | ORPHRASE }},  Capabilities: {{ ignore(ORPHRASE) }}
@@ -42,6 +52,7 @@ Interface: {{ src_label | resuball(IfsNormalize) }},  Port ID (outgoing port): {
 </group>
 </template>
 """
+
 
 
 #=============================================================================
@@ -137,18 +148,28 @@ class cdp_lldp_drawer():
              |_/Huawei/<text files>
              |_/...etc...
     """
-    def __init__(self, drawing, data, config={}):
+    def __init__(self, drawing, config={}):
         # init attributes
-        self.config = config
+        self.config = {
+            "add_interfaces_data": True
+        }
+        self.config.update(config)
         self.drawing = drawing
         self.drawing.node_duplicates="update"
-        self.parsed_data = []
-        
-        # work:
-        self._parse(data)
-		self._process()
-        self._populate_drawing()
+        self.parsed_data = {}
+        self.graph_dict = {}
 
+    def work(self, data):
+        self._parse(data)
+        pprint.pprint(self.parsed_data, width=150)
+        self._form_base_graph_dict()
+        if self.config.get("add_interfaces_data"):
+            self._add_interfaces_data()
+        if self.config.get("group_links"):
+            self._group_links()
+
+        self._update_drawing()
+        
 
     def _parse(self, data):
         # process data dictionary
@@ -189,14 +210,48 @@ class cdp_lldp_drawer():
             )
             return
         parser.parse(one=True)
-        self.parsed_data = parser.result(structure="flat_list")
+        self.parsed_data = parser.result(structure="dictionary")
+
+    def _make_hash_tuple(self, item):
+        return tuple(sorted([
+                        item["source"],
+                        item["target"]["id"],
+                        item["src_label"],
+                        item["trgt_label"]
+                    ]))
+                    
+    def _form_base_graph_dict(self):
+        for platform, hosts in self.parsed_data.items():
+            for hostname, host_data in hosts.items():
+                for item in host_data.get("cdp_peers", []):
+                    self.graph_dict[self._make_hash_tuple(item)] = item.copy()
+                for item in host_data.get("lldp_peers", []):
+                    self.graph_dict[self._make_hash_tuple(item)] = item.copy()
 
 
-	def _process(self):
-		pass
-		
-		
-    def _populate_drawing(self):
-        for item in self.parsed_data:
-            self.drawing.from_list(item.get("cdp_peers", [{}]))
-            self.drawing.from_list(item.get("lldp_peers", [{}]))
+    def _add_interfaces_data(self):
+        """
+        Method to add description metadata to links containing information about
+        interface configuration and state.
+        """
+        for platform, hosts in self.parsed_data.items():
+            for hostname, host_data in hosts.items():
+                for item in host_data.get("cdp_peers", []):                
+                    src = item["source"]
+                    tgt = item["target"]["id"]
+                    src_if = "{}:{}".format(src, item["src_label"])
+                    tgt_if = "{}:{}".format(tgt, item["trgt_label"])
+                    # form description data for link
+                    description = {
+                        src_if: host_data.get("interfaces", {}).get(item["src_label"], {}),
+                        tgt_if: host_data.get("interfaces", {}).get(item["trgt_label"], {})
+                    }
+                    # update item in graph data 
+                    hash = self._make_hash_tuple(item)
+                    self.graph_dict[hash]["description"] = json.dumps(description, sort_keys=True, indent=4, separators=(',', ': ')) 
+                    
+    def _group_links(self):
+        pass
+        
+    def _update_drawing(self):
+        self.drawing.from_list(list(self.graph_dict.values()))

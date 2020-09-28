@@ -4,4 +4,12 @@ Device ID: switch-1
 Entry address(es): 
   IP address: 10.1.1.1
 Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6  
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+
+switch-2#show run
+interface GigabitEthernet1/5
+ description switch-1: access
+ switchport
+ switchport access vlan 2150
+ switchport mode access
+ spanning-tree portfast edge
