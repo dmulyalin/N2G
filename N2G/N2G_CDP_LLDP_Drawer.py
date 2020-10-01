@@ -103,7 +103,7 @@ class cdp_lldp_drawer:
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+
     | Platform      |    CDP     |   LLDP    |   config  |   state   |   LAG     | grouping  |
     +===============+============+===========+===========+===========+===========+===========+
-    | Cisco_IOS     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
+    | Cisco_IOS     |    YES     |    ---    |    YES    |    ---    |    YES    |    YES    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+
     | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+
@@ -162,12 +162,12 @@ class cdp_lldp_drawer:
              |_/Cisco_IOS-XR/<text files>
              |_/Huawei/<text files>
              |_/...etc...
-             
+
     Supported ``config`` dictionary attributes::
-    
-    * add_interfaces_data - 
-    * group_links - 
-    * add_lag - 
+
+    * add_interfaces_data -
+    * group_links -
+    * add_lag -
     """
 
     def __init__(self, drawing, config={}):
@@ -175,7 +175,7 @@ class cdp_lldp_drawer:
         self.config = {
             "add_interfaces_data": True,
             "group_links": False,
-            "add_lag": False
+            "add_lag": False,
         }
         self.config.update(config)
         self.drawing = drawing
@@ -184,15 +184,15 @@ class cdp_lldp_drawer:
         self.nodes_dict = {}
         self.links_dict = {}
         self.graph_dict = {"nodes": [], "links": []}
+        self.lag_links_dict = {}  # used by add_lag method
+        self.nodes_to_links_dict = {}  # used by group_links
 
     def work(self, data):
         self._parse(data)
         self._form_base_graph_dict()
         # go through config statements
-        if self.config.get("add_interfaces_data"):
-            self._add_interfaces_data()
         if self.config.get("add_lag"):
-            self._add_lag()
+            self._add_lags_to_links_dict()
         if self.config.get("group_links"):
             self._group_links()
         # form graph dictionary and add it to drawing
@@ -241,7 +241,9 @@ class cdp_lldp_drawer:
         self.parsed_data = parser.result(structure="dictionary")
 
     def _make_hash_tuple(self, item):
-        target = item["target"]["id"] if isinstance(item["target"], dict) else item["target"]
+        target = (
+            item["target"]["id"] if isinstance(item["target"], dict) else item["target"]
+        )
         return tuple(
             sorted(
                 [
@@ -253,6 +255,18 @@ class cdp_lldp_drawer:
             )
         )
 
+    def _form_base_graph_dict(self):
+        for platform, hosts in self.parsed_data.items():
+            for hostname, host_data in hosts.items():
+                for item in host_data.get("cdp_peers", []):
+                    self._add_node({"id": item["source"]})
+                    self._add_node(item["target"])
+                    self._add_link(item, hosts, host_data)
+                for item in host_data.get("lldp_peers", []):
+                    self._add_node({"id": item["source"]})
+                    self._add_node(item["target"])
+                    self._add_link(item)
+
     def _add_node(self, item):
         if not item["id"] in self.nodes_dict:
             self.nodes_dict[item["id"]] = item
@@ -262,7 +276,7 @@ class cdp_lldp_drawer:
                 if not k in node:
                     node[k] = v
 
-    def _add_link(self, item):
+    def _add_link(self, item, hosts, host_data):
         link_hash = self._make_hash_tuple(item)
         if not link_hash in self.links_dict:
             self.links_dict[link_hash] = {
@@ -271,77 +285,142 @@ class cdp_lldp_drawer:
                 "src_label": item["src_label"],
                 "trgt_label": item["trgt_label"],
             }
+        # check if need to add interfaces data
+        if self.config.get("add_interfaces_data"):
+            self._add_interfaces_data(item, hosts, host_data, link_hash)
+        # check if need to pre-process lag_links_dict used by add_lag
+        if self.config.get("add_lag"):
+            self._update_lag_links_dict(item, hosts, host_data, link_hash)
+        # check if need to pre-process nodes_to_links_dict used by group_links
+        if self.config.get("group_links"):
+            self._update_nodes_to_links_dict(item, link_hash)
 
-    def _form_base_graph_dict(self):
-        for platform, hosts in self.parsed_data.items():
-            for hostname, host_data in hosts.items():
-                for item in host_data.get("cdp_peers", []):
-                    self._add_node({"id": item["source"]})
-                    self._add_node(item["target"])
-                    self._add_link(item)
-                for item in host_data.get("lldp_peers", []):
-                    self._add_node({"id": item["source"]})
-                    self._add_node(item["target"])
-                    self._add_link(item)
-
-    def _add_interfaces_data(self):
+    def _add_interfaces_data(self, item, hosts, host_data, link_hash):
         """
-        Method to add description metadata to links containing information about
+        Method to add description meta data to links containing information about
         interface configuration and state.
         """
-        for platform, hosts in self.parsed_data.items():
-            for hostname, host_data in hosts.items():
-                for item in host_data.get("cdp_peers", []):
-                    src = item["source"]
-                    tgt = item["target"]["id"]
-                    src_if = "{}:{}".format(src, item["src_label"])
-                    tgt_if = "{}:{}".format(tgt, item["trgt_label"])
-                    # form description data for link
-                    description = {
-                        src_if: host_data.get("interfaces", {}).get(
-                            item["src_label"], {}
-                        ),
-                        tgt_if: hosts.get(tgt, {}).get("interfaces", {}).get(
-                            item["trgt_label"], {}
-                        ),
-                    }
-                    # update item in graph data
-                    link_hash = self._make_hash_tuple(item)
-                    self.links_dict[link_hash]["description"] = json.dumps(
-                        description, sort_keys=True, indent=4, separators=(",", ": ")
-                    )
+        src = item["source"]
+        tgt = item["target"]["id"]
+        src_if = "{}:{}".format(src, item["src_label"])
+        tgt_if = "{}:{}".format(tgt, item["trgt_label"])
+        # form description data for link
+        description = {
+            src_if: host_data.get("interfaces", {}).get(item["src_label"], {}),
+            tgt_if: hosts.get(tgt, {})
+            .get("interfaces", {})
+            .get(item["trgt_label"], {}),
+        }
+        # update item in graph data
+        self.links_dict[link_hash]["description"] = json.dumps(
+            description, sort_keys=True, indent=4, separators=(",", ": ")
+        )
+
+    def _update_lag_links_dict(self, item, hosts, host_data, link_hash):
+        """
+        Method to form and add LAG link to lag_links_dict
+        """
+        lag_link = {}
+        src = item["source"]
+        tgt = item["target"]["id"]
+        src_intf_name = item["src_label"]
+        src_intf_data = host_data.get("interfaces", {}).get(src_intf_name, {})
+        tgt_intf_name = item["trgt_label"]
+        tgt_intf_data = hosts.get(tgt, {}).get("interfaces", {}).get(tgt_intf_name, {})
+        if "lag_id" in src_intf_data:
+            src_lag_name = "LAG{}".format(src_intf_data["lag_id"])
+            src_lag_data = host_data.get("interfaces", {}).get(src_lag_name, {})
+            lag_link.update(
+                {
+                    "source": src,
+                    "target": tgt,
+                    "src_label": src_lag_name,
+                    "description": {"{}:{}".format(src, src_lag_name): src_lag_data},
+                }
+            )
+        if "lag_id" in tgt_intf_data:
+            tgt_lag_name = "LAG{}".format(tgt_intf_data["lag_id"])
+            tgt_lag_data = (
+                hosts.get(tgt, {}).get("interfaces", {}).get(tgt_lag_name, {})
+            )
+            lag_link.update({"source": src, "target": tgt, "trgt_label": tgt_lag_name})
+            lag_link.setdefault("description", {})
+            lag_link["description"].update(
+                {"{}:{}".format(tgt, tgt_lag_name): tgt_lag_data}
+            )
+        # add lag link to links dictionary
+        if lag_link:
+            lag_link_hash = self._make_hash_tuple(lag_link)
+            src_member_intf_name = "{}:{}".format(src, src_intf_name)
+            tgt_member_intf_name = "{}:{}".format(tgt, tgt_intf_name)
+            member_link = {src_member_intf_name: tgt_member_intf_name}
+            if not lag_link_hash in self.lag_links_dict:
+                lag_link["description"]["lag_members"] = member_link
+                self.lag_links_dict[lag_link_hash] = lag_link
+            else:
+                added_lag_members = self.lag_links_dict[lag_link_hash]["description"][
+                    "lag_members"
+                ]
+                # only update members if opposite end not added already
+                if not tgt_member_intf_name in added_lag_members:
+                    self.lag_links_dict[lag_link_hash]["description"][
+                        "lag_members"
+                    ].update(member_link)
+            # remove member interfaces from links dictionary
+            members_hash = self._make_hash_tuple(item)
+            _ = self.links_dict.pop(members_hash, None)
+
+    def _add_lags_to_links_dict(self):
+        """
+        Method to merge lag_links_dict with links_dict
+        """
+        # convert description to json
+        for link_hash, link_data in self.lag_links_dict.items():
+            link_data["description"] = json.dumps(
+                link_data["description"],
+                sort_keys=True,
+                indent=4,
+                separators=(",", ": "),
+            )
+        self.links_dict.update(self.lag_links_dict)
+        del self.lag_links_dict
+
+    def _update_nodes_to_links_dict(self, item, link_hash):
+        """
+        Method to update nodes_to_links_dict, used by group_links
+        """
+        src = item["source"]
+        tgt = item["target"]["id"]
+        nodes_hash = tuple(sorted([src, tgt]))
+        self.nodes_to_links_dict.setdefault(nodes_hash, [])
+        if not link_hash in self.nodes_to_links_dict[nodes_hash]:
+            self.nodes_to_links_dict[nodes_hash].append(link_hash)
 
     def _group_links(self):
-        # form mapping of nodes to links between them
-        nodes_to_links_dict = {}
-        for platform, hosts in self.parsed_data.items():
-            for hostname, host_data in hosts.items():
-                for item in host_data.get("cdp_peers", []):
-                    link_hash = self._make_hash_tuple(item)
-                    src = item["source"]
-                    tgt = item["target"]["id"]
-                    nodes_hash = tuple(sorted([src, tgt]))
-                    nodes_to_links_dict.setdefault(nodes_hash, [])
-                    if not link_hash in nodes_to_links_dict[nodes_hash]:
-                        nodes_to_links_dict[nodes_hash].append(link_hash)
+        """
+        Method to group links between nodes and update links_dict
+        """
         # find nodes that have more then 1 link in between, group links
-        for node_pair, link_hashes in nodes_to_links_dict.items():
+        for node_pair, link_hashes in self.nodes_to_links_dict.items():
             if len(link_hashes) < 2:
                 continue
-            grouped_link = {
-                "source": node_pair[0],
-                "target": node_pair[1]
-            }
+            grouped_link = {"source": node_pair[0], "target": node_pair[1]}
             description = {"grouped_links": {}}
             links_to_group_count = 0
             for link_hash in link_hashes:
                 if link_hash in self.links_dict:
                     links_to_group_count += 1
                     link_data = self.links_dict[link_hash]
-                    src_label = "{}:{}".format(link_data["source"], link_data.get("src_label", ""))
-                    trgt_label = "{}:{}".format(link_data["target"], link_data.get("trgt_label", ""))
+                    src_label = "{}:{}".format(
+                        link_data["source"], link_data.get("src_label", "")
+                    )
+                    trgt_label = "{}:{}".format(
+                        link_data["target"], link_data.get("trgt_label", "")
+                    )
                     description["grouped_links"][src_label] = trgt_label
-                    description["link-{}".format(links_to_group_count)] = json.loads(link_data["description"])    
+                    description["link-{}".format(links_to_group_count)] = json.loads(
+                        link_data["description"]
+                    )
             # skip grouping links that does not have any members left in self.links_dict
             # happens when add_lag pops links or only one link between nodes left
             if links_to_group_count >= 2:
@@ -355,71 +434,8 @@ class cdp_lldp_drawer:
                 grouped_link["label"] = "x{}".format(links_to_group_count)
                 grouped_link_hash = self._make_hash_tuple(grouped_link)
                 self.links_dict[grouped_link_hash] = grouped_link
-        del nodes_to_links_dict
-                        
-        
-    def _add_lag(self):
-        """
-        Method to add LAG links to links_dict and remove LAG members from it
-        """
-        lag_links_dict = {}
-        for platform, hosts in self.parsed_data.items():
-            for hostname, host_data in hosts.items():
-                for item in host_data.get("cdp_peers", []):
-                    src = item["source"]
-                    tgt = item["target"]["id"]
-                    src_intf_name = item["src_label"]
-                    src_intf_data = host_data.get("interfaces", {}).get(src_intf_name, {})
-                    tgt_intf_name = item["trgt_label"]
-                    tgt_intf_data = hosts.get(tgt, {}).get("interfaces", {}).get(tgt_intf_name, {})
-                    lag_link = {}
-                    if "lag_id" in src_intf_data:
-                        src_lag_name = "LAG{}".format(src_intf_data["lag_id"])
-                        src_lag_data = host_data.get("interfaces", {}).get(src_lag_name, {})
-                        lag_link.update({
-                            "source": src,
-                            "target": tgt,
-                            "src_label": src_lag_name,
-                            "description": {"{}:{}".format(src, src_lag_name): src_lag_data}
-                        })
-                    if "lag_id" in tgt_intf_data:
-                        tgt_lag_name = "LAG{}".format(tgt_intf_data["lag_id"])
-                        tgt_lag_data = hosts.get(tgt, {}).get("interfaces", {}).get(tgt_lag_name, {})
-                        lag_link.update({
-                            "source": src,
-                            "target": tgt,
-                            "trgt_label": tgt_lag_name                            
-                        })
-                        lag_link.setdefault("description", {})
-                        lag_link["description"].update({
-                            "{}:{}".format(tgt, tgt_lag_name): tgt_lag_data
-                        })
-                    # add lag link to links dictionary
-                    if lag_link:
-                        lag_link_hash = self._make_hash_tuple(lag_link)
-                        src_member_intf_name = "{}:{}".format(src, src_intf_name)
-                        tgt_member_intf_name = "{}:{}".format(tgt, tgt_intf_name)
-                        member_link = {src_member_intf_name: tgt_member_intf_name}
-                        if not lag_link_hash in lag_links_dict:
-                            lag_link["description"]["lag_members"] = member_link
-                            lag_links_dict[lag_link_hash] = lag_link
-                        else:
-                            added_lag_members = lag_links_dict[lag_link_hash]["description"]["lag_members"]
-                            # only update members if opposite end not added already
-                            if not tgt_member_intf_name in added_lag_members:
-                                lag_links_dict[lag_link_hash]["description"]["lag_members"].update(member_link)
-                        # remove member interfaces from links dictionary
-                        members_hash = self._make_hash_tuple(item)
-                        _ = self.links_dict.pop(members_hash, None)
-        # convert description to json:
-        for link_hash, link_data in lag_links_dict.items():
-            link_data["description"] = json.dumps(
-                link_data["description"], sort_keys=True, indent=4, separators=(",", ": ")
-            )
-        self.links_dict.update(lag_links_dict)
-        del(lag_links_dict)
-                    
-        
+        del self.nodes_to_links_dict
+
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())
