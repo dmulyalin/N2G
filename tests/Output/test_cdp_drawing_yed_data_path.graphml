@@ -69,7 +69,12 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch-1:Ge4/6": {},
+    "switch-1:Ge4/6": {
+        "access_vlan": "2150",
+        "description": "switch-2: access",
+        "is_l2": true,
+        "l2_mode": "access"
+    },
     "switch-2:Ge1/5": {
         "access_vlan": "2150",
         "description": "switch-1: access",
