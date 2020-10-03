@@ -21,5 +21,8 @@ setup(
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-    ]
+    ],
+    entry_points = {
+        'console_scripts': ['n2g=N2G.N2G_cli']
+    }
 )

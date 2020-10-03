@@ -1,3 +1,8 @@
+"""
+
+To implement:
+- parse state and if interface is up but no cdp/lldp use placeholder node with interface description as label
+"""
 import logging
 from ttp import ttp
 import pprint
@@ -31,9 +36,15 @@ Cisco_IOS = """
 <template name="Cisco_IOS" results="per_template">
 <vars>local_hostname="gethostname"</vars>
 
+<macro>
+def process_vlans(data):
+    return {data["vid"]: data["name"]}
+</macro>
+
 <input>url = "./Cisco_IOS/"</input>
 
-<group name="{{ local_hostname }}.interfaces**.{{ interface }}">
+<!-- Interfaces configuration group -->
+<group name="{{ local_hostname }}.interfaces**.{{ interface }}**">
 interface {{ interface | resuball(IfsNormalize) }}
  description {{ description | re(".+") }}
  switchport {{ is_l2 | set(True) }}
@@ -47,14 +58,38 @@ interface {{ interface | resuball(IfsNormalize) }}
  mtu {{ mtu }}
 </group>
 
-<!--state group:
-<group name="{{ local_hostname }}.interfaces**.{{ interface }}">
-
+<!-- Interfaces state group -->
+<group name="{{ local_hostname }}.interfaces**.{{ interface }}**.state">
+{{ interface | _start_ | resuball(IfsNormalize) }} is {{ admin | ORPHRASE }}, line protocol is {{ line }}
+{{ interface | _start_ | resuball(IfsNormalize) }} is {{ admin | ORPHRASE }}, line protocol is {{ line }} ({{ line_status }})
+  Description: {{ description | re(".+") }} 
+  Hardware is {{ hardware | ORPHRASE }}, address is {{ mac }} (bia {{ ignore }})
+  MTU {{ mtu }} bytes, BW {{ bw_kbits }} Kbit/sec, DLY 1000 usec, 
+  {{ duplex }}-duplex, {{ link_type }}, media type is {{ media_type }}
+  {{ duplex }}-duplex, {{ link_speed }}-speed, link type is {{ link_type }}, media type is {{ media_type | ORPHRASE }}
+  {{ duplex }}-duplex, {{ link_speed }}, link type is {{ link_type }}, media type is {{ media_type | ORPHRASE }}
+  Members in this channel: {{ lag_members | ORPHRASE }}
 </group>
--->
 
+<!-- node_facts VLANs group -->
+<group name="{{ local_hostname }}.node_facts.vlans**" macro="process_vlans">
+vlan {{ vid }}
+ name {{ name | ORPHRASE | default("no name") }}
+</group>
+
+<!-- LLDP peers group -->
+<group name="{{ local_hostname }}.lldp_peers*" expand="">
+Local Intf: {{ src_label | resuball(IfsNormalize) }}
+Port id: {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
+System Name: {{ target.id | split(".") | item(0) | split("(") | item(0) }}
+System Capabilities: {{ ignore(ORPHRASE) }}
+    IP: {{ target.top_label }}
+{{ source | set("local_hostname") }}
+</group>
+
+<!-- CDP peers group -->
 <group name="{{ local_hostname }}.cdp_peers*" expand="">
-Device ID: {{ target.id }}
+Device ID: {{ target.id | split(".") | item(0) | split("(") | item(0) }}
   IP address: {{ target.top_label }}
 Platform: {{ target.bottom_label | ORPHRASE }},  Capabilities: {{ ignore(ORPHRASE) }}
 Interface: {{ src_label | resuball(IfsNormalize) }},  Port ID (outgoing port): {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
@@ -71,7 +106,7 @@ Interface: {{ src_label | resuball(IfsNormalize) }},  Port ID (outgoing port): {
 ttp_vars = {
     "IfsNormalize": {
         "Lo": ["^Loopback"],
-        "Ge": ["^GigabitEthernet"],
+        "Ge": ["^GigabitEthernet", "^Gi"],
         "LAG": ["^Eth-Trunk", "^port-channel", "^Port-channel", "^Bundle-Ether"],
         "Te": [
             "^TenGigabitEthernet",
@@ -81,7 +116,7 @@ ttp_vars = {
             "^XGigabitEthernet",
         ],
         "Fe": ["^FastEthernet"],
-        "Eth": ["^Ethernet"],
+        "Eth": ["^Ethernet", "^eth"],
         "Pt": ["^Port[^-]"],
         "100G": ["^HundredGigE"],
     }
@@ -100,22 +135,31 @@ class cdp_lldp_drawer:
 
     **Features support matrix**
 
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+
-    | Platform      |    CDP     |   LLDP    |   config  |   state   |   LAG     | grouping  |
-    +===============+============+===========+===========+===========+===========+===========+
-    | Cisco_IOS     |    YES     |    ---    |    YES    |    ---    |    YES    |    YES    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+
-    | Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+
-    | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Platform      |    CDP     |   LLDP    |   config  |   state   |   LAG     | grouping  |   facts   |    MAC    |
+    +===============+============+===========+===========+===========+===========+===========+===========+===========+
+    | Cisco_IOS     |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    YES    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
+    CDP - adds links and nodes out of CDP neighbors
+    LLDP - adds links and nodes out of LLDP neighbors
+    config - adds interfaces configuration to links data
+    state - add links state information to links data
+    LAG - combines links based on LAG membership
+    grouping - groups links between nodes
+    facts - adds information to nodes for vlans, etc
+    MAC - adds mac addresses nodes to diagram
+    
     **Cisco Commands**
 
     * CDP for Cisco IOS, IOS-XR, NXOS, ASA - ``show cdp neighbor details``
@@ -159,7 +203,7 @@ class cdp_lldp_drawer:
 
         /data/
              |_/Cisco_IOS/<text files>
-             |_/Cisco_IOS-XR/<text files>
+             |_/Cisco_IOSXR/<text files>
              |_/Huawei/<text files>
              |_/...etc...
 
@@ -239,6 +283,7 @@ class cdp_lldp_drawer:
             return
         parser.parse(one=True)
         self.parsed_data = parser.result(structure="dictionary")
+        # pprint.pprint(self.parsed_data, width = 100)
 
     def _make_hash_tuple(self, item):
         target = (
@@ -259,22 +304,32 @@ class cdp_lldp_drawer:
         for platform, hosts in self.parsed_data.items():
             for hostname, host_data in hosts.items():
                 for item in host_data.get("cdp_peers", []):
-                    self._add_node({"id": item["source"]})
-                    self._add_node(item["target"])
+                    self._add_node({"id": item["source"]}, host_data)
+                    self._add_node(item["target"], host_data)
                     self._add_link(item, hosts, host_data)
                 for item in host_data.get("lldp_peers", []):
-                    self._add_node({"id": item["source"]})
-                    self._add_node(item["target"])
-                    self._add_link(item)
+                    self._add_node({"id": item["source"]}, host_data)
+                    self._add_node(item["target"], host_data)
+                    self._add_link(item, hosts, host_data)
 
-    def _add_node(self, item):
+    def _add_node(self, item, host_data):
+        # add new node
         if not item["id"] in self.nodes_dict:
+            if host_data.get("node_facts"):
+                item["description"] = json.dumps(
+                    host_data["node_facts"], sort_keys=True, indent=4, separators=(",", ": ")
+                )
             self.nodes_dict[item["id"]] = item
+        # update node attributes if they do not exists already
         else:
             node = self.nodes_dict[item["id"]]
             for k, v in item.items():
                 if not k in node:
                     node[k] = v
+            if not "description" in node and host_data.get("node_facts"):
+                node["description"] = json.dumps(
+                    host_data["node_facts"], sort_keys=True, indent=4, separators=(",", ": ")
+                )
 
     def _add_link(self, item, hosts, host_data):
         link_hash = self._make_hash_tuple(item)
