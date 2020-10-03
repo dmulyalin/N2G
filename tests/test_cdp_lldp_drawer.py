@@ -917,3 +917,331 @@ vlan 101
             assert produced.read() == should_be.read()
     
 # test_cdp_drawing_yed_data_dict_interfaces_state()
+
+def test_cdp_drawing_yed_data_dict_lag_interfaces_state():
+    data = {"Cisco_IOS": ["""
+switch-1#show cdp neighbors detail 
+-------------------------
+Device ID: switch-2
+Entry address(es): 
+  IP address: 10.2.2.2
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
+
+-------------------------
+Device ID: switch-2
+Entry address(es): 
+  IP address: 10.2.2.2
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
+
+-------------------------
+Device ID: switch-3
+Entry address(es): 
+  IP address: 10.3.3.3
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
+
+-------------------------
+Device ID: switch-4
+Entry address(es): 
+  IP address: 10.4.4.4
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
+
+switch-1#show run
+interface Port-channel3
+ description switch-2: trunk LAG
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+!
+interface Port-channel11
+ description switch-3: trunk LAG
+ switchport
+ switchport trunk allowed vlan 101
+ switchport mode trunk
+!
+interface GigabitEthernet4/6
+ description switch-2: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet4/7
+ description switch-2: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/1
+ description switch-3:Gi0/1
+ switchport
+ switchport trunk allowed vlan 101
+ switchport mode trunk
+ mtu 9216
+ channel-group 11 mode active 
+!
+interface GigabitEthernet1/2
+ description SW4 Routing Peering
+ vrf forwarding VRF1
+ ip address 10.0.0.1 255.255.255.0
+!
+vlan 200
+ name ProdVMS
+!
+vlan 101
+ name test_vlan
+!
+switch-1#show interface
+GigabitEthernet1/1 is up, line protocol is up (connected) 
+  Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
+  Description: switch-3:Gi0/1
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
+!
+GigabitEthernet1/2 is up, line protocol is up (connected) 
+  Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
+  Description: SW4 Routing Peering
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
+!
+Port-channel3 is up, line protocol is up (connected) 
+  Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
+  Description: switch-2: trunk LAG
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 10Gb/s, media type is N/A
+  Members in this channel: Ge4/6 Ge4/7 
+    """,
+    """
+switch-2#show cdp neighbors detail 
+-------------------------
+Device ID: switch-1
+Entry address(es): 
+  IP address: 10.1.1.1
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+
+-------------------------
+Device ID: switch-1
+Entry address(es): 
+  IP address: 10.1.1.1
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
+
+switch-2#show run
+interface Port-channel3
+ description switch-1: trunk LAG
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+!
+interface GigabitEthernet1/5
+ description switch-1: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/6
+ description switch-1: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+vlan 200
+ name ProdVMS
+!
+vlan 101
+ name test_vlan
+    """
+        ]
+    }
+    config = {"add_lag": True}
+    drawing = create_yed_diagram()
+    drawer = cdp_lldp_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as should_be:
+            assert produced.read() == should_be.read()
+    
+# test_cdp_drawing_yed_data_dict_lag_interfaces_state()
+
+def test_cdp_drawing_yed_data_dict_add_all_connected():
+    data = {"Cisco_IOS": ["""
+switch-1#show cdp neighbors detail 
+-------------------------
+Device ID: switch-2
+Entry address(es): 
+  IP address: 10.2.2.2
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
+
+-------------------------
+Device ID: switch-2
+Entry address(es): 
+  IP address: 10.2.2.2
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
+
+-------------------------
+Device ID: switch-3
+Entry address(es): 
+  IP address: 10.3.3.3
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
+
+-------------------------
+Device ID: switch-4
+Entry address(es): 
+  IP address: 10.4.4.4
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
+
+switch-1#show run
+interface Port-channel3
+ description switch-2: trunk LAG
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+!
+interface Port-channel11
+ description switch-3: trunk LAG
+ switchport
+ switchport trunk allowed vlan 101
+ switchport mode trunk
+!
+interface GigabitEthernet4/6
+ description switch-2: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet4/7
+ description switch-2: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet4/8
+ description switch-22: trunk
+ switchport
+ switchport trunk allowed vlan 209
+ switchport mode trunk
+!
+interface GigabitEthernet4/9
+ switchport
+ switchport trunk allowed vlan 230
+ switchport mode trunk
+!
+interface GigabitEthernet1/1
+ description switch-3:Gi0/1
+ switchport
+ switchport trunk allowed vlan 101
+ switchport mode trunk
+ mtu 9216
+ channel-group 11 mode active 
+!
+interface GigabitEthernet1/2
+ description SW4 Routing Peering
+ vrf forwarding VRF1
+ ip address 10.0.0.1 255.255.255.0
+!
+vlan 200
+ name ProdVMS
+!
+vlan 101
+ name test_vlan
+!
+switch-1#show interface
+GigabitEthernet1/1 is up, line protocol is up (connected) 
+  Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
+  Description: switch-3:Gi0/1
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
+!
+GigabitEthernet1/2 is up, line protocol is up (connected) 
+  Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
+  Description: SW4 Routing Peering
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
+!
+Port-channel3 is up, line protocol is up (connected) 
+  Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
+  Description: switch-2: trunk LAG
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 10Gb/s, media type is N/A
+  Members in this channel: Ge4/6 Ge4/7 
+!
+GigabitEthernet4/8 is up, line protocol is up (connected) 
+  Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4848 (bia a89d.2163.4848)
+  Description: switch-22: trunk
+  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
+!
+GigabitEthernet4/9 is up, line protocol is up (connected) 
+  Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
+    """,
+    """
+switch-2#show cdp neighbors detail 
+-------------------------
+Device ID: switch-1
+Entry address(es): 
+  IP address: 10.1.1.1
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+
+-------------------------
+Device ID: switch-1
+Entry address(es): 
+  IP address: 10.1.1.1
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
+
+switch-2#show run
+interface Port-channel3
+ description switch-1: trunk LAG
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+!
+interface GigabitEthernet1/5
+ description switch-1: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/6
+ description switch-1: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+vlan 200
+ name ProdVMS
+!
+vlan 101
+ name test_vlan
+    """
+        ]
+    }
+    config = {"add_all_connected": True}
+    drawing = create_yed_diagram()
+    drawer = cdp_lldp_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_all_connected.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as should_be:
+            assert produced.read() == should_be.read()
+    
+# test_cdp_drawing_yed_data_dict_add_all_connected()

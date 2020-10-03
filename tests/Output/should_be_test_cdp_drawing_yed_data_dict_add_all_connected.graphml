@@ -78,7 +78,25 @@
         "101": "test_vlan",
         "200": "ProdVMS"
     }
-}</data><data key="d11">{"id": "switch-4"}</data></node><edge id="0d1e25a0122c562fa9bc515040ed5607" source="switch-1" target="switch-2">
+}</data><data key="d11">{"id": "switch-4"}</data></node><node id="switch-1:Ge4/8">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Unknown</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch-22: trunk..</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "switch-1:Ge4/8"}</data></node><node id="switch-1:Ge4/9">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Unknown</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "switch-1:Ge4/9"}</data></node><edge id="0d1e25a0122c562fa9bc515040ed5607" source="switch-1" target="switch-2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -200,7 +218,67 @@
         "vrf": "VRF1"
     },
     "switch-4:Ge0/10": {}
-}</data><data key="d12">{"sid": "switch-1", "tid": "switch-4", "id": "1a55473cf64b1d33fe9a470093808d0d"}</data></edge></graph>
+}</data><data key="d12">{"sid": "switch-1", "tid": "switch-4", "id": "1a55473cf64b1d33fe9a470093808d0d"}</data></edge><edge id="4e5f610372fce989d36a24b26319bf33" source="switch-1" target="switch-1:Ge4/8">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge4/8<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch-1:Ge4/8": {
+        "description": "switch-22: trunk",
+        "is_l2": true,
+        "l2_mode": "trunk",
+        "state": {
+            "admin": "up",
+            "bw_kbits": "1000000",
+            "description": "switch-22: trunk",
+            "duplex": "Full",
+            "hardware": "Ten Gigabit Ethernet Port",
+            "is_physical_port": true,
+            "line": "up",
+            "line_status": "connected",
+            "link_speed": "1000Mb/s",
+            "link_type": "auto",
+            "mac": "a89d.2163.4848",
+            "media_type": "1000BaseT",
+            "mtu": "5000"
+        },
+        "trunk_vlans": "209"
+    }
+}</data><data key="d12">{"sid": "switch-1", "tid": "switch-1:Ge4/8", "id": "4e5f610372fce989d36a24b26319bf33"}</data></edge><edge id="a41800e774edef9e7ce9dcd02b7f408e" source="switch-1" target="switch-1:Ge4/9">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge4/9<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch-1:Ge4/9": {
+        "is_l2": true,
+        "l2_mode": "trunk",
+        "state": {
+            "admin": "up",
+            "bw_kbits": "1000000",
+            "duplex": "Full",
+            "hardware": "Ten Gigabit Ethernet Port",
+            "is_physical_port": true,
+            "line": "up",
+            "line_status": "connected",
+            "link_speed": "1000Mb/s",
+            "link_type": "auto",
+            "mac": "a89d.2163.4949",
+            "media_type": "1000BaseT",
+            "mtu": "7000"
+        },
+        "trunk_vlans": "230"
+    }
+}</data><data key="d12">{"sid": "switch-1", "tid": "switch-1:Ge4/9", "id": "a41800e774edef9e7ce9dcd02b7f408e"}</data></edge></graph>
     <data key="d7">
         <y:Resources>
         </y:Resources>

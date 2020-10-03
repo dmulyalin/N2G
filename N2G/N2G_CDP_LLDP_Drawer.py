@@ -1,7 +1,8 @@
 """
 
 To implement:
-- parse state and if interface is up but no cdp/lldp use placeholder node with interface description as label
+- add testfor add_all_connected for lag members, add lag instead of physical interface if add_lag is true
+- add mac addresses nodes to the diagram based on show mac addr table output, logic - if interface is edge - connected to uncknown or last device, add mac addresses as nodes behind that device
 """
 import logging
 from ttp import ttp
@@ -28,9 +29,9 @@ def logging_config(LOG_LEVEL):
 logging_config(LOG_LEVEL)
 
 
-# =============================================================================
+#-----------------------------------------------------------------------------
 # TTP PARSER TEMPLATES:
-# =============================================================================
+#-----------------------------------------------------------------------------
 
 Cisco_IOS = """
 <template name="Cisco_IOS" results="per_template">
@@ -39,6 +40,12 @@ Cisco_IOS = """
 <macro>
 def process_vlans(data):
     return {data["vid"]: data["name"]}
+    
+def check_is_physical_port(data):
+    for item in _ttp_["vars"]["physical_ports"]:
+        if data.startswith(item):
+            return data, {"is_physical_port": True}
+    return data
 </macro>
 
 <input>url = "./Cisco_IOS/"</input>
@@ -60,8 +67,8 @@ interface {{ interface | resuball(IfsNormalize) }}
 
 <!-- Interfaces state group -->
 <group name="{{ local_hostname }}.interfaces**.{{ interface }}**.state">
-{{ interface | _start_ | resuball(IfsNormalize) }} is {{ admin | ORPHRASE }}, line protocol is {{ line }}
-{{ interface | _start_ | resuball(IfsNormalize) }} is {{ admin | ORPHRASE }}, line protocol is {{ line }} ({{ line_status }})
+{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line }}
+{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line }} ({{ line_status }})
   Description: {{ description | re(".+") }} 
   Hardware is {{ hardware | ORPHRASE }}, address is {{ mac }} (bia {{ ignore }})
   MTU {{ mtu }} bytes, BW {{ bw_kbits }} Kbit/sec, DLY 1000 usec, 
@@ -99,33 +106,9 @@ Interface: {{ src_label | resuball(IfsNormalize) }},  Port ID (outgoing port): {
 """
 
 
-# =============================================================================
-# COMMON TTP PARSER Variables:
-# =============================================================================
-
-ttp_vars = {
-    "IfsNormalize": {
-        "Lo": ["^Loopback"],
-        "Ge": ["^GigabitEthernet", "^Gi"],
-        "LAG": ["^Eth-Trunk", "^port-channel", "^Port-channel", "^Bundle-Ether"],
-        "Te": [
-            "^TenGigabitEthernet",
-            "^TenGe",
-            "^10GE",
-            "^TenGigE",
-            "^XGigabitEthernet",
-        ],
-        "Fe": ["^FastEthernet"],
-        "Eth": ["^Ethernet", "^eth"],
-        "Pt": ["^Port[^-]"],
-        "100G": ["^HundredGigE"],
-    }
-}
-
-
-# =============================================================================
+#-----------------------------------------------------------------------------
 # Main class:
-# =============================================================================
+#-----------------------------------------------------------------------------
 
 
 class cdp_lldp_drawer:
@@ -135,30 +118,32 @@ class cdp_lldp_drawer:
 
     **Features support matrix**
 
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Platform      |    CDP     |   LLDP    |   config  |   state   |   LAG     | grouping  |   facts   |    MAC    |
-    +===============+============+===========+===========+===========+===========+===========+===========+===========+
-    | Cisco_IOS     |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    YES    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    |               |    CDP     |   LLDP    | interface | interface |    LAG    |  links    |   node    |    MAC    |  Add all  |
+    |  Platform     |   peers    |   peers   |  config   |   state   |   links   | grouping  |   facts   | addresses | connected |
+    +===============+============+===========+===========+===========+===========+===========+===========+===========+===========+
+    | Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
-    CDP - adds links and nodes out of CDP neighbors
-    LLDP - adds links and nodes out of LLDP neighbors
-    config - adds interfaces configuration to links data
-    state - add links state information to links data
-    LAG - combines links based on LAG membership
-    grouping - groups links between nodes
-    facts - adds information to nodes for vlans, etc
-    MAC - adds mac addresses nodes to diagram
+    CDP peers - adds links and nodes out of CDP neighbors
+    LLDP peers - adds links and nodes out of LLDP neighbors
+    interface config - adds interfaces configuration to links data
+    interface state - add links state information to links data
+    LAG links - combines links based on LAG membership
+    links grouping - groups links between nodes
+    node facts - adds information to nodes for vlans, etc
+    MAC addresses - adds mac addresses nodes to diagram
+    Add all connected - adds all connected nodes that are not visible on CDP or LLDP
     
     **Cisco Commands**
 
@@ -209,9 +194,10 @@ class cdp_lldp_drawer:
 
     Supported ``config`` dictionary attributes::
 
-    * add_interfaces_data -
-    * group_links -
-    * add_lag -
+    * ``add_interfaces_data`` -
+    * ``group_links`` -
+    * ``add_lag`` -
+    * ``add_all_connected`` - add all nodes connected to devices, even the ones not visible via CDP or LLDP
     """
 
     def __init__(self, drawing, config={}):
@@ -220,6 +206,26 @@ class cdp_lldp_drawer:
             "add_interfaces_data": True,
             "group_links": False,
             "add_lag": False,
+            "add_all_connected": False
+        }
+        self.ttp_vars = {
+            "IfsNormalize": {
+                "Lo": ["^Loopback"],
+                "Ge": ["^GigabitEthernet", "^Gi"],
+                "LAG": ["^Eth-Trunk", "^port-channel", "^Port-channel", "^Bundle-Ether"],
+                "Te": [
+                    "^TenGigabitEthernet",
+                    "^TenGe",
+                    "^10GE",
+                    "^TenGigE",
+                    "^XGigabitEthernet",
+                ],
+                "Fe": ["^FastEthernet"],
+                "Eth": ["^Ethernet", "^eth"],
+                "Pt": ["^Port[^-]"],
+                "100G": ["^HundredGigE"]
+            },
+            "physical_ports": ["Ge", "Te", "Fe", "Eth"]
         }
         self.config.update(config)
         self.drawing = drawing
@@ -239,13 +245,15 @@ class cdp_lldp_drawer:
             self._add_lags_to_links_dict()
         if self.config.get("group_links"):
             self._group_links()
+        if self.config.get("add_all_connected"):
+            self._add_all_connected()
         # form graph dictionary and add it to drawing
         self._update_drawing()
 
     def _parse(self, data):
         # process data dictionary
         if isinstance(data, dict):
-            parser = ttp(vars=ttp_vars)
+            parser = ttp(vars=self.ttp_vars)
             for platform_name, text_list in data.items():
                 try:
                     ttp_template = globals()[platform_name]
@@ -259,7 +267,7 @@ class cdp_lldp_drawer:
                     parser.add_input(item, template_name=platform_name)
         # process directories at OS path
         elif isinstance(data, str):
-            parser = ttp(vars=ttp_vars, base_path=data)
+            parser = ttp(vars=self.ttp_vars, base_path=data)
             # get all sub-folders and load respective templates
             with os.scandir(data) as it:
                 for entry in it:
@@ -491,6 +499,57 @@ class cdp_lldp_drawer:
                 self.links_dict[grouped_link_hash] = grouped_link
         del self.nodes_to_links_dict
 
+    def _add_all_connected(self):
+        """
+        Method to iterate over all interfaces and fine theones that are
+        in up state but having no CDP/LLDP peers, add nodes connected
+        to such interfaces to graph
+        """
+        for platform, hosts in self.parsed_data.items():
+            for hostname, host_data in hosts.items():
+                for intf_name, intf_data in host_data["interfaces"].items():
+                    # skip links that are not up
+                    line = intf_data.get("state", {}).get("line", "").lower()
+                    if not "up" in line:
+                        continue
+                    # skip non-physical ports
+                    if not intf_data["state"].get("is_physical_port"):
+                        continue
+                    # check if interface has CDP or LLDP peers:
+                    has_cdp_or_lldp_peer = False
+                    for item in host_data.get("cdp_peers", []):
+                        if item["src_label"] == intf_name:
+                            has_cdp_or_lldp_peer = True
+                    if has_cdp_or_lldp_peer:
+                        continue
+                    for item in host_data.get("lldp_peers", []):
+                        if item["src_label"] == intf_name:
+                            has_cdp_or_lldp_peer = True                        
+                    if has_cdp_or_lldp_peer:
+                        continue
+                    # create new node and add it to graph
+                    node_id = "{}:{}".format(hostname, intf_name)
+                    node = {"id": node_id, "label": "Unknown"}
+                    if intf_data.get("description"):
+                        node["bottom_label"] = "{}..".format(intf_data["description"][:20])
+                    self._add_node(node, host_data={})
+                    # add link to graph
+                    src_if = "{}:{}".format(hostname, intf_name)
+                    link = {
+                        "source": hostname,
+                        "target": node_id,
+                        "src_label": intf_name,
+                        "description": json.dumps(
+                            {src_if: intf_data}, 
+                            sort_keys=True, 
+                            indent=4, 
+                            separators=(",", ": ")
+                        )
+                    }
+                    link_hash = self._make_hash_tuple(link)
+                    if not link_hash in self.links_dict:
+                        self.links_dict[link_hash] = link
+                        
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())
