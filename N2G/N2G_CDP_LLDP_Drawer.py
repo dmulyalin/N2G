@@ -29,86 +29,9 @@ def logging_config(LOG_LEVEL):
 logging_config(LOG_LEVEL)
 
 
-#-----------------------------------------------------------------------------
-# TTP PARSER TEMPLATES:
-#-----------------------------------------------------------------------------
-
-Cisco_IOS = """
-<template name="Cisco_IOS" results="per_template">
-<vars>local_hostname="gethostname"</vars>
-
-<macro>
-def process_vlans(data):
-    return {data["vid"]: data["name"]}
-    
-def check_is_physical_port(data):
-    for item in _ttp_["vars"]["physical_ports"]:
-        if data.startswith(item):
-            return data, {"is_physical_port": True}
-    return data
-</macro>
-
-<input>url = "./Cisco_IOS/"</input>
-
-<!-- Interfaces configuration group -->
-<group name="{{ local_hostname }}.interfaces**.{{ interface }}**">
-interface {{ interface | resuball(IfsNormalize) }}
- description {{ description | re(".+") }}
- switchport {{ is_l2 | set(True) }}
- switchport access vlan {{ access_vlan }}
- switchport mode {{ l2_mode }}
- vrf forwarding {{ vrf }}
- ip address {{ ip | PHRASE | joinmatches(",") }}
- ip address {{ ip | PHRASE | joinmatches(",") }} secondary
- switchport trunk allowed vlan {{ trunk_vlans | unrange("-", ",") | joinmatches(",") }}
- channel-group {{ lag_id }} mode {{ lag_mode }}
- mtu {{ mtu }}
-</group>
-
-<!-- Interfaces state group -->
-<group name="{{ local_hostname }}.interfaces**.{{ interface }}**.state">
-{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line }}
-{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line }} ({{ line_status }})
-  Description: {{ description | re(".+") }} 
-  Hardware is {{ hardware | ORPHRASE }}, address is {{ mac }} (bia {{ ignore }})
-  MTU {{ mtu }} bytes, BW {{ bw_kbits }} Kbit/sec, DLY 1000 usec, 
-  {{ duplex }}-duplex, {{ link_type }}, media type is {{ media_type }}
-  {{ duplex }}-duplex, {{ link_speed }}-speed, link type is {{ link_type }}, media type is {{ media_type | ORPHRASE }}
-  {{ duplex }}-duplex, {{ link_speed }}, link type is {{ link_type }}, media type is {{ media_type | ORPHRASE }}
-  Members in this channel: {{ lag_members | ORPHRASE }}
-</group>
-
-<!-- node_facts VLANs group -->
-<group name="{{ local_hostname }}.node_facts.vlans**" macro="process_vlans">
-vlan {{ vid }}
- name {{ name | ORPHRASE | default("no name") }}
-</group>
-
-<!-- LLDP peers group -->
-<group name="{{ local_hostname }}.lldp_peers*" expand="">
-Local Intf: {{ src_label | resuball(IfsNormalize) }}
-Port id: {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
-System Name: {{ target.id | split(".") | item(0) | split("(") | item(0) }}
-System Capabilities: {{ ignore(ORPHRASE) }}
-    IP: {{ target.top_label }}
-{{ source | set("local_hostname") }}
-</group>
-
-<!-- CDP peers group -->
-<group name="{{ local_hostname }}.cdp_peers*" expand="">
-Device ID: {{ target.id | split(".") | item(0) | split("(") | item(0) }}
-  IP address: {{ target.top_label }}
-Platform: {{ target.bottom_label | ORPHRASE }},  Capabilities: {{ ignore(ORPHRASE) }}
-Interface: {{ src_label | resuball(IfsNormalize) }},  Port ID (outgoing port): {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
-{{ source | set("local_hostname") }}
-</group>
-</template>
-"""
-
-
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Main class:
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 class cdp_lldp_drawer:
@@ -144,7 +67,7 @@ class cdp_lldp_drawer:
     node facts - adds information to nodes for vlans, etc
     MAC addresses - adds mac addresses nodes to diagram
     Add all connected - adds all connected nodes that are not visible on CDP or LLDP
-    
+
     **Cisco Commands**
 
     * CDP for Cisco IOS, IOS-XR, NXOS, ASA - ``show cdp neighbor details``
@@ -206,13 +129,18 @@ class cdp_lldp_drawer:
             "add_interfaces_data": True,
             "group_links": False,
             "add_lag": False,
-            "add_all_connected": False
+            "add_all_connected": False,
         }
         self.ttp_vars = {
             "IfsNormalize": {
                 "Lo": ["^Loopback"],
                 "Ge": ["^GigabitEthernet", "^Gi"],
-                "LAG": ["^Eth-Trunk", "^port-channel", "^Port-channel", "^Bundle-Ether"],
+                "LAG": [
+                    "^Eth-Trunk",
+                    "^port-channel",
+                    "^Port-channel",
+                    "^Bundle-Ether",
+                ],
                 "Te": [
                     "^TenGigabitEthernet",
                     "^TenGe",
@@ -223,9 +151,9 @@ class cdp_lldp_drawer:
                 "Fe": ["^FastEthernet"],
                 "Eth": ["^Ethernet", "^eth"],
                 "Pt": ["^Port[^-]"],
-                "100G": ["^HundredGigE"]
+                "100G": ["^HundredGigE"],
             },
-            "physical_ports": ["Ge", "Te", "Fe", "Eth"]
+            "physical_ports": ["Ge", "Te", "Fe", "Eth"],
         }
         self.config.update(config)
         self.drawing = drawing
@@ -250,17 +178,29 @@ class cdp_lldp_drawer:
         # form graph dictionary and add it to drawing
         self._update_drawing()
 
+    def _open_ttp_template(self, template_name):
+        path_to_n2g = os.path.dirname(__file__)
+        try:
+            path = "{}/ttp_templates/CDP_LLDP_Drawer/{}.txt".format(
+                path_to_n2g, template_name
+            )
+            with open(path, "r") as f:
+                return f.read()
+        except Exception as e:
+            log.error(
+                "Cannot find template for '{}' platform, error - '{}'".format(
+                    template_name, e
+                )
+            )        
+            return False
+
     def _parse(self, data):
         # process data dictionary
         if isinstance(data, dict):
             parser = ttp(vars=self.ttp_vars)
             for platform_name, text_list in data.items():
-                try:
-                    ttp_template = globals()[platform_name]
-                except KeyError:
-                    log.error(
-                        "Cannot find template for '{}' platform".format(platform_name)
-                    )
+                ttp_template = self._open_ttp_template(platform_name)
+                if not ttp_template:
                     continue
                 parser.add_template(template=ttp_template, template_name=platform_name)
                 for item in text_list:
@@ -272,14 +212,8 @@ class cdp_lldp_drawer:
             with os.scandir(data) as it:
                 for entry in it:
                     if entry.is_dir():
-                        try:
-                            ttp_template = globals()[entry.name]
-                        except KeyError:
-                            log.error(
-                                "Cannot find template for '{}' platform".format(
-                                    entry.name
-                                )
-                            )
+                        ttp_template = self._open_ttp_template(entry.name)
+                        if not ttp_template:
                             continue
                         parser.add_template(
                             template=ttp_template, template_name=entry.name
@@ -325,7 +259,10 @@ class cdp_lldp_drawer:
         if not item["id"] in self.nodes_dict:
             if host_data.get("node_facts"):
                 item["description"] = json.dumps(
-                    host_data["node_facts"], sort_keys=True, indent=4, separators=(",", ": ")
+                    host_data["node_facts"],
+                    sort_keys=True,
+                    indent=4,
+                    separators=(",", ": "),
                 )
             self.nodes_dict[item["id"]] = item
         # update node attributes if they do not exists already
@@ -336,7 +273,10 @@ class cdp_lldp_drawer:
                     node[k] = v
             if not "description" in node and host_data.get("node_facts"):
                 node["description"] = json.dumps(
-                    host_data["node_facts"], sort_keys=True, indent=4, separators=(",", ": ")
+                    host_data["node_facts"],
+                    sort_keys=True,
+                    indent=4,
+                    separators=(",", ": "),
                 )
 
     def _add_link(self, item, hosts, host_data):
@@ -524,14 +464,16 @@ class cdp_lldp_drawer:
                         continue
                     for item in host_data.get("lldp_peers", []):
                         if item["src_label"] == intf_name:
-                            has_cdp_or_lldp_peer = True                        
+                            has_cdp_or_lldp_peer = True
                     if has_cdp_or_lldp_peer:
                         continue
                     # create new node and add it to graph
                     node_id = "{}:{}".format(hostname, intf_name)
                     node = {"id": node_id, "label": "Unknown"}
                     if intf_data.get("description"):
-                        node["bottom_label"] = "{}..".format(intf_data["description"][:20])
+                        node["bottom_label"] = "{}..".format(
+                            intf_data["description"][:20]
+                        )
                     self._add_node(node, host_data={})
                     # add link to graph
                     src_if = "{}:{}".format(hostname, intf_name)
@@ -540,16 +482,16 @@ class cdp_lldp_drawer:
                         "target": node_id,
                         "src_label": intf_name,
                         "description": json.dumps(
-                            {src_if: intf_data}, 
-                            sort_keys=True, 
-                            indent=4, 
-                            separators=(",", ": ")
-                        )
+                            {src_if: intf_data},
+                            sort_keys=True,
+                            indent=4,
+                            separators=(",", ": "),
+                        ),
                     }
                     link_hash = self._make_hash_tuple(link)
                     if not link_hash in self.links_dict:
                         self.links_dict[link_hash] = link
-                        
+
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())
