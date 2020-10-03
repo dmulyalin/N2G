@@ -1,8 +1,9 @@
 """
 
 To implement:
-- add testfor add_all_connected for lag members, add lag instead of physical interface if add_lag is true
 - add mac addresses nodes to the diagram based on show mac addr table output, logic - if interface is edge - connected to uncknown or last device, add mac addresses as nodes behind that device
+- add invetnry to node facts
+- add software version to node facts out of CDP output
 """
 import logging
 from ttp import ttp
@@ -153,7 +154,7 @@ class cdp_lldp_drawer:
                 "Pt": ["^Port[^-]"],
                 "100G": ["^HundredGigE"],
             },
-            "physical_ports": ["Ge", "Te", "Fe", "Eth"],
+            "physical_ports": ["Ge", "Te", "Fe", "Eth", "100G"],
         }
         self.config.update(config)
         self.drawing = drawing
@@ -476,18 +477,37 @@ class cdp_lldp_drawer:
                         )
                     self._add_node(node, host_data={})
                     # add link to graph
-                    src_if = "{}:{}".format(hostname, intf_name)
                     link = {
                         "source": hostname,
-                        "target": node_id,
-                        "src_label": intf_name,
-                        "description": json.dumps(
-                            {src_if: intf_data},
-                            sort_keys=True,
-                            indent=4,
-                            separators=(",", ": "),
-                        ),
+                        "target": node_id
                     }
+                    if "lag_id" in intf_data and self.config["add_lag"]:
+                        lag_intf_name = "LAG{}".format(intf_data["lag_id"])
+                        src_if = "{}:{}".format(hostname, lag_intf_name)                      
+                        lag_intf_data = host_data["interfaces"].get(lag_intf_name, {})
+                        link["src_label"] = lag_intf_name
+                        link["description"] = json.dumps(
+                                {
+                                    src_if: lag_intf_data,
+                                    "lag_members": {"{}:{}".format(hostname, intf_name): ""}
+                                },
+                                sort_keys=True,
+                                indent=4,
+                                separators=(",", ": "),
+                            )
+                        # update node bottom label as per lag interface description
+                        node["bottom_label"] = "{}..".format(
+                            lag_intf_data["description"][:20]
+                        ) if lag_intf_data else node["bottom_label"]
+                    else:
+                        src_if = "{}:{}".format(hostname, intf_name)
+                        link["src_label"] = intf_name
+                        link["description"] = json.dumps(
+                                {src_if: intf_data},
+                                sort_keys=True,
+                                indent=4,
+                                separators=(",", ": "),
+                            )
                     link_hash = self._make_hash_tuple(link)
                     if not link_hash in self.links_dict:
                         self.links_dict[link_hash] = link
