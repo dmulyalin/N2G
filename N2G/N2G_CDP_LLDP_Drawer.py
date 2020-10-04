@@ -477,10 +477,7 @@ class cdp_lldp_drawer:
                         )
                     self._add_node(node, host_data={})
                     # add link to graph
-                    link = {
-                        "source": hostname,
-                        "target": node_id
-                    }
+                    link = {"source": hostname}
                     if "lag_id" in intf_data and self.config["add_lag"]:
                         lag_intf_name = "LAG{}".format(intf_data["lag_id"])
                         src_if = "{}:{}".format(hostname, lag_intf_name)                      
@@ -499,8 +496,15 @@ class cdp_lldp_drawer:
                         node["bottom_label"] = "{}..".format(
                             lag_intf_data["description"][:20]
                         ) if lag_intf_data else node["bottom_label"]
+                        # remove previous node that had ID based on lag member interface
+                        node = self.nodes_dict.pop(node_id, {})
+                        new_node_id = "{}:{}".format(hostname, lag_intf_name)
+                        node["id"] = new_node_id
+                        link["target"] = new_node_id
+                        self._add_node(node, host_data={})
                     else:
                         src_if = "{}:{}".format(hostname, intf_name)
+                        link["target"] = node_id
                         link["src_label"] = intf_name
                         link["description"] = json.dumps(
                                 {src_if: intf_data},
@@ -511,6 +515,16 @@ class cdp_lldp_drawer:
                     link_hash = self._make_hash_tuple(link)
                     if not link_hash in self.links_dict:
                         self.links_dict[link_hash] = link
+                    else:
+                        link_data = json.loads(self.links_dict[link_hash]["description"])
+                        if "lag_members" in link_data:
+                            link_data["lag_members"].update({"{}:{}".format(hostname, intf_name): ""})
+                        self.links_dict[link_hash]["description"] = json.dumps(
+                                link_data,
+                                sort_keys=True,
+                                indent=4,
+                                separators=(",", ": "),
+                            )
 
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())

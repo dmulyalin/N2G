@@ -1317,6 +1317,13 @@ interface GigabitEthernet4/8
  switchport mode trunk
  channel-group 48 mode active
 !
+interface GigabitEthernet5/1
+ description switch-22: trunk
+ switchport
+ switchport trunk allowed vlan 209
+ switchport mode trunk
+ channel-group 48 mode active
+!
 interface GigabitEthernet4/9
  switchport
  switchport trunk allowed vlan 230
@@ -1378,6 +1385,11 @@ GigabitEthernet4/9 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
   MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
+!
+GigabitEthernet5/1 is up, line protocol is up (connected) 
+  Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
     """,
     """
 switch-2#show cdp neighbors detail 
@@ -1433,4 +1445,4 @@ vlan 101
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as should_be:
             assert produced.read() == should_be.read()
     
-# test_cdp_drawing_yed_data_dict_add_all_connected_add_lag()
+test_cdp_drawing_yed_data_dict_add_all_connected_add_lag()

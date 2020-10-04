@@ -78,7 +78,7 @@
         "101": "test_vlan",
         "200": "ProdVMS"
     }
-}</data><data key="d11">{"id": "switch-4"}</data></node><node id="switch-1:Ge4/8">
+}</data><data key="d11">{"id": "switch-4"}</data></node><node id="switch-1:LAG48">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -87,7 +87,7 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Unknown</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch-22:LAG trunk..</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "switch-1:Ge4/8"}</data></node><node id="switch-1:Ge4/9">
+    <data key="d11">{"id": "switch-1:LAG48"}</data></node><node id="switch-1:Ge4/9">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -188,7 +188,7 @@
         "l2_mode": "trunk",
         "trunk_vlans": "101"
     }
-}</data><data key="d12">{"sid": "switch-1", "tid": "switch-3", "id": "9e9868a7b49ea76b8d22a7802994ec2a"}</data></edge><edge id="d92d02ff695d4cb1750021d76c694b60" source="switch-1" target="switch-1:Ge4/8">
+}</data><data key="d12">{"sid": "switch-1", "tid": "switch-3", "id": "9e9868a7b49ea76b8d22a7802994ec2a"}</data></edge><edge id="8f267533a7979ea9e5cff2012c409ac0" source="switch-1" target="switch-1:LAG48">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -199,7 +199,8 @@
       </data>
     <data key="d9">{
     "lag_members": {
-        "switch-1:Ge4/8": ""
+        "switch-1:Ge4/8": "",
+        "switch-1:Ge5/1": ""
     },
     "switch-1:LAG48": {
         "description": "switch-22:LAG trunk",
@@ -221,7 +222,7 @@
         },
         "trunk_vlans": "209"
     }
-}</data><data key="d12">{"sid": "switch-1", "tid": "switch-1:Ge4/8", "id": "d92d02ff695d4cb1750021d76c694b60"}</data></edge><edge id="a41800e774edef9e7ce9dcd02b7f408e" source="switch-1" target="switch-1:Ge4/9">
+}</data><data key="d12">{"sid": "switch-1", "tid": "switch-1:LAG48", "id": "8f267533a7979ea9e5cff2012c409ac0"}</data></edge><edge id="a41800e774edef9e7ce9dcd02b7f408e" source="switch-1" target="switch-1:Ge4/9">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />

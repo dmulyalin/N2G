@@ -53,7 +53,7 @@ DATA = args.DATA  # string, OS path to data files to process
 FOLDER = args.FOLDER  # OS path to folder to save results into
 FILENAME = args.FILENAME  # output filename
 
-config = {"add_all_connected": True}
+config = {"add_all_connected": True, "add_lag": True}
 drawing = create_yed_diagram()
 drawer = cdp_lldp_drawer(drawing, config)
 drawer.work(DATA)
