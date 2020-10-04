@@ -12,7 +12,7 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="236" y="391" />
       </mxCell>
-    </object><object id="98b6238be5acd1302f49c499f9173e32" label="bla1">
+    </object><object id="b35ebf8a6eeb7084dd9f3e14ec85eb9c" label="bla1" source="node-1" target="node-2">
       <mxCell edge="1" parent="1" source="node-1" style="endArrow=none;" target="node-2">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
@@ -20,11 +20,11 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="1124" y="431" />
       </mxCell>
-    </object><object abc="123" id="c0b00b2fdeaaa6f41cab0ef2448ffcef" label="bla2">
+    </object><object abc="123" id="601d1f4fe959524564b9139bfd9ee1c5" label="bla2" source="node-2" target="node-3">
       <mxCell edge="1" parent="1" source="node-2" style="endArrow=none;" target="node-3">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object id="c8fe43e5ad1ce2c05bfc0b371d1fb987" label="bla3">
+    </object><object id="03d64cf220b7cea506298c06d433f38e" label="bla3" source="node-3" target="node-1">
       <mxCell edge="1" parent="1" source="node-3" style="endArrow=none;" target="node-1">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
@@ -32,7 +32,7 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="561" y="0" />
       </mxCell>
-    </object><object id="3972a5fc4a57b84e0376216959d97b1c" label="bla4">
+    </object><object id="d5fa69cbdbc6ae606177e052dcdf4fdc" label="bla4" source="node-4" target="node-3">
       <mxCell edge="1" parent="1" source="node-4" style="endArrow=none;" target="node-3">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>

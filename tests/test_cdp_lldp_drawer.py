@@ -1445,4 +1445,78 @@ vlan 101
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as should_be:
             assert produced.read() == should_be.read()
     
-test_cdp_drawing_yed_data_dict_add_all_connected_add_lag()
+# test_cdp_drawing_yed_data_dict_add_all_connected_add_lag()
+
+def test_cdp_drawing_drawio_data_dict():
+    data = {"Cisco_IOS": ["""
+switch-1#show cdp neighbors detail 
+-------------------------
+Device ID: switch-2
+Entry address(es): 
+  IP address: 10.2.2.2
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
+
+-------------------------
+Device ID: switch-3
+Entry address(es): 
+  IP address: 10.3.3.3
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
+
+-------------------------
+Device ID: switch-4
+Entry address(es): 
+  IP address: 10.4.4.4
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
+
+switch-1#show run
+interface GigabitEthernet4/6
+ description switch-2: access
+ switchport
+ switchport access vlan 2150
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/1
+ description switch-3:Gi0/1
+ switchport
+ switchport trunk allowed vlan 1771,1887
+ switchport mode trunk
+ mtu 9216
+!
+interface GigabitEthernet1/2
+ description SW4 Routing Peering
+ vrf forwarding VRF1
+ ip address 10.0.0.1 255.255.255.0
+    """,
+    """
+switch-2#show cdp neighbors detail 
+-------------------------
+Device ID: switch-1
+Entry address(es): 
+  IP address: 10.1.1.1
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+
+switch-2#show run
+interface GigabitEthernet1/5
+ description switch-1: access
+ switchport
+ switchport access vlan 2150
+ switchport mode access
+ spanning-tree portfast edge
+    """
+        ]
+    }
+    config = {}
+    lldp_drawing = create_drawio_diagram()
+    drawer = cdp_lldp_drawer(lldp_drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict.drawio", folder="./Output/")
+    # with open ("./Output/test_cdp_drawing_drawio_data_dict.drawio") as produced:
+    #     with open("./Output/should_be_test_cdp_drawing_drawio_base.drawio") as should_be:
+    #         assert produced.read() == should_be.read()
+            
+# test_cdp_drawing_drawio_data_dict()

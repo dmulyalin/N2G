@@ -28,19 +28,19 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="279" y="286" />
       </mxCell>
-    </object><object id="98b6238be5acd1302f49c499f9173e32" label="bla1">
+    </object><object id="b35ebf8a6eeb7084dd9f3e14ec85eb9c" label="bla1" source="node-1" target="node-2">
       <mxCell edge="1" parent="1" source="node-1" style="endArrow=none;" target="node-2">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object id="8378aa3d5884c28201c69e1b651ca070" label="bla2">
+    </object><object id="6b78b13fcfd7ba69c4c23a4daa1057a3" label="bla2" source="node-1" target="node-3">
       <mxCell edge="1" parent="1" source="node-1" style="endArrow=none;" target="node-3">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object id="18ce17868140f24d8c99764b4c46a64b" label="bla3">
+    </object><object id="7ddc80c768882b8121f24382f55971d2" label="bla3" source="node-3" target="node-5">
       <mxCell edge="1" parent="1" source="node-3" style="endArrow=none;" target="node-5">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object id="3972a5fc4a57b84e0376216959d97b1c" label="bla4">
+    </object><object id="d5fa69cbdbc6ae606177e052dcdf4fdc" label="bla4" source="node-3" target="node-4">
       <mxCell edge="1" parent="1" source="node-3" style="endArrow=none;" target="node-4">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
@@ -52,11 +52,11 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="483" y="403" />
       </mxCell>
-    </object><object id="213c037a35c65e2604a579605de2ff33" label="bla77">
+    </object><object id="7975fd6bf9d010bd5226c4dac6e20e64" label="bla77" source="node-33" target="node-44">
       <mxCell edge="1" parent="1" source="node-33" style="endArrow=none;" target="node-44">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object cd="123" ef="456" id="b8265771b30c587887a1e47da301c3a1" label="bla6">
+    </object><object cd="123" ef="456" id="b2bd8ff3afbb6b786a0607bcef755f42" label="bla6" source="node-6" target="node-1">
       <mxCell edge="1" parent="1" source="node-6" style="endArrow=none;" target="node-1">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>

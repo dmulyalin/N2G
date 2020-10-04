@@ -27,9 +27,9 @@ logging_config(LOG_LEVEL, LOG_FILE)
 class drawio_diagram:
     """
     N2G DrawIO module allows to produce diagrams compatible with DrawIO XML format.
-    
+
     **Parameters**
-        
+
     * ``node_duplicates`` (str) can be of value skip, log, update
     * ``link_duplicates`` (str) can be of value skip, log, update
 
@@ -78,22 +78,22 @@ class drawio_diagram:
         self.current_diagram_id = ""
         self.default_node_style = "rounded=1;whiteSpace=wrap;html=1;"
         self.default_link_style = "endArrow=none;"
-        
+
     def add_diagram(self, id, name="", width=1360, height=864):
         """
-        Method to add new diagram tab and switch to it. 
-        
+        Method to add new diagram tab and switch to it.
+
         .. warning:: This method must be called to create at list one
-          diagram tab to work with prior to nodes and links can be added 
+          diagram tab to work with prior to nodes and links can be added
           to the drawing calling ``add_link`` or ``add_node`` methods.
-        
+
         **Parameters**
-        
+
         * ``id`` (str) id of the diagram, should be unique across other diagrams
         * ``name`` (str) tab name
         * ``width`` (int) width of diagram in pixels
         * ``height`` (int) height of diagram in pixels
-        
+
         """
         if id in self.nodes_ids or id in self.edges_ids:
             return
@@ -106,7 +106,7 @@ class drawio_diagram:
         self.edges_ids[id] = []
         self.drawing.append(diagram)
         self.go_to_diagram(diagram_name=name)
-        
+
     def go_to_diagram(self, diagram_name=None, diagram_index=None):
         """
         DrawIO supports adding multiple diagram tabs within single document.
@@ -114,14 +114,14 @@ class drawio_diagram:
         way each tab can be updated separately.
 
         **Parameters**
-        
+
         * ``diagram_name`` (str) name of diagram tab to switch to
-        * ``diagram_index`` (int) index of diagram tab to switch to, will 
-          change to last tab if index is out of range. Index can be positive 
-          or negative number and follows Python list index behaviour. For 
+        * ``diagram_index`` (int) index of diagram tab to switch to, will
+          change to last tab if index is out of range. Index can be positive
+          or negative number and follows Python list index behaviour. For
           instance, index equal to "-1" we go to last tab, "0" will go to
           first tab
-    
+
         """
         if diagram_name != None:
             self.current_diagram = self.drawing.find(
@@ -174,12 +174,13 @@ class drawio_diagram:
         height=60,
         x_pos=200,
         y_pos=150,
+        **kwargs
     ):
         """
         Method to add node to the diagram.
 
-        **Parameters** 
-        
+        **Parameters**
+
         * ``id`` (str) mandatory, unique node identifier, usually equal to node name
         * ``label`` (str) node label, if not provided, set equal to id
         * ``data`` (dict) dictionary of key value pairs to add as node data
@@ -189,14 +190,14 @@ class drawio_diagram:
         * ``x_pos`` (int) node position on x axis
         * ``y_pos`` (int) node position on y axis
         * ``style`` (str) string containing DrawIO style parameters to apply to the node
-        
-        Sample DrawIO style string for the node::        
-        
+
+        Sample DrawIO style string for the node::
+
             shape=mxgraph.cisco.misc.asr_1000_series;html=1;pointerEvents=1;
             dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;
             verticalLabelPosition=bottom;verticalAlign=top;align=center;
             outlineConnect=0;
-            
+
         """
         if self._node_exists(id, label=label, data=data, url=url):
             return
@@ -220,25 +221,26 @@ class drawio_diagram:
             )
         )
         # add data attributes and/or url to node
+        data.update(kwargs)
         node = self._add_data_or_url(node, data, url)
         self.current_root.append(node)
 
     def update_node(
-        self, id, label=None, data={}, url=None, style="", width="", height=""
+        self, id, label=None, data={}, url=None, style="", width="", height="", **kwargs
     ):
         """
         Method to update node details. Uses node ``id`` to search for node to update
-        
-        **Parameters** 
-        
+
+        **Parameters**
+
         * ``id`` (str) mandatory, unique node identifier
         * ``label`` (str) label at the center of the node
         * ``data`` (dict) dictionary of data items to add to the node
         * ``width`` (int) node width in pixels
         * ``height`` (int) node height in pixels
         * ``url`` (str) url string to save as node `url` attribute
-        * ``style`` (str) string containing DrawIO style parameters to apply to the node    
-        
+        * ``style`` (str) string containing DrawIO style parameters to apply to the node
+
         """
         node = self.current_root.find("./object[@id='{}']".format(id))
         # update data and url attributes
@@ -261,8 +263,7 @@ class drawio_diagram:
             mxGeometry_elem.attrib["height"] = str(height)
 
     def _link_exists(self, id, edge_tup):
-        """method, used to check dublicate edges 
-        """
+        """method, used to check dublicate edges"""
         # check if edge with given id already exists
         if id in self.edges_ids[self.current_diagram_id]:
             if self.link_duplicates == "log":
@@ -276,29 +277,29 @@ class drawio_diagram:
             return True
         self.edges_ids[self.current_diagram_id].append(id)
 
-    def add_link(self, source, target, style="", label="", data={}, url=""):
+    def add_link(self, source, target, style="", label="", data={}, url="", **kwargs):
         """
         Method to add link between nodes to the diagram.
 
-        **Parameters** 
-        
+        **Parameters**
+
         * ``source`` (str) mandatory, source node id
         * ``source`` (str) mandatory, target node id
         * ``label`` (str) link label to display at the centre of the link
         * ``data`` (dict) dictionary of key value pairs to add as link data
         * ``url`` (str) url string to save as link ``url`` attribute
         * ``style`` (str) string containing DrawIO style parameters to apply to the link
-        
-        Sample DrawIO style string for the link::        
-        
+
+        Sample DrawIO style string for the link::
+
             endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;
             edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;
             endFill=0;strokeWidth=5;
-            
+
         .. note:: If source or target nodes does not exists, they will be automatically
           created
-            
-        """    
+
+        """
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
         source = source_node_dict.pop("id")
@@ -311,8 +312,11 @@ class drawio_diagram:
             self.add_node(id=source, **source_node_dict)
         if not self._node_exists(target, **target_node_dict):
             self.add_node(id=target, **target_node_dict)
+        # get source and target edge labels
+        src_label = kwargs.get("src_label", "")
+        trgt_label = kwargs.get("trgt_label", "")
         # create edge id
-        edge_tup = tuple(sorted([label, source, target]))
+        edge_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
         edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
         if self._link_exists(edge_id, edge_tup):
             return
@@ -331,6 +335,8 @@ class drawio_diagram:
             )
         )
         # add links data and url
+        data.update(kwargs)
+        data.update({"source": source, "target": target})
         link = self._add_data_or_url(link, data, url)
         # save link to graph
         self.current_root.append(link)
@@ -345,15 +351,15 @@ class drawio_diagram:
     def dump_file(self, filename=None, folder="./Output/"):
         """
         Method to save current diagram in .drawio file.
-        
-        **Parameters** 
-        
+
+        **Parameters**
+
         * ``filename`` (str) name of the file to save diagram into
         * ``folder`` (str) OS path to folder where to save diagram file
-        
-        If no ``filename`` provided, timestamped format will be 
+
+        If no ``filename`` provided, timestamped format will be
         used to produce filename, e.g.: ``Sun Jun 28 20-30-57 2020_output.drawio``
-            
+
         """
         import time
 
@@ -370,18 +376,18 @@ class drawio_diagram:
 
     def layout(self, algo="kk", **kwargs):
         """
-        Method to calculate graph layout using Python 
-        `igraph <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_ 
+        Method to calculate graph layout using Python
+        `igraph <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_
         library
-        
-        **Parameters** 
-        
-        * ``algo`` (str) name of layout algorithm to use, default is 'kk'. Reference 
+
+        **Parameters**
+
+        * ``algo`` (str) name of layout algorithm to use, default is 'kk'. Reference
           `Layout algorithms` table below for valid algo names
         * ``kwargs`` any additional kwargs to pass to igraph ``Graph.layout`` method
-        
+
         **Layout algorithms**
-        
+
         +---------------------------------+----------------------------------------------------------------------------------------------------------------+
         | algo name                       |    description                                                                                                 |
         +=================================+================================================================================================================+
@@ -453,54 +459,54 @@ class drawio_diagram:
     def from_dict(self, data, diagram_name="Page-1", width=1360, height=864):
         """
         Method to build graph from dictionary.
-        
-        **Parameters** 
-        
+
+        **Parameters**
+
         * ``diagram_name`` (str) name of the diagram tab where to add links and nodes.
           Diagram tab will be created if it does not exists
         * ``width`` (int) diagram width in pixels
-        * ``height`` (int) diagram height in pixels        
+        * ``height`` (int) diagram height in pixels
         * ``data`` (dict) dictionary with nodes and link/edges details, example::
-        
+
             sample_graph = {
                 'nodes': [
                     {
-                        'id': 'a', 
-                        'label': 'R1' 
-                    }, 
+                        'id': 'a',
+                        'label': 'R1'
+                    },
                     {
-                        'id': 'b', 
-                        'label': 'somelabel', 
+                        'id': 'b',
+                        'label': 'somelabel',
                         'data': {'description': 'some node description'}
                     },
                     {
-                        'id': 'e', 
+                        'id': 'e',
                         'label': 'E'
                     }
-                ], 
+                ],
                 'edges': [
                     {
-                        'source': 'a', 
-                        'label': 'DF', 
-                        'target': 'b', 
+                        'source': 'a',
+                        'label': 'DF',
+                        'target': 'b',
                         'url': 'google.com'
                     }
                 ],
                 'links': [
                     {
-                        'source': 'a', 
+                        'source': 'a',
                         'target': 'e'
                     }
                 ]
             }
-                
+
         **Dictionary Content Rules**
-            
+
         * dictionary may contain ``nodes`` key with a list of nodes dictionaries
         * each node dictionary must contain unique ``id`` attribute, other attributes are optional
         * dictionary may contain ``edges`` or ``links`` key with a list of edges dictionaries
         * each link dictionary must contain ``source`` and ``target`` attributes, other attributes are optional
-        
+
         """
         self.add_diagram(id=diagram_name, width=width, height=height)
         [self.add_node(**node) for node in data.get("nodes", [])]
@@ -510,46 +516,46 @@ class drawio_diagram:
     def from_list(self, data, diagram_name="Page-1", width=1360, height=864):
         """
         Method to build graph from list.
-        
-        **Parameters** 
-        
+
+        **Parameters**
+
         * ``diagram_name`` (str) name of the diagram tab where to add links and nodes.
           Diagram tab will be created if it does not exists
         * ``width`` (int) diagram width in pixels
-        * ``height`` (int) diagram height in pixels  
+        * ``height`` (int) diagram height in pixels
         * ``data`` (list) list of link dictionaries, example::
-                    
+
             sample_graph = [
                 {
-                    'source': 'a', 
-                    'label': 'DF', 
-                    'target': 'b', 
+                    'source': 'a',
+                    'label': 'DF',
+                    'target': 'b',
                     'data': {'vlans': 'vlans_trunked: 1,2,3\\nstate: up'}
                 },
                 {
-                    'source': 'a', 
+                    'source': 'a',
                     'target': {
-                            'id': 'e', 
-                            'label': 'somelabel', 
+                            'id': 'e',
+                            'label': 'somelabel',
                             'data': {'description': 'some node description'}
                         }
                     }
-                }                
+                }
             ]
-            
+
         **List Content Rules**
-        
-            * each list item must have ``target`` and ``source`` attributes defined 
-            * ``target``/``source`` attributes can be either a string or a dictionary 
-            * dictionary ``target``/``source`` node must contain ``id`` attribute and 
+
+            * each list item must have ``target`` and ``source`` attributes defined
+            * ``target``/``source`` attributes can be either a string or a dictionary
+            * dictionary ``target``/``source`` node must contain ``id`` attribute and
               other supported node attributes
-            
+
         .. note::
-        
-            By default drawio_diagram object ``node_duplicates`` action set to 'skip' meaning that node will be added on first occurrence 
-            and ignored after that. Set ``node_duplicates`` to 'update' if node with given id need to be updated by 
+
+            By default drawio_diagram object ``node_duplicates`` action set to 'skip' meaning that node will be added on first occurrence
+            and ignored after that. Set ``node_duplicates`` to 'update' if node with given id need to be updated by
             later occurrences in the list.
-        """        
+        """
         self.add_diagram(id=diagram_name, width=width, height=height)
         [self.add_link(**edge) for edge in data]
 
@@ -557,9 +563,9 @@ class drawio_diagram:
         """
         Method to load nodes and links from Drawio diagram file for
         further processing
-        
+
         **Args**
-        
+
             * filename - OS path to .drawio file to load
         """
         with open(filename, "r") as f:
@@ -569,9 +575,9 @@ class drawio_diagram:
     def from_xml(self, text_data):
         """
         Method to load graph from .drawio XML text produced by DrawIO
-        
+
         **Args**
-        
+
             * text_data - text data to load
         """
         self.drawing = ET.fromstring(text_data)
@@ -593,38 +599,38 @@ class drawio_diagram:
     def from_csv(self, text_data):
         """
         Method to build graph from CSV tables
-        
-        **Parameters** 
-        
+
+        **Parameters**
+
         * ``text_data`` (str) CSV text with links or nodes details
-        
+
         This method supports loading CSV text data that contains nodes or links
-        information. If ``id`` in headers, ``from_dict`` method will be called for CSV 
+        information. If ``id`` in headers, ``from_dict`` method will be called for CSV
         processing, ``from_list`` method will be used otherwise.
-        
+
         CSV data with nodes details should have headers matching ``add_node`` method
         arguments and rules.
-        
+
         CSV data with links details should have headers matching ``add_link`` method
-        arguments and rules.                
+        arguments and rules.
 
         Sample CSV table with links details::
-        
+
             "source","label","target"
             "a","DF","b"
             "b","Copper","c"
             "b","Copper","e"
             "d","FW","e"
-        
+
         Sample CSV table with nodes details::
-        
+
             "id","label","style","width","height"
             a,"R1,2","./Pics/cisco_router.txt",78,53
             "b","some",,,
             "c","somelabel",,,
             "d","somelabel1",,,
             "e","R1",,,
-            
+
         """
         # import libs
         from io import StringIO
@@ -653,45 +659,50 @@ class drawio_diagram:
         data={},
         url="",
         style="",
+        **kwargs
     ):
         """
         Method to update edge/link details.
-        
+
         **Parameters**
-        
-        * ``edge_id`` (str) - md5 hash edge id, if not provided, will be generated 
+
+        * ``edge_id`` (str) - md5 hash edge id, if not provided, will be generated
           based on link attributes
         * ``label`` (str) - existing edge label
-        * ``source`` (str) - existing edge source node id 
-        * ``target`` (str) - existing edge target node id 
-        * ``new_label`` (str) - new edge label 
-        * ``data`` (str) - edge new data attributes 
-        * ``url`` (str) - edge new url attribute     
+        * ``source`` (str) - existing edge source node id
+        * ``target`` (str) - existing edge target node id
+        * ``new_label`` (str) - new edge label
+        * ``data`` (str) - edge new data attributes
+        * ``url`` (str) - edge new url attribute
         * ``style`` (str) - OS path to file or sting containing edge style
-            
+
         Either of these must be provided to find link element to update:
-        
+
         * ``edge_id`` MD5 hash or
         * ``label, source, target`` attributes to calculate ``edge_id``
-        
+
         ``edge_id`` calculated based on - ``label, source, target`` -
-        attributes following this algorithm:     
+        attributes following this algorithm:
 
         1. Edge tuple produced: ``tuple(sorted([label, source, target]))``
         2. MD5 hash derived from tuple: ``hashlib.md5(",".join(edge_tup).encode()).hexdigest()``
-        
-        This method will replace existing or add new label to the link. 
-        
+
+        This method will replace existing or add new label to the link.
+
         Existing data attribute will be amended with new values using dictionary
         like update method.
-                
+
         New style will replace existing style.
         """
         # get new label
         new_label = new_label if new_label != None else label
         # create edge id
-        edge_tup = tuple(sorted([label, source, target]))
-        new_edge_tup = tuple(sorted([new_label, source, target]))
+        src_label = kwargs.get("src_label", "")
+        trgt_label = kwargs.get("trgt_label", "")
+        edge_tup = tuple(
+            sorted([label, source, target, src_label, trgt_label])
+        )
+        new_edge_tup = tuple(sorted([new_label, source, target, src_label, trgt_label]))
         edge_id = (
             hashlib.md5(",".join(edge_tup).encode()).hexdigest()
             if not edge_id
@@ -718,6 +729,7 @@ class drawio_diagram:
         # update label and id
         edge.attrib.update({"id": new_edge_id, "label": new_label})
         # replace edge data and url
+        data.update(kwargs)
         edge = self._add_data_or_url(edge, data, url)
         # update style
         mxCell_elem = edge.find("./mxCell")
@@ -731,26 +743,26 @@ class drawio_diagram:
         self, data, diagram_name=None, missing_colour="#C0C0C0", new_colour="#00FF00"
     ):
         """
-        Method to combine two graphs - existing and new - and produce resulting 
+        Method to combine two graphs - existing and new - and produce resulting
         graph following these rules:
-        
+
         * nodes and links present in new graph but not in existing graph considered
-          as new and will be updated with ``new_colour`` style attribute by 
+          as new and will be updated with ``new_colour`` style attribute by
           default highlighting them in green
         * nodes and links missing from new graph but present in existing graph considered
           as missing and will be updated with ``missing_colour`` style attribute
           by default highlighting them in gray
         * nodes and links present in both graphs will remain unchanged
-        
-        **Parameters** 
-        
-        * ``data`` (dict) dictionary containing new graph data, dictionary format should be 
+
+        **Parameters**
+
+        * ``data`` (dict) dictionary containing new graph data, dictionary format should be
           the same as for ``from_dict`` method.
         * ``missing_colour`` (str) colour to apply to missing elements
         * ``new_colour`` (str) colour to apply to new elements
-        
+
         **Sample usage**::
-        
+
             from N2G import drawio_diagram
             existing_graph = {
                 "nodes": [
@@ -760,7 +772,7 @@ class drawio_diagram:
             ],
                 "links": [
                     {"source": "node-1", "target": "node-2", "label": "bla1"},
-                    {"source": "node-2", "target": "node-3", "label": "bla2"},       
+                    {"source": "node-2", "target": "node-3", "label": "bla2"},
                 ]
             }
             new_graph = {
@@ -777,9 +789,9 @@ class drawio_diagram:
             drawing = drawio_diagram()
             drawing.from_dict(data=existing_graph)
             drawing.compare(new_graph)
-            drawing.layout(algo="kk")   
+            drawing.layout(algo="kk")
             drawing.dump_file(filename="compared_graph.drawio")
-        
+
         """
         if diagram_name:
             self.go_to_diagram(diagram_name=diagram_name)
@@ -801,7 +813,15 @@ class drawio_diagram:
             # find new link elements and add them to graph
             for link in data["links"]:
                 link_tup = tuple(
-                    sorted([link.get("label", ""), link["source"], link["target"]])
+                    sorted(
+                        [
+                            link.get("label", ""),
+                            link["source"],
+                            link["target"],
+                            link.get("src_label", ""),
+                            link.get("trgt_label", ""),
+                        ]
+                    )
                 )
                 id = hashlib.md5(",".join(link_tup).encode()).hexdigest()
                 all_new_data_ids.add(id)
@@ -857,9 +877,9 @@ class drawio_diagram:
         """
         Method to delete node by its id. Bulk delete operation
         supported by providing list of node ids to delete.
-        
-        **Parameters** 
-        
+
+        **Parameters**
+
         * ``id`` (str) id of single node to delete
         * ``ids`` (list) list of node ids to delete
 
@@ -884,29 +904,31 @@ class drawio_diagram:
                     self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
                     self.current_root.remove(edge)
 
-    def delete_link(self, id=None, ids=[], label="", source="", target=""):
+    def delete_link(self, id=None, ids=[], label="", source="", target="", **kwargs):
         """
         Method to delete link by its id. Bulk delete operation
-        supported by providing list of link ids to delete. 
-        
-        If link ``id`` or ``ids`` not provided, id calculated based on - ``label, 
-        source, target`` - attributes using this algorithm:     
-    
+        supported by providing list of link ids to delete.
+
+        If link ``id`` or ``ids`` not provided, id calculated based on - ``label,
+        source, target`` - attributes using this algorithm:
+
         1. Edge tuple produced: ``tuple(sorted([label, source, target]))``
         2. MD5 hash derived from tuple: ``hashlib.md5(",".join(edge_tup).encode()).hexdigest()``
-        
-        **Parameters** 
-        
+
+        **Parameters**
+
         * ``id`` (str) id of single link to delete
-        * ``ids`` (list) list of link ids to delete    
+        * ``ids`` (list) list of link ids to delete
         * ``label`` (str) link label to calculate id of single link to delete
         * ``source`` (str) link source to calculate id of single link to delete
         * ``target`` (str) link target to calculate id of single link to delete
-        
+
         """
         if not id and not ids:
             # create edge id
-            edge_tup = tuple(sorted([source, target, label]))
+            src_label = kwargs.get("src_label", "")
+            trgt_label = kwargs.get("trgt_label", "")
+            edge_tup = tuple(sorted([source, target, label, src_label, trgt_label]))
             ids.append(hashlib.md5(",".join(edge_tup).encode()).hexdigest())
         else:
             ids = ids + [id] if id else ids

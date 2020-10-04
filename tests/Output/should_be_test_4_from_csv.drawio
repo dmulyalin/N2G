@@ -24,19 +24,19 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="714" y="0" />
       </mxCell>
-    </object><object id="d303130c30b5b0888aefbcfd9e9dc1e6" label="DF">
+    </object><object id="2f902db9836e5c9acc044dacd2a0fc06" label="DF" source="a" target="b">
       <mxCell edge="1" parent="1" source="a" style="endArrow=none;" target="b">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object id="bdcbf319f8cc42532f48c909435dd4c1" label="Copper">
+    </object><object id="c83889c4afc0870361144dd2a56a58db" label="Copper" source="b" target="c">
       <mxCell edge="1" parent="1" source="b" style="endArrow=none;" target="c">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object id="f092681ee4bb4335d939309480a0146a" label="Copper">
+    </object><object id="8221a829760164d62376cdf138c11237" label="Copper" source="b" target="e">
       <mxCell edge="1" parent="1" source="b" style="endArrow=none;" target="e">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object id="6ba49a0aa9fc16fd99ab07b41afa4df5" label="FW">
+    </object><object id="aec891b29b1246097169b52f9d4a921d" label="FW" source="d" target="e">
       <mxCell edge="1" parent="1" source="d" style="endArrow=none;" target="e">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>

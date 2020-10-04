@@ -1,0 +1,45 @@
+<mxfile compressed="false" type="device">
+    <diagram id="Page-1" name="Page-1">
+      <mxGraphModel arrows="1" connect="1" dx="1360" dy="864" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="1169" pageScale="1" pageWidth="827" shadow="1" tooltips="1">
+        <root>
+          <mxCell id="0" />   
+          <mxCell id="1" parent="0" />
+        <object id="a" label="R1,2">
+      <mxCell parent="1" style="./Pics/cisco_router.txt" vertex="1">
+          <mxGeometry as="geometry" height="53" width="78" x="849" y="864" />
+      </mxCell>
+    </object><object id="b" label="some">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="485" y="62" />
+      </mxCell>
+    </object><object id="c" label="somelabel">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="293" y="243" />
+      </mxCell>
+    </object><object id="d" label="somelabel1">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="599" y="854" />
+      </mxCell>
+    </object><object id="e" label="R1">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="714" y="0" />
+      </mxCell>
+    </object><object id="2f902db9836e5c9acc044dacd2a0fc06" label="DF" source="a" target="b">
+      <mxCell edge="1" parent="1" source="a" style="endArrow=none;" target="b">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><object id="c83889c4afc0870361144dd2a56a58db" label="Copper" source="b" target="c">
+      <mxCell edge="1" parent="1" source="b" style="endArrow=none;" target="c">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><object id="8221a829760164d62376cdf138c11237" label="Copper" source="b" target="e">
+      <mxCell edge="1" parent="1" source="b" style="endArrow=none;" target="e">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><object id="aec891b29b1246097169b52f9d4a921d" label="FW" source="d" target="e">
+      <mxCell edge="1" parent="1" source="d" style="endArrow=none;" target="e">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object></root>
+      </mxGraphModel>
+    </diagram></mxfile>

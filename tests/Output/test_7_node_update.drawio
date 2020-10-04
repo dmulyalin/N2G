@@ -1,0 +1,60 @@
+<mxfile agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/13.7.3 Chrome/85.0.4183.98 Electron/10.1.2 Safari/537.36" compressed="false" etag="ZDOnQ4TrVal1CLprOYh5" host="Electron" modified="2020-10-04T09:59:48.340Z" type="device" version="13.7.3">
+  <diagram id="Page-1" name="Page-1">
+    <mxGraphModel arrows="1" connect="1" dx="1551" dy="1209" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="1169" pageScale="1" pageWidth="827" shadow="1" tooltips="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <object id="node-1" k1="v1" k2="v2" label="node-1" link="http://ya.ru">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry as="geometry" height="60" width="120" x="1420" y="240" />
+          </mxCell>
+        </object>
+        <object id="node-2" label="node-2 Updated label">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry as="geometry" height="60" width="120" x="1110" y="240" />
+          </mxCell>
+        </object>
+        <object id="node-3" label="node_qfp">
+          <mxCell parent="1" style="shape=mxgraph.cisco.misc.asr_1000_series;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1">
+            <mxGeometry as="geometry" height="86" width="88" x="997" y="749" />
+          </mxCell>
+        </object>
+        <object a="b" c="d" id="node-4" label="node-4" link="http://google.com">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry as="geometry" height="60" width="120" x="900" y="240" />
+          </mxCell>
+        </object>
+        <object id="node-55" label="node-55">
+          <mxCell parent="1" style="shape=mxgraph.cisco.routers.atm_router;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1">
+            <mxGeometry as="geometry" height="53" width="78" x="680" y="240" />
+          </mxCell>
+        </object>
+        <object id="b35ebf8a6eeb7084dd9f3e14ec85eb9c" label="bla1" source="node-1" target="node-2">
+          <mxCell edge="1" parent="1" source="node-1" style="endArrow=none;" target="node-2">
+            <mxGeometry as="geometry" relative="1" />
+          </mxCell>
+        </object>
+        <object id="601d1f4fe959524564b9139bfd9ee1c5" label="bla2" source="node-2" target="node-3">
+          <mxCell edge="1" parent="1" source="node-2" style="endArrow=none;" target="node-3">
+            <mxGeometry as="geometry" relative="1" />
+          </mxCell>
+        </object>
+        <object id="03d64cf220b7cea506298c06d433f38e" label="bla3" source="node-3" target="node-1">
+          <mxCell edge="1" parent="1" source="node-3" style="endArrow=none;" target="node-1">
+            <mxGeometry as="geometry" relative="1" />
+          </mxCell>
+        </object>
+        <object id="d5fa69cbdbc6ae606177e052dcdf4fdc" label="bla4" source="node-4" target="node-3">
+          <mxCell edge="1" parent="1" source="node-4" style="endArrow=none;" target="node-3">
+            <mxGeometry as="geometry" relative="1" />
+          </mxCell>
+        </object>
+        <object id="51261c22508dab030b295dc400535756" label="" source="node-55" target="node-3">
+          <mxCell edge="1" parent="1" source="node-55" style="endArrow=none;" target="node-3">
+            <mxGeometry as="geometry" relative="1" />
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
