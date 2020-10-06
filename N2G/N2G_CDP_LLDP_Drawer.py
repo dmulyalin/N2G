@@ -122,6 +122,7 @@ class cdp_lldp_drawer:
     * ``group_links`` -
     * ``add_lag`` -
     * ``add_all_connected`` - add all nodes connected to devices, even the ones not visible via CDP or LLDP
+    * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
     """
 
     def __init__(self, drawing, config={}):
@@ -131,6 +132,7 @@ class cdp_lldp_drawer:
             "group_links": False,
             "add_lag": False,
             "add_all_connected": False,
+            "platforms": ["_all_"] # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
         }
         self.ttp_vars = {
             "IfsNormalize": {
@@ -182,6 +184,8 @@ class cdp_lldp_drawer:
     def _open_ttp_template(self, template_name):
         path_to_n2g = os.path.dirname(__file__)
         try:
+            if not "_all_" in self.config["platforms"] and not template_name in self.config["platforms"]:
+                return False
             path = "{}/ttp_templates/CDP_LLDP_Drawer/{}.txt".format(
                 path_to_n2g, template_name
             )
@@ -309,16 +313,18 @@ class cdp_lldp_drawer:
         src_if = "{}:{}".format(src, item["src_label"])
         tgt_if = "{}:{}".format(tgt, item["trgt_label"])
         # form description data for link
-        description = {
-            src_if: host_data.get("interfaces", {}).get(item["src_label"], {}),
-            tgt_if: hosts.get(tgt, {})
-            .get("interfaces", {})
-            .get(item["trgt_label"], {}),
-        }
-        # update item in graph data
-        self.links_dict[link_hash]["description"] = json.dumps(
-            description, sort_keys=True, indent=4, separators=(",", ": ")
-        )
+        if not "description" in self.links_dict[link_hash]:
+            description = {
+                src_if: host_data.get("interfaces", {}).get(item["src_label"], {}),
+                tgt_if: hosts.get(tgt, {})
+                .get("interfaces", {})
+                .get(item["trgt_label"], {}),
+            }
+            description[src_if].update(item.get("data", {}))
+            # update item in graph data
+            self.links_dict[link_hash]["description"] = json.dumps(
+                description, sort_keys=True, indent=4, separators=(",", ": ")
+            )
 
     def _update_lag_links_dict(self, item, hosts, host_data, link_hash):
         """
@@ -529,4 +535,5 @@ class cdp_lldp_drawer:
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())
+        # pprint.pprint(self.graph_dict, width =100)
         self.drawing.from_dict(self.graph_dict)

@@ -1,0 +1,37 @@
+<mxfile compressed="false" type="device">
+    <diagram id="Page-1" name="Page-1">
+      <mxGraphModel arrows="1" connect="1" dx="1360" dy="864" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="1169" pageScale="1" pageWidth="827" shadow="1" tooltips="1">
+        <root>
+          <mxCell id="0" />   
+          <mxCell id="1" parent="0" />
+        <object bottom_label="cisco WS-C6509" id="switch-1" label="switch-1" top_label="10.1.1.1">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object bottom_label="cisco WS-C6509" id="switch-2" label="switch-2" top_label="10.2.2.2">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object bottom_label="cisco WS-C3560-48TS" id="switch-3" label="switch-3" top_label="10.3.3.3">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object bottom_label="cisco WS-C3560-48TS" id="switch-4" label="switch-4" top_label="10.4.4.4">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object description="{&#10;    &quot;switch-1:Ge1/2&quot;: {&#10;        &quot;description&quot;: &quot;SW4 Routing Peering&quot;,&#10;        &quot;ip&quot;: &quot;10.0.0.1 255.255.255.0&quot;,&#10;        &quot;vrf&quot;: &quot;VRF1&quot;&#10;    },&#10;    &quot;switch-4:Ge0/10&quot;: {}&#10;}" id="1a55473cf64b1d33fe9a470093808d0d" label="" source="switch-1" src_label="Ge1/2" target="switch-4" trgt_label="Ge0/10">
+      <mxCell edge="1" parent="1" source="switch-1" style="endArrow=none;" target="switch-4">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><object description="{&#10;    &quot;lag_members&quot;: {&#10;        &quot;switch-1:Ge4/6&quot;: &quot;switch-2:Ge1/5&quot;,&#10;        &quot;switch-1:Ge4/7&quot;: &quot;switch-2:Ge1/6&quot;&#10;    },&#10;    &quot;switch-1:LAG3&quot;: {&#10;        &quot;description&quot;: &quot;switch-2: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;200,201,202,203,204,205&quot;&#10;    },&#10;    &quot;switch-2:LAG3&quot;: {&#10;        &quot;description&quot;: &quot;switch-1: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;200,201,202,203,204,205&quot;&#10;    }&#10;}" id="e74000249c5487a013e4c07805ef8fab" label="" source="switch-1" src_label="LAG3" target="switch-2" trgt_label="LAG3">
+      <mxCell edge="1" parent="1" source="switch-1" style="endArrow=none;" target="switch-2">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><object description="{&#10;    &quot;lag_members&quot;: {&#10;        &quot;switch-1:Ge1/1&quot;: &quot;switch-3:Ge0/1&quot;&#10;    },&#10;    &quot;switch-1:LAG11&quot;: {&#10;        &quot;description&quot;: &quot;switch-3: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;101&quot;&#10;    }&#10;}" id="9e9868a7b49ea76b8d22a7802994ec2a" label="" source="switch-1" src_label="LAG11" target="switch-3">
+      <mxCell edge="1" parent="1" source="switch-1" style="endArrow=none;" target="switch-3">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object></root>
+      </mxGraphModel>
+    </diagram></mxfile>

@@ -1,0 +1,41 @@
+switch-2#show cdp neighbors detail 
+-------------------------
+Device ID: switch-1
+Entry address(es): 
+  IP address: 10.1.1.1
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+
+-------------------------
+Device ID: switch-1
+Entry address(es): 
+  IP address: 10.1.1.1
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
+
+switch-2#show run
+interface Port-channel3
+ description switch-1: trunk LAG
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+!
+interface GigabitEthernet1/5
+ description switch-1: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/6
+ description switch-1: trunk
+ switchport
+ switchport trunk allowed vlan 200-205
+ switchport mode trunk
+ channel-group 3 mode active
+!
+vlan 200
+ name ProdVMS
+!
+vlan 101
+ name test_vlan

@@ -199,6 +199,7 @@ class drawio_diagram:
             outlineConnect=0;
 
         """
+        node_data = {}
         if self._node_exists(id, label=label, data=data, url=url):
             return
         self.nodes_ids[self.current_diagram_id].append(id)
@@ -221,8 +222,9 @@ class drawio_diagram:
             )
         )
         # add data attributes and/or url to node
-        data.update(kwargs)
-        node = self._add_data_or_url(node, data, url)
+        node_data.update(data)
+        node_data.update(kwargs)
+        node = self._add_data_or_url(node, node_data, url)
         self.current_root.append(node)
 
     def update_node(
@@ -242,9 +244,12 @@ class drawio_diagram:
         * ``style`` (str) string containing DrawIO style parameters to apply to the node
 
         """
+        node_data = {}
         node = self.current_root.find("./object[@id='{}']".format(id))
         # update data and url attributes
-        node = self._add_data_or_url(node, data, url)
+        node_data.update(data)
+        node_data.update(kwargs)
+        node = self._add_data_or_url(node, node_data, url)
         # update label
         if not label is None:
             node.attrib["label"] = label
@@ -300,6 +305,7 @@ class drawio_diagram:
           created
 
         """
+        link_data = {}
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
         source = source_node_dict.pop("id")
@@ -335,9 +341,10 @@ class drawio_diagram:
             )
         )
         # add links data and url
-        data.update(kwargs)
-        data.update({"source": source, "target": target})
-        link = self._add_data_or_url(link, data, url)
+        link_data.update(data)
+        link_data.update(kwargs)
+        link_data.update({"source": source, "target": target})
+        link = self._add_data_or_url(link, link_data, url)
         # save link to graph
         self.current_root.append(link)
 
@@ -694,6 +701,7 @@ class drawio_diagram:
 
         New style will replace existing style.
         """
+        link_data = {}
         # get new label
         new_label = new_label if new_label != None else label
         # create edge id
@@ -729,8 +737,9 @@ class drawio_diagram:
         # update label and id
         edge.attrib.update({"id": new_edge_id, "label": new_label})
         # replace edge data and url
-        data.update(kwargs)
-        edge = self._add_data_or_url(edge, data, url)
+        link_data.update(data)
+        link_data.update(kwargs)
+        edge = self._add_data_or_url(edge, link_data, url)
         # update style
         mxCell_elem = edge.find("./mxCell")
         if os.path.isfile(style[:5000]):
