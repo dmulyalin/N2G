@@ -30,7 +30,7 @@ All formats supported so far have very similar API capable of:
 * layout your diagram with algorithms available in [igraph](https://igraph.org/2020/02/14/igraph-0.8.0-python.html) library
 * returning results in text format or saving directly into the file
 
-Reference [documentation](https://n2g.readthedocs.io) for more information.
+Reference [documentation](https://n2g.readthedocs.io/en/0.1.2/index.html) for more information.
 
 ## What it's not?
 
