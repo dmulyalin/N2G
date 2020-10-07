@@ -252,11 +252,11 @@ class cdp_lldp_drawer:
             for hostname, host_data in hosts.items():
                 for item in host_data.get("cdp_peers", []):
                     self._add_node({"id": item["source"]}, host_data)
-                    self._add_node(item["target"], host_data)
+                    self._add_node(item["target"], hosts.get(item["target"]["id"], {}))
                     self._add_link(item, hosts, host_data)
                 for item in host_data.get("lldp_peers", []):
                     self._add_node({"id": item["source"]}, host_data)
-                    self._add_node(item["target"], host_data)
+                    self._add_node(item["target"], hosts.get(item["target"]["id"], {}))
                     self._add_link(item, hosts, host_data)
 
     def _add_node(self, item, host_data):

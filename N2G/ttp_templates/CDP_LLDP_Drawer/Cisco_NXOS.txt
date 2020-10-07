@@ -113,19 +113,21 @@ interface {{ interface | resuball(IfsNormalize) }}
   ip address {{ ip | joinmatches(",") }} secondary 
 </group>
 
-<!-- Interfaces state group 
 <group name="{{ local_hostname }}.interfaces**.{{ interface }}**.state">
-{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line }}
-{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line }} ({{ line_status }})
+{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line }}, autostate enabled
+{{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ line | ORPHRASE }}
+admin state is {{ admin | ORPHRASE }},{{ ignore(".*") }}
+admin state is {{ admin }}
+  Belongs to {{ parent_lag }}
   Description: {{ description | re(".+") }} 
-  Hardware is {{ hardware | ORPHRASE }}, address is {{ mac }} (bia {{ ignore }})
-  MTU {{ mtu }} bytes, BW {{ bw_kbits }} Kbit/sec, DLY 1000 usec, 
-  {{ duplex }}-duplex, {{ link_type }}, media type is {{ media_type }}
-  {{ duplex }}-duplex, {{ link_speed }}-speed, link type is {{ link_type }}, media type is {{ media_type | ORPHRASE }}
-  {{ duplex }}-duplex, {{ link_speed }}, link type is {{ link_type }}, media type is {{ media_type | ORPHRASE }}
+  Hardware: {{ hardware | ORPHRASE }}, address: {{ mac }} (bia {{ bia }})
+  Hardware is {{ hardware }}, address is  {{ mac }}
+  MTU {{ mtu }} bytes, BW {{ bw_kbits }} Kbit, DLY 10 usec
+  Port mode is {{ mode }}
+  {{ duplex }}-duplex, {{ link_speed | PHRASE }}, media type is {{ media_type }}
+  {{ duplex }}-duplex, {{ link_speed | PHRASE | exclude(",media") }}
   Members in this channel: {{ lag_members | ORPHRASE }}
 </group>
--->
 
 <!-- node_facts VLANs group -->
 <group name="{{ local_hostname }}.node_facts.vlans**" macro="process_vlans">

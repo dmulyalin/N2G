@@ -1153,12 +1153,6 @@ interface GigabitEthernet1/2
  vrf forwarding VRF1
  ip address 10.0.0.1 255.255.255.0
 !
-vlan 200
- name ProdVMS
-!
-vlan 101
- name test_vlan
-!
 switch-1#show interface
 GigabitEthernet1/1 is up, line protocol is up (connected) 
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
@@ -1226,12 +1220,6 @@ interface GigabitEthernet1/6
  switchport trunk allowed vlan 200-205
  switchport mode trunk
  channel-group 3 mode active
-!
-vlan 200
- name ProdVMS
-!
-vlan 101
- name test_vlan
     """
         ]
     }
@@ -2384,12 +2372,6 @@ interface GigabitEthernet1/2
  vrf forwarding VRF1
  ip address 10.0.0.1 255.255.255.0
 !
-vlan 200
- name ProdVMS
-!
-vlan 101
- name test_vlan
-!
 switch-1#show interface
 GigabitEthernet1/1 is up, line protocol is up (connected) 
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
@@ -2457,12 +2439,6 @@ interface GigabitEthernet1/6
  switchport trunk allowed vlan 200-205
  switchport mode trunk
  channel-group 3 mode active
-!
-vlan 200
- name ProdVMS
-!
-vlan 101
- name test_vlan
     """
         ]
     }
@@ -2571,12 +2547,6 @@ interface GigabitEthernet1/2
  vrf forwarding VRF1
  ip address 10.0.0.1 255.255.255.0
 !
-vlan 200
- name ProdVMS
-!
-vlan 101
- name test_vlan
-!
 switch-1#show interface
 GigabitEthernet1/1 is up, line protocol is up (connected) 
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
@@ -2656,12 +2626,6 @@ interface GigabitEthernet1/6
  switchport trunk allowed vlan 200-205
  switchport mode trunk
  channel-group 3 mode active
-!
-vlan 200
- name ProdVMS
-!
-vlan 101
- name test_vlan
     """
         ]
     }
@@ -2683,3 +2647,5 @@ def test_cdp_drawing_yed_data_path_cisco_nxos():
     drawer = cdp_lldp_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos.graphml", folder="./Output/")
+	
+# test_cdp_drawing_yed_data_path_cisco_nxos()

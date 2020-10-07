@@ -12,11 +12,11 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
-    </object><object bottom_label="cisco WS-C3560-48TS" description="{&#10;    &quot;vlans&quot;: {&#10;        &quot;101&quot;: &quot;test_vlan&quot;,&#10;        &quot;200&quot;: &quot;ProdVMS&quot;&#10;    }&#10;}" id="switch-3" label="switch-3" top_label="10.3.3.3">
+    </object><object bottom_label="cisco WS-C3560-48TS" id="switch-3" label="switch-3" top_label="10.3.3.3">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
-    </object><object bottom_label="cisco WS-C3560-48TS" description="{&#10;    &quot;vlans&quot;: {&#10;        &quot;101&quot;: &quot;test_vlan&quot;,&#10;        &quot;200&quot;: &quot;ProdVMS&quot;&#10;    }&#10;}" id="switch-4" label="switch-4" top_label="10.4.4.4">
+    </object><object bottom_label="cisco WS-C3560-48TS" id="switch-4" label="switch-4" top_label="10.4.4.4">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>

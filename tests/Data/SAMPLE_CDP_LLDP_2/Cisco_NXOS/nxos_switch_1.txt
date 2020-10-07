@@ -187,3 +187,43 @@ System Capabilities: B, R
 Enabled Capabilities: B, R
 Management Address: 10.152.3.4
 Vlan ID: 1
+
+nxos_switch_1# show run 
+vlan 777
+  name cust_fw_vlan
+!
+vlan 4
+  name if_monitor
+!
+vlan 2122
+  name provisioning_systems
+  
+nxos_switch_1# show interface
+Ethernet5/1 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.1234 (bia 00b0.1111.4444)
+  Description: nxos_switch_2:eth2/29
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+  
+port-channel543 is up
+admin state is up
+  Hardware: Port-Channel, address: 8c60.4f53.3232 (bia 00b0.4567.7654)
+  Description: nxos_switch_3 LAG no vpc
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  Port mode is trunk
+  full-duplex, 10 Gb/s
+  Members in this channel: Eth5/43
+
+Ethernet5/47 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.5812 (bia 00b0.1111.ef32)
+  Description: NMS_server_1 no on cdp
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
