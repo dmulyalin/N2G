@@ -89,7 +89,7 @@ def process_vlans(data):
     
 def check_is_physical_port(data):
     for item in _ttp_["vars"]["physical_ports"]:
-        if data.startswith(item):
+        if data.startswith(item) and not "." in item:
             return data, {"is_physical_port": True}
     return data
 </macro>
@@ -107,7 +107,7 @@ interface {{ interface | resuball(IfsNormalize) }}
  ip address {{ ip | PHRASE | joinmatches(",") }}
  ip address {{ ip | PHRASE | joinmatches(",") }} secondary
  switchport trunk allowed vlan {{ trunk_vlans | unrange("-", ",") | joinmatches(",") }}
- channel-group {{ lag_id }} mode {{ lag_mode }}
+ channel-group {{ lag_id | DIGIT }} mode {{ lag_mode }}
  mtu {{ mtu }}
 </group>
 

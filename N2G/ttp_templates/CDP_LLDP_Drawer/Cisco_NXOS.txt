@@ -89,8 +89,16 @@ def process_vlans(data):
     
 def check_is_physical_port(data):
     for item in _ttp_["vars"]["physical_ports"]:
-        if data.startswith(item):
+        if data.startswith(item) and not "." in data:
             return data, {"is_physical_port": True}
+    return data
+</macro>
+
+<macro>
+def check_lldp_peer_name(data):
+    undef_names = ["not advertised", "null"]
+    if data.get("target.id", "").lower() in undef_names:
+        data["target.id"] = data["data.chassis_id"]
     return data
 </macro>
 
@@ -105,8 +113,8 @@ interface {{ interface | resuball(IfsNormalize) }}
   switchport mode {{ l2_mode }}
   switchport trunk allowed vlan {{ trunk_vlans | unrange("-", ",") | joinmatches(",") }}
   switchport trunk allowed vlan add {{ trunk_vlans | unrange("-", ",") | joinmatches(",") }}
-  channel-group {{ lag_id }} mode {{ lag_mode }}
-  vpc {{ mlag_id }}
+  channel-group {{ lag_id | DIGIT }} mode {{ lag_mode }}
+  vpc {{ mlag_id | DIGIT }}
   mtu {{ mtu }}
   vrf member {{ vrf }}
   ip address {{ ip | joinmatches(",") }} 
@@ -131,16 +139,17 @@ admin state is {{ admin }}
 
 <!-- node_facts VLANs group -->
 <group name="{{ local_hostname }}.node_facts.vlans**" macro="process_vlans">
-vlan {{ vid }}
+vlan {{ vid | exclude(",") }}
   name {{ name | ORPHRASE | default("no name") }}
 </group>
 
 <!-- LLDP peers group -->
-<group name="{{ local_hostname }}.lldp_peers*" expand="">
+<group name="{{ local_hostname }}.lldp_peers*" chain="macro('check_lldp_peer_name') | expand()">
+Chassis id: {{ data.chassis_id }}
 Port id: {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
 Local Port id: {{ src_label | resuball(IfsNormalize) }}
 Port Description: {{ data.peer_port_description }}
-System Name: {{ target.id | split(".") | item(0) | split("(") | item(0) }}
+System Name: {{ target.id | ORPHRASE | split(".") | item(0) | split("(") | item(0) }}
 System Description: {{ data.peer_system | ORPHRASE}}
 System Capabilities: {{ data.peer_capabilities | ORPHRASE }}
 Management Address: {{ target.top_label }}

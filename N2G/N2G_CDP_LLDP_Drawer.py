@@ -14,20 +14,6 @@ import re
 
 # initiate logging
 log = logging.getLogger(__name__)
-LOG_LEVEL = "ERROR"
-
-
-def logging_config(LOG_LEVEL):
-    valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    if LOG_LEVEL.upper() in valid_log_levels:
-        logging.basicConfig(
-            format="%(asctime)s.%(msecs)d [N2G_CDP_Drawer %(levelname)s] %(lineno)d; %(message)s",
-            datefmt="%m/%d/%Y %I:%M:%S",
-            level=LOG_LEVEL.upper(),
-        )
-
-
-logging_config(LOG_LEVEL)
 
 
 # -----------------------------------------------------------------------------
@@ -340,6 +326,8 @@ class cdp_lldp_drawer:
         if "lag_id" in src_intf_data:
             src_lag_name = "LAG{}".format(src_intf_data["lag_id"])
             src_lag_data = host_data.get("interfaces", {}).get(src_lag_name, {})
+            if "mlag_id" in src_lag_data:
+                src_lag_name = "MLAG{}".format(src_lag_data["mlag_id"])
             lag_link.update(
                 {
                     "source": src,
@@ -353,6 +341,8 @@ class cdp_lldp_drawer:
             tgt_lag_data = (
                 hosts.get(tgt, {}).get("interfaces", {}).get(tgt_lag_name, {})
             )
+            if "mlag_id" in tgt_lag_data:
+                tgt_lag_name = "MLAG{}".format(tgt_lag_data["mlag_id"])
             lag_link.update({"source": src, "target": tgt, "trgt_label": tgt_lag_name})
             lag_link.setdefault("description", {})
             lag_link["description"].update(
@@ -488,6 +478,8 @@ class cdp_lldp_drawer:
                         lag_intf_name = "LAG{}".format(intf_data["lag_id"])
                         src_if = "{}:{}".format(hostname, lag_intf_name)                      
                         lag_intf_data = host_data["interfaces"].get(lag_intf_name, {})
+                        if "mlag_id" in lag_intf_data:
+                            lag_intf_name = "MLAG{}".format(lag_intf_data["mlag_id"])
                         link["src_label"] = lag_intf_name
                         link["description"] = json.dumps(
                                 {
