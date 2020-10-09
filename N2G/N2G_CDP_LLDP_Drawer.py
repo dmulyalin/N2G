@@ -26,17 +26,30 @@ class cdp_lldp_drawer:
     Class to process CDP and LLDP neighbors together with
     running configuration and state to produce diagram out of it.
 
+    **Parameters**
+
+    * ``drawing`` - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
+    * ``config`` - dictionary of configuration options to define processing behavior
+
+    Supported ``config`` dictionary attributes:
+
+    * ``add_interfaces_data`` - boolean, default ``True``, add interfaces configuration and state data to links
+    * ``group_links`` - boolean, default ``False``, group links between nodes
+    * ``add_lag`` - boolean, default ``False``, add LAG/MLAG links to diagram
+    * ``add_all_connected`` - boolean, default ``False``, add all nodes connected to devices based on interfaces state
+    * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
+    
     **Features support matrix**
 
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    |               |    CDP     |   LLDP    | interface | interface |    LAG    |  links    |   node    |    MAC    |  Add all  |
-    |  Platform     |   peers    |   peers   |  config   |   state   |   links   | grouping  |   facts   | addresses | connected |
+    |  Platform     |   CDP      |   LLDP    | interface | interface |   LAG     | links     |   node    | MAC       | Add all   |
+    |  Name         |   peers    |   peers   | config    | state     |   links   | grouping  |   facts   | addresses | connected |
     +===============+============+===========+===========+===========+===========+===========+===========+===========+===========+
     | Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
     | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    | Cisco_NXOS    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
     | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
@@ -45,15 +58,17 @@ class cdp_lldp_drawer:
     | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
-    CDP peers - adds links and nodes out of CDP neighbors
-    LLDP peers - adds links and nodes out of LLDP neighbors
-    interface config - adds interfaces configuration to links data
-    interface state - add links state information to links data
-    LAG links - combines links based on LAG membership
-    links grouping - groups links between nodes
-    node facts - adds information to nodes for vlans, etc
-    MAC addresses - adds mac addresses nodes to diagram
-    Add all connected - adds all connected nodes that are not visible on CDP or LLDP
+    **Features description**
+    
+    * ``CDP peers`` - adds links and nodes out of CDP neighbors
+    * ``LLDP peers`` - adds links and nodes out of LLDP neighbors
+    * ``interface config`` - adds interfaces configuration to links data
+    * ``interface state`` - add links state information to links data
+    * ``LAG links`` - combines links based on LAG membership
+    * ``links grouping`` - groups links between nodes
+    * ``node facts`` - adds information to nodes for vlans, etc
+    * ``MAC addresses`` - adds mac addresses nodes to diagram
+    * ``Add all connected`` - adds all connected nodes that are not visible on CDP or LLDP
 
     **Cisco Commands**
 
@@ -62,53 +77,11 @@ class cdp_lldp_drawer:
     * config, LAG, grouping for Cisco IOS, IOS-XR, NXOS, ASA - ``show running-configuration``
     * state for Cisco IOS, IOS-XR, NXOS - ``show interface``
 
-    ** Huawei Commands**
+    **Huawei Commands**
 
     * LLDP - ``display lldp neighbor details``
     * config, LAG, grouping - ``display current-configuration``
     * state - ``display interface``
-
-    **cdp_lldp_drawer attributes**
-
-    * ``data`` dictionary or OS path string to directory with text files
-    * ``drawing`` N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
-    * ``config`` dictionary of configuration options to define processing behavior
-
-    If data is dictionary, keys must correspond to "Platform" column in
-    *Supported platforms* table, values are lists of text items to
-    process.
-
-    Data dictionary sample::
-
-        data = {
-            "Cisco_IOS" : ["h1", "h2"],
-            "Cisco_IOS-XR": ["h3", "h4"],
-            "Cisco_NXOS": ["h5", "h6"],
-            ...etc...
-        }
-
-    Where ``hX`` devices show commands output.
-
-    If data is a string with OS path to directory, child directories names
-    must correspond to "Platform" column in *Supported platforms* table.
-    Each child directory should contain text files with show commands output
-    for each device.
-
-    Directories structure sample::
-
-        /data/
-             |_/Cisco_IOS/<text files>
-             |_/Cisco_IOSXR/<text files>
-             |_/Huawei/<text files>
-             |_/...etc...
-
-    Supported ``config`` dictionary attributes::
-
-    * ``add_interfaces_data`` -
-    * ``group_links`` -
-    * ``add_lag`` -
-    * ``add_all_connected`` - add all nodes connected to devices, even the ones not visible via CDP or LLDP
-    * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
     """
 
     def __init__(self, drawing, config={}):
@@ -155,6 +128,42 @@ class cdp_lldp_drawer:
         self.nodes_to_links_dict = {}  # used by group_links
 
     def work(self, data):
+        """
+        Method to parse text data and add nodes and links
+        to drawing dictionary
+        
+        **Parameteres**
+        
+        * ``data`` dictionary or OS path string to directory with text files
+        
+        If data is dictionary, keys must correspond to "Platform" column in
+        *Supported platforms* table, values are lists of text items to
+        process.
+        
+        Data dictionary sample::
+        
+            data = {
+                "Cisco_IOS" : ["h1", "h2"],
+                "Cisco_IOS-XR": ["h3", "h4"],
+                "Cisco_NXOS": ["h5", "h6"],
+                ...etc...
+            }
+        
+        Where ``hX`` devices show commands output.
+        
+        If data is a string with OS path to directory, child directories names
+        must correspond to "Platform" column in *Supported platforms* table.
+        Each child directory should contain text files with show commands output
+        for each device.
+        
+        Directories structure sample::
+        
+            /data/
+                 |_/Cisco_IOS/<text files>
+                 |_/Cisco_IOSXR/<text files>
+                 |_/Huawei/<text files>
+                 |_/...etc...
+        """
         self._parse(data)
         self._form_base_graph_dict()
         # go through config statements
