@@ -23,6 +23,9 @@ setup(
         "Operating System :: OS Independent",
     ],
     entry_points = {
-        'console_scripts': ['n2g=N2G.N2G_cli']
+        'console_scripts': ['n2g=N2G.N2G_cli:cli_tool']
+    },
+    package_data = {
+        'N2G': ['ttp_templates/*/*.txt']
     }
 )

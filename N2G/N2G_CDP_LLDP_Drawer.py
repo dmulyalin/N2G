@@ -4,6 +4,9 @@ To implement:
 - add mac addresses nodes to the diagram based on show mac addr table output, logic - if interface is edge - connected to uncknown or last device, add mac addresses as nodes behind that device
 - add invetnry to node facts
 - add software version to node facts out of CDP output
+- add combine_peers test for LAG/MLAG
+- add combine peers test when we have remote node CDP/LLDP data
+- add combine test when we have multiple links between nodes with L2 in between
 """
 import logging
 from ttp import ttp
