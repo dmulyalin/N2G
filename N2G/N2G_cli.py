@@ -9,7 +9,7 @@ __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
 
 # form argparser menu:
-description_text = """Parsing order is: clp => ...
+description_text = """Parsing order is: CDP/LLDP (clp) => ...
 
 -d,  --data          OS path to folder with data files subfolders
 -f,  --folder        Output folder location, default ./Output/
@@ -21,6 +21,7 @@ CDP and LLDP drawer options:
 -clp-add-lag         Add LAG/M-LAG information and delete member links
 -clp-group-links     Group links between nodes
 -clp-add-connected   Add all connected nodes
+-clp-combine-peers   Combine CDP/LLDP peers behind same interface
 -clp-platforms       Comma separated list of platforms to parse"""
 
 argparser = argparse.ArgumentParser(
@@ -28,6 +29,9 @@ argparser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
 )
 run_options = argparser.add_argument_group(description=description_text)
+#-----------------------------------------------------------------------------
+# General options
+#-----------------------------------------------------------------------------
 run_options.add_argument(
     "-d",
     "--data",
@@ -64,6 +68,9 @@ run_options.add_argument(
     type=str,
     help=argparse.SUPPRESS,
 )
+#-----------------------------------------------------------------------------
+# CDP and LLDP (CLP) options
+#-----------------------------------------------------------------------------
 run_options.add_argument(
     "-clp",
     action="store_true",
@@ -93,6 +100,13 @@ run_options.add_argument(
     help=argparse.SUPPRESS,
 )
 run_options.add_argument(
+    "-clp-combine-peers",
+    action="store_true",
+    dest="clp_combine_peers",
+    default=False,
+    help=argparse.SUPPRESS,
+)
+run_options.add_argument(
     "-clp-platforms",
     action="store",
     dest="clp_platforms",
@@ -114,6 +128,7 @@ clp_add_lag = args.clp_add_lag
 clp_group_links = args.clp_group_links
 clp_add_connected = args.clp_add_connected
 clp_platforms = args.clp_platforms
+clp_combine_peers = args.clp_combine_peers
 
 ext = "graphml" if MODULE == "yed" else "drawio"
 if not FILENAME:
@@ -130,7 +145,8 @@ if clp:
         "group_links": clp_group_links,
         "add_lag": clp_add_lag,
         "add_all_connected": clp_add_connected, 
-        "platforms": [i.strip() for i in clp_platforms.split(",")]
+        "platforms": [i.strip() for i in clp_platforms.split(",")],
+        "combine_peers": clp_combine_peers
     }
     if MODULE == "yed":
         drawing = create_yed_diagram()

@@ -2638,7 +2638,189 @@ interface GigabitEthernet1/6
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio") as should_be:
             assert produced.read() == should_be.read()
             
-def test_cdp_drawing_yed_data_path_cisco_nxos():
+def test_cdp_drawing_yed_data_dict_cisco_nxos_base():
+    data = { "Cisco_NXOS": [
+    """
+nxos_switch_1# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_2(JPG2212345)
+System Name: nxos_switch_2
+
+Interface address(es):
+    IPv4 Address: 10.2.2.2
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/1, Port ID (outgoing port): Ethernet2/29
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+
+nxos_switch_1# show lldp nei det
+Chassis id: 501c.b09b.1111
+Port id: Eth2/29
+Local Port id: Eth5/15
+Port Description: uplink to ISP via nxos_switch_1
+System Name: cust_sw_1
+System Description: Cisco NX-OS(tm) n7700, Software (n7700-s3-dk9), Version 91.3(1), RELEASE SOFTWARE Copyright (c) 2002-2003 by Cisco Systems, Inc. Compiled 7/30/2003 12:00:00
+Time remaining: 95 seconds
+System Capabilities: B, R
+Enabled Capabilities: B, R
+Management Address: 10.151.1.1
+Vlan ID: not advertised
+
+nxos_switch_1# show run int
+interface Ethernet5/1
+  description nxos_switch_2:eth2/29 [L3]
+  mpls ip
+  mtu 9216
+  ip address 1.1.1.1/30
+  vrf member VRF1
+  ip address 2.2.2.2/32 secondary
+!
+interface Ethernet5/15
+  description cust_sw_1 Eth2/29
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 2122
+  mtu 9216
+
+nxos_switch_1# show interface
+Ethernet5/1 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.1234 (bia 00b0.1111.4444)
+  Description: nxos_switch_2:eth2/29
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+
+Ethernet5/15 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.1592 (bia 00b0.1111.9999)
+  Description: cust_sw_1 Eth2/29
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is trunk
+  full-duplex, 10 Gb/s, media type is 10G
+    """,
+    """
+nxos_switch_2# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_1(JPG2212345)
+System Name: nxos_switch_1
+
+Interface address(es):
+    IPv4 Address: 10.1.1.1
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet2/29, Port ID (outgoing port): Ethernet5/1
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.1.1.1
+
+nxos_switch_1# show lldp nei det
+Chassis id: 1409.dcaf.5555
+Port id: 10GE1/17/21
+Local Port id: Eth5/31
+Port Description: cust_sw_3
+System Name: cust_sw_3
+System Description: Huawei Versatile Routing Platform Software
+VRP (R) software, Version 8.120 (OSCA V100R005C60)
+Copyright (C) 2012-2016 Huawei Technologies Co., Ltd.
+HUAWEI OSCA
+
+Time remaining: 113 seconds
+System Capabilities: B, R
+Enabled Capabilities: B, R
+Management Address: 10.152.3.4
+Vlan ID: 1
+
+nxos_switch_1# show interface
+Ethernet2/29 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.4321 (bia 00b0.1111.3333)
+  Description: nxos_switch_1:eth5/1
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+
+Ethernet5/31 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.3131 (bia 00b0.1111.3131)
+  Description: cust_sw_3 10GE1/17/21
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+  
+nxos_switch_1# show run int
+interface Ethernet2/29
+  description nxos_switch_1:eth5/1 [L3]
+  mpls ip
+  mtu 9216
+  ip address 1.1.1.2/30
+  vrf member VRF1
+  ip address 2.2.2.3/32 secondary
+!
+interface Ethernet5/31
+  description cust_sw_3 10GE1/17/21
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 777
+  switchport trunk allowed vlan 777,1,2,3,4
+    """]
+    }
+    config = {
+        "platforms": ["Cisco_NXOS", "Cisco_IOS"]
+    }
+    drawing = create_yed_diagram()
+    drawer = cdp_lldp_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as should_be:
+            assert produced.read() == should_be.read()    
+            
+# test_cdp_drawing_yed_data_path_cisco_nxos()
+
+def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
+    data = "./Data/SAMPLE_CDP_LLDP_2/"
+    config = {
+        "platforms": ["Cisco_NXOS", "Cisco_IOS"],
+        "add_all_connected": True,
+        "add_lag": True,
+        "group_links": True
+    }
+    drawing = create_yed_diagram()
+    drawer = cdp_lldp_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as should_be:
+            assert produced.read() == should_be.read()   
+            
+def test_cdp_drawing_yed_data_path_cisco_nxos_base():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
     config = {
         "platforms": ["Cisco_NXOS"]
@@ -2646,6 +2828,21 @@ def test_cdp_drawing_yed_data_path_cisco_nxos():
     drawing = create_yed_diagram()
     drawer = cdp_lldp_drawer(drawing, config)
     drawer.work(data)
-    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos.graphml", folder="./Output/")
-	
-# test_cdp_drawing_yed_data_path_cisco_nxos()
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as should_be:
+            assert produced.read() == should_be.read()  
+
+def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
+    data = "./Data/SAMPLE_CDP_LLDP_2/"
+    config = {
+        "platforms": ["Cisco_NXOS"],
+        "combine_peers": True
+    }
+    drawing = create_yed_diagram()
+    drawer = cdp_lldp_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as should_be:
+            assert produced.read() == should_be.read()              

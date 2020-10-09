@@ -1,0 +1,196 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
+    
+    <key attr.name="Description" attr.type="string" for="graph" id="d0" />
+    <key for="port" id="d1" yfiles.type="portgraphics" />
+    <key for="port" id="d2" yfiles.type="portgeometry" />
+    <key for="port" id="d3" yfiles.type="portuserdata" />
+    <key attr.name="url" attr.type="string" for="node" id="d4" />
+    <key attr.name="description" attr.type="string" for="node" id="d5" />
+    <key for="node" id="d6" yfiles.type="nodegraphics" />
+    <key for="graphml" id="d7" yfiles.type="resources" />
+    <key attr.name="url" attr.type="string" for="edge" id="d8" />
+    <key attr.name="description" attr.type="string" for="edge" id="d9" />
+    <key for="edge" id="d10" yfiles.type="edgegraphics" />
+    <key attr.name="nmetadata" attr.type="string" for="node" id="d11">
+        <default />
+    </key>
+    <key attr.name="emetadata" attr.type="string" for="edge" id="d12">
+        <default />
+    </key>
+    <key attr.name="gmetadata" attr.type="string" for="graph" id="d13">
+        <default />
+    </key>
+    <graph edgedefault="directed" id="G">
+    
+    <node id="nxos_switch_1">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">nxos_switch_1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.1.1.1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">N77-C7711</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "nxos_switch_1"}</data></node><node id="nxos_switch_2">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">nxos_switch_2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.2.2.2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">N77-C7711</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "nxos_switch_2"}</data></node><node id="cust_sw_1">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">cust_sw_1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.151.1.1</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "cust_sw_1"}</data></node><node id="cust_sw_3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">cust_sw_3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.152.3.4</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "cust_sw_3"}</data></node><edge id="cd16bf9f4ee069d71e797e83d6aba143" source="nxos_switch_1" target="nxos_switch_2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Eth5/1<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Eth2/29<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "nxos_switch_1:Eth5/1": {
+        "description": "nxos_switch_2:eth2/29 [L3]",
+        "ip": "1.1.1.1/30,2.2.2.2/32",
+        "mtu": "9216",
+        "peer_capabilities": "Router Switch Supports-STP-Dispute",
+        "peer_location": "rack, street address",
+        "peer_mtu": "9216",
+        "state": {
+            "admin": "up",
+            "bia": "00b0.1111.4444",
+            "bw_kbits": "10000000",
+            "description": "nxos_switch_2:eth2/29",
+            "duplex": "full",
+            "hardware": "1000/10000 Ethernet",
+            "is_physical_port": true,
+            "line": "up",
+            "link_speed": "10 Gb/s",
+            "mac": "8c60.4f53.1234",
+            "media_type": "10G",
+            "mode": "routed",
+            "mtu": "9216"
+        },
+        "vrf": "VRF1"
+    },
+    "nxos_switch_2:Eth2/29": {
+        "description": "nxos_switch_1:eth5/1 [L3]",
+        "ip": "1.1.1.2/30,2.2.2.3/32",
+        "mtu": "9216",
+        "state": {
+            "admin": "up",
+            "bia": "00b0.1111.3333",
+            "bw_kbits": "10000000",
+            "description": "nxos_switch_1:eth5/1",
+            "duplex": "full",
+            "hardware": "1000/10000 Ethernet",
+            "is_physical_port": true,
+            "line": "up",
+            "link_speed": "10 Gb/s",
+            "mac": "8c60.4f53.4321",
+            "media_type": "10G",
+            "mode": "routed",
+            "mtu": "9216"
+        },
+        "vrf": "VRF1"
+    }
+}</data><data key="d12">{"sid": "nxos_switch_1", "tid": "nxos_switch_2", "id": "cd16bf9f4ee069d71e797e83d6aba143"}</data></edge><edge id="78af0ad27eec6490c1112536118d9736" source="nxos_switch_1" target="cust_sw_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Eth5/15<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Eth2/29<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "cust_sw_1:Eth2/29": {},
+    "nxos_switch_1:Eth5/15": {
+        "chassis_id": "501c.b09b.1111",
+        "description": "cust_sw_1 Eth2/29",
+        "is_l2": true,
+        "l2_mode": "trunk",
+        "mtu": "9216",
+        "peer_capabilities": "B, R",
+        "peer_system": "Cisco NX-OS(tm) n7700, Software (n7700-s3-dk9), Version 91.3(1), RELEASE SOFTWARE Copyright (c) 2002-2003 by Cisco Systems, Inc. Compiled 7/30/2003 12:00:00",
+        "state": {
+            "admin": "up",
+            "bia": "00b0.1111.9999",
+            "bw_kbits": "10000000",
+            "description": "cust_sw_1 Eth2/29",
+            "duplex": "full",
+            "hardware": "1000/10000 Ethernet",
+            "is_physical_port": true,
+            "line": "up",
+            "link_speed": "10 Gb/s",
+            "mac": "8c60.4f53.1592",
+            "media_type": "10G",
+            "mode": "trunk",
+            "mtu": "9216"
+        },
+        "trunk_vlans": "2122"
+    }
+}</data><data key="d12">{"sid": "nxos_switch_1", "tid": "cust_sw_1", "id": "78af0ad27eec6490c1112536118d9736"}</data></edge><edge id="c36c576eae68d09323d9c4d76aeafca3" source="nxos_switch_2" target="cust_sw_3">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Eth5/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Te1/17/21<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "cust_sw_3:Te1/17/21": {},
+    "nxos_switch_2:Eth5/31": {
+        "chassis_id": "1409.dcaf.5555",
+        "description": "cust_sw_3 10GE1/17/21",
+        "is_l2": true,
+        "l2_mode": "trunk",
+        "peer_capabilities": "B, R",
+        "peer_port_description": "cust_sw_3",
+        "peer_system": "Huawei Versatile Routing Platform Software",
+        "state": {
+            "admin": "up",
+            "bia": "00b0.1111.3131",
+            "bw_kbits": "10000000",
+            "description": "cust_sw_3 10GE1/17/21",
+            "duplex": "full",
+            "hardware": "1000/10000 Ethernet",
+            "is_physical_port": true,
+            "line": "up",
+            "link_speed": "10 Gb/s",
+            "mac": "8c60.4f53.3131",
+            "media_type": "10G",
+            "mode": "routed",
+            "mtu": "9216"
+        },
+        "trunk_vlans": "777,1,2,3,4"
+    }
+}</data><data key="d12">{"sid": "nxos_switch_2", "tid": "cust_sw_3", "id": "c36c576eae68d09323d9c4d76aeafca3"}</data></edge></graph>
+    <data key="d7">
+        <y:Resources>
+        </y:Resources>
+    </data>
+    </graphml>

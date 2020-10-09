@@ -96,6 +96,13 @@ interface Ethernet5/1
   vrf member VRF1
   ip address 2.2.2.2/32 secondary
 !
+interface Ethernet5/16
+  description switch-2 trunk
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 500-505
+  mtu 9216
+!
 interface Ethernet5/17
   description esx_host_1:vmnic1 prod  env
   switchport
@@ -208,6 +215,16 @@ admin state is up, Dedicated Interface
   Encapsulation ARPA, medium is broadcast
   Port mode is routed
   full-duplex, 10 Gb/s, media type is 10G
+  
+Ethernet5/16 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.1592 (bia 00b0.1111.9999)
+  Description: switch-2 trunk
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is trunk
+  full-duplex, 1 Gb/s, media type is 1G
   
 port-channel543 is up
 admin state is up

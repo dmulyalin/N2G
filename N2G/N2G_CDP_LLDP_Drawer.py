@@ -37,6 +37,7 @@ class cdp_lldp_drawer:
     * ``group_links`` - boolean, default ``False``, group links between nodes
     * ``add_lag`` - boolean, default ``False``, add LAG/MLAG links to diagram
     * ``add_all_connected`` - boolean, default ``False``, add all nodes connected to devices based on interfaces state
+    * ``combine_peers`` - boolean, default ``False``, combine CDP/LLDP peers behind same interface by adding L2 node
     * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
     
     **Features support matrix**
@@ -91,6 +92,7 @@ class cdp_lldp_drawer:
             "group_links": False,
             "add_lag": False,
             "add_all_connected": False,
+            "combine_peers": False,
             "platforms": ["_all_"] # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
         }
         self.ttp_vars = {
@@ -124,8 +126,9 @@ class cdp_lldp_drawer:
         self.nodes_dict = {}
         self.links_dict = {}
         self.graph_dict = {"nodes": [], "links": []}
-        self.lag_links_dict = {}  # used by add_lag method
-        self.nodes_to_links_dict = {}  # used by group_links
+        self.lag_links_dict = {} # used by add_lag method
+        self.nodes_to_links_dict = {} # used by group_links
+        self.combine_peers_dict = {} # used by combine_peers
 
     def work(self, data):
         """
@@ -173,6 +176,8 @@ class cdp_lldp_drawer:
             self._group_links()
         if self.config.get("add_all_connected"):
             self._add_all_connected()
+        if self.config.get("combine_peers"):
+            self._combine_peers()
         # form graph dictionary and add it to drawing
         self._update_drawing()
 
@@ -297,6 +302,9 @@ class cdp_lldp_drawer:
         # check if need to pre-process nodes_to_links_dict used by group_links
         if self.config.get("group_links"):
             self._update_nodes_to_links_dict(item, link_hash)
+        # check if need to combine peers, preprocess combine_peers_dict
+        if self.config.get("combine_peers"):
+            self._update_combine_peers_dict(item, link_hash)
 
     def _add_interfaces_data(self, item, hosts, host_data, link_hash):
         """
@@ -405,6 +413,12 @@ class cdp_lldp_drawer:
         if not link_hash in self.nodes_to_links_dict[nodes_hash]:
             self.nodes_to_links_dict[nodes_hash].append(link_hash)
 
+    def _update_combine_peers_dict(self, item, link_hash):
+        port_id = (item["source"], item.get("src_label", ""))
+        self.combine_peers_dict.setdefault(port_id, [])
+        if not link_hash in self.combine_peers_dict[port_id]:
+            self.combine_peers_dict[port_id].append(link_hash)
+    
     def _group_links(self):
         """
         Method to group links between nodes and update links_dict
@@ -533,6 +547,67 @@ class cdp_lldp_drawer:
                                 separators=(",", ": "),
                             )
 
+    def _combine_peers(self):
+        """
+        self.combine_peers_dict is a dictionary of {("hostname", "interface"): [links_hashes]}
+        if length of [links_hashes] is more than 1, wehave several LLDP/CDP
+        peers behind that port, usually happens with VMs sitting on host
+        or some form of VPLS transport - we have L2 domain in between this port
+        and CDP/LLDP peer. 
+        
+        This method will add new node to diagram with "L2" label and 
+        "hostname:interface" id, connecting all CDP/LLDP peers to it.
+        
+        That is to reduce cluttering and improve readability.        
+        """
+        for port_id, links_hashes in self.combine_peers_dict.items():
+            # port_id - tuple of ("hostname", "interface")
+            if len(links_hashes) < 2:
+                continue
+            # add L2 node
+            l2_node_id = "{}:{}:L2_Node".format(*port_id)
+            self._add_node(
+                item={
+                    "id": l2_node_id,
+                    "label": "L2",
+                    "shape_type": "ellipse",
+                    "height": 40,
+                    "width": 40
+                }, 
+                host_data={}
+            )
+            # add link to L2 node
+            link_to_l2_node = {
+                "source": port_id[0],
+                "target": l2_node_id,
+                "src_label": port_id[1]
+            }
+            for platform, hosts in self.parsed_data.items():
+                try:
+                    link_to_l2_node_data = {
+                        "{}:{}".format(*port_id): hosts[port_id[0]]["interfaces"][port_id[1]]
+                    }
+                    link_to_l2_node["description"] = json.dumps(
+                        link_to_l2_node_data,
+                        sort_keys=True,
+                        indent=4,
+                        separators=(",", ": "),                        
+                    )
+                    break
+                except:
+                    continue
+            link_to_l2_node_hash = self._make_hash_tuple(link_to_l2_node)
+            self.links_dict[link_to_l2_node_hash] = link_to_l2_node
+            # connect CDP/LLDP peers to L2 node
+            for link_hash in links_hashes:
+                old_link = self.links_dict.pop(link_hash)
+                _ = old_link.pop("src_label")
+                old_link["source"] = l2_node_id
+                new_link_hash = self._make_hash_tuple(old_link)
+                self.links_dict[new_link_hash] = old_link
+        del self.combine_peers_dict
+                
+    
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())

@@ -13,6 +13,13 @@ Entry address(es):
 Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
+-------------------------
+Device ID: nxos_switch_2
+Entry address(es): 
+  IP address: 10.2.2.2
+Platform: N77-C7711,  Capabilities: Router Switch Supports-STP-Dispute
+Interface: GigabitEthernet1/16,  Port ID (outgoing port): Ethernet5/16
+
 switch-2#show run
 interface Port-channel3
  description switch-1: trunk LAG
@@ -33,6 +40,12 @@ interface GigabitEthernet1/6
  switchport trunk allowed vlan 200-205
  switchport mode trunk
  channel-group 3 mode active
+!
+interface GigabitEthernet1/6
+ description nxos_switch_2: trunk
+ switchport
+ switchport trunk allowed vlan 500-505
+ switchport mode trunk
 !
 vlan 200
  name ProdVMS
