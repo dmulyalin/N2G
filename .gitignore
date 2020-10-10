@@ -10,3 +10,4 @@ docs/make.bat
 docs/Makefile
 Diagrams/*
 N2G.egg-info/*
+tests/Output/test_*

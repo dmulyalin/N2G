@@ -9,11 +9,10 @@ To implement:
 - add combine test when we have multiple links between nodes with L2 in between
 """
 import logging
-from ttp import ttp
 import pprint
 import os
 import json
-import re
+from ttp import ttp
 
 # initiate logging
 log = logging.getLogger(__name__)
@@ -42,28 +41,28 @@ class cdp_lldp_drawer:
     * ``add_all_connected`` - boolean, default ``False``, add all nodes connected to devices based on interfaces state
     * ``combine_peers`` - boolean, default ``False``, combine CDP/LLDP peers behind same interface by adding L2 node
     * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
-    
+
     **Features support matrix**
 
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    |  Platform     |   CDP      |   LLDP    | interface | interface |   LAG     | links     |   node    | MAC       | Add all   |
-    |  Name         |   peers    |   peers   | config    | state     |   links   | grouping  |   facts   | addresses | connected |
-    +===============+============+===========+===========+===========+===========+===========+===========+===========+===========+
-    | Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_NXOS    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    |  Platform     |   CDP      |   LLDP    | interface | interface |   LAG     | links     |   node    | MAC       | Add all   | Combine   |
+    |  Name         |   peers    |   peers   | config    | state     |   links   | grouping  |   facts   | addresses | connected | peers     |
+    +===============+============+===========+===========+===========+===========+===========+===========+===========+===========+===========+
+    | Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_NXOS    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+    | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
     **Features description**
-    
+
     * ``CDP peers`` - adds links and nodes out of CDP neighbors
     * ``LLDP peers`` - adds links and nodes out of LLDP neighbors
     * ``interface config`` - adds interfaces configuration to links data
@@ -96,7 +95,9 @@ class cdp_lldp_drawer:
             "add_lag": False,
             "add_all_connected": False,
             "combine_peers": False,
-            "platforms": ["_all_"] # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
+            "platforms": [
+                "_all_"
+            ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
         }
         self.ttp_vars = {
             "IfsNormalize": {
@@ -129,41 +130,41 @@ class cdp_lldp_drawer:
         self.nodes_dict = {}
         self.links_dict = {}
         self.graph_dict = {"nodes": [], "links": []}
-        self.lag_links_dict = {} # used by add_lag method
-        self.nodes_to_links_dict = {} # used by group_links
-        self.combine_peers_dict = {} # used by combine_peers
+        self.lag_links_dict = {}  # used by add_lag method
+        self.nodes_to_links_dict = {}  # used by group_links
+        self.combine_peers_dict = {}  # used by combine_peers
 
     def work(self, data):
         """
         Method to parse text data and add nodes and links
         to drawing dictionary
-        
+
         **Parameteres**
-        
+
         * ``data`` dictionary or OS path string to directory with text files
-        
+
         If data is dictionary, keys must correspond to "Platform" column in
         *Supported platforms* table, values are lists of text items to
         process.
-        
+
         Data dictionary sample::
-        
+
             data = {
                 "Cisco_IOS" : ["h1", "h2"],
                 "Cisco_IOS-XR": ["h3", "h4"],
                 "Cisco_NXOS": ["h5", "h6"],
                 ...etc...
             }
-        
+
         Where ``hX`` devices show commands output.
-        
+
         If data is a string with OS path to directory, child directories names
         must correspond to "Platform" column in *Supported platforms* table.
         Each child directory should contain text files with show commands output
         for each device.
-        
+
         Directories structure sample::
-        
+
             /data/
                  |_/Cisco_IOS/<text files>
                  |_/Cisco_IOSXR/<text files>
@@ -187,19 +188,22 @@ class cdp_lldp_drawer:
     def _open_ttp_template(self, template_name):
         path_to_n2g = os.path.dirname(__file__)
         try:
-            if not "_all_" in self.config["platforms"] and not template_name in self.config["platforms"]:
+            if (
+                "_all_" not in self.config["platforms"]
+                and not template_name in self.config["platforms"]
+            ):
                 return False
             path = "{}/ttp_templates/CDP_LLDP_Drawer/{}.txt".format(
                 path_to_n2g, template_name
             )
-            with open(path, "r") as f:
-                return f.read()
-        except Exception as e:
+            with open(path, "r") as file:
+                return file.read()
+        except Exception as excptn:
             log.error(
                 "Cannot find template for '{}' platform, error - '{}'".format(
-                    template_name, e
+                    template_name, excptn
                 )
-            )        
+            )
             return False
 
     def _parse(self, data):
@@ -217,8 +221,8 @@ class cdp_lldp_drawer:
         elif isinstance(data, str):
             parser = ttp(vars=self.ttp_vars, base_path=data)
             # get all sub-folders and load respective templates
-            with os.scandir(data) as it:
-                for entry in it:
+            with os.scandir(data) as dirs:
+                for entry in dirs:
                     if entry.is_dir():
                         ttp_template = self._open_ttp_template(entry.name)
                         if not ttp_template:
@@ -276,9 +280,9 @@ class cdp_lldp_drawer:
         # update node attributes if they do not exists already
         else:
             node = self.nodes_dict[item["id"]]
-            for k, v in item.items():
-                if not k in node:
-                    node[k] = v
+            for key, value in item.items():
+                if not key in node:
+                    node[key] = value
             if not "description" in node and host_data.get("node_facts"):
                 node["description"] = json.dumps(
                     host_data["node_facts"],
@@ -289,7 +293,7 @@ class cdp_lldp_drawer:
 
     def _add_link(self, item, hosts, host_data):
         link_hash = self._make_hash_tuple(item)
-        if not link_hash in self.links_dict:
+        if link_hash not in self.links_dict:
             self.links_dict[link_hash] = {
                 "source": item["source"],
                 "target": item["target"]["id"],
@@ -301,7 +305,7 @@ class cdp_lldp_drawer:
             self._add_interfaces_data(item, hosts, host_data, link_hash)
         # check if need to pre-process lag_links_dict used by add_lag
         if self.config.get("add_lag"):
-            self._update_lag_links_dict(item, hosts, host_data, link_hash)
+            self._update_lag_links_dict(item, hosts, host_data)
         # check if need to pre-process nodes_to_links_dict used by group_links
         if self.config.get("group_links"):
             self._update_nodes_to_links_dict(item, link_hash)
@@ -332,7 +336,7 @@ class cdp_lldp_drawer:
                 description, sort_keys=True, indent=4, separators=(",", ": ")
             )
 
-    def _update_lag_links_dict(self, item, hosts, host_data, link_hash):
+    def _update_lag_links_dict(self, item, hosts, host_data):
         """
         Method to form and add LAG link to lag_links_dict
         """
@@ -374,7 +378,7 @@ class cdp_lldp_drawer:
             src_member_intf_name = "{}:{}".format(src, src_intf_name)
             tgt_member_intf_name = "{}:{}".format(tgt, tgt_intf_name)
             member_link = {src_member_intf_name: tgt_member_intf_name}
-            if not lag_link_hash in self.lag_links_dict:
+            if lag_link_hash not in self.lag_links_dict:
                 lag_link["description"]["lag_members"] = member_link
                 self.lag_links_dict[lag_link_hash] = lag_link
             else:
@@ -421,7 +425,7 @@ class cdp_lldp_drawer:
         self.combine_peers_dict.setdefault(port_id, [])
         if not link_hash in self.combine_peers_dict[port_id]:
             self.combine_peers_dict[port_id].append(link_hash)
-    
+
     def _group_links(self):
         """
         Method to group links between nodes and update links_dict
@@ -502,24 +506,28 @@ class cdp_lldp_drawer:
                     link = {"source": hostname}
                     if "lag_id" in intf_data and self.config["add_lag"]:
                         lag_intf_name = "LAG{}".format(intf_data["lag_id"])
-                        src_if = "{}:{}".format(hostname, lag_intf_name)                      
+                        src_if = "{}:{}".format(hostname, lag_intf_name)
                         lag_intf_data = host_data["interfaces"].get(lag_intf_name, {})
                         if "mlag_id" in lag_intf_data:
                             lag_intf_name = "MLAG{}".format(lag_intf_data["mlag_id"])
                         link["src_label"] = lag_intf_name
                         link["description"] = json.dumps(
-                                {
-                                    src_if: lag_intf_data,
-                                    "lag_members": {"{}:{}".format(hostname, intf_name): ""}
+                            {
+                                src_if: lag_intf_data,
+                                "lag_members": {
+                                    "{}:{}".format(hostname, intf_name): ""
                                 },
-                                sort_keys=True,
-                                indent=4,
-                                separators=(",", ": "),
-                            )
+                            },
+                            sort_keys=True,
+                            indent=4,
+                            separators=(",", ": "),
+                        )
                         # update node bottom label as per lag interface description
-                        node["bottom_label"] = "{}..".format(
-                            lag_intf_data["description"][:20]
-                        ) if lag_intf_data else node["bottom_label"]
+                        node["bottom_label"] = (
+                            "{}..".format(lag_intf_data["description"][:20])
+                            if lag_intf_data
+                            else node["bottom_label"]
+                        )
                         # remove previous node that had ID based on lag member interface
                         node = self.nodes_dict.pop(node_id, {})
                         new_node_id = "{}:{}".format(hostname, lag_intf_name)
@@ -531,24 +539,28 @@ class cdp_lldp_drawer:
                         link["target"] = node_id
                         link["src_label"] = intf_name
                         link["description"] = json.dumps(
-                                {src_if: intf_data},
-                                sort_keys=True,
-                                indent=4,
-                                separators=(",", ": "),
-                            )
+                            {src_if: intf_data},
+                            sort_keys=True,
+                            indent=4,
+                            separators=(",", ": "),
+                        )
                     link_hash = self._make_hash_tuple(link)
-                    if not link_hash in self.links_dict:
+                    if link_hash not in self.links_dict:
                         self.links_dict[link_hash] = link
                     else:
-                        link_data = json.loads(self.links_dict[link_hash]["description"])
+                        link_data = json.loads(
+                            self.links_dict[link_hash]["description"]
+                        )
                         if "lag_members" in link_data:
-                            link_data["lag_members"].update({"{}:{}".format(hostname, intf_name): ""})
-                        self.links_dict[link_hash]["description"] = json.dumps(
-                                link_data,
-                                sort_keys=True,
-                                indent=4,
-                                separators=(",", ": "),
+                            link_data["lag_members"].update(
+                                {"{}:{}".format(hostname, intf_name): ""}
                             )
+                        self.links_dict[link_hash]["description"] = json.dumps(
+                            link_data,
+                            sort_keys=True,
+                            indent=4,
+                            separators=(",", ": "),
+                        )
 
     def _combine_peers(self):
         """
@@ -556,12 +568,12 @@ class cdp_lldp_drawer:
         if length of [links_hashes] is more than 1, wehave several LLDP/CDP
         peers behind that port, usually happens with VMs sitting on host
         or some form of VPLS transport - we have L2 domain in between this port
-        and CDP/LLDP peer. 
-        
-        This method will add new node to diagram with "L2" label and 
+        and CDP/LLDP peer.
+
+        This method will add new node to diagram with "L2" label and
         "hostname:interface" id, connecting all CDP/LLDP peers to it.
-        
-        That is to reduce cluttering and improve readability.        
+
+        That is to reduce cluttering and improve readability.
         """
         for port_id, links_hashes in self.combine_peers_dict.items():
             # port_id - tuple of ("hostname", "interface")
@@ -575,26 +587,28 @@ class cdp_lldp_drawer:
                     "label": "L2",
                     "shape_type": "ellipse",
                     "height": 40,
-                    "width": 40
-                }, 
-                host_data={}
+                    "width": 40,
+                },
+                host_data={},
             )
             # add link to L2 node
             link_to_l2_node = {
                 "source": port_id[0],
                 "target": l2_node_id,
-                "src_label": port_id[1]
+                "src_label": port_id[1],
             }
             for platform, hosts in self.parsed_data.items():
                 try:
                     link_to_l2_node_data = {
-                        "{}:{}".format(*port_id): hosts[port_id[0]]["interfaces"][port_id[1]]
+                        "{}:{}".format(*port_id): hosts[port_id[0]]["interfaces"][
+                            port_id[1]
+                        ]
                     }
                     link_to_l2_node["description"] = json.dumps(
                         link_to_l2_node_data,
                         sort_keys=True,
                         indent=4,
-                        separators=(",", ": "),                        
+                        separators=(",", ": "),
                     )
                     break
                 except:
@@ -609,8 +623,7 @@ class cdp_lldp_drawer:
                 new_link_hash = self._make_hash_tuple(old_link)
                 self.links_dict[new_link_hash] = old_link
         del self.combine_peers_dict
-                
-    
+
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())
