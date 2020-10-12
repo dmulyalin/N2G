@@ -4,7 +4,7 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
-from N2G import cdp_lldp_drawer
+from N2G import layer_2_drawer
 
 def test_cdp_drawing_yed_data_dict():
     data = {"Cisco_IOS": ["""
@@ -71,7 +71,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
                                                                             'src_label': 'Ge4/6',
@@ -109,7 +109,7 @@ def test_cdp_drawing_yed_data_path():
     data = "./Data/SAMPLE_CDP_LLDP/"
     config = {}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
                                                                             'src_label': 'Ge4/6',
@@ -256,7 +256,7 @@ interface GigabitEthernet1/6
         "add_lag": True
     }
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_lag.graphml") as produced:
@@ -379,7 +379,7 @@ interface GigabitEthernet1/6
         "group_links": True
     }
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_group_links.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links.graphml") as produced:
@@ -541,7 +541,7 @@ interface GigabitEthernet1/8
         "add_lag": True
     }
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml") as produced:
@@ -623,7 +623,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_lldp_drawing_yed_data_dict.graphml", folder="./Output/")
     with open ("./Output/test_lldp_drawing_yed_data_dict.graphml") as produced:
@@ -756,7 +756,7 @@ vlan 101
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml") as produced:
@@ -909,7 +909,7 @@ vlan 101
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_interfaces_state.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_interfaces_state.graphml") as produced:
@@ -1062,7 +1062,7 @@ vlan 101
     }
     config = {"add_lag": True}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as produced:
@@ -1225,7 +1225,7 @@ interface GigabitEthernet1/6
     }
     config = {"add_all_connected": True}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_all_connected.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as produced:
@@ -1426,7 +1426,7 @@ vlan 101
     }
     config = {"add_all_connected": True, "add_lag": True}
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as produced:
@@ -1500,7 +1500,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     lldp_drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(lldp_drawing, config)
+    drawer = layer_2_drawer(lldp_drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict.drawio") as produced:
@@ -1513,7 +1513,7 @@ def test_cdp_drawing_drawio_data_path():
     data = "./Data/SAMPLE_CDP_LLDP/"
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_path.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_path.drawio") as produced:
@@ -1636,7 +1636,7 @@ interface GigabitEthernet1/6
         "add_lag": True
     }
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_lag.drawio") as produced:
@@ -1759,7 +1759,7 @@ interface GigabitEthernet1/6
         "group_links": True
     }
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_group_links.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links.drawio") as produced:
@@ -1919,7 +1919,7 @@ interface GigabitEthernet1/8
         "add_lag": True
     }
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio") as produced:
@@ -1999,7 +1999,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_lldp_drawing_drawio_data_dict.drawio", folder="./Output/")
     with open ("./Output/test_lldp_drawing_drawio_data_dict.drawio") as produced:
@@ -2130,7 +2130,7 @@ vlan 101
     }
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio") as produced:
@@ -2283,7 +2283,7 @@ vlan 101
     }
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_interfaces_state.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_interfaces_state.drawio") as produced:
@@ -2444,7 +2444,7 @@ interface GigabitEthernet1/6
     }
     config = {"add_all_connected": True}
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_all_connected.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected.drawio") as produced:
@@ -2631,7 +2631,7 @@ interface GigabitEthernet1/6
     }
     config = {"add_all_connected": True, "add_lag": True}
     drawing = create_drawio_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio") as produced:
@@ -2795,7 +2795,7 @@ interface Ethernet5/31
         "platforms": ["Cisco_NXOS", "Cisco_IOS"]
     }
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as produced:
@@ -2813,7 +2813,7 @@ def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
         "group_links": True
     }
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as produced:
@@ -2826,7 +2826,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_base():
         "platforms": ["Cisco_NXOS"]
     }
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as produced:
@@ -2840,9 +2840,438 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
         "combine_peers": True
     }
     drawing = create_yed_diagram()
-    drawer = cdp_lldp_drawer(drawing, config)
+    drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as should_be:
-            assert produced.read() == should_be.read()              
+            assert produced.read() == should_be.read()   
+			
+def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data():
+    data = { "Cisco_NXOS": [
+    """
+nxos_switch_1# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_2(JPG2212345)
+System Name: nxos_switch_2
+
+Interface address(es):
+    IPv4 Address: 10.2.2.2
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/1, Port ID (outgoing port): Ethernet2/29
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+
+----------------------------------------
+Device ID:nxos_switch_3(JPG2212343)
+System Name: nxos_switch_3
+
+Interface address(es):
+    IPv4 Address: 10.3.3.3
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/1, Port ID (outgoing port): Ethernet1/33
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+	
+nxos_switch_1# show run int
+interface Ethernet5/1
+  description nxos_switch_2/3: [L3]
+  mpls ip
+  mtu 9216
+  ip address 1.1.1.1/30
+  vrf member VRF1
+  ip address 2.2.2.2/32 secondary
+
+nxos_switch_1# show interface
+Ethernet5/1 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.1234 (bia 00b0.1111.4444)
+  Description: nxos_switch_2/3: [L3]
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+    """,
+    """
+nxos_switch_2# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_1(JPG2212345)
+System Name: nxos_switch_1
+
+Interface address(es):
+    IPv4 Address: 10.1.1.1
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet2/29, Port ID (outgoing port): Ethernet5/1
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.1.1.1
+
+Time remaining: 113 seconds
+System Capabilities: B, R
+Enabled Capabilities: B, R
+Management Address: 10.152.3.4
+Vlan ID: 1
+
+nxos_switch_1# show interface
+Ethernet2/29 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.4321 (bia 00b0.1111.3333)
+  Description: nxos_switch_1:eth5/1
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+  
+nxos_switch_1# show run int
+interface Ethernet2/29
+  description nxos_switch_1:eth5/1 [L3]
+  mpls ip
+  mtu 9216
+  ip address 1.1.1.2/30
+  vrf member VRF1
+  ip address 2.2.2.3/32 secondary
+    """]
+    }
+    config = {
+		"combine_peers": True
+	}
+    drawing = create_yed_diagram()
+    drawer = layer_2_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml") as should_be:
+            assert produced.read() == should_be.read()    
+			
+def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links():
+    data = { "Cisco_NXOS": [
+    """
+nxos_switch_1# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_2(JPG2212345)
+System Name: nxos_switch_2
+
+Interface address(es):
+    IPv4 Address: 10.2.2.2
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/1, Port ID (outgoing port): Ethernet2/29
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+
+----------------------------------------
+Device ID:nxos_switch_3(JPG2212343)
+System Name: nxos_switch_3
+
+Interface address(es):
+    IPv4 Address: 10.3.3.3
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/1, Port ID (outgoing port): Ethernet1/33
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+	
+----------------------------------------
+Device ID:nxos_switch_2(JPG2212345)
+System Name: nxos_switch_2
+
+Interface address(es):
+    IPv4 Address: 10.2.2.2
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/11, Port ID (outgoing port): Ethernet2/30
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+
+----------------------------------------
+Device ID:nxos_switch_3(JPG2212343)
+System Name: nxos_switch_3
+
+Interface address(es):
+    IPv4 Address: 10.3.3.3
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/11, Port ID (outgoing port): Ethernet1/34
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+	
+nxos_switch_1# show run int
+interface Ethernet5/1
+  description nxos_switch_2/3: [L3]
+  mpls ip
+  mtu 9216
+  ip address 1.1.1.1/30
+  vrf member VRF1
+  ip address 2.2.2.2/32 secondary
+
+nxos_switch_1# show interface
+Ethernet5/1 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.1234 (bia 00b0.1111.4444)
+  Description: nxos_switch_2/3: [L3]
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+    """,
+    """
+nxos_switch_2# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_1(JPG2212345)
+System Name: nxos_switch_1
+
+Interface address(es):
+    IPv4 Address: 10.1.1.1
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet2/29, Port ID (outgoing port): Ethernet5/1
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.1.1.1
+
+Time remaining: 113 seconds
+System Capabilities: B, R
+Enabled Capabilities: B, R
+Management Address: 10.152.3.4
+Vlan ID: 1
+
+nxos_switch_1# show interface
+Ethernet2/29 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.4321 (bia 00b0.1111.3333)
+  Description: nxos_switch_1:eth5/1
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+  
+nxos_switch_1# show run int
+interface Ethernet2/29
+  description nxos_switch_1:eth5/1 [L3]
+  mpls ip
+  mtu 9216
+  ip address 1.1.1.2/30
+  vrf member VRF1
+  ip address 2.2.2.3/32 secondary
+    """]
+    }
+    config = {
+		"combine_peers": True
+	}
+    drawing = create_yed_diagram()
+    drawer = layer_2_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml") as should_be:
+            assert produced.read() == should_be.read()    
+			
+def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag():
+    data = { "Cisco_NXOS": [
+    """
+nxos_switch_1# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_2(JPG2212345)
+System Name: nxos_switch_2
+
+Interface address(es):
+    IPv4 Address: 10.2.2.2
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/1, Port ID (outgoing port): Ethernet2/29
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+
+----------------------------------------
+Device ID:nxos_switch_3(JPG2212343)
+System Name: nxos_switch_3
+
+Interface address(es):
+    IPv4 Address: 10.3.3.3
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet5/1, Port ID (outgoing port): Ethernet1/33
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.2.2.2
+	
+nxos_switch_1# show run int
+interface Port-channel51
+  description nxos_switch_2/3: [L2]
+  switchport
+  switchport trunk allowed vlan 209
+  switchport mode trunk
+!
+interface Ethernet5/1
+  description nxos_switch_2/3: [L2, LAG 51]
+  switchport
+  switchport trunk allowed vlan 209
+  switchport mode trunk
+  channel-group 51 mode active
+
+nxos_switch_1# show interface
+Port-channel51 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.1234 (bia 00b0.1111.4444)
+  Description: nxos_switch_2/3: [L2]
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is trunk
+  full-duplex, 10 Gb/s, media type is 10G
+    """,
+    """
+nxos_switch_2# show cdp nei det
+----------------------------------------
+Device ID:nxos_switch_1(JPG2212345)
+System Name: nxos_switch_1
+
+Interface address(es):
+    IPv4 Address: 10.1.1.1
+Platform: N77-C7711, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet2/29, Port ID (outgoing port): Ethernet5/1
+Holdtime: 152 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 18.5(1 )
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9216
+Physical Location: rack, street address
+Mgmt address(es):
+    IPv4 Address: 10.1.1.1
+
+Time remaining: 113 seconds
+System Capabilities: B, R
+Enabled Capabilities: B, R
+Management Address: 10.152.3.4
+Vlan ID: 1
+
+nxos_switch_1# show interface
+Ethernet2/29 is up
+admin state is up, Dedicated Interface
+  Hardware: 1000/10000 Ethernet, address: 8c60.4f53.4321 (bia 00b0.1111.3333)
+  Description: nxos_switch_1:eth5/1
+  MTU 9216 bytes, BW 10000000 Kbit, DLY 10 usec
+  reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, medium is broadcast
+  Port mode is routed
+  full-duplex, 10 Gb/s, media type is 10G
+  
+nxos_switch_1# show run int
+interface Ethernet2/29
+  description nxos_switch_1:eth5/1 [L3]
+  mpls ip
+  mtu 9216
+  ip address 1.1.1.2/30
+  vrf member VRF1
+  ip address 2.2.2.3/32 secondary
+    """]
+    }
+    config = {
+		"combine_peers": True,
+		"add_lag": True
+	}
+    drawing = create_yed_diagram()
+    drawer = layer_2_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as should_be:
+            assert produced.read() == should_be.read()    

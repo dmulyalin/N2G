@@ -2,11 +2,6 @@
 
 To implement:
 - add mac addresses nodes to the diagram based on show mac addr table output, logic - if interface is edge - connected to uncknown or last device, add mac addresses as nodes behind that device
-- add invetnry to node facts
-- add software version to node facts out of CDP output
-- add combine_peers test for LAG/MLAG
-- add combine peers test when we have remote node CDP/LLDP data
-- add combine test when we have multiple links between nodes with L2 in between
 """
 import logging
 import pprint
@@ -23,10 +18,10 @@ log = logging.getLogger(__name__)
 # -----------------------------------------------------------------------------
 
 
-class cdp_lldp_drawer:
+class layer_2_drawer:
     """
-    Class to process CDP and LLDP neighbors together with
-    running configuration and state to produce diagram out of it.
+    Class to process CDP and LLDP neighbors together with devices'
+    running configuration and state and produce diagram out of it.
 
     **Parameters**
 
@@ -72,17 +67,18 @@ class cdp_lldp_drawer:
     * ``node facts`` - adds information to nodes for vlans, etc
     * ``MAC addresses`` - adds mac addresses nodes to diagram
     * ``Add all connected`` - adds all connected nodes that are not visible on CDP or LLDP
-
+    * ``Combine peers`` - groups CDP/LLDP peers behind same port by adding "L2" node
+    
     **Cisco Commands**
 
-    * CDP for Cisco IOS, IOS-XR, NXOS, ASA - ``show cdp neighbor details``
-    * LLDP for Cisco IOS, IOS-XR, NXOS, ASA - ``show lldp neighbor details``
+    * CDP, combine peers for Cisco IOS, IOS-XR, NXOS, ASA - ``show cdp neighbor details``
+    * LLDP, combine peers for Cisco IOS, IOS-XR, NXOS, ASA - ``show lldp neighbor details``
     * config, LAG, grouping for Cisco IOS, IOS-XR, NXOS, ASA - ``show running-configuration``
     * state for Cisco IOS, IOS-XR, NXOS - ``show interface``
 
     **Huawei Commands**
 
-    * LLDP - ``display lldp neighbor details``
+    * LLDP, combine peers - ``display lldp neighbor details``
     * config, LAG, grouping - ``display current-configuration``
     * state - ``display interface``
     """
@@ -372,7 +368,7 @@ class cdp_lldp_drawer:
             lag_link["description"].update(
                 {"{}:{}".format(tgt, tgt_lag_name): tgt_lag_data}
             )
-        # add lag link to links dictionary
+        # add lag link to links dictionary and remove members from links_dict
         if lag_link:
             lag_link_hash = self._make_hash_tuple(lag_link)
             src_member_intf_name = "{}:{}".format(src, src_intf_name)
@@ -393,7 +389,11 @@ class cdp_lldp_drawer:
             # remove member interfaces from links dictionary
             members_hash = self._make_hash_tuple(item)
             _ = self.links_dict.pop(members_hash, None)
-
+            # check if need to combine peers, add lag to combine_peers_dict
+            if self.config.get("combine_peers"):
+                self._update_combine_peers_dict(item=lag_link, link_hash=lag_link_hash)
+                
+                
     def _add_lags_to_links_dict(self):
         """
         Method to merge lag_links_dict with links_dict
@@ -581,13 +581,14 @@ class cdp_lldp_drawer:
                 continue
             # add L2 node
             l2_node_id = "{}:{}:L2_Node".format(*port_id)
+            l2_node_port_id = "{}:{}".format(*port_id)
             self._add_node(
                 item={
                     "id": l2_node_id,
                     "label": "L2",
                     "shape_type": "ellipse",
                     "height": 40,
-                    "width": 40,
+                    "width": 40
                 },
                 host_data={},
             )
@@ -596,32 +597,57 @@ class cdp_lldp_drawer:
                 "source": port_id[0],
                 "target": l2_node_id,
                 "src_label": port_id[1],
+                "description": {l2_node_port_id: {}}
             }
+            # get interface data from parsing results to add it to description
             for platform, hosts in self.parsed_data.items():
                 try:
-                    link_to_l2_node_data = {
-                        "{}:{}".format(*port_id): hosts[port_id[0]]["interfaces"][
-                            port_id[1]
-                        ]
-                    }
-                    link_to_l2_node["description"] = json.dumps(
-                        link_to_l2_node_data,
-                        sort_keys=True,
-                        indent=4,
-                        separators=(",", ": "),
-                    )
+                    if port_id[1].startswith("MLAG"):
+                        link_to_l2_node["description"] = {
+                            l2_node_port_id: hosts[port_id[0]]["interfaces"][port_id[1].replace("MLAG", "LAG")]
+                        }                        
+                    else:
+                        link_to_l2_node["description"] = {
+                            l2_node_port_id: hosts[port_id[0]]["interfaces"][port_id[1]]
+                        }
                     break
                 except:
                     continue
+            link_to_l2_node["description"] = json.dumps(
+                link_to_l2_node["description"],
+                sort_keys=True,
+                indent=4,
+                separators=(",", ": "),
+            )    
             link_to_l2_node_hash = self._make_hash_tuple(link_to_l2_node)
             self.links_dict[link_to_l2_node_hash] = link_to_l2_node
             # connect CDP/LLDP peers to L2 node
             for link_hash in links_hashes:
-                old_link = self.links_dict.pop(link_hash)
-                _ = old_link.pop("src_label")
-                old_link["source"] = l2_node_id
-                new_link_hash = self._make_hash_tuple(old_link)
-                self.links_dict[new_link_hash] = old_link
+                # link might be deleted from links_dict by add_lag
+                if link_hash in self.links_dict:
+                    old_link = self.links_dict.pop(link_hash)
+                    _ = old_link.pop("src_label", None)
+                    # remove upstream peer interface details from description
+                    old_link_data = json.loads(old_link.get("description", {}))
+                    _ = old_link_data.pop(l2_node_port_id, None)
+                    old_link["description"] = json.dumps(
+                            old_link_data,
+                            sort_keys=True,
+                            indent=4,
+                            separators=(",", ": "),
+                        )
+                    # form new link
+                    old_link["source"] = l2_node_id
+                    new_link_hash = self._make_hash_tuple(old_link)
+                    self.links_dict[new_link_hash] = old_link
+                # need to remove this L2 node and links to it as it
+                # turned out links are part of LAG, as a result node 
+                # will be added for LAG together with links to peers
+                elif self.config.get("add_lag"):
+                    _ = self.links_dict.pop(link_to_l2_node_hash)
+                    _ = self.nodes_dict.pop(l2_node_id)
+                    break
+                    
         del self.combine_peers_dict
 
     def _update_drawing(self):

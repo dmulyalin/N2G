@@ -5,11 +5,11 @@ import os
 if __name__ == "__main__":
     from N2G_DrawIO import drawio_diagram as create_drawio_diagram
     from N2G_yEd import yed_diagram as create_yed_diagram
-    from N2G_CDP_LLDP_Drawer import cdp_lldp_drawer
+    from N2G_L2_Drawer import layer_2_drawer
 else:
     from .N2G_DrawIO import drawio_diagram as create_drawio_diagram
     from .N2G_yEd import yed_diagram as create_yed_diagram
-    from .N2G_CDP_LLDP_Drawer import cdp_lldp_drawer
+    from .N2G_L2_drawer import layer_2_drawer
 
 __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
@@ -159,7 +159,7 @@ CDP and LLDP drawer options:
             drawing = create_yed_diagram()
         elif MODULE == "drawio":
             drawing = create_drawio_diagram()
-        drawer = cdp_lldp_drawer(drawing, config)
+        drawer = layer_2_drawer(drawing, config)
         drawer.work(DATA)
         drawer.drawing.dump_file(filename=FILENAME, folder=FOLDER)
         

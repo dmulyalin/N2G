@@ -333,16 +333,7 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "esx_host_1:vmnic2": {},
-    "nxos_switch_1:Eth5/17": {
-        "description": "esx_host_1:vmnic1 prod  env",
-        "is_l2": true,
-        "l2_mode": "trunk",
-        "mtu": "9216",
-        "peer_capabilities": "Switch",
-        "peer_mtu": "9000",
-        "trunk_vlans": "1,2,3,4,5,6"
-    }
+    "esx_host_1:vmnic2": {}
 }</data><data key="d12">{"sid": "nxos_switch_1:Eth5/17:L2_Node", "tid": "esx_host_1", "id": "f31920fe2e076e46818c5615d44279ca"}</data></edge><edge id="af71ec0142578ae3dbe79b0bdb4df058" source="nxos_switch_1:Eth5/17:L2_Node" target="vm_1">
       <data key="d10">
         <y:PolyLineEdge>
@@ -353,15 +344,6 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "nxos_switch_1:Eth5/17": {
-        "description": "esx_host_1:vmnic1 prod  env",
-        "is_l2": true,
-        "l2_mode": "trunk",
-        "mtu": "9216",
-        "peer_capabilities": "Host",
-        "peer_mtu": "9000",
-        "trunk_vlans": "1,2,3,4,5,6"
-    },
     "vm_1:Eth0": {}
 }</data><data key="d12">{"sid": "nxos_switch_1:Eth5/17:L2_Node", "tid": "vm_1", "id": "af71ec0142578ae3dbe79b0bdb4df058"}</data></edge></graph>
     <data key="d7">
