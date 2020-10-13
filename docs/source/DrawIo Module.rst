@@ -16,7 +16,7 @@ Nodes and links can be added one by one using ``add_node`` and ``add_link`` meth
     diagram.add_diagram("Page-1")
     diagram.add_node(id="R1")
     diagram.add_node(id="R2")
-    diagram.add_link("R1", "R2", label="DF")
+    diagram.add_link("R1", "R2", label="DF", src_label="Gi1/1", trgt_label="GE23")
     diagram.layout(algo="kk")
     diagram.dump_file(filename="Sample_graph.drawio", folder="./Output/")
 
@@ -26,6 +26,8 @@ After opening and editing diagram, it might look like this:
     :file: _images/drawio/quick_start_example.svg
 
 Working with drawio module should be started with adding new diagram, after that nodes and links can be added. It is possible to switch between diagrams to edit using ``go_to_diagram`` method. 
+
+.. note:: link ``src_label`` and ``trgt_label`` attributes supported starting with 0.2.0 version
 
 Adding styles
 -------------

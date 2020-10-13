@@ -68,6 +68,14 @@ class drawio_diagram:
     </object>
     """
 
+    drawio_link_label_xml = """
+    <mxCell id="{id}" value="{label}" style="{style};" vertex="1" connectable="0" parent="{parent_id}">
+      <mxGeometry x="{x}" relative="{rel}" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+    """
+
     def __init__(self, node_duplicates="skip", link_duplicates="skip"):
         self.drawing = ET.fromstring(self.drawio_drawing_xml)
         self.nodes_ids = {}  # dictionary of {diagram_name: [node_id1, node_id2]}
@@ -78,6 +86,7 @@ class drawio_diagram:
         self.current_diagram_id = ""
         self.default_node_style = "rounded=1;whiteSpace=wrap;html=1;"
         self.default_link_style = "endArrow=none;"
+        self.default_link_label_style = "labelBackgroundColor=#ffffff;"
 
     def add_diagram(self, id, name="", width=1360, height=864):
         """
@@ -282,7 +291,20 @@ class drawio_diagram:
             return True
         self.edges_ids[self.current_diagram_id].append(id)
 
-    def add_link(self, source, target, style="", label="", data={}, url="", **kwargs):
+    def add_link(
+        self,
+        source,
+        target,
+        style="",
+        label="",
+        data={},
+        url="",
+        src_label="",
+        trgt_label="",
+        src_label_style="",
+        trgt_label_style="",
+        **kwargs
+    ):
         """
         Method to add link between nodes to the diagram.
 
@@ -293,7 +315,11 @@ class drawio_diagram:
         * ``label`` (str) link label to display at the centre of the link
         * ``data`` (dict) dictionary of key value pairs to add as link data
         * ``url`` (str) url string to save as link ``url`` attribute
-        * ``style`` (str) string containing DrawIO style parameters to apply to the link
+        * ``style`` (str) string or OS path to text file with style to apply to the link
+        * ``src_label`` (str) link label to display next to source node
+        * ``trgt_label`` (str) link label to display next to target node
+        * ``src_label_style`` (str) source label style string
+        * ``trgt_label_style`` (str) target label style string
 
         Sample DrawIO style string for the link::
 
@@ -303,7 +329,8 @@ class drawio_diagram:
 
         .. note:: If source or target nodes does not exists, they will be automatically
           created
-
+          
+        All labels are optional and substituted with empty values to calculate link id.
         """
         link_data = {}
         # check type of source and target attribute
@@ -318,9 +345,6 @@ class drawio_diagram:
             self.add_node(id=source, **source_node_dict)
         if not self._node_exists(target, **target_node_dict):
             self.add_node(id=target, **target_node_dict)
-        # get source and target edge labels
-        src_label = kwargs.get("src_label", "")
-        trgt_label = kwargs.get("trgt_label", "")
         # create edge id
         edge_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
         edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
@@ -337,9 +361,37 @@ class drawio_diagram:
                 label=label,
                 source_id=source,
                 target_id=target,
-                style=style if style else self.default_link_style,
+                style=style or self.default_link_style,
             )
         )
+        # add link source label
+        if src_label:
+            src_label_obj = ET.fromstring(
+                self.drawio_link_label_xml.format(
+                    id="{}-src".format(edge_id),
+                    label=src_label,
+                    parent_id=edge_id,
+                    style=src_label_style or self.default_link_label_style,
+                    x="-0.5",
+                    rel="1",
+                )
+            )
+            self.current_root.append(src_label_obj)
+            kwargs["src_label"] = src_label
+        # add link target label
+        if trgt_label:
+            trgt_label_obj = ET.fromstring(
+                self.drawio_link_label_xml.format(
+                    id="{}-trgt".format(edge_id),
+                    label=trgt_label,
+                    parent_id=edge_id,
+                    style=trgt_label_style or self.default_link_label_style,
+                    x="0.5",
+                    rel="-1",
+                )
+            )
+            self.current_root.append(trgt_label_obj)
+            kwargs["trgt_label"] = trgt_label
         # add links data and url
         link_data.update(data)
         link_data.update(kwargs)
@@ -495,6 +547,8 @@ class drawio_diagram:
                     {
                         'source': 'a',
                         'label': 'DF',
+                        'src_label': 'Gi1/1',
+                        'trgt_label': 'Gi2/2',
                         'target': 'b',
                         'url': 'google.com'
                     }
@@ -536,6 +590,8 @@ class drawio_diagram:
                 {
                     'source': 'a',
                     'label': 'DF',
+                    'src_label': 'Gi1/1',
+                    'trgt_label': 'Gi2/2',
                     'target': 'b',
                     'data': {'vlans': 'vlans_trunked: 1,2,3\\nstate: up'}
                 },
@@ -623,11 +679,11 @@ class drawio_diagram:
 
         Sample CSV table with links details::
 
-            "source","label","target"
-            "a","DF","b"
-            "b","Copper","c"
-            "b","Copper","e"
-            "d","FW","e"
+            "source","label","target","src_label","trgt_label"
+            "a","DF","b","Gi1/1","Gi2/2"
+            "b","Copper","c","Te2/1",
+            "b","Copper","e","","GE3"
+            "d","FW","e",,
 
         Sample CSV table with nodes details::
 
@@ -662,10 +718,16 @@ class drawio_diagram:
         label="",
         source="",
         target="",
-        new_label=None,
         data={},
         url="",
         style="",
+        src_label="",
+        trgt_label="",
+        new_label=None,
+        new_src_label=None,
+        new_trgt_label=None,
+        src_label_style="",
+        trgt_label_style="",
         **kwargs
     ):
         """
@@ -676,25 +738,34 @@ class drawio_diagram:
         * ``edge_id`` (str) - md5 hash edge id, if not provided, will be generated
           based on link attributes
         * ``label`` (str) - existing edge label
+        * ``src_label`` (str) - existing edge source label
+        * ``trgt_label`` (str) - existing edge target label
         * ``source`` (str) - existing edge source node id
         * ``target`` (str) - existing edge target node id
         * ``new_label`` (str) - new edge label
         * ``data`` (str) - edge new data attributes
         * ``url`` (str) - edge new url attribute
-        * ``style`` (str) - OS path to file or sting containing edge style
+        * ``style`` (str) - OS path to file or sting containing style to apply to edge
+        * ``new_src_label`` (str) - new edge source label`
+        * ``new_trgt_label`` (str) - new edge target label
+        * ``src_label_style`` (str) - string with style to apply to source label
+        * ``trgt_label_style`` (str) - strung with style to apply to target label
 
         Either of these must be provided to find link element to update:
 
         * ``edge_id`` MD5 hash or
-        * ``label, source, target`` attributes to calculate ``edge_id``
+        * ``label, source, target, src_label, trgt_label`` existing link attributes to calculate ``edge_id``
 
-        ``edge_id`` calculated based on - ``label, source, target`` -
+        ``edge_id`` calculated based on - ``label, source, target, src_label, trgt_label`` -
         attributes following this algorithm:
 
-        1. Edge tuple produced: ``tuple(sorted([label, source, target]))``
+        1. Edge tuple produced: ``tuple(sorted([label, source, target, src_label, trgt_label]))``
         2. MD5 hash derived from tuple: ``hashlib.md5(",".join(edge_tup).encode()).hexdigest()``
-
-        This method will replace existing or add new label to the link.
+        
+        If no ``label, src_label, trgt_label`` provided, they substituted with empty values in
+        assumption that values for existing link are empty as well.
+        
+        This method will replace existing or add new labels to the link.
 
         Existing data attribute will be amended with new values using dictionary
         like update method.
@@ -704,13 +775,13 @@ class drawio_diagram:
         link_data = {}
         # get new label
         new_label = new_label if new_label != None else label
+        new_src_label = new_src_label if new_src_label != None else src_label
+        new_trgt_label = new_trgt_label if new_trgt_label != None else trgt_label
         # create edge id
-        src_label = kwargs.get("src_label", "")
-        trgt_label = kwargs.get("trgt_label", "")
-        edge_tup = tuple(
-            sorted([label, source, target, src_label, trgt_label])
+        edge_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
+        new_edge_tup = tuple(
+            sorted([new_label, source, target, new_src_label, new_trgt_label])
         )
-        new_edge_tup = tuple(sorted([new_label, source, target, src_label, trgt_label]))
         edge_id = (
             hashlib.md5(",".join(edge_tup).encode()).hexdigest()
             if not edge_id
@@ -734,8 +805,63 @@ class drawio_diagram:
             return
         # find edge element
         edge = self.current_root.find("./object[@id='{}']".format(edge_id))
-        # update label and id
+        # update labels and id
         edge.attrib.update({"id": new_edge_id, "label": new_label})
+        if new_src_label:
+            src_label_obj = self.current_root.find(
+                "./mxCell[@id='{}']".format("{}-src".format(edge_id))
+            )
+            if not src_label_obj is None:
+                src_label_obj.attrib.update(
+                    {
+                        "id": "{}-src".format(new_edge_id),
+                        "value": new_src_label,
+                        "parent": new_edge_id,
+                    }
+                )
+                if src_label_style:
+                    src_label_obj.attrib["style"] = src_label_style
+            # create new src_label
+            else:
+                src_label_obj = ET.fromstring(
+                    self.drawio_link_label_xml.format(
+                        id="{}-src".format(new_edge_id),
+                        label=new_src_label,
+                        parent_id=new_edge_id,
+                        style=src_label_style or self.default_link_label_style,
+                        x="-0.5",
+                        rel="1",
+                    )
+                )
+                self.current_root.append(src_label_obj)
+            kwargs["src_label"] = new_src_label
+        if new_trgt_label:
+            trgt_label_obj = self.current_root.find(
+                "./mxCell[@id='{}']".format("{}-trgt".format(edge_id))
+            )
+            if not trgt_label_obj is None:
+                trgt_label_obj.attrib.update(
+                    {
+                        "id": "{}-trgt".format(new_edge_id),
+                        "value": new_trgt_label,
+                        "parent": new_edge_id,
+                    }
+                )
+                if trgt_label_style:
+                    trgt_label_obj.attrib["style"] = trgt_label_style
+            else:
+                trgt_label_obj = ET.fromstring(
+                    self.drawio_link_label_xml.format(
+                        id="{}-trgt".format(new_edge_id),
+                        label=new_trgt_label,
+                        parent_id=new_edge_id,
+                        style=trgt_label_style or self.default_link_label_style,
+                        x="0.5",
+                        rel="-1",
+                    )
+                )
+                self.current_root.append(trgt_label_obj)
+            kwargs["trgt_label"] = new_trgt_label
         # replace edge data and url
         link_data.update(data)
         link_data.update(kwargs)

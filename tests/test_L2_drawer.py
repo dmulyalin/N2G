@@ -3275,3 +3275,18 @@ interface Ethernet2/29
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as should_be:
             assert produced.read() == should_be.read()    
+			
+def test_cdp_drawing_yed_data_dict_cisco_iosxr():
+    data = { "Cisco_IOSXR": [
+    """
+
+    """]
+    }
+    config = {}
+    drawing = create_yed_diagram()
+    drawer = layer_2_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml", folder="./Output/")
+    # with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as produced:
+    #     with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as should_be:
+    #         assert produced.read() == should_be.read()    

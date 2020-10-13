@@ -1,0 +1,57 @@
+<mxfile compressed="false" type="device">
+    <diagram id="Page-1" name="Page-1">
+      <mxGraphModel arrows="1" connect="1" dx="1360" dy="864" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="1169" pageScale="1" pageWidth="827" shadow="1" tooltips="1">
+        <root>
+          <mxCell id="0" />   
+          <mxCell id="1" parent="0" />
+        <object id="node-1" label="node-1">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object id="node-2" label="node-2">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object id="node-3" label="node-3">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><mxCell connectable="0" id="947728752830898de867889aff4f80fe-src" parent="947728752830898de867889aff4f80fe" style="labelBackgroundColor=#ffffff;;labelBorderColor=#000000;fontColor=#FF66B3;fontStyle=1" value="GigEth1/1" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="947728752830898de867889aff4f80fe-trgt" parent="947728752830898de867889aff4f80fe" style="labelBackgroundColor=#ffffff;;labelBorderColor=#000000;fontColor=#FF66B3;fontStyle=1" value="GigEth2/29" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object a="b" id="947728752830898de867889aff4f80fe" label="bla1" source="node-1" src_label="GigEth1/1" target="node-2" trgt_label="GigEth2/29">
+      <mxCell edge="1" parent="1" source="node-1" style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;" target="node-2">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><object id="df47ed684b5ba493aaf3c28656d8b9ce" label="" source="node-2" src_label="Gi1/1" target="node-3" trgt_label="Gi2/29">
+      <mxCell edge="1" parent="1" source="node-2" style="endArrow=none;" target="node-3">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><mxCell connectable="0" id="206555ab2c35b090dcb3e5ac10dc56d3-src" parent="206555ab2c35b090dcb3e5ac10dc56d3" style="labelBackgroundColor=#ffffff;;" value="GE3/6" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="206555ab2c35b090dcb3e5ac10dc56d3-trgt" parent="206555ab2c35b090dcb3e5ac10dc56d3" style="labelBackgroundColor=#ffffff;;" value="GE5/21" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object id="206555ab2c35b090dcb3e5ac10dc56d3" label="" source="node-3" src_label="GE3/6" target="node-1" trgt_label="GE5/21">
+      <mxCell edge="1" parent="1" source="node-3" style="endArrow=none;" target="node-1">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><mxCell connectable="0" id="df47ed684b5ba493aaf3c28656d8b9ce-src" parent="df47ed684b5ba493aaf3c28656d8b9ce" style="labelBackgroundColor=#ffffff;;" value="Gi1/1" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="df47ed684b5ba493aaf3c28656d8b9ce-trgt" parent="df47ed684b5ba493aaf3c28656d8b9ce" style="labelBackgroundColor=#ffffff;;" value="Gi2/29" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell></root>
+      </mxGraphModel>
+    </diagram></mxfile>

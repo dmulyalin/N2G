@@ -20,15 +20,35 @@
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
           <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
-    </object><object description="{&#10;    &quot;switch-1:Ge4/8&quot;: {&#10;        &quot;description&quot;: &quot;switch-2: trunk standalone&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;300,301,302,303,304,305&quot;&#10;    },&#10;    &quot;switch-2:Ge1/8&quot;: {&#10;        &quot;description&quot;: &quot;switch-1: trunk standalone&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;300,301,302,303,304,305&quot;&#10;    }&#10;}" id="7f3e9832e3f8b4a6a5fd2d2a9c6290bc" label="" source="switch-1" src_label="Ge4/8" target="switch-2" trgt_label="Ge1/8">
+    </object><mxCell connectable="0" id="7f3e9832e3f8b4a6a5fd2d2a9c6290bc-src" parent="7f3e9832e3f8b4a6a5fd2d2a9c6290bc" style="labelBackgroundColor=#ffffff;;" value="Ge4/8" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="7f3e9832e3f8b4a6a5fd2d2a9c6290bc-trgt" parent="7f3e9832e3f8b4a6a5fd2d2a9c6290bc" style="labelBackgroundColor=#ffffff;;" value="Ge1/8" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object description="{&#10;    &quot;switch-1:Ge4/8&quot;: {&#10;        &quot;description&quot;: &quot;switch-2: trunk standalone&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;300,301,302,303,304,305&quot;&#10;    },&#10;    &quot;switch-2:Ge1/8&quot;: {&#10;        &quot;description&quot;: &quot;switch-1: trunk standalone&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;300,301,302,303,304,305&quot;&#10;    }&#10;}" id="7f3e9832e3f8b4a6a5fd2d2a9c6290bc" label="" source="switch-1" src_label="Ge4/8" target="switch-2" trgt_label="Ge1/8">
       <mxCell edge="1" parent="1" source="switch-1" style="endArrow=none;" target="switch-2">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object description="{&#10;    &quot;lag_members&quot;: {&#10;        &quot;switch-1:Ge4/6&quot;: &quot;switch-2:Ge1/5&quot;,&#10;        &quot;switch-1:Ge4/7&quot;: &quot;switch-2:Ge1/6&quot;&#10;    },&#10;    &quot;switch-1:LAG3&quot;: {&#10;        &quot;description&quot;: &quot;switch-2: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;200,201,202,203,204,205&quot;&#10;    },&#10;    &quot;switch-2:LAG3&quot;: {&#10;        &quot;description&quot;: &quot;switch-1: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;200,201,202,203,204,205&quot;&#10;    }&#10;}" id="e74000249c5487a013e4c07805ef8fab" label="" source="switch-1" src_label="LAG3" target="switch-2" trgt_label="LAG3">
+    </object><mxCell connectable="0" id="e74000249c5487a013e4c07805ef8fab-src" parent="e74000249c5487a013e4c07805ef8fab" style="labelBackgroundColor=#ffffff;;" value="LAG3" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="e74000249c5487a013e4c07805ef8fab-trgt" parent="e74000249c5487a013e4c07805ef8fab" style="labelBackgroundColor=#ffffff;;" value="LAG3" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object description="{&#10;    &quot;lag_members&quot;: {&#10;        &quot;switch-1:Ge4/6&quot;: &quot;switch-2:Ge1/5&quot;,&#10;        &quot;switch-1:Ge4/7&quot;: &quot;switch-2:Ge1/6&quot;&#10;    },&#10;    &quot;switch-1:LAG3&quot;: {&#10;        &quot;description&quot;: &quot;switch-2: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;200,201,202,203,204,205&quot;&#10;    },&#10;    &quot;switch-2:LAG3&quot;: {&#10;        &quot;description&quot;: &quot;switch-1: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;200,201,202,203,204,205&quot;&#10;    }&#10;}" id="e74000249c5487a013e4c07805ef8fab" label="" source="switch-1" src_label="LAG3" target="switch-2" trgt_label="LAG3">
       <mxCell edge="1" parent="1" source="switch-1" style="endArrow=none;" target="switch-2">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>
-    </object><object description="{&#10;    &quot;lag_members&quot;: {&#10;        &quot;switch-1:Ge1/1&quot;: &quot;switch-3:Ge0/1&quot;&#10;    },&#10;    &quot;switch-1:LAG11&quot;: {&#10;        &quot;description&quot;: &quot;switch-3: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;101&quot;&#10;    }&#10;}" id="9e9868a7b49ea76b8d22a7802994ec2a" label="" source="switch-1" src_label="LAG11" target="switch-3">
+    </object><mxCell connectable="0" id="9e9868a7b49ea76b8d22a7802994ec2a-src" parent="9e9868a7b49ea76b8d22a7802994ec2a" style="labelBackgroundColor=#ffffff;;" value="LAG11" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object description="{&#10;    &quot;lag_members&quot;: {&#10;        &quot;switch-1:Ge1/1&quot;: &quot;switch-3:Ge0/1&quot;&#10;    },&#10;    &quot;switch-1:LAG11&quot;: {&#10;        &quot;description&quot;: &quot;switch-3: trunk LAG&quot;,&#10;        &quot;is_l2&quot;: true,&#10;        &quot;l2_mode&quot;: &quot;trunk&quot;,&#10;        &quot;trunk_vlans&quot;: &quot;101&quot;&#10;    }&#10;}" id="9e9868a7b49ea76b8d22a7802994ec2a" label="" source="switch-1" src_label="LAG11" target="switch-3">
       <mxCell edge="1" parent="1" source="switch-1" style="endArrow=none;" target="switch-3">
           <mxGeometry as="geometry" relative="1" />
       </mxCell>

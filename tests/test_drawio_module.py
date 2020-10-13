@@ -246,7 +246,7 @@ def test_10_node_delete():
             
 def test_11_link_delete():    
     ###########################################
-    # Test node delte
+    # Test node delete
     ###########################################    
     drawio_drawing = create_drawio_diagram()
     drawio_drawing.from_file("./test_load.drawio")
@@ -256,3 +256,80 @@ def test_11_link_delete():
     with open ("./Output/test_11_link_delete.drawio") as produced:
         with open("./Output/should_be_test_11_link_delete.drawio") as should_be:
             assert produced.read() == should_be.read()   
+            
+def test_12_add_link_labels():    
+    ###########################################
+    # Test link labels
+    ###########################################    
+    drawio_drawing = create_drawio_diagram()
+    data = {
+        "nodes": [
+            {"id": "node-1"},
+            {"id": "node-2"},
+            {"id": "node-3"}
+        ],
+        "links": [
+            {"source": "node-1", "target": "node-2", "label": "bla1", "src_label": "Gi1/1", "trgt_label": "Gi2/29"},
+            {"source": "node-2", "target": "node-3", "label": "bla2", "src_label": "Gi2/2", "trgt_label": "Gi2/17"},
+            {"source": "node-3", "target": "node-1", "label": "bla3", "src_label": "Gi3/6", "trgt_label": "Gi5/21"}
+        ]
+    }
+    drawio_drawing.from_dict(data, diagram_name="Page-1")
+    drawio_drawing.dump_file(filename="test_12_add_link_labels.drawio", folder="./Output/")
+    with open ("./Output/test_12_add_link_labels.drawio") as produced:
+        with open("./Output/should_be_test_12_add_link_labels.drawio") as should_be:
+            assert produced.read() == should_be.read()   
+            
+def test_13_update_link_labels():    
+    ###########################################
+    # Test link labels update
+    ###########################################    
+    new_link_style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;"
+    new_src_trgt_style = "labelBackgroundColor=#ffffff;;labelBorderColor=#000000;fontColor=#FF66B3;fontStyle=1"
+    drawio_drawing = create_drawio_diagram()
+    data = {
+        "nodes": [
+            {"id": "node-1"},
+            {"id": "node-2"},
+            {"id": "node-3"}
+        ],
+        "links": [
+            {"source": "node-1", "target": "node-2", "label": "bla1", "src_label": "Gi1/1", "trgt_label": "Gi2/29"},
+            {"source": "node-2", "target": "node-3"},
+            {"source": "node-3", "target": "node-1", "src_label": "Gi3/6", "trgt_label": "Gi5/21"}
+        ]
+    }
+    drawio_drawing.from_dict(data, diagram_name="Page-1")
+    drawio_drawing.update_link(
+        source="node-1", 
+        target="node-2", 
+        label="bla1",
+        src_label="Gi1/1", 
+        trgt_label="Gi2/29", 
+        style=new_link_style, 
+        data={"a": "b"}, 
+        new_src_label="GigEth1/1",
+        new_trgt_label="GigEth2/29",
+        src_label_style=new_src_trgt_style,
+        trgt_label_style=new_src_trgt_style
+    )
+    drawio_drawing.update_link(
+        source="node-3", 
+        target="node-1", 
+        src_label="Gi3/6", 
+        trgt_label="Gi5/21", 
+        new_src_label="GE3/6",
+        new_trgt_label="GE5/21"
+    )
+    drawio_drawing.update_link(
+        source="node-2", 
+        target="node-3", 
+        new_src_label="Gi1/1",
+        new_trgt_label="Gi2/29"
+    )
+    drawio_drawing.dump_file(filename="test_13_update_link_labels.drawio", folder="./Output/")
+    with open ("./Output/test_13_update_link_labels.drawio") as produced:
+        with open("./Output/should_be_test_13_update_link_labels.drawio") as should_be:
+            assert produced.read() == should_be.read() 
+	
+# test_13_update_link_labels()

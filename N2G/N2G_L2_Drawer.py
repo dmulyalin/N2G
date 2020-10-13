@@ -58,8 +58,8 @@ class layer_2_drawer:
 
     **Features description**
 
-    * ``CDP peers`` - adds links and nodes out of CDP neighbors
-    * ``LLDP peers`` - adds links and nodes out of LLDP neighbors
+    * ``CDP peers`` - adds links and nodes for CDP neighbors
+    * ``LLDP peers`` - adds links and nodes for LLDP neighbors
     * ``interface config`` - adds interfaces configuration to links data
     * ``interface state`` - add links state information to links data
     * ``LAG links`` - combines links based on LAG membership
