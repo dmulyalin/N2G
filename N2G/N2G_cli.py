@@ -7,9 +7,9 @@ if __name__ == "__main__":
     from N2G_yEd import yed_diagram as create_yed_diagram
     from N2G_L2_Drawer import layer_2_drawer
 else:
-    from .N2G_DrawIO import drawio_diagram as create_drawio_diagram
-    from .N2G_yEd import yed_diagram as create_yed_diagram
-    from .N2G_L2_drawer import layer_2_drawer
+    from N2G.N2G_DrawIO import drawio_diagram as create_drawio_diagram
+    from N2G.N2G_yEd import yed_diagram as create_yed_diagram
+    from N2G.N2G_L2_Drawer import layer_2_drawer
 
 __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
@@ -122,13 +122,13 @@ CDP and LLDP drawer options:
         help=argparse.SUPPRESS,
     )
     args = argparser.parse_args()
-    
+
     # general arguments
     DATA = args.DATA  # string, OS path to data files to process
     FOLDER = args.FOLDER  # OS path to folder to save results into
     FILENAME = args.FILENAME  # output filename
     MODULE = args.MODULE
-    
+
     # CDP and LLDP drawer arguments
     clp = args.clp
     clp_add_lag = args.clp_add_lag
@@ -142,16 +142,16 @@ CDP and LLDP drawer options:
         FILENAME = 'output_{}.{}'.format(ctime, ext)
     elif not FILENAME.endswith(ext):
         FILENAME = "{}.{}".format(FILENAME, ext)
-        
+
     if not os.path.exists(FOLDER):
         os.mkdir(FOLDER)
-            
+
     if clp:
         config = {
             "add_interfaces_data": True,
             "group_links": clp_group_links,
             "add_lag": clp_add_lag,
-            "add_all_connected": clp_add_connected, 
+            "add_all_connected": clp_add_connected,
             "platforms": [i.strip() for i in clp_platforms.split(",")],
             "combine_peers": clp_combine_peers
         }
@@ -162,6 +162,6 @@ CDP and LLDP drawer options:
         drawer = layer_2_drawer(drawing, config)
         drawer.work(DATA)
         drawer.drawing.dump_file(filename=FILENAME, folder=FOLDER)
-        
+
 if __name__ == "__main__":
     cli_tool()

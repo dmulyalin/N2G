@@ -4,30 +4,30 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
-from N2G import layer_2_drawer
+from N2G.N2G_L2_Drawer import layer_2_drawer
 
 def test_cdp_drawing_yed_data_dict():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -51,13 +51,13 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 switch-2#show run
 interface GigabitEthernet1/5
@@ -101,7 +101,7 @@ interface GigabitEthernet1/5
     with open ("./Output/test_cdp_drawing_yed_data_dict.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_base.graphml") as should_be:
             assert produced.read() == should_be.read()
-            
+
 # test_cdp_drawing_yed_data_dict()
 
 
@@ -139,38 +139,38 @@ def test_cdp_drawing_yed_data_path():
     with open ("./Output/test_cdp_drawing_yed_data_path.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_base.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_yed_data_path()
 
 def test_cdp_drawing_yed_data_dict_add_lag():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -206,7 +206,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -214,19 +214,19 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -262,38 +262,38 @@ interface GigabitEthernet1/6
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_lag.graphml") as should_be:
             assert produced.read() == should_be.read()
-            
+
 # test_cdp_drawing_yed_data_dict_add_lag()
 
 def test_cdp_drawing_yed_data_dict_group_links():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -329,7 +329,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -337,19 +337,19 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -385,52 +385,52 @@ interface GigabitEthernet1/6
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_group_links.graphml") as should_be:
             assert produced.read() == should_be.read()
-            
+
 # test_cdp_drawing_yed_data_dict_group_links()
 
 def test_cdp_drawing_yed_data_dict_group_links_add_lag():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/8,  Port ID (outgoing port): GigabitEthernet1/8
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/24,  Port ID (outgoing port): GigabitEthernet0/14
 
 switch-1#show run
@@ -472,7 +472,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -485,26 +485,26 @@ interface GigabitEthernet1/24
  ip address 10.0.1.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/8,  Port ID (outgoing port): GigabitEthernet4/8
 
 switch-2#show run
@@ -547,12 +547,12 @@ interface GigabitEthernet1/8
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_yed_data_dict_group_links_add_lag()
 
 def test_lldp_drawing_yed_data_dict():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 ------------------------------------------------
 Local Intf: GigabitEthernet4/6
 Port id: GigabitEthernet1/5
@@ -579,7 +579,7 @@ System Name: switch-4.com
 System Capabilities: B,R
 Management Addresses:
     IP: 10.4.4.4
-    
+
 switch-1#show run
 interface GigabitEthernet4/6
  description switch-2: access
@@ -601,7 +601,7 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 ------------------------------------------------
 Local Intf: GigabitEthernet1/5
 Port id: GigabitEthernet4/6
@@ -609,7 +609,7 @@ System Name: switch-1.com
 
 System Capabilities: B,R
 Management Addresses:
-    IP: 10.1.1.1 
+    IP: 10.1.1.1
 
 switch-2#show run
 interface GigabitEthernet1/5
@@ -629,38 +629,38 @@ interface GigabitEthernet1/5
     with open ("./Output/test_lldp_drawing_yed_data_dict.graphml") as produced:
         with open("./Output/should_be_test_lldp_drawing_yed_data_dict.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_lldp_drawing_yed_data_dict()
 
 def test_cdp_drawing_yed_data_dict_add_vlans_to_nodes():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -696,7 +696,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -710,19 +710,19 @@ vlan 101
  name test_vlan
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -762,38 +762,38 @@ vlan 101
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_yed_data_dict_add_vlans_to_nodes()
 
 def test_cdp_drawing_yed_data_dict_interfaces_state():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -829,7 +829,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -843,39 +843,39 @@ vlan 101
  name test_vlan
 !
 switch-1#show interface
-GigabitEthernet1/1 is up, line protocol is up (connected) 
+GigabitEthernet1/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
   Description: switch-3:Gi0/1
-  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
 !
-GigabitEthernet1/2 is up, line protocol is up (connected) 
+GigabitEthernet1/2 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
   Description: SW4 Routing Peering
-  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel3 is up, line protocol is up (connected) 
+Port-channel3 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-2: trunk LAG
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/6 Ge4/7 
+  Members in this channel: Ge4/6 Ge4/7
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -915,38 +915,38 @@ vlan 101
     with open ("./Output/test_cdp_drawing_yed_data_dict_interfaces_state.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_interfaces_state.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_yed_data_dict_interfaces_state()
 
 def test_cdp_drawing_yed_data_dict_lag_interfaces_state():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -982,7 +982,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -996,39 +996,39 @@ vlan 101
  name test_vlan
 !
 switch-1#show interface
-GigabitEthernet1/1 is up, line protocol is up (connected) 
+GigabitEthernet1/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
   Description: switch-3:Gi0/1
-  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
 !
-GigabitEthernet1/2 is up, line protocol is up (connected) 
+GigabitEthernet1/2 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
   Description: SW4 Routing Peering
-  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel3 is up, line protocol is up (connected) 
+Port-channel3 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-2: trunk LAG
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/6 Ge4/7 
+  Members in this channel: Ge4/6 Ge4/7
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -1068,38 +1068,38 @@ vlan 101
     with open ("./Output/test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_yed_data_dict_lag_interfaces_state()
 
 def test_cdp_drawing_yed_data_dict_add_all_connected():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -1146,7 +1146,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -1154,50 +1154,50 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
 !
 switch-1#show interface
-GigabitEthernet1/1 is up, line protocol is up (connected) 
+GigabitEthernet1/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
   Description: switch-3:Gi0/1
-  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
 !
-GigabitEthernet1/2 is up, line protocol is up (connected) 
+GigabitEthernet1/2 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
   Description: SW4 Routing Peering
-  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel3 is up, line protocol is up (connected) 
+Port-channel3 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-2: trunk LAG
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/6 Ge4/7 
+  Members in this channel: Ge4/6 Ge4/7
 !
-GigabitEthernet4/8 is up, line protocol is up (connected) 
+GigabitEthernet4/8 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4848 (bia a89d.2163.4848)
   Description: switch-22: trunk
-  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-GigabitEthernet4/9 is up, line protocol is up (connected) 
+GigabitEthernet4/9 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
-  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -1231,38 +1231,38 @@ interface GigabitEthernet1/6
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_yed_data_dict_add_all_connected()
 
 def test_cdp_drawing_yed_data_dict_add_all_connected_add_lag():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -1323,7 +1323,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -1337,62 +1337,62 @@ vlan 101
  name test_vlan
 !
 switch-1#show interface
-GigabitEthernet1/1 is up, line protocol is up (connected) 
+GigabitEthernet1/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
   Description: switch-3:Gi0/1
-  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
 !
-GigabitEthernet1/2 is up, line protocol is up (connected) 
+GigabitEthernet1/2 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
   Description: SW4 Routing Peering
-  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel3 is up, line protocol is up (connected) 
+Port-channel3 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-2: trunk LAG
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/6 Ge4/7 
+  Members in this channel: Ge4/6 Ge4/7
 !
-GigabitEthernet4/8 is up, line protocol is up (connected) 
+GigabitEthernet4/8 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4848 (bia a89d.2163.4848)
   Description: switch-22: trunk
-  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel48 is up, line protocol is up (connected) 
+Port-channel48 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-22:LAG trunk
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/8 
+  Members in this channel: Ge4/8
 !
-GigabitEthernet4/9 is up, line protocol is up (connected) 
+GigabitEthernet4/9 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
-  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-GigabitEthernet5/1 is up, line protocol is up (connected) 
+GigabitEthernet5/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
-  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -1432,31 +1432,31 @@ vlan 101
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_yed_data_dict_add_all_connected_add_lag()
 
 def test_cdp_drawing_drawio_data_dict():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -1480,13 +1480,13 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 switch-2#show run
 interface GigabitEthernet1/5
@@ -1506,7 +1506,7 @@ interface GigabitEthernet1/5
     with open ("./Output/test_cdp_drawing_drawio_data_dict.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_or_path.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 # test_cdp_drawing_drawio_data_dict()
 
 def test_cdp_drawing_drawio_data_path():
@@ -1519,38 +1519,38 @@ def test_cdp_drawing_drawio_data_path():
     with open ("./Output/test_cdp_drawing_drawio_data_path.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_or_path.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 # test_cdp_drawing_drawio_data_path()
 
 def test_cdp_drawing_drawio_data_dict_add_lag():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -1586,7 +1586,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -1594,19 +1594,19 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -1642,38 +1642,38 @@ interface GigabitEthernet1/6
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_lag.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_lag.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 # test_cdp_drawing_drawio_data_dict_add_lag()
 
 def test_cdp_drawing_drawio_data_dict_group_links():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -1709,7 +1709,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -1717,19 +1717,19 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -1765,50 +1765,50 @@ interface GigabitEthernet1/6
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_group_links.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 def test_cdp_drawing_drawio_data_dict_group_links_add_lag():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/8,  Port ID (outgoing port): GigabitEthernet1/8
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/24,  Port ID (outgoing port): GigabitEthernet0/14
 
 switch-1#show run
@@ -1850,7 +1850,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -1863,26 +1863,26 @@ interface GigabitEthernet1/24
  ip address 10.0.1.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/8,  Port ID (outgoing port): GigabitEthernet4/8
 
 switch-2#show run
@@ -1925,10 +1925,10 @@ interface GigabitEthernet1/8
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 def test_lldp_drawing_drawio_data_dict():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 ------------------------------------------------
 Local Intf: GigabitEthernet4/6
 Port id: GigabitEthernet1/5
@@ -1955,7 +1955,7 @@ System Name: switch-4.com
 System Capabilities: B,R
 Management Addresses:
     IP: 10.4.4.4
-    
+
 switch-1#show run
 interface GigabitEthernet4/6
  description switch-2: access
@@ -1977,7 +1977,7 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 ------------------------------------------------
 Local Intf: GigabitEthernet1/5
 Port id: GigabitEthernet4/6
@@ -1985,7 +1985,7 @@ System Name: switch-1.com
 
 System Capabilities: B,R
 Management Addresses:
-    IP: 10.1.1.1 
+    IP: 10.1.1.1
 
 switch-2#show run
 interface GigabitEthernet1/5
@@ -2005,36 +2005,36 @@ interface GigabitEthernet1/5
     with open ("./Output/test_lldp_drawing_drawio_data_dict.drawio") as produced:
         with open("./Output/should_be_test_lldp_drawing_drawio_data_dict.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 def test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -2070,7 +2070,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -2084,19 +2084,19 @@ vlan 101
  name test_vlan
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -2136,38 +2136,38 @@ vlan 101
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio") as should_be:
             assert produced.read() == should_be.read()
-    
+
 # test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes()
 
 def test_cdp_drawing_drawio_data_dict_interfaces_state():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -2203,7 +2203,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -2217,39 +2217,39 @@ vlan 101
  name test_vlan
 !
 switch-1#show interface
-GigabitEthernet1/1 is up, line protocol is up (connected) 
+GigabitEthernet1/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
   Description: switch-3:Gi0/1
-  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
 !
-GigabitEthernet1/2 is up, line protocol is up (connected) 
+GigabitEthernet1/2 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
   Description: SW4 Routing Peering
-  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel3 is up, line protocol is up (connected) 
+Port-channel3 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-2: trunk LAG
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/6 Ge4/7 
+  Members in this channel: Ge4/6 Ge4/7
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -2289,36 +2289,36 @@ vlan 101
     with open ("./Output/test_cdp_drawing_drawio_data_dict_interfaces_state.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_interfaces_state.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 def test_cdp_drawing_drawio_data_dict_add_all_connected():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -2365,7 +2365,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -2373,50 +2373,50 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
 !
 switch-1#show interface
-GigabitEthernet1/1 is up, line protocol is up (connected) 
+GigabitEthernet1/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
   Description: switch-3:Gi0/1
-  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
 !
-GigabitEthernet1/2 is up, line protocol is up (connected) 
+GigabitEthernet1/2 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
   Description: SW4 Routing Peering
-  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel3 is up, line protocol is up (connected) 
+Port-channel3 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-2: trunk LAG
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/6 Ge4/7 
+  Members in this channel: Ge4/6 Ge4/7
 !
-GigabitEthernet4/8 is up, line protocol is up (connected) 
+GigabitEthernet4/8 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4848 (bia a89d.2163.4848)
   Description: switch-22: trunk
-  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-GigabitEthernet4/9 is up, line protocol is up (connected) 
+GigabitEthernet4/9 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
-  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -2450,36 +2450,36 @@ interface GigabitEthernet1/6
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_all_connected.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 def test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag():
     data = {"Cisco_IOS": ["""
-switch-1#show cdp neighbors detail 
+switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
 
 -------------------------
 Device ID: switch-2
-Entry address(es): 
+Entry address(es):
   IP address: 10.2.2.2
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet4/7,  Port ID (outgoing port): GigabitEthernet1/6
 
 -------------------------
 Device ID: switch-3
-Entry address(es): 
+Entry address(es):
   IP address: 10.3.3.3
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
 
 -------------------------
 Device ID: switch-4
-Entry address(es): 
+Entry address(es):
   IP address: 10.4.4.4
-Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP 
+Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
 Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
 
 switch-1#show run
@@ -2540,7 +2540,7 @@ interface GigabitEthernet1/1
  switchport trunk allowed vlan 101
  switchport mode trunk
  mtu 9216
- channel-group 11 mode active 
+ channel-group 11 mode active
 !
 interface GigabitEthernet1/2
  description SW4 Routing Peering
@@ -2548,62 +2548,62 @@ interface GigabitEthernet1/2
  ip address 10.0.0.1 255.255.255.0
 !
 switch-1#show interface
-GigabitEthernet1/1 is up, line protocol is up (connected) 
+GigabitEthernet1/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.1111 (bia a89d.2163.1111)
   Description: switch-3:Gi0/1
-  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec, 
+  MTU 9216 bytes, BW 10000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, link type is auto, media type is 10GBase-LR
 !
-GigabitEthernet1/2 is up, line protocol is up (connected) 
+GigabitEthernet1/2 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.2222 (bia a89d.2163.2222)
   Description: SW4 Routing Peering
-  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel3 is up, line protocol is up (connected) 
+Port-channel3 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-2: trunk LAG
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
-  Members in this channel: Ge4/6 Ge4/7 
+  Members in this channel: Ge4/6 Ge4/7
 !
-GigabitEthernet4/8 is up, line protocol is up (connected) 
+GigabitEthernet4/8 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4848 (bia a89d.2163.4848)
   Description: switch-22: trunk
-  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 5000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-Port-channel48 is up, line protocol is up (connected) 
+Port-channel48 is up, line protocol is up (connected)
   Hardware is EtherChannel, address is a89d.2163.3333 (bia a89d.2163.333)
   Description: switch-22:LAG trunk
-  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec, 
+  MTU 1500 bytes, BW 20000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 10Gb/s, media type is N/A
   Members in this channel: Ge4/8 Gi5/1
 !
-GigabitEthernet4/9 is up, line protocol is up (connected) 
+GigabitEthernet4/9 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
-  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
 !
-GigabitEthernet5/1 is up, line protocol is up (connected) 
+GigabitEthernet5/1 is up, line protocol is up (connected)
   Hardware is Ten Gigabit Ethernet Port, address is a89d.2163.4949 (bia a89d.2163.4949)
-  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+  MTU 7000 bytes, BW 1000000 Kbit/sec, DLY 10 usec,
   Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseT
     """,
     """
-switch-2#show cdp neighbors detail 
+switch-2#show cdp neighbors detail
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
-Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6    
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
 
 -------------------------
 Device ID: switch-1
-Entry address(es): 
+Entry address(es):
   IP address: 10.1.1.1
-Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP 
+Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
 Interface: GigabitEthernet1/6,  Port ID (outgoing port): GigabitEthernet4/7
 
 switch-2#show run
@@ -2637,7 +2637,7 @@ interface GigabitEthernet1/6
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio") as should_be:
             assert produced.read() == should_be.read()
-            
+
 def test_cdp_drawing_yed_data_dict_cisco_nxos_base():
     data = { "Cisco_NXOS": [
     """
@@ -2773,7 +2773,7 @@ admin state is up, Dedicated Interface
   Encapsulation ARPA, medium is broadcast
   Port mode is routed
   full-duplex, 10 Gb/s, media type is 10G
-  
+
 nxos_switch_1# show run int
 interface Ethernet2/29
   description nxos_switch_1:eth5/1 [L3]
@@ -2800,8 +2800,8 @@ interface Ethernet5/31
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as should_be:
-            assert produced.read() == should_be.read()    
-            
+            assert produced.read() == should_be.read()
+
 # test_cdp_drawing_yed_data_path_cisco_nxos()
 
 def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
@@ -2818,8 +2818,8 @@ def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as should_be:
-            assert produced.read() == should_be.read()   
-            
+            assert produced.read() == should_be.read()
+
 def test_cdp_drawing_yed_data_path_cisco_nxos_base():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
     config = {
@@ -2831,7 +2831,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_base():
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as should_be:
-            assert produced.read() == should_be.read()  
+            assert produced.read() == should_be.read()
 
 def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
@@ -2845,8 +2845,8 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as should_be:
-            assert produced.read() == should_be.read()   
-			
+            assert produced.read() == should_be.read()
+
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data():
     data = { "Cisco_NXOS": [
     """
@@ -2892,7 +2892,7 @@ MTU: 9216
 Physical Location: rack, street address
 Mgmt address(es):
     IPv4 Address: 10.2.2.2
-	
+
 nxos_switch_1# show run int
 interface Ethernet5/1
   description nxos_switch_2/3: [L3]
@@ -2952,7 +2952,7 @@ admin state is up, Dedicated Interface
   Encapsulation ARPA, medium is broadcast
   Port mode is routed
   full-duplex, 10 Gb/s, media type is 10G
-  
+
 nxos_switch_1# show run int
 interface Ethernet2/29
   description nxos_switch_1:eth5/1 [L3]
@@ -2972,8 +2972,8 @@ interface Ethernet2/29
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml") as should_be:
-            assert produced.read() == should_be.read()    
-			
+            assert produced.read() == should_be.read()
+
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links():
     data = { "Cisco_NXOS": [
     """
@@ -3019,7 +3019,7 @@ MTU: 9216
 Physical Location: rack, street address
 Mgmt address(es):
     IPv4 Address: 10.2.2.2
-	
+
 ----------------------------------------
 Device ID:nxos_switch_2(JPG2212345)
 System Name: nxos_switch_2
@@ -3061,7 +3061,7 @@ MTU: 9216
 Physical Location: rack, street address
 Mgmt address(es):
     IPv4 Address: 10.2.2.2
-	
+
 nxos_switch_1# show run int
 interface Ethernet5/1
   description nxos_switch_2/3: [L3]
@@ -3121,7 +3121,7 @@ admin state is up, Dedicated Interface
   Encapsulation ARPA, medium is broadcast
   Port mode is routed
   full-duplex, 10 Gb/s, media type is 10G
-  
+
 nxos_switch_1# show run int
 interface Ethernet2/29
   description nxos_switch_1:eth5/1 [L3]
@@ -3141,8 +3141,8 @@ interface Ethernet2/29
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml") as should_be:
-            assert produced.read() == should_be.read()    
-			
+            assert produced.read() == should_be.read()
+
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag():
     data = { "Cisco_NXOS": [
     """
@@ -3188,7 +3188,7 @@ MTU: 9216
 Physical Location: rack, street address
 Mgmt address(es):
     IPv4 Address: 10.2.2.2
-	
+
 nxos_switch_1# show run int
 interface Port-channel51
   description nxos_switch_2/3: [L2]
@@ -3253,7 +3253,7 @@ admin state is up, Dedicated Interface
   Encapsulation ARPA, medium is broadcast
   Port mode is routed
   full-duplex, 10 Gb/s, media type is 10G
-  
+
 nxos_switch_1# show run int
 interface Ethernet2/29
   description nxos_switch_1:eth5/1 [L3]
@@ -3274,19 +3274,106 @@ interface Ethernet2/29
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as should_be:
-            assert produced.read() == should_be.read()    
-			
+            assert produced.read() == should_be.read()
+
 def test_cdp_drawing_yed_data_dict_cisco_iosxr():
     data = { "Cisco_IOSXR": [
     """
+RP/0/RSP0/CPU0:router_XR_01#show run
+interface GigabitEthernet0/0/0/19
+ description To cust_rt_1  Gi1/1
+ mtu 4484
+ ipv4 address 10.0.0.1 255.255.255.192
+!
+interface TenGigE0/0/2/0
+ description To cust_rt_2 Gi1/2
+ mtu 4484
+ ipv4 address 10.1.0.1 255.255.255.192
+ ipv6 address 2001::4321/64 eui-64
 
-    """]
+RP/0/RSP0/CPU0:router_XR_01#show cdp neighbors detail
+-------------------------
+Device ID: cust_rt_1(FGE1234567)
+SysName :
+Entry address(es):
+  IPv4 address: 10.0.0.2
+Platform: Cisco CISCO3945-CHASSIS,  Capabilities: Router Source-Route-Bridge Switch IGMP
+Interface:  GigabitEthernet0/0/0/19
+Port ID (outgoing port): GigabitEthernet1/1
+Holdtime : 147 sec
+
+Version :
+Cisco IOS Software, C3900 Software (C3900-UNIVERSALK9-M), Version 15.4(3)M1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2014 by Cisco Systems, Inc.
+Compiled Sat 25-Oct-14 07:15 by prod_rel_team
+
+advertisement version: 2
+Duplex: full
+
+-------------------------
+Device ID: cust_rt_2
+SysName :
+Entry address(es):
+  IPv4 address: 10.1.0.1
+  IPv6 address: fe80::5e5a:feed:1234:1234
+Platform: cisco ASR1001-X,  Capabilities: Router IGMP
+Interface: TenGigE0/0/2/0
+Port ID (outgoing port): GigabitEthernet1/2
+Holdtime : 139 sec
+
+Version :
+Cisco IOS Software [Fuji], ASR1000 Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 16.9.2, RELEASE SOFTWARE (fc4)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon 05-Nov-18 19:31 by mcpre
+
+advertisement version: 2
+Duplex: full
+
+RP/0/RSP0/CPU0:router_XR_01#show interfaces
+GigabitEthernet0/0/0/19 is up, line protocol is up
+  Interface state transitions: 1
+  Hardware is GigabitEthernet, address is 4321.f54f.1234 (bia 4321.f54f.1234)
+  Description: To cust_rt_1  Gi1/1
+  Internet address is 10.0.0.1/26
+  MTU 4484 bytes, BW 1000000 Kbit (Max: 1000000 Kbit)
+  Full-duplex, 1000Mb/s, TFD, link type is force-up
+
+TenGigE0/0/2/0 is up, line protocol is up
+  Interface state transitions: 1
+  Hardware is TenGigE, address is 08ec.6789.68e9 (bia 08ec.6789.68e9)
+  Layer 1 Transport Mode is LAN
+  Description: To cust_rt_2 Gi1/2
+  Internet address is 10.1.0.1/26
+  MTU 4484 bytes, BW 10000000 Kbit (Max: 10000000 Kbit)
+  Full-duplex, 10000Mb/s, LR, link type is force-up
+    """,
+	"""
+RP/0/RSP0/CPU0:cust_rt_1#show run
+interface GigabitEthernet1/1
+ description To cust_rt_1  Gi0/0/19
+ mtu 4484
+ ipv4 address 10.0.0.2 255.255.255.192
+ vrf UPSTREAM
+
+RP/0/RSP0/CPU0:cust_rt_1#show cdp neighbors detail
+-------------------------
+Device ID: router_XR_01
+SysName :
+Entry address(es):
+  IPv4 address: 10.0.0.1
+Platform: Cisco ASR9001,  Capabilities: Router Source-Route-Bridge Switch IGMP
+Interface:  GigabitEthernet1/1
+Port ID (outgoing port): GigabitEthernet0/0/0/19
+Holdtime : 147 sec
+	"""]
     }
     config = {}
     drawing = create_yed_diagram()
     drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml", folder="./Output/")
-    # with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as produced:
-    #     with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as should_be:
-    #         assert produced.read() == should_be.read()    
+    with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as should_be:
+            assert produced.read() == should_be.read()

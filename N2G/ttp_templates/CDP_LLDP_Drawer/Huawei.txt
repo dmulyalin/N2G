@@ -1,0 +1,143 @@
+<doc>
+Sample structure produced by this template:
+{'Huawei': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
+                                           'src_label': 'Ge4/6',
+                                           'target': {'bottom_label': 'cisco WS-C6509',
+                                                      'id': 'switch-2',
+                                                      'top_label': '10.2.2.2'},
+                                           'trgt_label': 'Ge1/5'},
+                                          {'source': 'switch-1',
+                                           'src_label': 'Ge4/7',
+                                           'target': {'bottom_label': 'cisco WS-C6509',
+                                                      'id': 'switch-2',
+                                                      'top_label': '10.2.2.2'},
+                                           'trgt_label': 'Ge1/6'}],
+                            'interfaces': {'Ge1/1': {'description': 'switch-3:Gi0/1',
+                                                     'is_l2': True,
+                                                     'l2_mode': 'trunk',
+                                                     'lag_id': '11',
+                                                     'lag_mode': 'active',
+                                                     'mtu': '9216',
+                                                     'state': {'admin': 'up',
+                                                               'bw_kbits': '10000000',
+                                                               'description': 'switch-3:Gi0/1',
+                                                               'duplex': 'Full',
+                                                               'hardware': 'Ten Gigabit Ethernet '
+                                                                           'Port',
+                                                               'is_physical_port': True,
+                                                               'line': 'up',
+                                                               'line_status': 'connected',
+                                                               'link_speed': '10Gb/s',
+                                                               'link_type': 'auto',
+                                                               'mac': 'a89d.2163.1111',
+                                                               'media_type': '10GBase-LR',
+                                                               'mtu': '9216'},
+                                                     'trunk_vlans': '101'}
+                                           'Ge4/6': {'description': 'switch-2: trunk',
+                                                     'is_l2': True,
+                                                     'l2_mode': 'trunk',
+                                                     'lag_id': '3',
+                                                     'lag_mode': 'active',
+                                                     'trunk_vlans': '200,201,202,203,204,205'}
+                                           'LAG11': {'description': 'switch-3: trunk LAG',
+                                                     'is_l2': True,
+                                                     'l2_mode': 'trunk',
+                                                     'trunk_vlans': '101'},
+                                           'LAG3': {'description': 'switch-2: trunk LAG',
+                                                    'is_l2': True,
+                                                    'l2_mode': 'trunk',
+                                                    'state': {'admin': 'up',
+                                                              'bw_kbits': '20000000',
+                                                              'description': 'switch-2: trunk LAG',
+                                                              'duplex': 'Full',
+                                                              'hardware': 'EtherChannel',
+                                                              'lag_members': 'Ge4/6 Ge4/7',
+                                                              'line': 'up',
+                                                              'line_status': 'connected',
+                                                              'link_type': '10Gb/s',
+                                                              'mac': 'a89d.2163.3333',
+                                                              'media_type': 'N/A',
+                                                              'mtu': '1500'},
+                            'node_facts': {'vlans': {'101': 'test_vlan', '200': 'ProdVMS'}}},
+               'switch-2': {'cdp_peers': [{'source': 'switch-2',
+                                           'src_label': 'Ge1/5',
+                                           'target': {'bottom_label': 'cisco WS-C6509',
+                                                      'id': 'switch-1',
+                                                      'top_label': '10.1.1.1'},
+                                           'trgt_label': 'Ge4/6'},
+                                          {'source': 'switch-2',
+                                           'src_label': 'Ge1/6',
+                                           'target': {'bottom_label': 'cisco WS-C6509',
+                                                      'id': 'switch-1',
+                                                      'top_label': '10.1.1.1'},
+                                           'trgt_label': 'Ge4/7'}],
+                            'interfaces': {'Ge1/5': {'description': 'switch-1: trunk',
+                                                     'is_l2': True,
+                                                     'l2_mode': 'trunk',
+                                                     'lag_id': '3',
+                                                     'lag_mode': 'active',
+                                                     'trunk_vlans': '200,201,202,203,204,205'}
+                            'node_facts': {'vlans': {'101': 'test_vlan', '200': 'ProdVMS'}}}}}
+</doc>
+
+<template name="Huawei" results="per_template">
+<vars>local_hostname="gethostname"</vars>
+
+<macro>
+def process_vlans(data):
+    return {data["vid"]: data["name"]}
+
+def check_is_physical_port(data):
+    for item in _ttp_["vars"]["physical_ports"]:
+        if data.startswith(item) and not "." in data:
+            return data, {"is_physical_port": True}
+    return data
+</macro>
+
+<macro>
+def check_lldp_peer_name(data):
+    undef_names = ["not advertised", "null"]
+    if data.get("target.id", "").lower() in undef_names:
+        data["target.id"] = data["data.chassis_id"]
+    return data
+</macro>
+
+<input>url = "./Huawei/"</input>
+
+<!-- Interfaces configuration group -->
+<group name="{{ local_hostname }}.interfaces**.{{ interface }}**">
+interface {{ interface | resuball(IfsNormalize) }}
+ description {{ description | re(".+") }}
+ port link-type {{ l2_mode }}
+ port trunk allow-pass vlan {{ trunk_vlans | unrange("to", " ") | replace(' ', ',') | joinmatches(",") }}
+ port trunk allow-pass vlan all {{ trunk_vlans | set("ALL") }}
+ dfs-group 1 m-lag {{ mlag_id | DIGIT }}
+ eth-trunk {{ lag_id | DIGIT }}
+ mode {{ lag_mode }}
+ port trunk pvid vlan {{ access_vlan }}
+ ip address {{ ip | PHRASE | joinmatches(",") }}
+ ip binding vpn-instance {{ vrf }}
+ peer-link 1 {{ peer_link | set(True) }}
+</group>
+
+<!-- Interfaces state group
+<group name="{{ local_hostname }}.interfaces**.{{ interface }}**.state">
+
+</group>
+ -->
+
+<!-- node_facts VLANs group -->
+<group name="{{ local_hostname }}.node_facts.vlans**" macro="process_vlans">
+vlan {{ vid | exclude(",") }}
+ name {{ name | ORPHRASE | default("no name") }}
+</group>
+
+<!-- LLDP peers group -->
+<group name="{{ local_hostname }}.lldp_peers*" chain="macro('check_lldp_peer_name') | expand()">
+{{ src_label | resuball(IfsNormalize) }}  has 1 neighbor(s):
+Port ID                            :{{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
+System name                        :{{ target.id | split(".") | item(0) | split("(") | item(0) }}
+System description                 :{{ target.bottom_label | ORPHRASE }}
+Management address                 :{{ target.top_label }}
+</group>
+</template>

@@ -68,7 +68,7 @@ class layer_2_drawer:
     * ``MAC addresses`` - adds mac addresses nodes to diagram
     * ``Add all connected`` - adds all connected nodes that are not visible on CDP or LLDP
     * ``Combine peers`` - groups CDP/LLDP peers behind same port by adding "L2" node
-    
+
     **Cisco Commands**
 
     * CDP, combine peers for Cisco IOS, IOS-XR, NXOS, ASA - ``show cdp neighbor details``
@@ -116,8 +116,9 @@ class layer_2_drawer:
                 "Eth": ["^Ethernet", "^eth"],
                 "Pt": ["^Port[^-]"],
                 "100G": ["^HundredGigE"],
+				"mgmt": ["^MgmtEth"]
             },
-            "physical_ports": ["Ge", "Te", "Fe", "Eth", "100G"],
+            "physical_ports": ["Ge", "Te", "Fe", "Eth", "100G", "mgmt"],
         }
         self.config.update(config)
         self.drawing = drawing
@@ -392,8 +393,8 @@ class layer_2_drawer:
             # check if need to combine peers, add lag to combine_peers_dict
             if self.config.get("combine_peers"):
                 self._update_combine_peers_dict(item=lag_link, link_hash=lag_link_hash)
-                
-                
+
+
     def _add_lags_to_links_dict(self):
         """
         Method to merge lag_links_dict with links_dict
@@ -605,7 +606,7 @@ class layer_2_drawer:
                     if port_id[1].startswith("MLAG"):
                         link_to_l2_node["description"] = {
                             l2_node_port_id: hosts[port_id[0]]["interfaces"][port_id[1].replace("MLAG", "LAG")]
-                        }                        
+                        }
                     else:
                         link_to_l2_node["description"] = {
                             l2_node_port_id: hosts[port_id[0]]["interfaces"][port_id[1]]
@@ -618,7 +619,7 @@ class layer_2_drawer:
                 sort_keys=True,
                 indent=4,
                 separators=(",", ": "),
-            )    
+            )
             link_to_l2_node_hash = self._make_hash_tuple(link_to_l2_node)
             self.links_dict[link_to_l2_node_hash] = link_to_l2_node
             # connect CDP/LLDP peers to L2 node
@@ -641,13 +642,13 @@ class layer_2_drawer:
                     new_link_hash = self._make_hash_tuple(old_link)
                     self.links_dict[new_link_hash] = old_link
                 # need to remove this L2 node and links to it as it
-                # turned out links are part of LAG, as a result node 
+                # turned out links are part of LAG, as a result node
                 # will be added for LAG together with links to peers
                 elif self.config.get("add_lag"):
                     _ = self.links_dict.pop(link_to_l2_node_hash)
                     _ = self.nodes_dict.pop(l2_node_id)
                     break
-                    
+
         del self.combine_peers_dict
 
     def _update_drawing(self):
