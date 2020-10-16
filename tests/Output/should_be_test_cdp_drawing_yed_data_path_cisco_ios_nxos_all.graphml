@@ -362,6 +362,7 @@
         "l2_mode": "trunk",
         "mtu": "9216",
         "peer_capabilities": "B, R",
+        "peer_port_description": "uplink to ISP via nxos_switch_1",
         "peer_system": "Cisco NX-OS(tm) n7700, Software (n7700-s3-dk9), Version 91.3(1), RELEASE SOFTWARE Copyright (c) 2002-2003 by Cisco Systems, Inc. Compiled 7/30/2003 12:00:00",
         "trunk_vlans": "2122"
     }
@@ -384,6 +385,7 @@
         "l2_mode": "trunk",
         "mtu": "9216",
         "peer_capabilities": "B, R",
+        "peer_port_description": "uplink to nxos_switch_1",
         "peer_system": "Huawei Versatile Routing Platform Software",
         "trunk_vlans": "2122"
     }

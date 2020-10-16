@@ -122,16 +122,19 @@ interface {{ interface | resuball(IfsNormalize) }}
       {{ lag_members | joinmatches(" ") }}  {{ ignore }}-duplex  {{ ignore }} {{ ignore }}
 </group>
 
-<!-- LLDP peers group
+<!-- LLDP peers group -->
 <group name="{{ local_hostname }}.lldp_peers*" expand="">
-Local Intf: {{ src_label | resuball(IfsNormalize) }}
+------------------------------------------------
+Local Interface: {{ src_label | resuball(IfsNormalize) }}
+Chassis id: {{ data.chassis_id }}
 Port id: {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
+Port Description: {{ data.peer_port_description | re(".+") }}
 System Name: {{ target.id | split(".") | item(0) | split("(") | item(0) }}
-System Capabilities: {{ ignore(ORPHRASE) }}
-    IP: {{ target.top_label }}
+System Capabilities: {{ data.peer_capabilities | ORPHRASE }}
+  IPv4 address: {{ target.top_label }}
 {{ source | set("local_hostname") }}
 </group>
--->
+
 
 <!-- CDP peers group -->
 <group name="{{ local_hostname }}.cdp_peers*" expand="">

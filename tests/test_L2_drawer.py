@@ -3291,6 +3291,25 @@ interface TenGigE0/0/2/0
  ipv4 address 10.1.0.1 255.255.255.192
  ipv6 address 2001::4321/64 eui-64
 
+RP/0/RSP0/CPU0:router_XR_01#show lldp neighbors detail
+------------------------------------------------
+Local Interface: GigabitEthernet0/0/0/8
+Chassis id: 0026.9815.c3e6
+Port id: Gi0/0/0/8
+Port Description: GigabitEthernet0/0/0/8 peer
+System Name: asr9k-5
+
+System Description: 
+Cisco IOS XR Software, Version 4.1.0.32I[Default]
+Copyright (c) 2011 by Cisco Systems, Inc.
+
+Time remaining: 102 seconds
+Hold Time: 120 seconds
+System Capabilities: R
+Enabled Capabilities: R
+Management Addresses:
+  IPv4 address: 10.5.173.110
+  
 RP/0/RSP0/CPU0:router_XR_01#show cdp neighbors detail
 -------------------------
 Device ID: cust_rt_1(FGE1234567)

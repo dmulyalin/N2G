@@ -1,8 +1,3 @@
-"""
-
-To implement:
-- add mac addresses nodes to the diagram based on show mac addr table output, logic - if interface is edge - connected to uncknown or last device, add mac addresses as nodes behind that device
-"""
 import logging
 import pprint
 import os
@@ -45,7 +40,7 @@ class layer_2_drawer:
     +===============+============+===========+===========+===========+===========+===========+===========+===========+===========+===========+
     | Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+    | Cisco_IOSXR   |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    ---    |    YES    |    YES    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
     | Cisco_NXOS    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
     +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
@@ -136,7 +131,7 @@ class layer_2_drawer:
         Method to parse text data and add nodes and links
         to drawing dictionary
 
-        **Parameteres**
+        **Parameters**
 
         * ``data`` dictionary or OS path string to directory with text files
 

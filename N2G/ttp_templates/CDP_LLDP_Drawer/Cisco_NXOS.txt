@@ -148,7 +148,7 @@ vlan {{ vid | exclude(",") }}
 Chassis id: {{ data.chassis_id }}
 Port id: {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}
 Local Port id: {{ src_label | resuball(IfsNormalize) }}
-Port Description: {{ data.peer_port_description }}
+Port Description: {{ data.peer_port_description | re(".+") }}
 System Name: {{ target.id | ORPHRASE | split(".") | item(0) | split("(") | item(0) }}
 System Description: {{ data.peer_system | ORPHRASE}}
 System Capabilities: {{ data.peer_capabilities | ORPHRASE }}
