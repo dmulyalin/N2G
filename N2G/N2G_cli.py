@@ -1,3 +1,37 @@
+"""
+This tool allows to use N2G module capabilities from command line interface.
+
+To produce diagram, N2G will need some source data to work with, for drawer
+modules source data usually comes in the form of directories structure with 
+text files containing show commands output for various devices.
+
+After source data provided, CLI tool need to know what it needs to do, hence 
+next comes the options of various drawers, such as CLP - CDP/LLDP L2 drawer.
+
+And finally, results need to be saved somewhere on the hard drive using filename
+and folder options.
+
+*Sample Usage*::
+
+    n2g -d ./path/to/data/ -clp -clp-group-links -fn diagram_1.graphml -f ./Output/
+	
+*Supported options*::
+
+    Parsing order is: CDP/LLDP (clp) => ...
+    
+    -d,  --data          OS path to folder with data files subfolders
+    -f,  --folder        Output folder location, default ./Output/
+    -fn, --filename      Output filename, default file name based on current time
+    -m,  --module        Module to use - yed or drawio
+    
+    CDP and LLDP drawer options:
+    -clp                 Parse CDP and LLDP data
+    -clp-add-lag         Add LAG/M-LAG information and delete member links
+    -clp-group-links     Group links between nodes
+    -clp-add-connected   Add all connected nodes
+    -clp-combine-peers   Combine CDP/LLDP peers behind same interface
+    -clp-platforms       Comma separated list of platforms to parse
+"""
 import argparse
 import time
 import os
@@ -14,9 +48,8 @@ else:
 __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
 
-def cli_tool():
-    # form argparser menu:
-    description_text = """Parsing order is: CDP/LLDP (clp) => ...
+cli_help = """
+Parsing order is: CDP/LLDP (clp) => ...
 
 -d,  --data          OS path to folder with data files subfolders
 -f,  --folder        Output folder location, default ./Output/
@@ -29,7 +62,12 @@ CDP and LLDP drawer options:
 -clp-group-links     Group links between nodes
 -clp-add-connected   Add all connected nodes
 -clp-combine-peers   Combine CDP/LLDP peers behind same interface
--clp-platforms       Comma separated list of platforms to parse"""
+-clp-platforms       Comma separated list of platforms to parse
+"""
+
+def cli_tool():
+    # form argparser menu:
+    description_text = """Version: {}{}""".format(__version__, cli_help)
 
     argparser = argparse.ArgumentParser(
         description="N2G CLI, version {}".format(__version__),

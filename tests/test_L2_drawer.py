@@ -2964,8 +2964,8 @@ interface Ethernet2/29
     """]
     }
     config = {
-		"combine_peers": True
-	}
+        "combine_peers": True
+    }
     drawing = create_yed_diagram()
     drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
@@ -3133,8 +3133,8 @@ interface Ethernet2/29
     """]
     }
     config = {
-		"combine_peers": True
-	}
+        "combine_peers": True
+    }
     drawing = create_yed_diagram()
     drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
@@ -3265,9 +3265,9 @@ interface Ethernet2/29
     """]
     }
     config = {
-		"combine_peers": True,
-		"add_lag": True
-	}
+        "combine_peers": True,
+        "add_lag": True
+    }
     drawing = create_yed_diagram()
     drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
@@ -3368,7 +3368,7 @@ TenGigE0/0/2/0 is up, line protocol is up
   MTU 4484 bytes, BW 10000000 Kbit (Max: 10000000 Kbit)
   Full-duplex, 10000Mb/s, LR, link type is force-up
     """,
-	"""
+    """
 RP/0/RSP0/CPU0:cust_rt_1#show run
 interface GigabitEthernet1/1
  description To cust_rt_1  Gi0/0/19
@@ -3386,7 +3386,7 @@ Platform: Cisco ASR9001,  Capabilities: Router Source-Route-Bridge Switch IGMP
 Interface:  GigabitEthernet1/1
 Port ID (outgoing port): GigabitEthernet0/0/0/19
 Holdtime : 147 sec
-	"""]
+    """]
     }
     config = {}
     drawing = create_yed_diagram()
@@ -3396,3 +3396,108 @@ Holdtime : 147 sec
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as should_be:
             assert produced.read() == should_be.read()
+            
+def test_cdp_drawing_yed_data_dict_huawei_base():
+    data = { "Huawei": [
+    """
+<HUAWEI-CSW-01>disp cur interface
+interface 10GE4/0/17
+ description TO-SLB-FF_21  Eth9
+ ip binding vpn-instance SLB-F
+ ip address 10.123.0.5 255.255.255.252
+ dot1q termination vid 619
+#
+interface 10GE4/0/9
+ description LINK:R-RR1-TOR-581:10GE2/0/5
+ eth-trunk 11
+#
+interface Eth-Trunk11
+ description LINK:R-RR1-TOR-581:LAG
+ port link-type trunk
+ port trunk allow-pass vlan 200 210 220 230 240 280 290 300 310 320
+ port trunk allow-pass vlan 330 340 1201 to 1223
+ mode lacp-static
+ dfs-group 1 m-lag 11
+ 
+<HUAWEI-CSW-01>disp lldp neighbor
+10GE4/0/17 has 1 neighbor(s):
+
+Port ID                            :Ethernet9
+Port description                   :UPLINK to CSW  10GE4/0/17
+System name                        :SLB-FF_21           
+System description                 :SLB Vendor BLA
+System capabilities supported      :bridge router
+Management address                 :10.132.77.91
+Maximum frame Size                 :9123
+
+10GE4/0/9 has 1 neighbor(s):
+
+Port ID                            :10GE2/0/5
+Port description                   :UPLINK to CSW 10GE4/0/9
+System name                        :R-RR1-TOR-581      
+System description                 :Huawei Versatile Routing Platform Software
+VRP (R) software, Version 8.150 (NE40E V800R009C10SPC200)
+Copyright (C) 2012-2017 Huawei Technologies Co., Ltd.
+HUAWEI NE40E-X8A
+System capabilities supported      :bridge router
+Management address                 :10.1.1.2
+Maximum frame Size                 :9216
+
+<HUAWEI-CSW-01>disp cur vlan
+vlan 1201
+ name Servers_vlan
+vlan 1223 
+ name SEC_staff
+    """,
+    """
+<HUAWEI-CSW-02>disp cur interface
+interface 10GE4/0/19
+ description TO-SLB-FF_22  Eth99
+ ip binding vpn-instance SLB-F
+ ip address 10.123.0.3 255.255.255.252
+#
+interface 10GE4/0/9
+ description LINK:R-RR1-TOR-581:10GE2/0/6
+ eth-trunk 11
+#
+interface Eth-Trunk11
+ description LINK:R-RR1-TOR-581:LAG
+ port link-type trunk
+ port trunk allow-pass vlan 200 210 220 230 240 280 290 300 310 320
+ port trunk allow-pass vlan 330 340 1201 to 1223
+ mode lacp-static
+ dfs-group 1 m-lag 11
+ 
+<HUAWEI-CSW-01>disp lldp neighbor
+10GE4/0/19 has 1 neighbor(s):
+
+Port ID                            :Ethernet99
+Port description                   :UPLINK to CSW2  10GE4/0/19
+System name                        :SLB-FF_22          
+System description                 :SLB Vendor BLA
+System capabilities supported      :bridge router
+Management address                 :10.132.77.92
+Maximum frame Size                 :9123
+
+10GE4/0/9 has 1 neighbor(s):
+
+Port ID                            :10GE2/0/6
+Port description                   :UPLINK to CSW2 10GE4/0/9
+System name                        :R-RR1-TOR-581      
+System description                 :Huawei Versatile Routing Platform Software
+VRP (R) software, Version 8.150 (NE40E V800R009C10SPC200)
+Copyright (C) 2012-2017 Huawei Technologies Co., Ltd.
+HUAWEI NE40E-X8A
+System capabilities supported      :bridge router
+Management address                 :10.1.1.2
+Maximum frame Size                 :9216
+    """    
+        ]
+    }
+    config = {
+        # "add_lag": True
+    }
+    drawing = create_yed_diagram()
+    drawer = layer_2_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_huawei_base.graphml", folder="./Output/")    

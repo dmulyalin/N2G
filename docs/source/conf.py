@@ -15,7 +15,7 @@
 # sys.path.insert(0, os.path.abspath('.'))
 import os
 import sys
-sys.path.insert(0, "C:/Users/Denis/YandexDisk/Python/N2G/")
+sys.path.insert(0, os.path.abspath('.') + "/../../N2G/")
 
 
 # -- Project information -----------------------------------------------------

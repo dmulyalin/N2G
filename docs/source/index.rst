@@ -8,3 +8,4 @@ N2G
    yEd Module
    DrawIo Module
    Drawer - Layer 2
+   N2G CLI Tool

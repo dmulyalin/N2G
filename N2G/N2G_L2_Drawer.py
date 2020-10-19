@@ -1,3 +1,98 @@
+"""
+This module can produce diagrams pertaining to layer 2 of OSI model, hence the name "layer 2". It targets to build network diagrams with relationships and nodes derived from CDP and LLDP protocols, together with adding L1/L2 related data to diagram elements.
+
+How it works
+------------
+
+Module uses TTP templates to parse show commands output and transform them in Python dictionary structures. These structures processed further to build a dictionary compatible with N2G's module ``from_dict`` method to feed it in N2G and produce XML document in one of supported diagram formats.
+
+Features supported
+------------------
+
+In addition to parsing relationships for CDP and LLDP protocols, L2 Drawer can help to improve diagrams by combining links based on certain principles, adding additional information to elements meta data and adding unknown (to CDP and LLDP) but connected nodes to diagram.
+
+**Support matrix**
+
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+|  Platform     |   CDP      |   LLDP    | interface | interface |   LAG     | links     |   node    | Add all   | Combine   |
+|  Name         |   peers    |   peers   | config    | state     |   links   | grouping  |   facts   | connected | peers     |
++===============+============+===========+===========+===========+===========+===========+===========+===========+===========+
+| Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Cisco_IOSXR   |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Cisco_NXOS    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Huawei        |    ---     |    YES    |    YES    |    ---    |    YES    |    YES    |    YES    |    ---    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+
+**Features Description**
+
+* ``CDP peers`` - adds links and nodes for CDP neighbors
+* ``LLDP peers`` - adds links and nodes for LLDP neighbors
+* ``interface config`` - adds interfaces configuration to links data
+* ``interface state`` - add links state information to links data
+* ``LAG links`` - combines links based on LAG membership
+* ``links grouping`` - groups links between nodes
+* ``node facts`` - adds information to nodes for vlans configuration
+* ``Add all connected`` - adds all connected nodes that are not visible on CDP or LLDP
+* ``Combine peers`` - groups CDP/LLDP peers behind same port by adding "L2" node
+
+Required Commands output
+------------------------
+
+**Cisco**
+
+* ``show cdp neighbor details`` and/or ``show lldp neighbor details`` - mandatory
+* ``show running-configuration`` - optional, used for LAG and interfaces config 
+* ``show interface`` - optional, used for interfaces state and to add all connected nodes
+
+**Huawei**
+
+* ``display lldp neighbor details`` - mandatory
+* ``display current-configuration`` - optional, used for LAG and interfaces config 
+* ``display interface`` - optional, used for interfaces state and to add all connected nodes
+
+Sample Usage 
+------------
+
+*As a module*::
+
+    from N2G.N2G_L2_Drawer import layer_2_drawer
+	from N2G import yed_diagram as create_yed_diagram
+	
+	data = {
+		"Cisco_IOS": [
+			"CSC-HOST-1 show commands output",
+			...
+			"CSC-HOST-N show commands output"
+		],
+		"Huawei": [
+			"HUA-HOST-1 display commands output",
+			...
+			"HUA-HOST-N display commands output"		
+		]
+		...
+	}
+    config = {
+        "add_interfaces_data": True,
+        "group_links": False,
+        "add_lag": False,
+        "add_all_connected": False,
+        "combine_peers": False,
+        "platforms": ["_all_"]	
+	}
+    drawing_l2 = create_yed_diagram()
+    drawer = layer_2_drawer(drawing_l2, config)
+    drawer.work(data)
+	drawer.drawing.dump_file(filename="l2_diagram_1.graphml", folder="./Output/")
+	
+API Reference
+-------------
+
+"""
 import logging
 import pprint
 import os
@@ -15,8 +110,9 @@ log = logging.getLogger(__name__)
 
 class layer_2_drawer:
     """
-    Class to process CDP and LLDP neighbors together with devices'
-    running configuration and state and produce diagram out of it.
+    Class to instantiate L2 Drawer to process CDP and LLDP neighbors 
+	together with devices' running configuration and state and produce 
+	diagram out of it.
 
     **Parameters**
 
@@ -31,51 +127,6 @@ class layer_2_drawer:
     * ``add_all_connected`` - boolean, default ``False``, add all nodes connected to devices based on interfaces state
     * ``combine_peers`` - boolean, default ``False``, combine CDP/LLDP peers behind same interface by adding L2 node
     * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
-
-    **Features support matrix**
-
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    |  Platform     |   CDP      |   LLDP    | interface | interface |   LAG     | links     |   node    | MAC       | Add all   | Combine   |
-    |  Name         |   peers    |   peers   | config    | state     |   links   | grouping  |   facts   | addresses | connected | peers     |
-    +===============+============+===========+===========+===========+===========+===========+===========+===========+===========+===========+
-    | Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_IOSXR   |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    ---    |    YES    |    YES    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_NXOS    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Cisco_ASA     |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-    | Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
-    +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-
-    **Features description**
-
-    * ``CDP peers`` - adds links and nodes for CDP neighbors
-    * ``LLDP peers`` - adds links and nodes for LLDP neighbors
-    * ``interface config`` - adds interfaces configuration to links data
-    * ``interface state`` - add links state information to links data
-    * ``LAG links`` - combines links based on LAG membership
-    * ``links grouping`` - groups links between nodes
-    * ``node facts`` - adds information to nodes for vlans, etc
-    * ``MAC addresses`` - adds mac addresses nodes to diagram
-    * ``Add all connected`` - adds all connected nodes that are not visible on CDP or LLDP
-    * ``Combine peers`` - groups CDP/LLDP peers behind same port by adding "L2" node
-
-    **Cisco Commands**
-
-    * CDP, combine peers for Cisco IOS, IOS-XR, NXOS, ASA - ``show cdp neighbor details``
-    * LLDP, combine peers for Cisco IOS, IOS-XR, NXOS, ASA - ``show lldp neighbor details``
-    * config, LAG, grouping for Cisco IOS, IOS-XR, NXOS, ASA - ``show running-configuration``
-    * state for Cisco IOS, IOS-XR, NXOS - ``show interface``
-
-    **Huawei Commands**
-
-    * LLDP, combine peers - ``display lldp neighbor details``
-    * config, LAG, grouping - ``display current-configuration``
-    * state - ``display interface``
     """
 
     def __init__(self, drawing, config={}):
@@ -107,11 +158,12 @@ class layer_2_drawer:
                     "^TenGigE",
                     "^XGigabitEthernet",
                 ],
+                "40G": ["^40GE"],
                 "Fe": ["^FastEthernet"],
                 "Eth": ["^Ethernet", "^eth"],
                 "Pt": ["^Port[^-]"],
-                "100G": ["^HundredGigE"],
-				"mgmt": ["^MgmtEth"]
+                "100G": ["^HundredGigE", "^100GE"],
+                "mgmt": ["^MgmtEth", "^MEth"]
             },
             "physical_ports": ["Ge", "Te", "Fe", "Eth", "100G", "mgmt"],
         }
@@ -133,7 +185,7 @@ class layer_2_drawer:
 
         **Parameters**
 
-        * ``data`` dictionary or OS path string to directory with text files
+        * ``data`` dictionary or OS path string to directories with text files
 
         If data is dictionary, keys must correspond to "Platform" column in
         *Supported platforms* table, values are lists of text items to
@@ -157,11 +209,11 @@ class layer_2_drawer:
 
         Directories structure sample::
 
-            /data/
-                 |_/Cisco_IOS/<text files>
-                 |_/Cisco_IOSXR/<text files>
-                 |_/Huawei/<text files>
-                 |_/...etc...
+            /path/to/data/
+                         |__/Cisco_IOS/<text files>
+                         |__/Cisco_IOSXR/<text files>
+                         |__/Huawei/<text files>
+                         |__/...etc...
         """
         self._parse(data)
         self._form_base_graph_dict()
@@ -185,7 +237,7 @@ class layer_2_drawer:
                 and not template_name in self.config["platforms"]
             ):
                 return False
-            path = "{}/ttp_templates/CDP_LLDP_Drawer/{}.txt".format(
+            path = "{}/ttp_templates/L2_Drawer/{}.txt".format(
                 path_to_n2g, template_name
             )
             with open(path, "r") as file:
