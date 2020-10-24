@@ -1,0 +1,50 @@
+<doc>
+Template produces this dictionary:
+{'Cisco_IOS': {'networks': {'10.11.11.0/24': [{'interface': 'Vlan11',
+                                              'ip': '10.11.11.0',
+                                              'netmask': '24',
+                                              'hostname': 'switch_2'}],
+                            '10.123.0.5/32': [{'interface': 'Lo0',
+                                              'ip': '10.123.0.5',
+                                              'netmask': '32',
+                                              'hostname': 'switch_2'}],
+                            '10.123.2.4/31': [{'interface': 'Te1/1/4',
+                                               'ip': '10.123.2.4',
+                                               'netmask': '31',
+                                               'hostname': 'switch_1'},
+                                              {'interface': 'Ge1/4',
+                                               'ip': '10.123.2.4',
+                                               'netmask': '31',
+                                               'hostname': 'switch_2'}],
+               'nodes': {'switch_1': {'interfaces': {'Lo0': {'port_description': 'Routing '
+                                                                                 'Loopback'},
+                                                     'Te1/1/3': {'port_description': 'to SWITCH_2 '
+                                                                                     'vrf VRF1 '
+                                                                                     'link 1',
+                                                                 'vrf': 'VRF2'}}},
+                         'switch_2': {'interfaces': {'Ge1/3': {'port_description': 'to SWITCH_1 '
+                                                                                   'link 1',
+                                                               'vrf': 'VRF1'}}}}}}
+</doc>
+
+<template name="Cisco_IOS" results="per_template">
+<vars>local_hostname="gethostname"</vars>
+
+<input>url = "./Cisco_IOS/"</input>
+
+<!-- Interfaces configuration group -->
+<group name="nodes.{{ local_hostname }}.interfaces.{{ interface }}" record="interface">
+interface {{ interface | resuball("IfsNormalize") }}
+ description {{ port_description | re(".+") }}
+ vrf forwarding {{ vrf }}
+ ip vrf forwarding {{ vrf }}
+ ip access-group {{ ACL_IN }} in
+ ip access-group {{ ACL_OUT }} out
+ <group name="/networks**.{{ network }}*" chain="set('interface') | add_network()">
+ ip address {{ ip | IP }} {{ netmask }}
+ ip address {{ ip | IP }} {{ netmask }} secondary
+ {{ hostname | set("local_hostname") }}
+ </group>
+</group>
+
+</template>
