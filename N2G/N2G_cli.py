@@ -24,28 +24,33 @@ and folder options.
     -fn, --filename      Output filename, default file name based on current time
     -m,  --module        Module to use - yed or drawio
     
-    CDP and LLDP drawer options:
+    CDP and LLDP L2 drawer options:
     -L2                 Parse CDP and LLDP data
     -L2-add-lag         Add LAG/M-LAG information and delete member links
     -L2-group-links     Group links between nodes
     -L2-add-connected   Add all connected nodes
     -L2-combine-peers   Combine CDP/LLDP peers behind same interface
     -L2-platforms       Comma separated list of platforms to parse
+    
+    IP network drawer:
+    -IP                 Parse IP subnets
+    -IP-group-links     Group links between nodes
+    -IP-lbl-intf        Add interfaces names to link labels
+    -IP-lbl-vrf         Add VRF names to link labels
 """
 import argparse
 import time
 import os
 
+#if run as a script, inject N2G folder in system path
 if __name__ == "__main__":
-    from N2G_DrawIO import drawio_diagram as create_drawio_diagram
-    from N2G_yEd import yed_diagram as create_yed_diagram
-    from N2G_L2_Drawer import layer_2_drawer
-    from N2G_IP_Drawer import ip_drawer
-else:
-    from N2G.N2G_DrawIO import drawio_diagram as create_drawio_diagram
-    from N2G.N2G_yEd import yed_diagram as create_yed_diagram
-    from N2G.N2G_L2_Drawer import layer_2_drawer
-    from N2G.N2G_IP_Drawer import ip_drawer
+    import sys
+    sys.path.insert(0, '.')
+
+from N2G.N2G_DrawIO import drawio_diagram as create_drawio_diagram
+from N2G.N2G_yEd import yed_diagram as create_yed_diagram
+from N2G.N2G_L2_Drawer import layer_2_drawer
+from N2G.N2G_IP_Drawer import ip_drawer
 
 __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
@@ -58,7 +63,7 @@ Parsing order is: CDP/LLDP (L2) => ...
 -fn, --filename      Output filename, default file name based on current time
 -m,  --module        Module to use - yed or drawio
 
-CDP and LLDP drawer options:
+CDP and LLDP L2 drawer options:
 -L2                 Parse CDP and LLDP data
 -L2-add-lag         Add LAG/M-LAG information and delete member links
 -L2-group-links     Group links between nodes
@@ -69,6 +74,8 @@ CDP and LLDP drawer options:
 IP network drawer:
 -IP                 Parse IP subnets
 -IP-group-links     Group links between nodes
+-IP-lbl-intf        Add interfaces names to link labels
+-IP-lbl-vrf         Add VRF names to link labels
 """
 
 def cli_tool():
@@ -182,6 +189,23 @@ def cli_tool():
         default=False,
         help=argparse.SUPPRESS,
     )
+    run_options.add_argument(
+        "-IP-lbl-intf",
+        action="store_true",
+        dest="IP_lbl_intf",
+        default=False,
+        help=argparse.SUPPRESS,
+    )
+    run_options.add_argument(
+        "-IP-lbl-vrf",
+        action="store_true",
+        dest="IP_lbl_vrf",
+        default=False,
+        help=argparse.SUPPRESS,
+    )
+    #-----------------------------------------------------------------------------
+    # Parse arguments
+    #-----------------------------------------------------------------------------
     args = argparser.parse_args()
 
     # general arguments
@@ -201,6 +225,8 @@ def cli_tool():
     # IP drawer arguments
     IP = args.IP
     IP_group_links = args.IP_group_links
+    IP_lbl_intf = args.IP_lbl_intf
+    IP_lbl_vrf = args.IP_lbl_vrf
 
     ext = "graphml" if MODULE == "yed" else "drawio"
     if not FILENAME:
@@ -232,11 +258,14 @@ def cli_tool():
     # add IP and Subnets nodes and links to diagram
     if IP:
         config = {
-            "group_links": IP_group_links
+            "group_links": IP_group_links,
+            "label_interface": IP_lbl_intf,
+            "label_vrf": IP_lbl_vrf
         }
         drawer = ip_drawer(drawing, config)
         drawer.work(DATA)
-        
+    
+    # save results in file    
     drawing.dump_file(filename=FILENAME, folder=FOLDER)
 
 if __name__ == "__main__":

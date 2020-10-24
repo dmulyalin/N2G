@@ -4,20 +4,20 @@ addresses.
 
 **Support matrix**
 
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+
-|  Platform     | IP/Subnets |   ARP     | interface | interface | links     |   node    |
-|  Name         |            |           | config    | state     | grouping  |   facts   |
-+===============+============+===========+===========+===========+===========+===========+
-| Cisco_IOS     |    YES     |    ---    |    YES    |    ---    |    ---    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+
-| Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+
-| Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
+|  Platform     | IP/Subnets |   ARP     | interface | interface | links     |   node    | FHRP      |
+|  Name         |            |           | config    | state     | grouping  |   facts   | Protocols |
++===============+============+===========+===========+===========+===========+===========+===========+
+| Cisco_IOS     |    YES     |    ---    |    YES    |    ---    |    YES    |    ---    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
 
 """
 import logging
@@ -57,6 +57,8 @@ class ip_drawer:
         self.config = {
             "group_links": False,
             "add_arp": True,
+            "label_interface": False,
+            "label_vrf": False,
             "platforms": [
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
@@ -237,16 +239,39 @@ class ip_drawer:
                         "{}:{}".format(hostname_1, interface_1): ip_1_data,
                         "{}:{}".format(hostname_2, interface_2): ip_2_data,
                     }
+                    # form labels
+                    src_label = "{}/{}".format(
+                        ips[0]["ip"], 
+                        ips[0]["netmask"]
+                    )
+                    trgt_label = "{}/{}".format(
+                        ips[1]["ip"], 
+                        ips[1]["netmask"]
+                    )
+                    if self.config["label_vrf"]:
+                        src_label = "{}:{}".format(
+                            ip_1_data.get("vrf", "global"),
+                            src_label
+                        )
+                        trgt_label = "{}:{}".format(
+                            ip_2_data.get("vrf", "global"), 
+                            trgt_label
+                        )
+                    if self.config["label_interface"]:
+                        src_label = "{}:{}".format(
+                            interface_1, 
+                            src_label
+                        ) 
+                        trgt_label = "{}:{}".format(
+                            interface_2, 
+                            trgt_label
+                        )  
                     self._add_link(
                         {
                             "source": hostname_1,
                             "target": hostname_2,
-                            "src_label": "{}/{}".format(
-                                ips[0]["ip"], ips[0]["netmask"]
-                            ),
-                            "trgt_label": "{}/{}".format(
-                                ips[1]["ip"], ips[1]["netmask"]
-                            ),
+                            "src_label": src_label,
+                            "trgt_label": trgt_label,
                             "description": json.dumps(
                                 description,
                                 sort_keys=True,
@@ -257,10 +282,9 @@ class ip_drawer:
                     )
                     continue
                 # add network node and links to devices
-                if ips[0]["netmask"] in ["32", "128"]:
-                    self._add_node({"id": network, "top_label": "Loopback"})
-                else:
-                    self._add_node({"id": network, "top_label": "Subnet"})
+                network_node = {
+                    "id": network, "top_label": "Subnet"
+                }
                 # add links to devices
                 for ip in ips:
                     hostname = ip.pop("hostname")
@@ -279,12 +303,23 @@ class ip_drawer:
                         ),
                     }
                     if ip["netmask"] in ["32", "128"]:
-                        pass
+                        network_node["top_label"] = interface
+                        network_node["bottom_label"] = ip_data.get("vrf", "global")
                     else:
-                        link_dict["trgt_label"] = "{}/{}".format(
+                        trgt_label = "{}/{}".format(
                             ip["ip"], ip["netmask"]
                         )
+                        if self.config["label_vrf"]:
+                            trgt_label = "{}:{}".format(
+                                ip_data.get("vrf", "global"), trgt_label
+                            )                            
+                        if self.config["label_interface"]:   
+                            trgt_label = "{}:{}".format(
+                                interface, trgt_label
+                            )                          
+                        link_dict["trgt_label"] = trgt_label
                     self._add_link(link_dict)
+                self._add_node(network_node)
 
     def _add_node(self, item, host_data={}):
         # add new node
@@ -356,7 +391,6 @@ class ip_drawer:
                         link_data["description"]
                     )
             # skip grouping links that does not have any members left in self.links_dict
-            # happens when add_lag pops links or only one link between nodes left
             if links_to_group_count >= 2:
                 # remove grouped links from links_dict
                 for link_hash in link_hashes:
