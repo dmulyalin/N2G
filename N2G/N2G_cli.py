@@ -37,6 +37,7 @@ and folder options.
     -IP-group-links     Group links between nodes
     -IP-lbl-intf        Add interfaces names to link labels
     -IP-lbl-vrf         Add VRF names to link labels
+    -IP-add-arp         Add ARP cache IPs to the diagram
 """
 import argparse
 import time
@@ -76,6 +77,7 @@ IP network drawer:
 -IP-group-links     Group links between nodes
 -IP-lbl-intf        Add interfaces names to link labels
 -IP-lbl-vrf         Add VRF names to link labels
+-IP-add-arp         Add ARP cache IPs to the diagram
 """
 
 def cli_tool():
@@ -203,6 +205,13 @@ def cli_tool():
         default=False,
         help=argparse.SUPPRESS,
     )
+    run_options.add_argument(
+        "-IP-add-arp",
+        action="store_true",
+        dest="IP_add_arp",
+        default=False,
+        help=argparse.SUPPRESS,
+    )
     #-----------------------------------------------------------------------------
     # Parse arguments
     #-----------------------------------------------------------------------------
@@ -227,6 +236,7 @@ def cli_tool():
     IP_group_links = args.IP_group_links
     IP_lbl_intf = args.IP_lbl_intf
     IP_lbl_vrf = args.IP_lbl_vrf
+    IP_add_arp = args.IP_add_arp
 
     ext = "graphml" if MODULE == "yed" else "drawio"
     if not FILENAME:
@@ -260,7 +270,8 @@ def cli_tool():
         config = {
             "group_links": IP_group_links,
             "label_interface": IP_lbl_intf,
-            "label_vrf": IP_lbl_vrf
+            "label_vrf": IP_lbl_vrf,
+            "add_arp": IP_add_arp
         }
         drawer = ip_drawer(drawing, config)
         drawer.work(DATA)

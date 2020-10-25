@@ -93,11 +93,16 @@ API Reference
 -------------
 
 """
+if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, '.')
+    
 import logging
 import pprint
 import os
 import json
 from ttp import ttp
+from N2G import N2G_utils
 
 # initiate logging
 log = logging.getLogger(__name__)
@@ -118,6 +123,7 @@ class layer_2_drawer:
 
     * ``drawing`` - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
     * ``config`` - dictionary of configuration options to define processing behavior
+    * ``ttp_vars`` - dictionary to use for TTP parser object template variables
 
     Supported ``config`` dictionary attributes:
 
@@ -129,7 +135,7 @@ class layer_2_drawer:
     * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
     """
 
-    def __init__(self, drawing, config={}):
+    def __init__(self, drawing, config={}, ttp_vars=None):
         # init attributes
         self.config = {
             "add_interfaces_data": True,
@@ -141,32 +147,7 @@ class layer_2_drawer:
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
         }
-        self.ttp_vars = {
-            "IfsNormalize": {
-                "Lo": ["^Loopback"],
-                "Ge": ["^GigabitEthernet", "^Gi"],
-                "LAG": [
-                    "^Eth-Trunk",
-                    "^port-channel",
-                    "^Port-channel",
-                    "^Bundle-Ether",
-                ],
-                "Te": [
-                    "^TenGigabitEthernet",
-                    "^TenGe",
-                    "^10GE",
-                    "^TenGigE",
-                    "^XGigabitEthernet",
-                ],
-                "40G": ["^40GE"],
-                "Fe": ["^FastEthernet"],
-                "Eth": ["^Ethernet", "^eth"],
-                "Pt": ["^Port[^-]"],
-                "100G": ["^HundredGigE", "^100GE"],
-                "mgmt": ["^MgmtEth", "^MEth"]
-            },
-            "physical_ports": ["Ge", "Te", "Fe", "Eth", "100G", "mgmt"],
-        }
+        self.ttp_vars = ttp_vars or N2G_utils.ttp_variables
         self.config.update(config)
         self.drawing = drawing
         self.drawing.node_duplicates = "update"

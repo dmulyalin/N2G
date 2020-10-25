@@ -20,11 +20,17 @@ addresses.
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
 
 """
+if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, '.')
+    
 import logging
 import pprint
 import os
 import json
 from ttp import ttp
+from N2G import N2G_utils
+import ipaddress
 
 # initiate logging
 log = logging.getLogger(__name__)
@@ -51,43 +57,26 @@ def add_network(data):
 
 
 class ip_drawer:
-    """"""
+    """
+    
+    **Parameters**
 
-    def __init__(self, drawing, config={}):
+    * ``drawing`` - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
+    * ``config`` - dictionary of configuration options to define processing behavior
+    * ``ttp_vars`` - dictionary to use for TTP parser object template variables
+    """
+    def __init__(self, drawing, config={}, ttp_vars=None):
         self.config = {
             "group_links": False,
-            "add_arp": True,
+            "add_arp": False,
             "label_interface": False,
             "label_vrf": False,
+            "subnet_bt": False,
             "platforms": [
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
         }
-        self.ttp_vars = {
-            "IfsNormalize": {
-                "Lo": ["^Loopback"],
-                "Ge": ["^GigabitEthernet", "^Gi"],
-                "LAG": [
-                    "^Eth-Trunk",
-                    "^port-channel",
-                    "^Port-channel",
-                    "^Bundle-Ether",
-                ],
-                "Te": [
-                    "^TenGigabitEthernet",
-                    "^TenGe",
-                    "^10GE",
-                    "^TenGigE",
-                    "^XGigabitEthernet",
-                ],
-                "40G": ["^40GE"],
-                "Fe": ["^FastEthernet"],
-                "Eth": ["^Ethernet", "^eth"],
-                "Pt": ["^Port[^-]"],
-                "100G": ["^HundredGigE", "^100GE"],
-                "mgmt": ["^MgmtEth", "^MEth"],
-            }
-        }
+        self.ttp_vars = ttp_vars or N2G_utils.ttp_variables
         self.config.update(config)
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
@@ -96,6 +85,7 @@ class ip_drawer:
         self.links_dict = {}
         self.graph_dict = {"nodes": [], "links": []}
         self.nodes_to_links_dict = {}  # used by group_links
+        self.add_arp_networks = {} # used by add_arp
 
     def work(self, data):
         """
@@ -139,6 +129,8 @@ class ip_drawer:
         # go through config statements
         if self.config.get("group_links"):
             self._group_links()
+        if self.config.get("add_arp"):
+            self._add_arp()
         # form graph dictionary and add it to drawing
         self._update_drawing()
 
@@ -227,6 +219,7 @@ class ip_drawer:
                 is_ptp_net = ips[0]["netmask"] in ["30", "31", "127"]
                 # add point-to-point link
                 if is_ptp_net and len(ips) == 2:
+                    # form link description
                     hostname_1 = ips[0].pop("hostname")
                     interface_1 = ips[0].pop("interface")
                     ip_1_data = results["nodes"][hostname_1]["interfaces"][interface_1]
@@ -239,6 +232,10 @@ class ip_drawer:
                         "{}:{}".format(hostname_1, interface_1): ip_1_data,
                         "{}:{}".format(hostname_2, interface_2): ip_2_data,
                     }
+                    # add networks to add_arp_networks dict - used by add_arp feature
+                    if self.config.get("add_arp"):
+                        self.add_arp_networks.setdefault(hostname_1, {}).setdefault(interface_1, set()).add(network)
+                        self.add_arp_networks.setdefault(hostname_2, {}).setdefault(interface_2, set()).add(network)
                     # form labels
                     src_label = "{}/{}".format(
                         ips[0]["ip"], 
@@ -287,6 +284,7 @@ class ip_drawer:
                 }
                 # add links to devices
                 for ip in ips:
+                    # form link dictionary
                     hostname = ip.pop("hostname")
                     interface = ip.pop("interface")
                     ip_data = results["nodes"][hostname]["interfaces"][interface]
@@ -319,6 +317,12 @@ class ip_drawer:
                             )                          
                         link_dict["trgt_label"] = trgt_label
                     self._add_link(link_dict)
+                    # add networks to add_arp_networks dict - used by add_arp feature
+                    if self.config.get("add_arp"):
+                        self.add_arp_networks.setdefault(hostname, {}).setdefault(interface, set()).add(network)  
+                # add bottom label to subnet out of last port description
+                if self.config.get("subnet_bt"):
+                    network_node["bottom_label"] = "{}..".format(ip_data["port_description"][:19])
                 self._add_node(network_node)
 
     def _add_node(self, item, host_data={}):
@@ -341,6 +345,17 @@ class ip_drawer:
             if not "description" in node and host_data.get("node_facts"):
                 node["description"] = json.dumps(
                     host_data["node_facts"],
+                    sort_keys=True,
+                    indent=4,
+                    separators=(",", ": "),
+                )
+            # merge descriptions
+            if "description" in node and "description" in item:
+                node["description"] = json.loads(node["description"])
+                item["description"] = json.loads(item["description"])
+                node["description"].update(item["description"])
+                node["description"] = json.dumps(
+                    node["description"],
                     sort_keys=True,
                     indent=4,
                     separators=(",", ": "),
@@ -402,8 +417,78 @@ class ip_drawer:
                 grouped_link["label"] = "x{}".format(links_to_group_count)
                 grouped_link_hash = self._make_hash_tuple(grouped_link)
                 self.links_dict[grouped_link_hash] = grouped_link
-        del self.nodes_to_links_dict
-
+        del self.nodes_to_links_dict          
+            
+    def _add_arp(self):
+        """
+        Method to process ARP entries, uses self.add_arp_networks dictionary
+        to find network arp entry belongs to and find already added IPs.
+        
+        self.add_arp_networks sample content::
+        
+            {'switch_1': {'SVI123': {'ips': {'10.123.111.1',
+                                            '10.123.222.1',
+                                            '10.123.233.1'},
+                                    'networks': {'10.123.111.0/24',
+                                                '10.123.222.0/24',
+                                                '10.123.233.0/24'}},
+                        'Te1/1/5': {'ips': {'10.1.33.1'}, 'networks': {'10.1.33.0/24'}},
+                        'Te1/1/7': {'ips': {'10.1.234.1'},
+                                    'networks': {'10.1.234.0/24'}}},
+            'switch_2': {'SVI11': {'ips': {'10.11.11.1'}, 'networks': {'10.11.11.0/24'}},
+                        'SVI22': {'ips': {'10.22.22.1'}, 'networks': {'10.22.22.0/24'}},
+                        'Te1/1/71': {'ips': {'10.1.234.2'},
+                                    'networks': {'10.1.234.0/24'}}}}
+        """
+        for platform, results in self.parsed_data.items():
+            # add devices nodes
+            for arp_entry in results["arp"]:
+                hostname = arp_entry.pop("hostname")
+                interface = arp_entry.pop("interface")
+                ip = arp_entry["ip"]            
+                # find network ARP entry IP belongs to
+                if len(self.add_arp_networks[hostname][interface])  == 1:
+                    network = list(self.add_arp_networks[hostname][interface])[0]
+                elif len(self.add_arp_networks[hostname][interface]) > 1:
+                    nets = self.add_arp_networks[hostname][interface]
+                    self.add_arp_networks[hostname][interface] = [
+                        ipaddress.ip_network(net) for net in nets
+                    ]
+                    ip_obj = ipaddress.ip_address(ip)
+                    for net in self.add_arp_networks[hostname][interface]:
+                        # check if arp entry IP is part of given network
+                        if ip_obj in net:
+                            network = str(net)
+                            break
+                # skip IP addresses already added from config
+                already_added = False
+                for added_ip in results["networks"][network]:
+                    if ip == added_ip["ip"].split("/")[0]:
+                        already_added = True
+                        break
+                if already_added:
+                    continue    
+                # add IP address node
+                node_id = "{}:{}".format(network, ip)
+                description = {
+                    "{}:{}".format(hostname, interface): arp_entry
+                }
+                self._add_node({
+                    "id": node_id,
+                    "top_label": "ARP entry",
+                    "label": ip,
+                    "description": json.dumps(
+                        description, sort_keys=True, indent=4, separators=(",", ": ")
+                    )
+                })
+                # add link to network
+                link_dict = {
+                        "source": node_id,
+                        "target": network
+                    }
+                self._add_link(link_dict)
+                
+                    
     def _update_drawing(self):
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())

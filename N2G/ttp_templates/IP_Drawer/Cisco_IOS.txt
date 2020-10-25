@@ -1,6 +1,18 @@
 <doc>
 Template produces this dictionary:
-{'Cisco_IOS': {'networks': {'10.11.11.0/24': [{'interface': 'Vlan11',
+{'Cisco_IOS': {'arp': [{'age': '-',
+                        'hostname': 'switch_1',
+                        'interface': 'SVI123',
+                        'ip': '10.123.111.1',
+                        'mac': 'd094.6643.1111',
+                        'type': 'ARPA'},
+                       {'age': '0',
+                        'hostname': 'switch_1',
+                        'interface': 'SVI123',
+                        'ip': '10.123.111.3',
+                        'mac': '0008.e3ff.1333',
+                        'type': 'ARPA'}],
+               'networks': {'10.11.11.0/24': [{'interface': 'SVI11',
                                               'ip': '10.11.11.0',
                                               'netmask': '24',
                                               'hostname': 'switch_2'}],
@@ -40,11 +52,17 @@ interface {{ interface | resuball("IfsNormalize") }}
  ip vrf forwarding {{ vrf }}
  ip access-group {{ ACL_IN }} in
  ip access-group {{ ACL_OUT }} out
- <group name="/networks**.{{ network }}*" chain="set('interface') | add_network()">
+ <group name="/networks**.{{ network }}*" chain="set('interface') | add_network()" method="table">
  ip address {{ ip | IP }} {{ netmask }}
  ip address {{ ip | IP }} {{ netmask }} secondary
  {{ hostname | set("local_hostname") }}
  </group>
+</group>
+
+<!-- ARP cache group -->
+<group name="arp*" method="table">
+Internet  {{ ip | IP }}     {{ age }}   {{ mac | MAC }}  {{ type }}   {{ interface | resuball("IfsNormalize") }}
+{{ hostname | set("local_hostname") }}
 </group>
 
 </template>

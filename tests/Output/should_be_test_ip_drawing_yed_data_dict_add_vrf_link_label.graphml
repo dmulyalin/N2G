@@ -76,7 +76,25 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.111.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "10.123.111.0/24"}</data></node><node id="10.123.0.5/32">
+    <data key="d11">{"id": "10.123.111.0/24"}</data></node><node id="10.123.222.0/24">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.222.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "10.123.222.0/24"}</data></node><node id="10.123.233.0/24">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.233.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "10.123.233.0/24"}</data></node><node id="10.123.0.5/32">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -218,13 +236,45 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:Vlan123": {
+    "switch_1:SVI123": {
         "ip": "10.123.111.1",
         "netmask": "24",
         "port_description": "Workstations Vlan",
         "vrf": "CORP"
     }
-}</data><data key="d12">{"sid": "10.123.111.0/24", "tid": "switch_1", "id": "ba0c2f0c9f92ec592b4e6581fbaedb83"}</data></edge><edge id="b75f72fa0e114d58f1c3c63195994163" source="10.123.0.5/32" target="switch_2">
+}</data><data key="d12">{"sid": "10.123.111.0/24", "tid": "switch_1", "id": "ba0c2f0c9f92ec592b4e6581fbaedb83"}</data></edge><edge id="a5c93f66ef90093a7665a85d1f56a6a7" source="10.123.222.0/24" target="switch_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.222.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_1:SVI123": {
+        "ip": "10.123.222.1",
+        "netmask": "24",
+        "port_description": "Workstations Vlan",
+        "vrf": "CORP"
+    }
+}</data><data key="d12">{"sid": "10.123.222.0/24", "tid": "switch_1", "id": "a5c93f66ef90093a7665a85d1f56a6a7"}</data></edge><edge id="ce1b03f26f90a86b1f4353bb6e285dbe" source="10.123.233.0/24" target="switch_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.233.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_1:SVI123": {
+        "ip": "10.123.233.1",
+        "netmask": "24",
+        "port_description": "Workstations Vlan",
+        "vrf": "CORP"
+    }
+}</data><data key="d12">{"sid": "10.123.233.0/24", "tid": "switch_1", "id": "ce1b03f26f90a86b1f4353bb6e285dbe"}</data></edge><edge id="b75f72fa0e114d58f1c3c63195994163" source="10.123.0.5/32" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -248,7 +298,7 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_2:Vlan11": {
+    "switch_2:SVI11": {
         "ip": "10.11.11.1",
         "netmask": "24",
         "port_description": "Workstations Vlan"
@@ -263,7 +313,7 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_2:Vlan22": {
+    "switch_2:SVI22": {
         "ip": "10.22.22.1",
         "netmask": "24",
         "port_description": "Workstations Vlan"
