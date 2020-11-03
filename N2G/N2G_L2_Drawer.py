@@ -61,34 +61,34 @@ Sample Usage
 *As a module*::
 
     from N2G.N2G_L2_Drawer import layer_2_drawer
-	from N2G import yed_diagram as create_yed_diagram
-	
-	data = {
-		"Cisco_IOS": [
-			"CSC-HOST-1 show commands output",
-			...
-			"CSC-HOST-N show commands output"
-		],
-		"Huawei": [
-			"HUA-HOST-1 display commands output",
-			...
-			"HUA-HOST-N display commands output"		
-		]
-		...
-	}
+    from N2G import yed_diagram as create_yed_diagram
+    
+    data = {
+        "Cisco_IOS": [
+            "CSC-HOST-1 show commands output",
+            ...
+            "CSC-HOST-N show commands output"
+        ],
+        "Huawei": [
+            "HUA-HOST-1 display commands output",
+            ...
+            "HUA-HOST-N display commands output"        
+        ]
+        ...
+    }
     config = {
         "add_interfaces_data": True,
         "group_links": False,
         "add_lag": False,
         "add_all_connected": False,
         "combine_peers": False,
-        "platforms": ["_all_"]	
-	}
+        "platforms": ["_all_"]    
+    }
     drawing_l2 = create_yed_diagram()
     drawer = layer_2_drawer(drawing_l2, config)
     drawer.work(data)
-	drawer.drawing.dump_file(filename="l2_diagram_1.graphml", folder="./Output/")
-	
+    drawer.drawing.dump_file(filename="l2_diagram_1.graphml", folder="./Output/")
+    
 API Reference
 -------------
 
@@ -116,8 +116,8 @@ log = logging.getLogger(__name__)
 class layer_2_drawer:
     """
     Class to instantiate L2 Drawer to process CDP and LLDP neighbors 
-	together with devices' running configuration and state and produce 
-	diagram out of it.
+    together with devices' running configuration and state and produce 
+    diagram out of it.
 
     **Parameters**
 
@@ -132,6 +132,7 @@ class layer_2_drawer:
     * ``add_lag`` - boolean, default ``False``, add LAG/MLAG links to diagram
     * ``add_all_connected`` - boolean, default ``False``, add all nodes connected to devices based on interfaces state
     * ``combine_peers`` - boolean, default ``False``, combine CDP/LLDP peers behind same interface by adding L2 node
+    * ``skip_lag`` - boolean, default ``True``, skip CDP peers for LAG, some platforms send CDP/LLDP PDU from LAG ports
     * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
     """
 
@@ -143,6 +144,7 @@ class layer_2_drawer:
             "add_lag": False,
             "add_all_connected": False,
             "combine_peers": False,
+            "skip_lag": True,
             "platforms": [
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
@@ -317,6 +319,12 @@ class layer_2_drawer:
                 )
 
     def _add_link(self, item, hosts, host_data):
+        # skip LAG or MLAG interfaces
+        if self.config["skip_lag"] and ( 
+            "LAG" in item.get("src_label", "") or
+            "LAG" in item.get("trgt_label", "")       
+        ):
+            return
         link_hash = self._make_hash_tuple(item)
         if link_hash not in self.links_dict:
             self.links_dict[link_hash] = {

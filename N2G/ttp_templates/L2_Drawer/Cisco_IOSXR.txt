@@ -108,9 +108,9 @@ interface {{ interface | resuball(IfsNormalize) }}
 <!-- Interfaces state group -->
 <group name="{{ local_hostname }}.interfaces**.{{ interface }}**.state">
 {{ interface | _start_ | resuball(IfsNormalize) | macro("check_is_physical_port") }} is {{ admin | ORPHRASE }}, line protocol is {{ line | ORPHRASE }}
-  Hardware is Aggregated Ethernet interface(s), address is 08ec.f551.7e9b
   Hardware is {{ hardware }} interface(s)
   Hardware is {{ hardware }} interface
+  Hardware is {{ hardware | ORPHRASE }} interface(s), address is {{ mac }}
   Hardware is {{ hardware | ORPHRASE }}, address is {{ mac }} (bia {{ ignore }})
   Description: {{ description | re(".+") }}
   Internet address is {{ ip }}
@@ -124,7 +124,6 @@ interface {{ interface | resuball(IfsNormalize) }}
 
 <!-- LLDP peers group -->
 <group name="{{ local_hostname }}.lldp_peers*" expand="">
-------------------------------------------------
 Local Interface: {{ src_label | resuball(IfsNormalize) }}
 Chassis id: {{ data.chassis_id }}
 Port id: {{ trgt_label | ORPHRASE | resuball(IfsNormalize) }}

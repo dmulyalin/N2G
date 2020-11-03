@@ -1,42 +1,44 @@
 <doc>
 Template produces this dictionary:
-{'Cisco_IOS': {'arp': [{'age': '-',
-                        'hostname': 'switch_1',
-                        'interface': 'SVI123',
-                        'ip': '10.123.111.1',
-                        'mac': 'd094.6643.1111',
-                        'type': 'ARPA'},
-                       {'age': '0',
-                        'hostname': 'switch_1',
-                        'interface': 'SVI123',
-                        'ip': '10.123.111.3',
-                        'mac': '0008.e3ff.1333',
-                        'type': 'ARPA'}],
-               'networks': {'10.11.11.0/24': [{'interface': 'SVI11',
-                                              'ip': '10.11.11.0',
-                                              'netmask': '24',
-                                              'hostname': 'switch_2'}],
-                            '10.123.0.5/32': [{'interface': 'Lo0',
-                                              'ip': '10.123.0.5',
-                                              'netmask': '32',
-                                              'hostname': 'switch_2'}],
-                            '10.123.2.4/31': [{'interface': 'Te1/1/4',
-                                               'ip': '10.123.2.4',
-                                               'netmask': '31',
-                                               'hostname': 'switch_1'},
-                                              {'interface': 'Ge1/4',
-                                               'ip': '10.123.2.4',
-                                               'netmask': '31',
-                                               'hostname': 'switch_2'}],
-               'nodes': {'switch_1': {'interfaces': {'Lo0': {'port_description': 'Routing '
-                                                                                 'Loopback'},
-                                                     'Te1/1/3': {'port_description': 'to SWITCH_2 '
-                                                                                     'vrf VRF1 '
-                                                                                     'link 1',
-                                                                 'vrf': 'VRF2'}}},
-                         'switch_2': {'interfaces': {'Ge1/3': {'port_description': 'to SWITCH_1 '
-                                                                                   'link 1',
-                                                               'vrf': 'VRF1'}}}}}}
+{'Cisco_IOS': {'switch_1': {'interfaces': {'SVI123': {'arp': [{'age': '-',
+                                                               'ip': '10.123.111.1',
+                                                               'mac': 'd094.6643.1111',
+                                                               'type': 'ARPA'}],
+                                                      'ip_addresses': [{'ip': '10.123.111.1',
+                                                                        'netmask': '24',
+                                                                        'network': '10.123.111.0/24'},
+                                                                       {'ip': '10.123.222.1',
+                                                                        'netmask': '24',
+                                                                        'network': '10.123.222.0/24'}],
+                                                      'port_description': 'Workstations Vlan',
+                                                      'vrf': 'CORP'}}},
+               'switch_2': {'interfaces': {'SVI11': {'ip_addresses': [{'ip': '10.11.11.1',
+                                                                       'netmask': '24',
+                                                                       'network': '10.11.11.0/24'}],
+                                                     'port_description': 'Workstations Vlan'},
+                                           'SVI22': {'arp': [{'age': '-',
+                                                              'ip': '10.22.22.1',
+                                                              'mac': 'd094.7890.1111',
+                                                              'type': 'ARPA'},
+                                                             {'age': '106',
+                                                              'ip': '10.22.22.4',
+                                                              'mac': 'd867.7890.1444',
+                                                              'type': 'ARPA'}],
+                                                     'ip_addresses': [{'ip': '10.22.22.1',
+                                                                       'netmask': '24',
+                                                                       'network': '10.22.22.0/24'}],
+                                                     'port_description': 'Workstations Vlan'},
+                                           'Te1/1/71': {'arp': [{'age': '5',
+                                                                 'ip': '10.1.234.1',
+                                                                 'mac': 'd867.d9b7.1111',
+                                                                 'type': 'ARPA'}],
+                                                        'fhrp': {'hsrp_group': '1',
+                                                                 'vip': '10.1.234.1.99'},
+                                                        'ip_addresses': [{'ip': '10.1.234.2',
+                                                                          'netmask': '24',
+                                                                          'network': '10.1.234.0/24'}],
+                                                        'port_description': 'to SWITCH_2 shared '
+                                                                            'subnet'}}}}}
 </doc>
 
 <template name="Cisco_IOS" results="per_template">
@@ -45,24 +47,25 @@ Template produces this dictionary:
 <input>url = "./Cisco_IOS/"</input>
 
 <!-- Interfaces configuration group -->
-<group name="nodes.{{ local_hostname }}.interfaces.{{ interface }}" record="interface">
+<group name="{{ local_hostname }}.interfaces.{{ interface }}">
 interface {{ interface | resuball("IfsNormalize") }}
  description {{ port_description | re(".+") }}
  vrf forwarding {{ vrf }}
  ip vrf forwarding {{ vrf }}
  ip access-group {{ ACL_IN }} in
  ip access-group {{ ACL_OUT }} out
- <group name="/networks**.{{ network }}*" chain="set('interface') | add_network()" method="table">
+ <group name="ip_addresses*" chain="add_network()" method="table">
  ip address {{ ip | IP }} {{ netmask }}
  ip address {{ ip | IP }} {{ netmask }} secondary
- {{ hostname | set("local_hostname") }}
+ </group>
+ <group name="fhrp" method="table">
+ standby {{ hsrp_group }}  {{ vip }}
  </group>
 </group>
 
 <!-- ARP cache group -->
-<group name="arp*" method="table">
+<group name="{{ local_hostname }}.interfaces.{{ interface }}.arp*" method="table">
 Internet  {{ ip | IP }}     {{ age }}   {{ mac | MAC }}  {{ type }}   {{ interface | resuball("IfsNormalize") }}
-{{ hostname | set("local_hostname") }}
 </group>
 
 </template>

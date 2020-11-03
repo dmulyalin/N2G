@@ -3501,3 +3501,93 @@ Maximum frame Size                 :9216
     drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_huawei_base.graphml", folder="./Output/")    
+    
+def test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag():
+    data = { "Cisco_IOSXR": [
+    """
+RP/0/RSP0/CPU0:router_XR_01#show run
+interface GigabitEthernet0/0/0/19
+ description To cust_rt_1  Gi0/0/0/8
+ bundle id 100 mode active
+!
+interface Bundle-Ether100
+ description To router_XR_01  Gi0/0/19 LAG 200
+ 
+RP/0/RSP0/CPU0:router_XR_01#show lldp neighbors detail
+------------------------------------------------
+Local Interface: GigabitEthernet0/0/0/19
+Chassis id: 0026.9815.c3e6
+Port id: GigabitEthernet0/0/0/8
+Port Description: To router_XR_01  Gi0/0/19
+System Name: cust_rt_1
+
+System Description: 
+Cisco IOS XR Software, Version 4.1.0.32I[Default]
+Copyright (c) 2011 by Cisco Systems, Inc.
+
+Time remaining: 102 seconds
+Hold Time: 120 seconds
+System Capabilities: R
+Enabled Capabilities: R
+Management Addresses:
+  IPv4 address: 10.5.173.110
+
+------------------------------------------------
+Local Interface: GigabitEthernet0/0/0/19
+Chassis id: 0026.9815.c3e6
+Port id: Bundle-Ether200
+Port Description: To router_XR_01  Gi0/0/19 LAG 100
+System Name: cust_rt_1
+
+System Description: 
+Cisco IOS XR Software, Version 4.1.0.32I[Default]
+Copyright (c) 2011 by Cisco Systems, Inc.
+
+Time remaining: 102 seconds
+Hold Time: 120 seconds
+System Capabilities: R
+Enabled Capabilities: R
+Management Addresses:
+  IPv4 address: 10.5.173.110
+    """,
+    """
+RP/0/RSP0/CPU0:cust_rt_1#show run
+interface GigabitEthernet0/0/0/8
+ description To router_XR_01  Gi0/0/19
+ bundle id 200 mode active
+!
+interface Bundle-Ether200
+ description To router_XR_01  Gi0/0/19 LAG 100
+ 
+RP/0/RSP0/CPU0:cust_rt_1#show lldp neighbors detail
+------------------------------------------------
+Local Interface: GigabitEthernet0/0/0/8
+Chassis id: 0026.9815.c3e6
+Port id: GigabitEthernet0/0/0/19
+Port Description: To cust_rt_1  Gi0/0/0/8
+System Name: router_XR_01
+
+System Description: 
+Cisco IOS XR Software, Version 4.1.0.32I[Default]
+Copyright (c) 2011 by Cisco Systems, Inc.
+
+Time remaining: 102 seconds
+Hold Time: 120 seconds
+System Capabilities: R
+Enabled Capabilities: R
+Management Addresses:
+  IPv4 address: 10.5.173.111
+    """]
+    }
+    config = {
+        "add_lag": True
+    }
+    drawing = create_yed_diagram()
+    drawer = layer_2_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml", folder="./Output/")
+    with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml") as produced:
+        with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml") as should_be:
+            assert produced.read() == should_be.read()
+    
+# test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag()
