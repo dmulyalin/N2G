@@ -8,7 +8,7 @@ addresses.
 |  Platform     | IP/Subnets |   ARP     | interface | interface | links     |   node    | FHRP      |
 |  Name         |            |           | config    | state     | grouping  |   facts   | Protocols |
 +===============+============+===========+===========+===========+===========+===========+===========+
-| Cisco_IOS     |    YES     |    ---    |    YES    |    ---    |    YES    |    ---    |    ---    |
+| Cisco_IOS     |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
 | Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
@@ -72,7 +72,7 @@ class ip_drawer:
             "add_arp": False,
             "label_interface": False,
             "label_vrf": False,
-            "group_ptp": True,
+            "collapse_ptp": True,
             "platforms": [
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
@@ -86,7 +86,7 @@ class ip_drawer:
         self.links_dict = {}
         self.graph_dict = {"nodes": [], "links": []}
         self.nodes_to_links_dict = {}  # used by group_links
-        self.group_ptp_dict = {}  # used by group_ptp
+        self.collapse_ptp_dict = {}  # used by collapse_ptp
 
     def work(self, data):
         """
@@ -128,10 +128,10 @@ class ip_drawer:
         self._parse(data)
         self._form_base_graph_dict()
         # go through config statements
+        if self.config.get("collapse_ptp"):
+            self._collapse_ptp()
         if self.config.get("group_links"):
             self._group_links()
-        if self.config.get("group_ptp"):
-            self._group_ptp()
         # form graph dictionary and add it to drawing
         self._update_drawing()
 
@@ -211,7 +211,7 @@ class ip_drawer:
         )
 
     def _form_base_graph_dict(self):
-        already_added_ips = {} # need this dict to skip ARP entries
+        interfaces_ip = {} # need this dict to skip ARP entries
         for platform, hosts_data in self.parsed_data.items():
             for hostname, host_data in hosts_data.items():
                 self._add_node({"id": hostname, "top_label": "Device"}, host_data)
@@ -219,16 +219,18 @@ class ip_drawer:
                     interface_networks = []
                     for ip in interface_data.get("ip_addresses", []):
                         network = ip["network"]
-                        interface_networks.append(network)
-                        if self.config.get("add_arp"):
-                            already_added_ips.setdefault(network, []).append(ip["ip"])
+                        if self.config.get("add_arp") or self.config.get("add_fhrp"):
+                            interface_networks.append(network)
+                            interfaces_ip.setdefault(network, []).append(ip["ip"])
                         network_node = {"id": network, "top_label": "Subnet"}
-                        link_description = {
-                            "{}:{}".format(hostname, interface): {
+                        link_description_data = {
                                 k: v
                                 for k, v in interface_data.items()
-                                if not k in ["arp", "ip_addresses", "fhrp"]
+                                if not k in ["arp", "ip_addresses"]
                             }
+                        link_description_data.update(ip)
+                        link_description = {
+                            "{}:{}".format(hostname, interface): link_description_data 
                         }
                         link_dict = {
                             "source": network,
@@ -254,11 +256,45 @@ class ip_drawer:
                             if self.config["label_interface"]:
                                 trgt_label = "{}:{}".format(interface, trgt_label)
                             link_dict["trgt_label"] = trgt_label
+                        # add new node and link to graph
                         self._add_node(network_node)
                         self._add_link(link_dict, network)
+                    # check if need to add FHRP IPs
+                    if self.config.get("add_fhrp"):
+                        interface_network_objects = [
+                            ipaddress.ip_network(i) for i in interface_networks
+                        ]
+                        for fhrp_entry in interface_data.get("fhrp", []):
+                            # get ip entry network
+                            ip = fhrp_entry["ip"]
+                            ip_obj = ipaddress.ip_address(ip)
+                            network = str(
+                                [i for i in interface_network_objects if ip_obj in i][0]
+                            )                            
+                            # add IP address node
+                            node_id = "{}:{}".format(network, ip)
+                            description = {
+                                "FHRP:{}:{}".format(hostname, interface): fhrp_entry
+                            }               
+                            self._add_node(
+                                {
+                                    "id": node_id,
+                                    "top_label": "{} VIP".format(fhrp_entry["type"]),
+                                    "label": ip,
+                                    "description": json.dumps(
+                                        description,
+                                        sort_keys=True,
+                                        indent=4,
+                                        separators=(",", ": "),
+                                    ),
+                                }
+                            )
+                            # add link to network
+                            link_dict = {"source": node_id, "target": network}
+                            self._add_link(link_dict)
                     # check if need to add ARP to diagram
                     if self.config.get("add_arp"):
-                        interface_networks = [
+                        interface_network_objects = [
                             ipaddress.ip_network(i) for i in interface_networks
                         ]
                         for arp_entry in interface_data.get("arp", []):
@@ -266,15 +302,12 @@ class ip_drawer:
                             ip = arp_entry["ip"]
                             ip_obj = ipaddress.ip_address(ip)
                             network = str(
-                                [i for i in interface_networks if ip_obj in i][0]
+                                [i for i in interface_network_objects if ip_obj in i][0]
                             )
-                            # skip already added IPs
-                            if ip in already_added_ips[network]:
-                                continue
                             # add IP address node
                             node_id = "{}:{}".format(network, ip)
                             description = {
-                                "{}:{}".format(hostname, interface): arp_entry
+                                "ARP:{}:{}".format(hostname, interface): arp_entry
                             }
                             self._add_node(
                                 {
@@ -291,7 +324,20 @@ class ip_drawer:
                             )
                             # add link to network
                             link_dict = {"source": node_id, "target": network}
-                            self._add_link(link_dict)
+                            self._add_link(link_dict)                        
+        # clean up ARP entries that duplicate interface IPs
+        if self.config.get("add_arp"):
+            for network, ips in interfaces_ip.items():
+                for ip in ips:
+                    arp_node_id = "{}:{}".format(network, ip)
+                    link_hash = self._make_hash_tuple(
+                        {
+                            "source": arp_node_id, 
+                            "target": network
+                        }
+                    )
+                    _ = self.nodes_dict.pop(arp_node_id, None)
+                    _ = self.links_dict.pop(link_hash, None)
 
     def _add_node(self, item, host_data={}):
         # add new node
@@ -336,11 +382,11 @@ class ip_drawer:
         # check if need to pre-process nodes_to_links_dict used by group_links
         if self.config.get("group_links"):
             self._update_nodes_to_links_dict(item, link_hash)
-        if self.config.get("group_ptp") and network:
+        if self.config.get("collapse_ptp") and network:
             if (network.split("/")[1] in ["30", "31"] and "." in network) or (
                 network.split("/")[1] in ["127"] and ":" in network
             ):
-                self.group_ptp_dict.setdefault(network, []).append(link_hash)
+                self.collapse_ptp_dict.setdefault(network, []).append(link_hash)
 
     def _update_nodes_to_links_dict(self, item, link_hash):
         """
@@ -392,9 +438,9 @@ class ip_drawer:
                 self.links_dict[grouped_link_hash] = grouped_link
         del self.nodes_to_links_dict
 
-    def _group_ptp(self):
+    def _collapse_ptp(self):
         """
-        self.group_ptp_dict - mapping of ptp networks to link hashes
+        self.collapse_ptp_dict - mapping of ptp networks to link hashes
 
         Sample::
 
@@ -403,7 +449,7 @@ class ip_drawer:
             '10.123.2.4/31': [('', '10.123.2.4/31', '10.123.2.4/31', 'switch_1'),
                             ('', '10.123.2.4/31', '10.123.2.5/31', 'switch_2')]}
         """
-        for network, links in self.group_ptp_dict.items():
+        for network, links in self.collapse_ptp_dict.items():
             if not len(links) == 2:
                 continue
             # remove ptp network node

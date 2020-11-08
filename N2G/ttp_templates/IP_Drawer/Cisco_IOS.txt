@@ -32,8 +32,9 @@ Template produces this dictionary:
                                                                  'ip': '10.1.234.1',
                                                                  'mac': 'd867.d9b7.1111',
                                                                  'type': 'ARPA'}],
-                                                        'fhrp': {'hsrp_group': '1',
-                                                                 'vip': '10.1.234.1.99'},
+                                                        'fhrp': [{'hsrp_group': '1',
+                                                                 'vip': '10.1.234.1.99',
+                                                                 'type': 'hsrp'}],
                                                         'ip_addresses': [{'ip': '10.1.234.2',
                                                                           'netmask': '24',
                                                                           'network': '10.1.234.0/24'}],
@@ -58,8 +59,9 @@ interface {{ interface | resuball("IfsNormalize") }}
  ip address {{ ip | IP }} {{ netmask }}
  ip address {{ ip | IP }} {{ netmask }} secondary
  </group>
- <group name="fhrp" method="table">
- standby {{ hsrp_group }}  {{ vip }}
+ <group name="fhrp*" method="table">
+ standby {{ group | let("type", "HSRP") }}  {{ ip | IP }}
+ vrrp {{ group | let("type", "VRRP") }} ip {{ ip | IP }}
  </group>
 </group>
 

@@ -31,16 +31,7 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch_1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "switch_1"}</data></node><node id="10.123.0.4/32">
-      <data key="d6">
-        <y:ShapeNode>
-          <y:Geometry height="60" width="120" x="200" y="150" />
-          <y:Fill color="#FFFFFF" transparent="false" />
-          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
-          <y:Shape type="roundrectangle" />
-        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.0.4/32</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Lo0</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">global</y:NodeLabel></y:ShapeNode>
-      </data>
-    <data key="d11">{"id": "10.123.0.4/32"}</data></node><node id="10.1.33.0/24">
+    <data key="d11">{"id": "switch_1"}</data></node><node id="10.1.33.0/24">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -58,7 +49,61 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.1.234.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "10.1.234.0/24"}</data></node><node id="10.123.111.0/24">
+    <data key="d11">{"id": "10.1.234.0/24"}</data></node><node id="10.1.234.0/24:10.1.234.99">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.1.234.99</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">HSRP VIP</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:Te1/1/7": {
+        "age": "-",
+        "ip": "10.1.234.99",
+        "mac": "00ac.0007.001a",
+        "type": "ARPA"
+    },
+    "ARP:switch_2:Te1/1/71": {
+        "age": "5",
+        "ip": "10.1.234.99",
+        "mac": "00ac.0007.001a",
+        "type": "ARPA"
+    },
+    "FHRP:switch_1:Te1/1/7": {
+        "group": "1",
+        "ip": "10.1.234.99",
+        "type": "HSRP"
+    },
+    "FHRP:switch_2:Te1/1/71": {
+        "group": "1",
+        "ip": "10.1.234.99",
+        "type": "HSRP"
+    }
+}</data><data key="d11">{"id": "10.1.234.0/24:10.1.234.99"}</data></node><node id="10.1.234.0/24:10.1.234.3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.1.234.3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:Te1/1/7": {
+        "age": "31",
+        "ip": "10.1.234.3",
+        "mac": "0008.e3ff.4321",
+        "type": "ARPA"
+    },
+    "ARP:switch_2:Te1/1/71": {
+        "age": "78",
+        "ip": "10.1.234.3",
+        "mac": "0008.e3ff.4321",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.1.234.0/24:10.1.234.3"}</data></node><node id="10.123.111.0/24">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -85,7 +130,103 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.233.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "10.123.233.0/24"}</data></node><node id="switch_2">
+    <data key="d11">{"id": "10.123.233.0/24"}</data></node><node id="10.123.111.0/24:10.123.111.3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.111.3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:SVI123": {
+        "age": "0",
+        "ip": "10.123.111.3",
+        "mac": "0008.e3ff.1333",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.123.111.0/24:10.123.111.3"}</data></node><node id="10.123.111.0/24:10.123.111.4">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.111.4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:SVI123": {
+        "age": "106",
+        "ip": "10.123.111.4",
+        "mac": "d867.d9b7.1444",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.123.111.0/24:10.123.111.4"}</data></node><node id="10.123.111.0/24:10.123.111.5">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.111.5</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:SVI123": {
+        "age": "106",
+        "ip": "10.123.111.5",
+        "mac": "d867.d9b7.1555",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.123.111.0/24:10.123.111.5"}</data></node><node id="10.123.233.0/24:10.123.233.3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.233.3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:SVI123": {
+        "age": "166",
+        "ip": "10.123.233.3",
+        "mac": "d867.d9b7.2333",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.123.233.0/24:10.123.233.3"}</data></node><node id="10.123.233.0/24:10.123.233.4">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.233.4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:SVI123": {
+        "age": "31",
+        "ip": "10.123.233.4",
+        "mac": "0008.e3ff.2444",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.123.233.0/24:10.123.233.4"}</data></node><node id="10.123.233.0/24:10.123.233.6">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.233.6</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_1:SVI123": {
+        "age": "31",
+        "ip": "10.123.233.6",
+        "mac": "0008.e3ff.2666",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.123.233.0/24:10.123.233.6"}</data></node><node id="switch_2">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -94,16 +235,7 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch_2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "switch_2"}</data></node><node id="10.123.0.5/32">
-      <data key="d6">
-        <y:ShapeNode>
-          <y:Geometry height="60" width="120" x="200" y="150" />
-          <y:Fill color="#FFFFFF" transparent="false" />
-          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
-          <y:Shape type="roundrectangle" />
-        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.0.5/32</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Lo0</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">global</y:NodeLabel></y:ShapeNode>
-      </data>
-    <data key="d11">{"id": "10.123.0.5/32"}</data></node><node id="10.11.11.0/24">
+    <data key="d11">{"id": "switch_2"}</data></node><node id="10.11.11.0/24">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -121,22 +253,39 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.22.22.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "10.22.22.0/24"}</data></node><edge id="9ae10dbb0170eeb62b274d14c131250b" source="10.123.0.4/32" target="switch_1">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        </y:PolyLineEdge>
+    <data key="d11">{"id": "10.22.22.0/24"}</data></node><node id="10.22.22.0/24:10.22.22.3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.22.22.3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d9">{
-    "switch_1:Lo0": {
-        "ip": "10.123.0.4",
-        "netmask": "32",
-        "network": "10.123.0.4/32",
-        "port_description": "Routing Loopback"
+    <data key="d5">{
+    "ARP:switch_2:SVI22": {
+        "age": "0",
+        "ip": "10.22.22.3",
+        "mac": "0008.7890.1333",
+        "type": "ARPA"
     }
-}</data><data key="d12">{"sid": "10.123.0.4/32", "tid": "switch_1", "id": "9ae10dbb0170eeb62b274d14c131250b"}</data></edge><edge id="1d4be1db773a3b13a8e4a596f19d2932" source="10.1.33.0/24" target="switch_1">
+}</data><data key="d11">{"id": "10.22.22.0/24:10.22.22.3"}</data></node><node id="10.22.22.0/24:10.22.22.4">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.22.22.4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:switch_2:SVI22": {
+        "age": "106",
+        "ip": "10.22.22.4",
+        "mac": "d867.7890.1444",
+        "type": "ARPA"
+    }
+}</data><data key="d11">{"id": "10.22.22.0/24:10.22.22.4"}</data></node><edge id="1d4be1db773a3b13a8e4a596f19d2932" source="10.1.33.0/24" target="switch_1">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -163,12 +312,35 @@
       </data>
     <data key="d9">{
     "switch_1:Te1/1/7": {
+        "fhrp": [
+            {
+                "group": "1",
+                "ip": "10.1.234.99",
+                "type": "HSRP"
+            }
+        ],
         "ip": "10.1.234.1",
         "netmask": "24",
         "network": "10.1.234.0/24",
         "port_description": "to SWITCH_2 shared subnet"
     }
-}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_1", "id": "998077c3d7961acfe2e589b2c0756117"}</data></edge><edge id="4abdeda41acbd22770e3bc9b2958a803" source="10.123.111.0/24" target="switch_1">
+}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_1", "id": "998077c3d7961acfe2e589b2c0756117"}</data></edge><edge id="8290303bbacb94cca2dfec137ffa924a" source="10.1.234.0/24:10.1.234.99" target="10.1.234.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.1.234.0/24:10.1.234.99", "tid": "10.1.234.0/24", "id": "8290303bbacb94cca2dfec137ffa924a"}</data></edge><edge id="e9903eaabbf42b42fe0626db03a3bf98" source="10.1.234.0/24:10.1.234.3" target="10.1.234.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.1.234.0/24:10.1.234.3", "tid": "10.1.234.0/24", "id": "e9903eaabbf42b42fe0626db03a3bf98"}</data></edge><edge id="4abdeda41acbd22770e3bc9b2958a803" source="10.123.111.0/24" target="switch_1">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -219,7 +391,7 @@
         "port_description": "Workstations Vlan",
         "vrf": "CORP"
     }
-}</data><data key="d12">{"sid": "10.123.233.0/24", "tid": "switch_1", "id": "db9bd595214c389fe7bc0a3ac46edac5"}</data></edge><edge id="b75f72fa0e114d58f1c3c63195994163" source="10.123.0.5/32" target="switch_2">
+}</data><data key="d12">{"sid": "10.123.233.0/24", "tid": "switch_1", "id": "db9bd595214c389fe7bc0a3ac46edac5"}</data></edge><edge id="60ee146c9a20be9eb4181d5d1c746005" source="10.123.111.0/24:10.123.111.3" target="10.123.111.0/24">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -227,14 +399,47 @@
          <y:BendStyle smoothed="false" />
         </y:PolyLineEdge>
       </data>
-    <data key="d9">{
-    "switch_2:Lo0": {
-        "ip": "10.123.0.5",
-        "netmask": "32",
-        "network": "10.123.0.5/32",
-        "port_description": "Routing Loopback"
-    }
-}</data><data key="d12">{"sid": "10.123.0.5/32", "tid": "switch_2", "id": "b75f72fa0e114d58f1c3c63195994163"}</data></edge><edge id="23f75b42cde63d6d89409e13f516fa75" source="10.1.234.0/24" target="switch_2">
+    <data key="d12">{"sid": "10.123.111.0/24:10.123.111.3", "tid": "10.123.111.0/24", "id": "60ee146c9a20be9eb4181d5d1c746005"}</data></edge><edge id="13b1619a5f3686a8228bd98136986971" source="10.123.111.0/24:10.123.111.4" target="10.123.111.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.123.111.0/24:10.123.111.4", "tid": "10.123.111.0/24", "id": "13b1619a5f3686a8228bd98136986971"}</data></edge><edge id="7f768fab1b9d3a5cd315a8ed8b466cc5" source="10.123.111.0/24:10.123.111.5" target="10.123.111.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.123.111.0/24:10.123.111.5", "tid": "10.123.111.0/24", "id": "7f768fab1b9d3a5cd315a8ed8b466cc5"}</data></edge><edge id="c9966aebfc697984f75438b1fda9e3f1" source="10.123.233.0/24:10.123.233.3" target="10.123.233.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.123.233.0/24:10.123.233.3", "tid": "10.123.233.0/24", "id": "c9966aebfc697984f75438b1fda9e3f1"}</data></edge><edge id="e9b7e0dae1d14dcc54d148556e8a4334" source="10.123.233.0/24:10.123.233.4" target="10.123.233.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.123.233.0/24:10.123.233.4", "tid": "10.123.233.0/24", "id": "e9b7e0dae1d14dcc54d148556e8a4334"}</data></edge><edge id="29c4e15399ff0e995245f35234b5021f" source="10.123.233.0/24:10.123.233.6" target="10.123.233.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.123.233.0/24:10.123.233.6", "tid": "10.123.233.0/24", "id": "29c4e15399ff0e995245f35234b5021f"}</data></edge><edge id="23f75b42cde63d6d89409e13f516fa75" source="10.1.234.0/24" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -245,6 +450,13 @@
       </data>
     <data key="d9">{
     "switch_2:Te1/1/71": {
+        "fhrp": [
+            {
+                "group": "1",
+                "ip": "10.1.234.99",
+                "type": "HSRP"
+            }
+        ],
         "ip": "10.1.234.2",
         "netmask": "24",
         "network": "10.1.234.0/24",
@@ -282,7 +494,23 @@
         "network": "10.22.22.0/24",
         "port_description": "Workstations Vlan"
     }
-}</data><data key="d12">{"sid": "10.22.22.0/24", "tid": "switch_2", "id": "24cd3b8b9b257dca3eb132c0ec0c93be"}</data></edge><edge id="6efec9a1f2f8bb388d969051ba875837" source="switch_1" target="switch_2">
+}</data><data key="d12">{"sid": "10.22.22.0/24", "tid": "switch_2", "id": "24cd3b8b9b257dca3eb132c0ec0c93be"}</data></edge><edge id="6c329462a0e4945598d594dc910a093a" source="10.22.22.0/24:10.22.22.3" target="10.22.22.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.22.22.0/24:10.22.22.3", "tid": "10.22.22.0/24", "id": "6c329462a0e4945598d594dc910a093a"}</data></edge><edge id="9cf2efde9d672060c711a60e357b6aa1" source="10.22.22.0/24:10.22.22.4" target="10.22.22.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.22.22.0/24:10.22.22.4", "tid": "10.22.22.0/24", "id": "9cf2efde9d672060c711a60e357b6aa1"}</data></edge><edge id="6efec9a1f2f8bb388d969051ba875837" source="switch_1" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -307,14 +535,14 @@
         "port_description": "to SWITCH_1 link 1",
         "vrf": "VRF1"
     }
-}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "6efec9a1f2f8bb388d969051ba875837"}</data></edge><edge id="33e025ceafcfeb685a21fc3be66f3adb" source="switch_1" target="switch_2">
+}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "6efec9a1f2f8bb388d969051ba875837"}</data></edge><edge id="bc97a400a1f7ca0331ad66b18650188f" source="switch_1" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
         <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.2.4/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.2.4/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.2.5/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
@@ -326,13 +554,13 @@
         "vrf": "VRF2"
     },
     "switch_2:Ge1/4": {
-        "ip": "10.123.2.4",
+        "ip": "10.123.2.5",
         "netmask": "31",
         "network": "10.123.2.4/31",
         "port_description": "to SWITCH_1 links 2",
         "vrf": "VRF1"
     }
-}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "33e025ceafcfeb685a21fc3be66f3adb"}</data></edge></graph>
+}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "bc97a400a1f7ca0331ad66b18650188f"}</data></edge></graph>
     <data key="d7">
         <y:Resources>
         </y:Resources>

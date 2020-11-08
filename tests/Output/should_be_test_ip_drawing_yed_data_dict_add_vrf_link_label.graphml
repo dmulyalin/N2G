@@ -31,16 +31,7 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch_1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "switch_1"}</data></node><node id="switch_2">
-      <data key="d6">
-        <y:ShapeNode>
-          <y:Geometry height="60" width="120" x="200" y="150" />
-          <y:Fill color="#FFFFFF" transparent="false" />
-          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
-          <y:Shape type="roundrectangle" />
-        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch_2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
-      </data>
-    <data key="d11">{"id": "switch_2"}</data></node><node id="10.123.0.4/32">
+    <data key="d11">{"id": "switch_1"}</data></node><node id="10.123.0.4/32">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -94,7 +85,16 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.123.233.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "10.123.233.0/24"}</data></node><node id="10.123.0.5/32">
+    <data key="d11">{"id": "10.123.233.0/24"}</data></node><node id="switch_2">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch_2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "switch_2"}</data></node><node id="10.123.0.5/32">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="60" width="120" x="200" y="150" />
@@ -133,9 +133,156 @@
     "switch_1:Lo0": {
         "ip": "10.123.0.4",
         "netmask": "32",
+        "network": "10.123.0.4/32",
         "port_description": "Routing Loopback"
     }
-}</data><data key="d12">{"sid": "10.123.0.4/32", "tid": "switch_1", "id": "9ae10dbb0170eeb62b274d14c131250b"}</data></edge><edge id="8885f9683b0987f9aff38224140a13f2" source="switch_1" target="switch_2">
+}</data><data key="d12">{"sid": "10.123.0.4/32", "tid": "switch_1", "id": "9ae10dbb0170eeb62b274d14c131250b"}</data></edge><edge id="b95799b4ea3ee9438f28910c3a2ff5ed" source="10.1.33.0/24" target="switch_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.1.33.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_1:Te1/1/5": {
+        "ip": "10.1.33.1",
+        "netmask": "24",
+        "network": "10.1.33.0/24",
+        "port_description": "to SWITCH_3"
+    }
+}</data><data key="d12">{"sid": "10.1.33.0/24", "tid": "switch_1", "id": "b95799b4ea3ee9438f28910c3a2ff5ed"}</data></edge><edge id="455d1d61605eaea6d012b7a61d79446d" source="10.1.234.0/24" target="switch_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.1.234.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_1:Te1/1/7": {
+        "ip": "10.1.234.1",
+        "netmask": "24",
+        "network": "10.1.234.0/24",
+        "port_description": "to SWITCH_2 shared subnet"
+    }
+}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_1", "id": "455d1d61605eaea6d012b7a61d79446d"}</data></edge><edge id="ba0c2f0c9f92ec592b4e6581fbaedb83" source="10.123.111.0/24" target="switch_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.111.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_1:SVI123": {
+        "ip": "10.123.111.1",
+        "netmask": "24",
+        "network": "10.123.111.0/24",
+        "port_description": "Workstations Vlan",
+        "vrf": "CORP"
+    }
+}</data><data key="d12">{"sid": "10.123.111.0/24", "tid": "switch_1", "id": "ba0c2f0c9f92ec592b4e6581fbaedb83"}</data></edge><edge id="a5c93f66ef90093a7665a85d1f56a6a7" source="10.123.222.0/24" target="switch_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.222.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_1:SVI123": {
+        "ip": "10.123.222.1",
+        "netmask": "24",
+        "network": "10.123.222.0/24",
+        "port_description": "Workstations Vlan",
+        "vrf": "CORP"
+    }
+}</data><data key="d12">{"sid": "10.123.222.0/24", "tid": "switch_1", "id": "a5c93f66ef90093a7665a85d1f56a6a7"}</data></edge><edge id="ce1b03f26f90a86b1f4353bb6e285dbe" source="10.123.233.0/24" target="switch_1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.233.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_1:SVI123": {
+        "ip": "10.123.233.1",
+        "netmask": "24",
+        "network": "10.123.233.0/24",
+        "port_description": "Workstations Vlan",
+        "vrf": "CORP"
+    }
+}</data><data key="d12">{"sid": "10.123.233.0/24", "tid": "switch_1", "id": "ce1b03f26f90a86b1f4353bb6e285dbe"}</data></edge><edge id="b75f72fa0e114d58f1c3c63195994163" source="10.123.0.5/32" target="switch_2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_2:Lo0": {
+        "ip": "10.123.0.5",
+        "netmask": "32",
+        "network": "10.123.0.5/32",
+        "port_description": "Routing Loopback"
+    }
+}</data><data key="d12">{"sid": "10.123.0.5/32", "tid": "switch_2", "id": "b75f72fa0e114d58f1c3c63195994163"}</data></edge><edge id="f613976c81acde4a1908196761d2ad03" source="10.1.234.0/24" target="switch_2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.1.234.2/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_2:Te1/1/71": {
+        "ip": "10.1.234.2",
+        "netmask": "24",
+        "network": "10.1.234.0/24",
+        "port_description": "to SWITCH_2 shared subnet"
+    }
+}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_2", "id": "f613976c81acde4a1908196761d2ad03"}</data></edge><edge id="b46e27e803f172d75cd60ee9c2fe2ffc" source="10.11.11.0/24" target="switch_2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.11.11.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_2:SVI11": {
+        "ip": "10.11.11.1",
+        "netmask": "24",
+        "network": "10.11.11.0/24",
+        "port_description": "Workstations Vlan"
+    }
+}</data><data key="d12">{"sid": "10.11.11.0/24", "tid": "switch_2", "id": "b46e27e803f172d75cd60ee9c2fe2ffc"}</data></edge><edge id="9e3bb31ef3b2967a647042524ea4953b" source="10.22.22.0/24" target="switch_2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.22.22.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "switch_2:SVI22": {
+        "ip": "10.22.22.1",
+        "netmask": "24",
+        "network": "10.22.22.0/24",
+        "port_description": "Workstations Vlan"
+    }
+}</data><data key="d12">{"sid": "10.22.22.0/24", "tid": "switch_2", "id": "9e3bb31ef3b2967a647042524ea4953b"}</data></edge><edge id="8885f9683b0987f9aff38224140a13f2" source="switch_1" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -149,12 +296,14 @@
     "switch_1:Te1/1/3": {
         "ip": "10.123.2.3",
         "netmask": "31",
+        "network": "10.123.2.2/31",
         "port_description": "to SWITCH_2 vrf VRF1 link 1",
         "vrf": "VRF2"
     },
     "switch_2:Ge1/3": {
         "ip": "10.123.2.2",
         "netmask": "31",
+        "network": "10.123.2.2/31",
         "port_description": "to SWITCH_1 link 1",
         "vrf": "VRF1"
     }
@@ -172,153 +321,18 @@
     "switch_1:Te1/1/4": {
         "ip": "10.123.2.4",
         "netmask": "31",
+        "network": "10.123.2.4/31",
         "port_description": "to SWITCH_2 vrf VRF1 link 2",
         "vrf": "VRF2"
     },
     "switch_2:Ge1/4": {
         "ip": "10.123.2.5",
         "netmask": "31",
+        "network": "10.123.2.4/31",
         "port_description": "to SWITCH_1 links 2",
         "vrf": "VRF1"
     }
-}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "d1c5803dedd7795aab9ecd26ad2a5086"}</data></edge><edge id="b95799b4ea3ee9438f28910c3a2ff5ed" source="10.1.33.0/24" target="switch_1">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.1.33.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_1:Te1/1/5": {
-        "ip": "10.1.33.1",
-        "netmask": "24",
-        "port_description": "to SWITCH_3"
-    }
-}</data><data key="d12">{"sid": "10.1.33.0/24", "tid": "switch_1", "id": "b95799b4ea3ee9438f28910c3a2ff5ed"}</data></edge><edge id="455d1d61605eaea6d012b7a61d79446d" source="10.1.234.0/24" target="switch_1">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.1.234.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_1:Te1/1/7": {
-        "ip": "10.1.234.1",
-        "netmask": "24",
-        "port_description": "to SWITCH_2 shared subnet"
-    }
-}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_1", "id": "455d1d61605eaea6d012b7a61d79446d"}</data></edge><edge id="f613976c81acde4a1908196761d2ad03" source="10.1.234.0/24" target="switch_2">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.1.234.2/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_2:Te1/1/71": {
-        "ip": "10.1.234.2",
-        "netmask": "24",
-        "port_description": "to SWITCH_2 shared subnet"
-    }
-}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_2", "id": "f613976c81acde4a1908196761d2ad03"}</data></edge><edge id="ba0c2f0c9f92ec592b4e6581fbaedb83" source="10.123.111.0/24" target="switch_1">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.111.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_1:SVI123": {
-        "ip": "10.123.111.1",
-        "netmask": "24",
-        "port_description": "Workstations Vlan",
-        "vrf": "CORP"
-    }
-}</data><data key="d12">{"sid": "10.123.111.0/24", "tid": "switch_1", "id": "ba0c2f0c9f92ec592b4e6581fbaedb83"}</data></edge><edge id="a5c93f66ef90093a7665a85d1f56a6a7" source="10.123.222.0/24" target="switch_1">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.222.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_1:SVI123": {
-        "ip": "10.123.222.1",
-        "netmask": "24",
-        "port_description": "Workstations Vlan",
-        "vrf": "CORP"
-    }
-}</data><data key="d12">{"sid": "10.123.222.0/24", "tid": "switch_1", "id": "a5c93f66ef90093a7665a85d1f56a6a7"}</data></edge><edge id="ce1b03f26f90a86b1f4353bb6e285dbe" source="10.123.233.0/24" target="switch_1">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">CORP:10.123.233.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_1:SVI123": {
-        "ip": "10.123.233.1",
-        "netmask": "24",
-        "port_description": "Workstations Vlan",
-        "vrf": "CORP"
-    }
-}</data><data key="d12">{"sid": "10.123.233.0/24", "tid": "switch_1", "id": "ce1b03f26f90a86b1f4353bb6e285dbe"}</data></edge><edge id="b75f72fa0e114d58f1c3c63195994163" source="10.123.0.5/32" target="switch_2">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        </y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_2:Lo0": {
-        "ip": "10.123.0.5",
-        "netmask": "32",
-        "port_description": "Routing Loopback"
-    }
-}</data><data key="d12">{"sid": "10.123.0.5/32", "tid": "switch_2", "id": "b75f72fa0e114d58f1c3c63195994163"}</data></edge><edge id="b46e27e803f172d75cd60ee9c2fe2ffc" source="10.11.11.0/24" target="switch_2">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.11.11.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_2:SVI11": {
-        "ip": "10.11.11.1",
-        "netmask": "24",
-        "port_description": "Workstations Vlan"
-    }
-}</data><data key="d12">{"sid": "10.11.11.0/24", "tid": "switch_2", "id": "b46e27e803f172d75cd60ee9c2fe2ffc"}</data></edge><edge id="9e3bb31ef3b2967a647042524ea4953b" source="10.22.22.0/24" target="switch_2">
-      <data key="d10">
-        <y:PolyLineEdge>
-         <y:LineStyle color="#000000" type="line" width="1.0" />
-         <y:Arrows source="none" target="none" />
-         <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">global:10.22.22.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel></y:PolyLineEdge>
-      </data>
-    <data key="d9">{
-    "switch_2:SVI22": {
-        "ip": "10.22.22.1",
-        "netmask": "24",
-        "port_description": "Workstations Vlan"
-    }
-}</data><data key="d12">{"sid": "10.22.22.0/24", "tid": "switch_2", "id": "9e3bb31ef3b2967a647042524ea4953b"}</data></edge></graph>
+}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "d1c5803dedd7795aab9ecd26ad2a5086"}</data></edge></graph>
     <data key="d7">
         <y:Resources>
         </y:Resources>

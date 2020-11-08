@@ -468,7 +468,7 @@ interface TenGigabitEthernet1/1/4
 interface TenGigabitEthernet1/1/7
  description to SWITCH_2 shared subnet
  ip address 10.1.234.1 255.255.255.0
- standby 1 10.1.234.1.99
+ standby 1 10.1.234.99
 !
 interface Vlan123
  description Workstations Vlan
@@ -489,13 +489,14 @@ Internet  10.123.233.6           31   0008.e3ff.2666  ARPA   Vlan123
 Internet  10.1.234.1              -   d867.d9b7.1111  ARPA   TenGigabitEthernet1/1/7
 Internet  10.1.234.2             31   0008.e3ff.1234  ARPA   TenGigabitEthernet1/1/7
 Internet  10.1.234.3             31   0008.e3ff.4321  ARPA   TenGigabitEthernet1/1/7
+Internet  10.1.234.99             -   00ac.0007.001a  ARPA   TenGigabitEthernet1/1/7
     """,
     """
 switch_2# show run interfaces
 interface TenGigabitEthernet1/1/71
  description to SWITCH_2 shared subnet
  ip address 10.1.234.2 255.255.255.0
- standby 1 10.1.234.1.99
+ standby 1 10.1.234.99
 !
 interface GigabitEthernet1/3
  description to SWITCH_1 link 1
@@ -524,19 +525,20 @@ Internet  10.22.22.4            106   d867.7890.1444  ARPA   Vlan22
 Internet  10.1.234.1              5   d867.d9b7.1111  ARPA   TenGigabitEthernet1/1/71
 Internet  10.1.234.2              -   0008.e3ff.1234  ARPA   TenGigabitEthernet1/1/71
 Internet  10.1.234.3             78   0008.e3ff.4321  ARPA   TenGigabitEthernet1/1/71
+Internet  10.1.234.99             5   00ac.0007.001a  ARPA   TenGigabitEthernet1/1/71
     """]
     }
     config = {
         "add_arp": True,
-        # "add_fhrp": True
-        "group_ptp": True
+        "add_fhrp": True,
+        # "collapse_ptp": True
     }
     drawing = create_yed_diagram()
     drawer = ip_drawer(drawing, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml", folder="./Output/")
-    # with open ("./Output/test_ip_drawing_yed_data_dict_add_arp.graphml") as produced:
-    #     with open("./Output/should_be_test_ip_drawing_yed_data_dict_add_arp.graphml") as should_be:
-    #         assert produced.read() == should_be.read()
+    with open ("./Output/test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml") as produced:
+        with open("./Output/should_be_test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml") as should_be:
+            assert produced.read() == should_be.read()
     
-test_ip_drawing_yed_data_dict_add_arp_and_fhrp()
+# test_ip_drawing_yed_data_dict_add_arp_and_fhrp()
