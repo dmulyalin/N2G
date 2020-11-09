@@ -612,3 +612,77 @@ interface Vlan223
     with open ("./Output/test_ip_drawing_yed_data_dict_nxos.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_nxos.graphml") as should_be:
             assert produced.read() == should_be.read()
+            
+def test_ip_drawing_yed_data_dict_huawei():
+    data = {"Huawei": ["""
+<hua_sw1>dis current-configuration interface
+#
+interface Vlanif140
+ ip binding vpn-instance VRF_MGMT
+ ip address 10.1.1.2 255.255.255.0
+ vrrp vrid 200 virtual-ip 10.1.1.1
+#
+interface Eth-Trunk5.123
+ vlan-type dot1q 123
+ description hua_sw2 BGP  peering
+ ip binding vpn-instance VRF_MGMT
+ ip address 10.0.0.1 255.255.255.252
+ ipv6 address FD00:1::1/126
+#
+interface Eth-Trunk5.200
+ vlan-type dot1q 200
+ description hua_sw3 OSPF  peering
+ ip address 192.168.2.2 255.255.255.252
+ 
+<hua_sw1>dis arp all
+10.1.1.2        a008-6fc1-1101        I         Vlanif140       VRF_MGMT
+10.1.1.1        a008-6fc1-1102   0    D         Vlanif140       VRF_MGMT
+10.1.1.3        a008-6fc1-1103   10   D/200     Vlanif140       VRF_MGMT
+10.1.1.9        a008-6fc1-1104   10   D/200     Vlanif140       VRF_MGMT
+10.0.0.2        a008-6fc1-1105   10   D/200     Eth-Trunk5.123  VRF_MGMT
+    """,
+    """
+<hua_sw2>dis current-configuration interface
+#
+interface Vlanif140
+ ip binding vpn-instance VRF_MGMT
+ ip address 10.1.1.3 255.255.255.0
+ vrrp vrid 200 virtual-ip 10.1.1.1
+#
+interface Eth-Trunk5.123
+ vlan-type dot1q 123
+ description hua_sw1 BGP  peering
+ ip binding vpn-instance VRF_MGMT
+ ip address 10.0.0.2 255.255.255.252
+ ipv6 address FD00:1::2/126
+    """,
+    """
+<hua_sw3>dis current-configuration interface
+#
+interface Vlanif200
+ ip binding vpn-instance VRF_CUST1
+ ip address 192.168.1.1 255.255.255.0
+#
+interface Eth-Trunk5.200
+ vlan-type dot1q 200
+ description hua_sw1 OSPF  peering
+ ip address 192.168.2.1 255.255.255.252
+ 
+<hua_sw3>dis arp
+192.168.1.1         a008-6fc1-1111       I      Vlanif200 
+192.168.1.10        a008-6fc1-1110   30  D/300  Vlanif200 
+    """]
+    }
+    config = {
+        "add_arp": True,
+        "add_fhrp": True
+    }
+    drawing = create_yed_diagram()
+    drawer = ip_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_huawei.graphml", folder="./Output/")
+    with open ("./Output/test_ip_drawing_yed_data_dict_huawei.graphml") as produced:
+        with open("./Output/should_be_test_ip_drawing_yed_data_dict_huawei.graphml") as should_be:
+            assert produced.read() == should_be.read()
+    
+# test_ip_drawing_yed_data_dict_huawei()

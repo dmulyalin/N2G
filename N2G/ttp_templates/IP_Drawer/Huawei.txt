@@ -1,6 +1,6 @@
 <doc>
 Template produces this dictionary:
-{'Cisco_IOS': {'switch_1': {'interfaces': {'SVI123': {'arp': [{'age': '-',
+{'Huawei': {'switch_1': {'interfaces': {'SVI123': {'arp': [{'age': '-',
                                                                'ip': '10.123.111.1',
                                                                'mac': 'd094.6643.1111',
                                                                'type': 'ARPA'}],
@@ -42,32 +42,33 @@ Template produces this dictionary:
                                                                             'subnet'}}}}}
 </doc>
 
-<template name="Cisco_IOS" results="per_template">
+<template name="Huawei" results="per_template">
 <vars>local_hostname="gethostname"</vars>
 
-<input>url = "./Cisco_IOS/"</input>
+<input>url = "./Huawei/"</input>
 
 <!-- Interfaces configuration group -->
 <group name="{{ local_hostname }}.interfaces.{{ interface }}">
 interface {{ interface | resuball("IfsNormalize") }}
  description {{ port_description | re(".+") }}
- vrf forwarding {{ vrf }}
- ip vrf forwarding {{ vrf }}
- ip access-group {{ ACL_IN }} in
- ip access-group {{ ACL_OUT }} out
+ ip binding vpn-instance {{ vrf }}
  <group name="ip_addresses*" chain="add_network()" method="table">
  ip address {{ ip | IP }} {{ netmask }}
- ip address {{ ip | IP }} {{ netmask }} secondary
+ ip address {{ ip | IP }} {{ netmask }} sub
+ ipv6 address {{ ip | IPV6 }}/{{ netmask }}
+ ipv6 address {{ ip | IPV6 }}/{{ netmask }} sub
  </group>
  <group name="fhrp*" method="table">
- standby {{ group | let("type", "HSRP") }}  {{ ip | IP }}
- vrrp {{ group | let("type", "VRRP") }} ip {{ ip | IP }}
+ vrrp vrid {{ group | let("type", "VRRP") }} virtual-ip {{ ip | IP }}
  </group>
 </group>
 
 <!-- ARP cache group -->
 <group name="{{ local_hostname }}.interfaces.{{ interface }}.arp*" method="table">
-Internet  {{ ip | IP }}     {{ age }}   {{ mac | MAC | mac_eui }}  {{ type }}   {{ interface | resuball("IfsNormalize") }}
+{{ ip | IP }}   {{ mac | MAC | mac_eui }}  {{ expire | re("\\d+") }}  {{ type | notdigit }}  {{ interface | resuball("IfsNormalize") }}   {{ vrf }}
+{{ ip | IP }}   {{ mac | MAC | mac_eui }}                             {{ type | notdigit }}  {{ interface | resuball("IfsNormalize") }}   {{ vrf }}
+{{ ip | IP }}   {{ mac | MAC | mac_eui }}  {{ expire | re("\\d+") }}  {{ type | notdigit }}  {{ interface | resuball("IfsNormalize") }}
+{{ ip | IP }}   {{ mac | MAC | mac_eui }}                             {{ type | notdigit }}  {{ interface | resuball("IfsNormalize") }}
 </group>
 
 </template>

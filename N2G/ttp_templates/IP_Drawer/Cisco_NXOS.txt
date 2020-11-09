@@ -72,8 +72,8 @@ interface {{ interface | resuball("IfsNormalize") }}
 
 <!-- ARP cache group -->
 <group name="{{ local_hostname }}.interfaces.{{ interface }}.arp*" method="table">
-{{ ip | IP }}    {{ age }}  {{ mac | MAC }}  {{ interface | resuball("IfsNormalize") }}
-{{ ip | IP }}    {{ age }}  {{ mac | MAC }}  {{ interface | resuball("IfsNormalize") }}  *
+{{ ip | IP }}    {{ age }}  {{ mac | MAC | mac_eui }}  {{ interface | resuball("IfsNormalize") }}
+{{ ip | IP }}    {{ age }}  {{ mac | MAC | mac_eui }}  {{ interface | resuball("IfsNormalize") }}  *
 </group>
 
 </template>

@@ -1,0 +1,312 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
+    
+    <key attr.name="Description" attr.type="string" for="graph" id="d0" />
+    <key for="port" id="d1" yfiles.type="portgraphics" />
+    <key for="port" id="d2" yfiles.type="portgeometry" />
+    <key for="port" id="d3" yfiles.type="portuserdata" />
+    <key attr.name="url" attr.type="string" for="node" id="d4" />
+    <key attr.name="description" attr.type="string" for="node" id="d5" />
+    <key for="node" id="d6" yfiles.type="nodegraphics" />
+    <key for="graphml" id="d7" yfiles.type="resources" />
+    <key attr.name="url" attr.type="string" for="edge" id="d8" />
+    <key attr.name="description" attr.type="string" for="edge" id="d9" />
+    <key for="edge" id="d10" yfiles.type="edgegraphics" />
+    <key attr.name="nmetadata" attr.type="string" for="node" id="d11">
+        <default />
+    </key>
+    <key attr.name="emetadata" attr.type="string" for="edge" id="d12">
+        <default />
+    </key>
+    <key attr.name="gmetadata" attr.type="string" for="graph" id="d13">
+        <default />
+    </key>
+    <graph edgedefault="directed" id="G">
+    
+    <node id="hua_sw1">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">hua_sw1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "hua_sw1"}</data></node><node id="10.1.1.0/24">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.1.1.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "10.1.1.0/24"}</data></node><node id="10.1.1.0/24:10.1.1.1">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.1.1.1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">VRRP VIP</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:hua_sw1:SVIif140": {
+        "expire": "0",
+        "ip": "10.1.1.1",
+        "mac": "a0:08:6f:c1:11:02",
+        "type": "D",
+        "vrf": "VRF_MGMT"
+    },
+    "FHRP:hua_sw1:SVIif140": {
+        "group": "200",
+        "ip": "10.1.1.1",
+        "type": "VRRP"
+    },
+    "FHRP:hua_sw2:SVIif140": {
+        "group": "200",
+        "ip": "10.1.1.1",
+        "type": "VRRP"
+    }
+}</data><data key="d11">{"id": "10.1.1.0/24:10.1.1.1"}</data></node><node id="10.1.1.0/24:10.1.1.9">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.1.1.9</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:hua_sw1:SVIif140": {
+        "expire": "10",
+        "ip": "10.1.1.9",
+        "mac": "a0:08:6f:c1:11:04",
+        "type": "D/200",
+        "vrf": "VRF_MGMT"
+    }
+}</data><data key="d11">{"id": "10.1.1.0/24:10.1.1.9"}</data></node><node id="fd00:1::/126">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fd00:1::/126</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "fd00:1::/126"}</data></node><node id="hua_sw2">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">hua_sw2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "hua_sw2"}</data></node><node id="hua_sw3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">hua_sw3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Device</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "hua_sw3"}</data></node><node id="192.168.1.0/24">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">192.168.1.0/24</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Subnet</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d11">{"id": "192.168.1.0/24"}</data></node><node id="192.168.1.0/24:192.168.1.10">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">192.168.1.10</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "ARP:hua_sw3:SVIif200": {
+        "expire": "30",
+        "ip": "192.168.1.10",
+        "mac": "a0:08:6f:c1:11:10",
+        "type": "D/300"
+    }
+}</data><data key="d11">{"id": "192.168.1.0/24:192.168.1.10"}</data></node><edge id="3e47574687cbd53cbe7d94640c1a2786" source="10.1.1.0/24" target="hua_sw1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.1.2/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "hua_sw1:SVIif140": {
+        "fhrp": [
+            {
+                "group": "200",
+                "ip": "10.1.1.1",
+                "type": "VRRP"
+            }
+        ],
+        "ip": "10.1.1.2",
+        "netmask": "24",
+        "network": "10.1.1.0/24",
+        "vrf": "VRF_MGMT"
+    }
+}</data><data key="d12">{"sid": "10.1.1.0/24", "tid": "hua_sw1", "id": "3e47574687cbd53cbe7d94640c1a2786"}</data></edge><edge id="3e071fedd67b41d345ef6cc48fc72cc1" source="10.1.1.0/24:10.1.1.1" target="10.1.1.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.1.1.0/24:10.1.1.1", "tid": "10.1.1.0/24", "id": "3e071fedd67b41d345ef6cc48fc72cc1"}</data></edge><edge id="f6913e9abe56fb295f84a3838e856b82" source="10.1.1.0/24:10.1.1.9" target="10.1.1.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "10.1.1.0/24:10.1.1.9", "tid": "10.1.1.0/24", "id": "f6913e9abe56fb295f84a3838e856b82"}</data></edge><edge id="79f0428343cf126d26997a23918c1864" source="fd00:1::/126" target="hua_sw1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">FD00:1::1/126<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "hua_sw1:LAG5.123": {
+        "ip": "FD00:1::1",
+        "netmask": "126",
+        "network": "fd00:1::/126",
+        "port_description": "hua_sw2 BGP  peering",
+        "vrf": "VRF_MGMT"
+    }
+}</data><data key="d12">{"sid": "fd00:1::/126", "tid": "hua_sw1", "id": "79f0428343cf126d26997a23918c1864"}</data></edge><edge id="6ee50cb545ebaea304dea4fc42c88008" source="10.1.1.0/24" target="hua_sw2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.1.3/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "hua_sw2:SVIif140": {
+        "fhrp": [
+            {
+                "group": "200",
+                "ip": "10.1.1.1",
+                "type": "VRRP"
+            }
+        ],
+        "ip": "10.1.1.3",
+        "netmask": "24",
+        "network": "10.1.1.0/24",
+        "vrf": "VRF_MGMT"
+    }
+}</data><data key="d12">{"sid": "10.1.1.0/24", "tid": "hua_sw2", "id": "6ee50cb545ebaea304dea4fc42c88008"}</data></edge><edge id="d59368f16bc1d96901e632edd1f52468" source="fd00:1::/126" target="hua_sw2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">FD00:1::2/126<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "hua_sw2:LAG5.123": {
+        "ip": "FD00:1::2",
+        "netmask": "126",
+        "network": "fd00:1::/126",
+        "port_description": "hua_sw1 BGP  peering",
+        "vrf": "VRF_MGMT"
+    }
+}</data><data key="d12">{"sid": "fd00:1::/126", "tid": "hua_sw2", "id": "d59368f16bc1d96901e632edd1f52468"}</data></edge><edge id="19e6a03053ac9e3c91ed42b50373a81d" source="192.168.1.0/24" target="hua_sw3">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">192.168.1.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "hua_sw3:SVIif200": {
+        "ip": "192.168.1.1",
+        "netmask": "24",
+        "network": "192.168.1.0/24",
+        "vrf": "VRF_CUST1"
+    }
+}</data><data key="d12">{"sid": "192.168.1.0/24", "tid": "hua_sw3", "id": "19e6a03053ac9e3c91ed42b50373a81d"}</data></edge><edge id="f3840ef158cc10d08a2852cc3c24fe47" source="192.168.1.0/24:192.168.1.10" target="192.168.1.0/24">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        </y:PolyLineEdge>
+      </data>
+    <data key="d12">{"sid": "192.168.1.0/24:192.168.1.10", "tid": "192.168.1.0/24", "id": "f3840ef158cc10d08a2852cc3c24fe47"}</data></edge><edge id="ffd30ecafc10b837efc5ec163c5ccdb7" source="hua_sw1" target="hua_sw2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.0.0.1/30<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.0.0.2/30<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "hua_sw1:LAG5.123": {
+        "ip": "10.0.0.1",
+        "netmask": "30",
+        "network": "10.0.0.0/30",
+        "port_description": "hua_sw2 BGP  peering",
+        "vrf": "VRF_MGMT"
+    },
+    "hua_sw2:LAG5.123": {
+        "ip": "10.0.0.2",
+        "netmask": "30",
+        "network": "10.0.0.0/30",
+        "port_description": "hua_sw1 BGP  peering",
+        "vrf": "VRF_MGMT"
+    }
+}</data><data key="d12">{"sid": "hua_sw1", "tid": "hua_sw2", "id": "ffd30ecafc10b837efc5ec163c5ccdb7"}</data></edge><edge id="50cd3d200de2e5e22e8cea2dad0b74d9" source="hua_sw1" target="hua_sw3">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">192.168.2.2/30<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">192.168.2.1/30<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "hua_sw1:LAG5.200": {
+        "ip": "192.168.2.2",
+        "netmask": "30",
+        "network": "192.168.2.0/30",
+        "port_description": "hua_sw3 OSPF  peering"
+    },
+    "hua_sw3:LAG5.200": {
+        "ip": "192.168.2.1",
+        "netmask": "30",
+        "network": "192.168.2.0/30",
+        "port_description": "hua_sw1 OSPF  peering"
+    }
+}</data><data key="d12">{"sid": "hua_sw1", "tid": "hua_sw3", "id": "50cd3d200de2e5e22e8cea2dad0b74d9"}</data></edge></graph>
+    <data key="d7">
+        <y:Resources>
+        </y:Resources>
+    </data>
+    </graphml>
