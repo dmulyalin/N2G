@@ -135,28 +135,8 @@ class ip_drawer:
         # form graph dictionary and add it to drawing
         self._update_drawing()
 
-    def _open_ttp_template(self, template_name):
-        path_to_n2g = os.path.dirname(__file__)
-        try:
-            if (
-                "_all_" not in self.config["platforms"]
-                and not template_name in self.config["platforms"]
-            ):
-                return False
-            path = "{}/ttp_templates/IP_Drawer/{}.txt".format(
-                path_to_n2g, template_name
-            )
-            with open(path, "r") as file:
-                return file.read()
-        except Exception as excptn:
-            log.error(
-                "Cannot find template for '{}' platform, error - '{}'".format(
-                    template_name, excptn
-                )
-            )
-            return False
-
     def _parse(self, data):
+        templates_path = "{}/ttp_templates/IP_Drawer/{}.txt"
         # process data dictionary
         if isinstance(data, dict):
             parser = ttp(vars=self.ttp_vars)
@@ -164,7 +144,8 @@ class ip_drawer:
                 add_network, scope="group", name="add_network", add_ttp=True
             )
             for platform_name, text_list in data.items():
-                ttp_template = self._open_ttp_template(platform_name)
+                ttp_template = N2G_utils.open_ttp_template(self.config, platform_name, templates_path)
+                print(ttp_template)
                 if not ttp_template:
                     continue
                 parser.add_template(template=ttp_template, template_name=platform_name)
@@ -180,7 +161,7 @@ class ip_drawer:
             with os.scandir(data) as dirs:
                 for entry in dirs:
                     if entry.is_dir():
-                        ttp_template = self._open_ttp_template(entry.name)
+                        ttp_template = N2G_utils.open_ttp_template(self.config, entry.name, templates_path)
                         if not ttp_template:
                             continue
                         parser.add_template(
@@ -194,21 +175,6 @@ class ip_drawer:
         parser.parse(one=True)
         self.parsed_data = parser.result(structure="dictionary")
         # pprint.pprint(self.parsed_data, width = 100)
-
-    def _make_hash_tuple(self, item):
-        target = (
-            item["target"]["id"] if isinstance(item["target"], dict) else item["target"]
-        )
-        return tuple(
-            sorted(
-                [
-                    item["source"],
-                    target,
-                    item.get("src_label", ""),
-                    item.get("trgt_label", ""),
-                ]
-            )
-        )
 
     def _form_base_graph_dict(self):
         interfaces_ip = {} # need this dict to skip ARP entries
@@ -330,7 +296,7 @@ class ip_drawer:
             for network, ips in interfaces_ip.items():
                 for ip in ips:
                     arp_node_id = "{}:{}".format(network, ip)
-                    link_hash = self._make_hash_tuple(
+                    link_hash = N2G_utils.make_hash_tuple(
                         {
                             "source": arp_node_id, 
                             "target": network
@@ -376,7 +342,7 @@ class ip_drawer:
                 )
 
     def _add_link(self, item, network=None):
-        link_hash = self._make_hash_tuple(item)
+        link_hash = N2G_utils.make_hash_tuple(item)
         if link_hash not in self.links_dict:
             self.links_dict[link_hash] = item
         # check if need to pre-process nodes_to_links_dict used by group_links
@@ -434,7 +400,7 @@ class ip_drawer:
                     description, sort_keys=True, indent=4, separators=(",", ": ")
                 )
                 grouped_link["label"] = "x{}".format(links_to_group_count)
-                grouped_link_hash = self._make_hash_tuple(grouped_link)
+                grouped_link_hash = N2G_utils.make_hash_tuple(grouped_link)
                 self.links_dict[grouped_link_hash] = grouped_link
         del self.nodes_to_links_dict
 

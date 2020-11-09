@@ -99,8 +99,8 @@ if __name__ == "__main__":
     
 import logging
 import pprint
-import os
 import json
+import os
 from ttp import ttp
 from N2G import N2G_utils
 
@@ -212,33 +212,13 @@ class layer_2_drawer:
         # form graph dictionary and add it to drawing
         self._update_drawing()
 
-    def _open_ttp_template(self, template_name):
-        path_to_n2g = os.path.dirname(__file__)
-        try:
-            if (
-                "_all_" not in self.config["platforms"]
-                and not template_name in self.config["platforms"]
-            ):
-                return False
-            path = "{}/ttp_templates/L2_Drawer/{}.txt".format(
-                path_to_n2g, template_name
-            )
-            with open(path, "r") as file:
-                return file.read()
-        except Exception as excptn:
-            log.error(
-                "Cannot find template for '{}' platform, error - '{}'".format(
-                    template_name, excptn
-                )
-            )
-            return False
-
     def _parse(self, data):
+        templates_path = "{}/ttp_templates/L2_Drawer/{}.txt"
         # process data dictionary
         if isinstance(data, dict):
             parser = ttp(vars=self.ttp_vars)
             for platform_name, text_list in data.items():
-                ttp_template = self._open_ttp_template(platform_name)
+                ttp_template = N2G_utils.open_ttp_template(self.config, platform_name, templates_path)
                 if not ttp_template:
                     continue
                 parser.add_template(template=ttp_template, template_name=platform_name)
@@ -251,7 +231,7 @@ class layer_2_drawer:
             with os.scandir(data) as dirs:
                 for entry in dirs:
                     if entry.is_dir():
-                        ttp_template = self._open_ttp_template(entry.name)
+                        ttp_template = N2G_utils.open_ttp_template(self.config, entry.name, templates_path)
                         if not ttp_template:
                             continue
                         parser.add_template(
@@ -265,21 +245,6 @@ class layer_2_drawer:
         parser.parse(one=True)
         self.parsed_data = parser.result(structure="dictionary")
         # pprint.pprint(self.parsed_data, width = 100)
-
-    def _make_hash_tuple(self, item):
-        target = (
-            item["target"]["id"] if isinstance(item["target"], dict) else item["target"]
-        )
-        return tuple(
-            sorted(
-                [
-                    item["source"],
-                    target,
-                    item.get("src_label", ""),
-                    item.get("trgt_label", ""),
-                ]
-            )
-        )
 
     def _form_base_graph_dict(self):
         for platform, hosts in self.parsed_data.items():
@@ -325,7 +290,7 @@ class layer_2_drawer:
             "LAG" in item.get("trgt_label", "")       
         ):
             return
-        link_hash = self._make_hash_tuple(item)
+        link_hash = N2G_utils.make_hash_tuple(item)
         if link_hash not in self.links_dict:
             self.links_dict[link_hash] = {
                 "source": item["source"],
@@ -407,7 +372,7 @@ class layer_2_drawer:
             )
         # add lag link to links dictionary and remove members from links_dict
         if lag_link:
-            lag_link_hash = self._make_hash_tuple(lag_link)
+            lag_link_hash = N2G_utils.make_hash_tuple(lag_link)
             src_member_intf_name = "{}:{}".format(src, src_intf_name)
             tgt_member_intf_name = "{}:{}".format(tgt, tgt_intf_name)
             member_link = {src_member_intf_name: tgt_member_intf_name}
@@ -424,7 +389,7 @@ class layer_2_drawer:
                         "lag_members"
                     ].update(member_link)
             # remove member interfaces from links dictionary
-            members_hash = self._make_hash_tuple(item)
+            members_hash = N2G_utils.make_hash_tuple(item)
             _ = self.links_dict.pop(members_hash, None)
             # check if need to combine peers, add lag to combine_peers_dict
             if self.config.get("combine_peers"):
@@ -499,7 +464,7 @@ class layer_2_drawer:
                     description, sort_keys=True, indent=4, separators=(",", ": ")
                 )
                 grouped_link["label"] = "x{}".format(links_to_group_count)
-                grouped_link_hash = self._make_hash_tuple(grouped_link)
+                grouped_link_hash = N2G_utils.make_hash_tuple(grouped_link)
                 self.links_dict[grouped_link_hash] = grouped_link
         del self.nodes_to_links_dict
 
@@ -581,7 +546,7 @@ class layer_2_drawer:
                             indent=4,
                             separators=(",", ": "),
                         )
-                    link_hash = self._make_hash_tuple(link)
+                    link_hash = N2G_utils.make_hash_tuple(link)
                     if link_hash not in self.links_dict:
                         self.links_dict[link_hash] = link
                     else:
@@ -656,7 +621,7 @@ class layer_2_drawer:
                 indent=4,
                 separators=(",", ": "),
             )
-            link_to_l2_node_hash = self._make_hash_tuple(link_to_l2_node)
+            link_to_l2_node_hash = N2G_utils.make_hash_tuple(link_to_l2_node)
             self.links_dict[link_to_l2_node_hash] = link_to_l2_node
             # connect CDP/LLDP peers to L2 node
             for link_hash in links_hashes:
@@ -675,7 +640,7 @@ class layer_2_drawer:
                         )
                     # form new link
                     old_link["source"] = l2_node_id
-                    new_link_hash = self._make_hash_tuple(old_link)
+                    new_link_hash = N2G_utils.make_hash_tuple(old_link)
                     self.links_dict[new_link_hash] = old_link
                 # need to remove this L2 node and links to it as it
                 # turned out links are part of LAG, as a result node

@@ -542,3 +542,73 @@ Internet  10.1.234.99             5   00ac.0007.001a  ARPA   TenGigabitEthernet1
             assert produced.read() == should_be.read()
     
 # test_ip_drawing_yed_data_dict_add_arp_and_fhrp()
+
+def test_ip_drawing_yed_data_dict_nxos():
+    data = {"Cisco_NXOS": ["""
+switch_1# show run | sec interface
+interface Vlan133
+  description OOB
+  vrf member MGMT_OOB
+  ip address 10.133.137.2/24
+  hsrp 133
+    preempt 
+    ip 10.133.137.1
+!
+interface Vlan134
+  description OOB-2
+  vrf member MGMT_OOB
+  ip address 10.134.137.2/24
+  vrrpv3 1334 address-family ipv4
+    address 10.134.137.1 primary
+!
+interface Vlan222
+  description PTP OSPF Routing pat to  siwtch2
+  ip address 10.222.137.1/30
+!
+interface Vlan223
+  description PTP OSPF Routing pat to siwtch3
+  ip address 10.223.137.1/30
+ 
+switch_1# show ip arp vrf all 
+10.133.137.2    -  d094.7890.1111  Vlan133
+10.133.137.1    -  d094.7890.1111  Vlan133
+10.133.137.30   -  d094.7890.1234  Vlan133
+10.133.137.91   -  d094.7890.4321  Vlan133
+10.134.137.1    -  d094.7890.1111  Vlan134
+10.134.137.2    -  d094.7890.1111  Vlan134
+10.134.137.3   90  d094.7890.2222  Vlan134
+10.134.137.31  91  d094.7890.beef  Vlan134
+10.134.137.81  81  d094.7890.feeb  Vlan134
+10.222.137.2   21  d094.7890.2222  Vlan222
+    """,
+    """
+switch_2# show run | sec interface
+interface Vlan134
+  description OOB-2
+  vrf member MGMT_OOB
+  ip address 10.134.137.3/24
+  vrrpv3 1334 address-family ipv4
+    address 10.134.137.1 primary
+!
+interface Vlan222
+  description PTP OSPF Routing pat to  siwtch1
+  ip address 10.222.137.2/30
+    """,
+    """
+switch_3# show run | sec interface
+interface Vlan223
+  description PTP OSPF Routing pat to siwtch1
+  ip address 10.223.137.2/30
+    """]
+    }
+    config = {
+        "add_arp": True,
+        "add_fhrp": True
+    }
+    drawing = create_yed_diagram()
+    drawer = ip_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_nxos.graphml", folder="./Output/")
+    with open ("./Output/test_ip_drawing_yed_data_dict_nxos.graphml") as produced:
+        with open("./Output/should_be_test_ip_drawing_yed_data_dict_nxos.graphml") as should_be:
+            assert produced.read() == should_be.read()
