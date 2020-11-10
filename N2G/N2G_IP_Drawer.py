@@ -5,18 +5,18 @@ addresses.
 **Support matrix**
 
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-|  Platform     | IP/Subnets |   ARP     | interface | interface | links     |   node    | FHRP      |
-|  Name         |            |           | config    | state     | grouping  |   facts   | Protocols |
+|  Platform     | IP/Subnets |   ARP     | interface | interface | links     | FHRP      | Reverse   |
+|  Name         |            |           | config    | state     | grouping  | Protocols | DNS       |
 +===============+============+===========+===========+===========+===========+===========+===========+
-| Cisco_IOS     |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
+| Cisco_IOS     |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_IOSXR   |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+| Cisco_IOSXR   |    YES     |    ---    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_NXOS    |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+| Cisco_NXOS    |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Huawei        |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+| Huawei        |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Juniper       |    ---     |    ---    |    ---    |    ---    |    ---    |    ---    |    ---    |
+| Fortigate     |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
 
 """
@@ -73,6 +73,7 @@ class ip_drawer:
             "label_interface": False,
             "label_vrf": False,
             "collapse_ptp": True,
+            "add_fhrp": False,
             "platforms": [
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
@@ -145,7 +146,6 @@ class ip_drawer:
             )
             for platform_name, text_list in data.items():
                 ttp_template = N2G_utils.open_ttp_template(self.config, platform_name, templates_path)
-                print(ttp_template)
                 if not ttp_template:
                     continue
                 parser.add_template(template=ttp_template, template_name=platform_name)

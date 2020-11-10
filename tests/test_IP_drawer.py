@@ -686,3 +686,63 @@ interface Eth-Trunk5.200
             assert produced.read() == should_be.read()
     
 # test_ip_drawing_yed_data_dict_huawei()
+
+def test_ip_drawing_yed_data_dict_fortigate():
+    data = {"Fortigate": ["""
+forti-fw-01 (Corporate) # get system config 
+config system interface
+    edit "vms_vlan"
+        set vdom "root"
+        set ip 1.1.1.1 255.255.255.0
+        set allowaccess ping https ssh snmp
+        set description "VMs data vlan"
+        set alias "vms_vlan"
+        config secondaryip
+            edit 1
+                set ip 10.38.1.152 255.255.255.0
+                set allowaccess ping
+            next
+        end
+    next
+    edit "NMS_mgmt"
+        set vdom "root"
+        set ip 10.0.0.1 255.255.255.0
+        set allowaccess ping https ssh snmp
+        set description "NMS management access"
+        set alias "NMS_mgmt"
+    next
+    edit "uplink_1"
+        set vdom "root"
+        set ip 10.1.0.1 255.255.255.252
+        set description "bgp to upstream FW"
+    next
+	
+forti-fw-01 (Corporate) # get system arp 
+Address           Age(min)   Hardware Addr      Interface
+1.1.1.10          0          22:31:5e:00:34:d1  vms_vlan
+10.0.0.10         0          22:31:5e:00:34:c2  NMS_mgmt
+10.0.0.31         0          22:31:5e:00:34:31  NMS_mgmt
+	""",
+	"""
+forti-fw-02 (Corporate) # get system config 
+config system interface
+    edit "fw_1"
+        set vdom "root"
+        set ip 10.1.0.2 255.255.255.252
+        set description "bgp to forti-fw-01"
+    next	
+	"""]
+	}
+    config = {
+        "add_arp": True
+    }
+    drawing = create_yed_diagram()
+    drawer = ip_drawer(drawing, config)
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_fortigate.graphml", folder="./Output/")
+    with open ("./Output/test_ip_drawing_yed_data_dict_fortigate.graphml") as produced:
+        with open("./Output/should_be_test_ip_drawing_yed_data_dict_fortigate.graphml") as should_be:
+            assert produced.read() == should_be.read()
+
+# test_ip_drawing_yed_data_dict_fortigate()
+	
