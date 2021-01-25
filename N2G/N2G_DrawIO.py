@@ -255,6 +255,9 @@ class drawio_diagram:
         """
         node_data = {}
         node = self.current_root.find("./object[@id='{}']".format(id))
+        mxCell_elem = None
+        if not node:
+            node = self.current_root.find("./mxCell[@id='{}']".format(id))
         # update data and url attributes
         node_data.update(data)
         node_data.update(kwargs)
@@ -263,7 +266,11 @@ class drawio_diagram:
         if not label is None:
             node.attrib["label"] = label
         # update style
+        
         mxCell_elem = node.find("./mxCell")
+        if not mxCell_elem:
+            mxCell_elem = node
+
         if os.path.isfile(style[:5000]):
             with open(style, "r") as style_file:
                 mxCell_elem.attrib["style"] = style_file.read()
