@@ -656,9 +656,12 @@ class drawio_diagram:
             self.nodes_ids.setdefault(diagram_elem.attrib["id"], [])
             self.edges_ids.setdefault(diagram_elem.attrib["id"], [])
             # iterate over mxcells to extract nodes and edges
-            for object in diagram_elem.findall("./mxGraphModel/root/object"):
-                object_id = object.attrib["id"]
-                mxCell = object.find("./mxCell")
+            for object in diagram_elem.findall("./mxGraphModel/root/*"):
+                if object.tag.lower() == 'mxcell':
+                    mxCell = object
+                else:
+                    mxCell = object.find("./mxCell")
+                object_id = object.attrib.get("id")
                 # check if this is the edge
                 if "source" in mxCell.attrib and "target" in mxCell.attrib:
                     self.edges_ids[diagram_elem.attrib["id"]].append(object_id)
