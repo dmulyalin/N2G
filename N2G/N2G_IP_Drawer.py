@@ -64,6 +64,11 @@ class ip_drawer:
     * ``drawing`` - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
     * ``config`` - dictionary of configuration options to define processing behavior
     * ``ttp_vars`` - dictionary to use for TTP parser object template variables
+    
+    **config options**
+    
+    * ``blbl`` - integer, length of interface description to use as bottom label for subnet nodes, if False or 0, bottom label will not be set
+    * ``lbl_next_to_subnet`` - boolean, put link port:vrf:ip label next to subnet node
     """
 
     def __init__(self, drawing, config={}, ttp_vars=None):
@@ -74,6 +79,8 @@ class ip_drawer:
             "label_vrf": False,
             "collapse_ptp": True,
             "add_fhrp": False,
+            "blbl": 0,
+            "lbl_next_to_subnet": False,
             "platforms": [
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
@@ -189,6 +196,12 @@ class ip_drawer:
                             interface_networks.append(network)
                             interfaces_ip.setdefault(network, []).append(ip["ip"])
                         network_node = {"id": network, "top_label": "Subnet"}
+                        # add bottom lable to node
+                        if interface_data.get("port_description") and self.config.get("blbl"):
+                            if len(interface_data["port_description"]) > self.config["blbl"]:
+                                network_node["bottom_label"] = "{}..".format(interface_data["port_description"][:self.config["blbl"]])
+                            else:
+                                network_node["bottom_label"] = "{}".format(interface_data["port_description"])
                         link_description_data = {
                                 k: v
                                 for k, v in interface_data.items()
@@ -214,14 +227,17 @@ class ip_drawer:
                                 "vrf", "global"
                             )
                         else:
-                            trgt_label = "{}/{}".format(ip["ip"], ip["netmask"])
+                            link_label = "{}/{}".format(ip["ip"], ip["netmask"])
                             if self.config["label_vrf"]:
-                                trgt_label = "{}:{}".format(
-                                    interface_data.get("vrf", "global"), trgt_label
+                                link_label = "{}:{}".format(
+                                    interface_data.get("vrf", "global"), link_label
                                 )
                             if self.config["label_interface"]:
-                                trgt_label = "{}:{}".format(interface, trgt_label)
-                            link_dict["trgt_label"] = trgt_label
+                                link_label = "{}:{}".format(interface, link_label)
+                            if self.config.get("lbl_next_to_subnet"):
+                                link_dict["src_label"] = link_label
+                            else:
+                                link_dict["trgt_label"] = link_label
                         # add new node and link to graph
                         self._add_node(network_node)
                         self._add_link(link_dict, network)
@@ -431,8 +447,8 @@ class ip_drawer:
             link_dict = {
                 "source": link_1["target"],
                 "target": link_2["target"],
-                "src_label": link_1["trgt_label"],
-                "trgt_label": link_2["trgt_label"],
+                "src_label": link_1["trgt_label"] if link_1.get("trgt_label") else link_1["src_label"],
+                "trgt_label": link_2["trgt_label"] if link_2.get("trgt_label") else link_2["src_label"],
                 "description": json.dumps(
                     description,
                     sort_keys=True,
