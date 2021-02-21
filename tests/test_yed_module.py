@@ -8,7 +8,7 @@ def test_1_add_elements_one_by_one():
     ###########################################
     # Test adding elements one by one
     ###########################################
-    with open("./yed.test_1_add_elements.graphml", "r") as f:
+    with open("./Output/should_be_yed.test_1_add_elements.graphml", "r") as f:
         expected_output = f.read()
     yed_diagram = create_yed_diagram()
     yed_diagram.add_node('a', top_label = 'top', bottom_label = 'bot')
@@ -31,7 +31,7 @@ def test_2_from_dict():
     ###########################################
     # Test from dict method
     ###########################################
-    with open("./yed.test_2_from_dict.graphml", "r") as f:
+    with open("./Output/should_be_yed.test_2_from_dict.graphml", "r") as f:
         expected_output = f.read()    
     yed_diagram = create_yed_diagram()
     sample_graph={
@@ -56,7 +56,7 @@ def test_3_graph_compare():
     ###########################################
     # Test graph compare
     ###########################################  
-    with open("./yed.test_3_graph_compare.graphml", "r") as f:
+    with open("./Output/should_be_yed.test_3_graph_compare.graphml", "r") as f:
         expected_output = f.read()  
     yed_diagram = create_yed_diagram()
     compare_graph = {
@@ -72,7 +72,7 @@ def test_3_graph_compare():
         {'source': 'e', 'src_label': 'Gig0/11', 'label': 'ed', 'target': 'b', 'trgt_label': 'Gig0/8'},
         {'source': 'f', 'src_label': 'Gig0/21', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/18'}
     ]}
-    yed_diagram.from_file("./test_load.graphml")
+    yed_diagram.from_file("./Data/test_load.graphml")
     yed_diagram.compare(compare_graph)
     ret = yed_diagram.dump_xml()
     assert ret == expected_output
@@ -81,7 +81,7 @@ def test_4_dups_handling():
     ###########################################
     # Test graph compare
     ###########################################  
-    with open("./yed.test_4_dups_handling.graphml", "r") as f:
+    with open("./Output/should_be_yed.test_4_dups_handling.graphml", "r") as f:
         expected_output = f.read()  
     sample_graph={
     'nodes': [
@@ -97,7 +97,7 @@ def test_4_dups_handling():
         {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'} # new link
     ]}
     yed_diagram = create_yed_diagram()
-    yed_diagram.from_file("./test_load.graphml")
+    yed_diagram.from_file("./Data/test_load.graphml")
     yed_diagram.add_node(id = 'e', label = 'R101', top_label = 'top', bottom_label = 'bot', description='some node description') 
     yed_diagram.add_link('e', 'c', label="some blabla") # new link
     yed_diagram.add_link('a', 'd')
@@ -109,10 +109,10 @@ def test_5_delete_nodes():
     ###########################################
     # Test delete_node method
     ###########################################  
-    with open("./yed.test_5_delete_nodes.graphml", "r") as f:
+    with open("./Output/should_be_yed.test_5_delete_nodes.graphml", "r") as f:
         expected_output = f.read() 
     yed_diagram = create_yed_diagram()
-    yed_diagram.from_file("./test_load.graphml")
+    yed_diagram.from_file("./Data/test_load.graphml")
     yed_diagram.add_node(id="bb")
     yed_diagram.add_node(id="cc")
     yed_diagram.delete_node(id="e", ids=["a", "cc"])
@@ -123,10 +123,10 @@ def test_6_delete_links():
     ###########################################
     # Test delete_link method
     ###########################################
-    with open("./yed.test_6_delete_links.graphml", "r") as f:
+    with open("./Output/should_be_yed.test_6_delete_links.graphml", "r") as f:
         expected_output = f.read() 
     yed_diagram = create_yed_diagram()
-    yed_diagram.from_file("./test_load.graphml")
+    yed_diagram.from_file("./Data/test_load.graphml")
     yed_diagram.add_node(id="bb")
     yed_diagram.add_node(id="cc")
     yed_diagram.add_node(id="dd")
@@ -143,7 +143,7 @@ def test_7_from_list_and_update_and_dups():
     # edge update method and node_duplicates update 
     # behavior
     ###########################################
-    with open("./yed.test_7_from_list_and_update_and_dups.graphml", "r") as f:
+    with open("./Output/should_be_yed.test_7_from_list_and_update_and_dups.graphml", "r") as f:
         expected_output = f.read() 
     yed_diagram = create_yed_diagram()
     sample_list_graph = [
@@ -175,7 +175,7 @@ def test8_test_from_csv():
     ###########################################
     # Test graph load from csv 
     ###########################################
-    with open("./yed.test8_test_from_csv.graphml", "r") as f:
+    with open("./Output/should_be_yed.test8_test_from_csv.graphml", "r") as f:
         expected_output = f.read() 
     yed_diagram = create_yed_diagram()
     csv_links_data = """"source","src_label","label","target","trgt_label","description"
@@ -201,7 +201,7 @@ def test9_test_from_list_with_update():
     """
     Test that data2 will update switch-1 with top label
     """
-    with open("./yed.test9_test_from_list_with_update.graphml", "r") as f:
+    with open("./Output/should_be_yed.test9_test_from_list_with_update.graphml", "r") as f:
         expected_output = f.read() 
     yed_diagram = create_yed_diagram(node_duplicates="update")
     data1 = [

@@ -4,7 +4,7 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
-from N2G.N2G_L2_Drawer import layer_2_drawer
+from N2G import layer_2_drawer
 
 def test_cdp_drawing_yed_data_dict():
     data = {"Cisco_IOS": ["""

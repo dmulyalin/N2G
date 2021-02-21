@@ -19,11 +19,17 @@ and folder options.
 
     Parsing order is: CDP/LLDP (L2) => ...
     
-    -d,  --data          OS path to folder with data files subfolders
-    -f,  --folder        Output folder location, default ./Output/
-    -fn, --filename      Output filename, default file name based on current time
-    -m,  --module        Module to use - yed or drawio
-    
+    -d,   --data         OS path to data folder with files or file
+    -of,  --out-folder   Folder where to save result, default ./Output/
+    -fn,  --filename     Results filename, by default filename based on current time
+    -m,   --module       Module to use - yed or drawio
+							     
+	XLSX data adapter            
+	-nt,     --node_tabs           Comma separate list of tabs with nodes data
+	-lt,     --link_tabs           Comma separate list of tabs with links data
+	-nm,     --node-headers-map    JSON dictionary structure for node headers translation           
+	-lm,     --link-headers-map    JSON dictionary structure for link headers translation
+	
     CDP and LLDP L2 drawer options:
     -L2                 Parse CDP and LLDP data
     -L2-add-lag         Add LAG/M-LAG information and delete member links
@@ -48,10 +54,10 @@ if __name__ == "__main__":
     import sys
     sys.path.insert(0, '.')
 
-from N2G.N2G_DrawIO import drawio_diagram as create_drawio_diagram
-from N2G.N2G_yEd import yed_diagram as create_yed_diagram
-from N2G.N2G_L2_Drawer import layer_2_drawer
-from N2G.N2G_IP_Drawer import ip_drawer
+from N2G import drawio_diagram as create_drawio_diagram
+from N2G import yed_diagram as create_yed_diagram
+from N2G import layer_2_drawer
+from N2G import ip_drawer
 
 __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
@@ -59,10 +65,16 @@ ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
 cli_help = """
 Parsing order is: CDP/LLDP (L2) => ...
 
--d,  --data          OS path to folder with data files subfolders
--f,  --folder        Output folder location, default ./Output/
--fn, --filename      Output filename, default file name based on current time
--m,  --module        Module to use - yed or drawio
+-d,   --data         OS path to data folder with files or file
+-of,  --out-folder   Folder where to save result, default ./Output/
+-fn,  --filename     Results filename, by default filename based on current time
+-m,   --module       Module to use - yed or drawio
+						     
+XLSX data adapter. -d should point to ".xlsx" spreadsheet file.      
+-nt,     --node_tabs           Comma separate list of tabs with nodes data
+-lt,     --link_tabs           Comma separate list of tabs with links data
+-nm,     --node-headers-map    JSON dictionary structure for node headers translation           
+-lm,     --link-headers-map    JSON dictionary structure for link headers translation
 
 CDP and LLDP L2 drawer options:
 -L2                 Parse CDP and LLDP data
@@ -102,10 +114,10 @@ def cli_tool():
         help=argparse.SUPPRESS,
     )
     run_options.add_argument(
-        "-f",
-        "--folder",
+        "-of",
+        "--out-folder",
         action="store",
-        dest="FOLDER",
+        dest="OUT_FOLDER",
         default="./Output/",
         type=str,
         help=argparse.SUPPRESS,
@@ -219,7 +231,7 @@ def cli_tool():
 
     # general arguments
     DATA = args.DATA  # string, OS path to data files to process
-    FOLDER = args.FOLDER  # OS path to folder to save results into
+    OUT_FOLDER = args.OUT_FOLDER  # OS path to folder to save results into
     FILENAME = args.FILENAME  # output filename
     MODULE = args.MODULE
 
@@ -244,8 +256,8 @@ def cli_tool():
     elif not FILENAME.endswith(ext):
         FILENAME = "{}.{}".format(FILENAME, ext)
 
-    if not os.path.exists(FOLDER):
-        os.mkdir(FOLDER)
+    if not os.path.exists(OUT_FOLDER):
+        os.mkdir(OUT_FOLDER)
 
     if MODULE == "yed":
         drawing = create_yed_diagram()
@@ -277,7 +289,7 @@ def cli_tool():
         drawer.work(DATA)
     
     # save results in file    
-    drawing.dump_file(filename=FILENAME, folder=FOLDER)
+    drawing.dump_file(filename=FILENAME, folder=OUT_FOLDER)
 
 if __name__ == "__main__":
     cli_tool()

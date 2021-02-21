@@ -24,7 +24,7 @@ def test_1_add_elements_one_by_one():
     v3d_drawing.add_link("node-6", "node-1", label="bla6", data={"cd": 123, "ef": 456})
     v3d_drawing.add_node(id="node-25")
     v3d_drawing.add_node(id="node-2", label="node-2 same id is on page 1")
-    v3d_drawing.run()
+    # v3d_drawing.run()
     result = v3d_drawing.dump_dict()
     pprint.pprint(result)
     assert result == {'links': [{'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c',
@@ -73,4 +73,4 @@ def test_1_add_elements_one_by_one():
                                 {'id': 'node-44', 'label': 'node-44'},
                                 {'id': 'node-25', 'label': 'node-25'}]}
     
-test_1_add_elements_one_by_one()
+# test_1_add_elements_one_by_one()

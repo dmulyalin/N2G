@@ -4,7 +4,7 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
-from N2G.N2G_IP_Drawer import ip_drawer
+from N2G import ip_drawer
 
 def test_ip_drawing_yed_data_dict_base():
     data = {"Cisco_IOS": ["""

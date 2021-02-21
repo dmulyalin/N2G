@@ -1,0 +1,73 @@
+<mxfile compressed="false" type="device">
+    <diagram id="Page-1" name="Page-1">
+      <mxGraphModel arrows="1" connect="1" dx="1360" dy="864" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="1169" pageScale="1" pageWidth="827" shadow="1" tooltips="1">
+        <root>
+          <mxCell id="0" />   
+          <mxCell id="1" parent="0" />
+        <object bottom_label="core" description="Core Router" id="r1" label="r1" pic="" top_label="1.1.1.1">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="492" y="809" />
+      </mxCell>
+    </object><object bottom_label="core" description="Core Router" id="r2" label="r2" pic="" top_label="2.2.2.2">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="249" y="300" />
+      </mxCell>
+    </object><object bottom_label="edge" description="Edge Router" id="r3" label="r3" pic="" top_label="3.3.3.3">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="296" y="609" />
+      </mxCell>
+    </object><object bottom_label="edge" description="Edge Router" id="r4" label="r4" pic="" top_label="4.4.4.4">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="514" y="355" />
+      </mxCell>
+    </object><mxCell connectable="0" id="4c783d026b64f7f34abadd5be66e427d-src" parent="4c783d026b64f7f34abadd5be66e427d" style="labelBackgroundColor=#ffffff;;" value="Gi1/1" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="4c783d026b64f7f34abadd5be66e427d-trgt" parent="4c783d026b64f7f34abadd5be66e427d" style="labelBackgroundColor=#ffffff;;" value="Gi3/4" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object description="DF link between R1 and R2" id="4c783d026b64f7f34abadd5be66e427d" label="DF-10Km" source="r1" src_label="Gi1/1" target="r2" trgt_label="Gi3/4">
+      <mxCell edge="1" parent="1" source="r1" style="endArrow=none;" target="r2">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><mxCell connectable="0" id="e6f937d44e23fd838cb4d793ac7ec326-src" parent="e6f937d44e23fd838cb4d793ac7ec326" style="labelBackgroundColor=#ffffff;;" value="10GE2/1/1" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="e6f937d44e23fd838cb4d793ac7ec326-trgt" parent="e6f937d44e23fd838cb4d793ac7ec326" style="labelBackgroundColor=#ffffff;;" value="Ten1/1" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object description="DF link between R3 and R2" id="e6f937d44e23fd838cb4d793ac7ec326" label="DF-32Km" source="r3" src_label="10GE2/1/1" target="r2" trgt_label="Ten1/1">
+      <mxCell edge="1" parent="1" source="r3" style="endArrow=none;" target="r2">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><mxCell connectable="0" id="fb091eb9eb3328d084184682b15173eb-src" parent="fb091eb9eb3328d084184682b15173eb" style="labelBackgroundColor=#ffffff;;" value="1.0.0.1" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="fb091eb9eb3328d084184682b15173eb-trgt" parent="fb091eb9eb3328d084184682b15173eb" style="labelBackgroundColor=#ffffff;;" value="1.0.0.2" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object description="L3 path" id="fb091eb9eb3328d084184682b15173eb" label="L3 OSPF" source="r1" src_label="1.0.0.1" target="r2" trgt_label="1.0.0.2">
+      <mxCell edge="1" parent="1" source="r1" style="endArrow=none;" target="r2">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><mxCell connectable="0" id="ad02300af0dbdc296d1753fec8337e97-src" parent="ad02300af0dbdc296d1753fec8337e97" style="labelBackgroundColor=#ffffff;;" value="1.0.0.3" vertex="1">
+      <mxGeometry as="geometry" relative="1" x="-0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell connectable="0" id="ad02300af0dbdc296d1753fec8337e97-trgt" parent="ad02300af0dbdc296d1753fec8337e97" style="labelBackgroundColor=#ffffff;;" value="1.0.0.4" vertex="1">
+      <mxGeometry as="geometry" relative="-1" x="0.5">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object description="L3 path" id="ad02300af0dbdc296d1753fec8337e97" label="L3 OSPF" source="r3" src_label="1.0.0.3" target="r4" trgt_label="1.0.0.4">
+      <mxCell edge="1" parent="1" source="r3" style="endArrow=none;" target="r4">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object></root>
+      </mxGraphModel>
+    </diagram></mxfile>

@@ -123,7 +123,7 @@ def test_5_from_file_and_dups():
             {"source": "node-4", "target": "node-3", "label": "bla4"}        ]
     }
     drawio_drawing = create_drawio_diagram()
-    drawio_drawing.from_file("./test_load.drawio")
+    drawio_drawing.from_file("./Data/test_load.drawio")
     drawio_drawing.from_dict(data, diagram_name="Page-1")   
     drawio_drawing.add_node(id="node-55")
     drawio_drawing.add_node(id="node-66") # new node
@@ -141,7 +141,7 @@ def test_6_nodes_styles():
     ########################################### 
     building_style="shape=mxgraph.cisco.buildings.generic_building;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;"
     drawio_drawing = create_drawio_diagram()
-    drawio_drawing.from_file("./test_load.drawio")
+    drawio_drawing.from_file("./Data/test_load.drawio")
     drawio_drawing.add_diagram("Page-1")
     drawio_drawing.add_node(id="Router-1", style="./Pics/router_1.txt", width=78, height=53)
     drawio_drawing.add_node(id="Router-2", style="./Pics/router_1.txt", width=78, height=53)
@@ -165,7 +165,7 @@ def test_7_node_update():
     ###########################################
     qsfp_router_style="shape=mxgraph.cisco.misc.asr_1000_series;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;"
     drawio_drawing = create_drawio_diagram()
-    drawio_drawing.from_file("./test_load.drawio")
+    drawio_drawing.from_file("./Data/test_load.drawio")
     drawio_drawing.update_node(id="node-2", label="node-2 Updated label")
     drawio_drawing.update_node(id="node-3", style=qsfp_router_style, width=88, height=86, label="node_qfp")
     drawio_drawing.update_node(id="node-1", data={"k1": "v1", "k2": "v2"}, url="http://ya.ru")     
@@ -180,7 +180,7 @@ def test_8_link_update():
     ###########################################
     new_link_style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;"
     drawio_drawing = create_drawio_diagram()
-    drawio_drawing.from_file("./test_load.drawio")
+    drawio_drawing.from_file("./Data/test_load.drawio")
     drawio_drawing.update_link(source="node-1", target="node-2", label="bla1", new_label="edge new label", style=new_link_style, data={"a": "b"}, url="http://ya.ru")
     drawio_drawing.update_link(source="node-1", target="node-3", label="bla3", style=new_link_style)
     drawio_drawing.dump_file(filename="test_8_link_update.drawio", folder="./Output/") 
@@ -237,7 +237,7 @@ def test_10_node_delete():
     # Test node delte
     ###########################################
     drawio_drawing = create_drawio_diagram()
-    drawio_drawing.from_file("./test_load.drawio")
+    drawio_drawing.from_file("./Data/test_load.drawio")
     drawio_drawing.delete_node(id="node-55", ids=["node-2"])
     drawio_drawing.dump_file(filename="test_10_node_delete.drawio", folder="./Output/") 
     with open ("./Output/test_10_node_delete.drawio") as produced:
@@ -249,7 +249,7 @@ def test_11_link_delete():
     # Test node delete
     ###########################################    
     drawio_drawing = create_drawio_diagram()
-    drawio_drawing.from_file("./test_load.drawio")
+    drawio_drawing.from_file("./Data/test_load.drawio")
     drawio_drawing.delete_link(id="d5fa69cbdbc6ae606177e052dcdf4fdc") # bla4 link
     drawio_drawing.delete_link(source="node-1", target="node-2", label="bla1")
     drawio_drawing.dump_file(filename="test_11_link_delete.drawio", folder="./Output/") 
