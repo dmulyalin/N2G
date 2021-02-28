@@ -54,8 +54,10 @@ if __name__ == "__main__":
     import sys
     sys.path.insert(0, '.')
 
-from N2G import drawio_diagram as create_drawio_diagram
-from N2G import yed_diagram as create_yed_diagram
+from N2G import drawio_diagram
+from N2G import yed_diagram
+from N2G import v3d_diagramm
+
 from N2G import layer_2_drawer
 from N2G import ip_drawer
 

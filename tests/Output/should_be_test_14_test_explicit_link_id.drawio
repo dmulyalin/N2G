@@ -1,0 +1,25 @@
+<mxfile compressed="false" type="device">
+    <diagram id="Page-1" name="Page-1">
+      <mxGraphModel arrows="1" connect="1" dx="1360" dy="864" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="1169" pageScale="1" pageWidth="827" shadow="1" tooltips="1">
+        <root>
+          <mxCell id="0" />   
+          <mxCell id="1" parent="0" />
+        <object id="node-1" label="node-1">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object id="node-2" label="node-2">
+      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      </mxCell>
+    </object><object id="link_id:1" label="" source="node-1" target="node-2">
+      <mxCell edge="1" parent="1" source="node-1" style="endArrow=classic;endFill=0;sourcePortConstraint=east;targetPortConstraint=west;edgeStyle=orthogonalEdgeStyle;" target="node-2">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object><object id="link_id:2" label="" source="node-2" target="node-1">
+      <mxCell edge="1" parent="1" source="node-2" style="endArrow=classic;endFill=0;sourcePortConstraint=east;targetPortConstraint=west;edgeStyle=orthogonalEdgeStyle;" target="node-1">
+          <mxGeometry as="geometry" relative="1" />
+      </mxCell>
+    </object></root>
+      </mxGraphModel>
+    </diagram></mxfile>

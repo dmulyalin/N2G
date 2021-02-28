@@ -331,5 +331,36 @@ def test_13_update_link_labels():
     with open ("./Output/test_13_update_link_labels.drawio") as produced:
         with open("./Output/should_be_test_13_update_link_labels.drawio") as should_be:
             assert produced.read() == should_be.read() 
-	
+
 # test_13_update_link_labels()
+
+
+def test_14_test_explicit_link_id():
+    drawio_drawing = create_drawio_diagram()
+    data = {
+        "nodes": [
+            {"id": "node-1"},
+            {"id": "node-2"}
+        ],
+        "links": [
+            {
+                "source": "node-1", 
+                "target": "node-2", 
+                "link_id": 1,
+                'style': 'endArrow=classic;endFill=0;sourcePortConstraint=east;targetPortConstraint=west;edgeStyle=orthogonalEdgeStyle;'
+            },
+            {
+                "source": "node-2", 
+                "target": "node-1", 
+                "link_id": 2,
+                'style': 'endArrow=classic;endFill=0;sourcePortConstraint=east;targetPortConstraint=west;edgeStyle=orthogonalEdgeStyle;'
+            }
+        ]
+    }    
+    drawio_drawing.from_dict(data, diagram_name="Page-1")
+    drawio_drawing.dump_file(filename="test_14_test_explicit_link_id.drawio", folder="./Output/")
+    with open ("./Output/test_14_test_explicit_link_id.drawio") as produced:
+        with open("./Output/should_be_test_14_test_explicit_link_id.drawio") as should_be:
+            assert produced.read() == should_be.read() 
+    
+# test_14_test_explicit_link_id()

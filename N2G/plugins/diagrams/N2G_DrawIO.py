@@ -277,7 +277,7 @@ class drawio_diagram:
             mxGeometry_elem.attrib["height"] = str(height)
 
     def _link_exists(self, id, edge_tup):
-        """method, used to check dublicate edges"""
+        """method, used to check duplicate edges"""
         # check if edge with given id already exists
         if id in self.edges_ids[self.current_diagram_id]:
             if self.link_duplicates == "log":
@@ -303,6 +303,7 @@ class drawio_diagram:
         trgt_label="",
         src_label_style="",
         trgt_label_style="",
+        link_id=None,
         **kwargs
     ):
         """
@@ -320,6 +321,7 @@ class drawio_diagram:
         * ``trgt_label`` (str) link label to display next to target node
         * ``src_label_style`` (str) source label style string
         * ``trgt_label_style`` (str) target label style string
+        * ``link_id`` (str or int) optional link id value, must be unique across all links
 
         Sample DrawIO style string for the link::
 
@@ -345,10 +347,14 @@ class drawio_diagram:
             self.add_node(id=source, **source_node_dict)
         if not self._node_exists(target, **target_node_dict):
             self.add_node(id=target, **target_node_dict)
-        # create edge id
-        edge_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
-        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
-        if self._link_exists(edge_id, edge_tup):
+        # create link id if not given
+        if link_id:
+            link_id = "link_id:{}".format(link_id)
+            edge_tup = link_id
+        else:
+            edge_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
+            link_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+        if self._link_exists(link_id, edge_tup):
             return
         # try to get style from file
         if os.path.isfile(style[:5000]):
@@ -357,7 +363,7 @@ class drawio_diagram:
         # create link
         link = ET.fromstring(
             self.drawio_link_object_xml.format(
-                id=edge_id,
+                id=link_id,
                 label=label,
                 source_id=source,
                 target_id=target,
@@ -368,9 +374,9 @@ class drawio_diagram:
         if src_label:
             src_label_obj = ET.fromstring(
                 self.drawio_link_label_xml.format(
-                    id="{}-src".format(edge_id),
+                    id="{}-src".format(link_id),
                     label=src_label,
-                    parent_id=edge_id,
+                    parent_id=link_id,
                     style=src_label_style or self.default_link_label_style,
                     x="-0.5",
                     rel="1",
@@ -382,9 +388,9 @@ class drawio_diagram:
         if trgt_label:
             trgt_label_obj = ET.fromstring(
                 self.drawio_link_label_xml.format(
-                    id="{}-trgt".format(edge_id),
+                    id="{}-trgt".format(link_id),
                     label=trgt_label,
-                    parent_id=edge_id,
+                    parent_id=link_id,
                     style=trgt_label_style or self.default_link_label_style,
                     x="0.5",
                     rel="-1",

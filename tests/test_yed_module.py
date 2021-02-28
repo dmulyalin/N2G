@@ -252,3 +252,32 @@ def test9_test_from_list_with_update():
     yed_diagram.from_list(data2)
     ret = yed_diagram.dump_xml()
     assert ret == expected_output 
+    
+def test_10_test_explicit_link_id():
+    yed_diagram = create_yed_diagram()
+    data = {
+        "nodes": [
+            {"id": "node-1"},
+            {"id": "node-2"}
+        ],
+        "links": [
+            {
+                "source": "node-1", 
+                "target": "node-2", 
+                "link_id": 1
+            },
+            {
+                "source": "node-2", 
+                "target": "node-1", 
+                "link_id": 2
+            }
+        ]
+    }    
+    yed_diagram.from_dict(data)
+    yed_diagram.dump_file(filename="yed.test_10_test_explicit_link_id.graphml", folder="./Output/")
+    with open ("./Output/yed.test_10_test_explicit_link_id.graphml") as produced:
+        with open("./Output/should_be_yed.test_10_test_explicit_link_id.graphml") as should_be:
+            assert produced.read() == should_be.read() 
+    
+    
+# test_10_test_explicit_link_id()

@@ -613,6 +613,7 @@ class yed_diagram:
         description="",  
         attributes={},  
         url="", 
+        link_id=None
     ):
         """
         Method to add link between nodes.
@@ -627,6 +628,7 @@ class yed_diagram:
         * ``description`` (str) string to save as link ``description`` attribute
         * ``url`` (str) string to save as link ``url`` attribute
         * ``attributes`` (dict) dictionary of yEd graphml tag names and attributes
+        * ``link_id`` (str or int) optional link id value, must be unique across all links
         
         Attributes dictionary keys will be used as xml tag names and values 
         dictionary will be used as xml tag attributes, example::
@@ -654,17 +656,21 @@ class yed_diagram:
         if not self._node_exists(target, **target_node_dict):
             self.add_node(id=target, **target_node_dict)
         target_id = self.nodes_ids[target]
-        # create edge id
-        edge_tup = tuple(sorted([label, src_label, trgt_label, source, target]))
-        edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
+        # create edge id if not given
+        if link_id:
+            link_id = "link_id:{}".format(link_id)
+            edge_tup = link_id
+        else:
+            edge_tup = tuple(sorted([label, src_label, trgt_label, source, target]))
+            link_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
         # check if edge already exists
-        if self._link_exists(edge_id, edge_tup):
+        if self._link_exists(link_id, edge_tup):
             return
         # create edge element
         edge = ET.fromstring(
             self.edge_xml.format(
                 attrib_id=self.y_attr["edge"]["edgegraphics"],
-                id=edge_id,
+                id=link_id,
                 source=source_id,
                 target=target_id,
             )
@@ -697,7 +703,7 @@ class yed_diagram:
         edge.append(
             self._create_data_element(
                 id=self.y_attr["edge"]["emetadata"],
-                text=json_dumps({"sid": source, "tid": target, "id": edge_id}),
+                text=json_dumps({"sid": source, "tid": target, "id": link_id}),
             )
         )
 
