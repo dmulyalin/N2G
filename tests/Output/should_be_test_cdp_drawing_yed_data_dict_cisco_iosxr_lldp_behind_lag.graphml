@@ -55,7 +55,7 @@
         "description": "To router_XR_01  Gi0/0/19 LAG 100"
     },
     "lag_members": {
-        "router_XR_01:Ge0/0/0/19": "cust_rt_1:Ge0/0/0/8"
+        "router_XR_01:GE0/0/0/19": "cust_rt_1:GE0/0/0/8"
     },
     "router_XR_01:LAG100": {
         "description": "To router_XR_01  Gi0/0/19 LAG 200"

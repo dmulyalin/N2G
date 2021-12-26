@@ -68,18 +68,18 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">switch-4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.4.4.4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">cisco WS-C3560-48TS</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "switch-4"}</data></node><edge id="1a55473cf64b1d33fe9a470093808d0d" source="switch-1" target="switch-4">
+    <data key="d11">{"id": "switch-4"}</data></node><edge id="f934e0e2e2ac1819699a53688126ed8f" source="switch-1" target="switch-4">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge1/2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge0/10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE1/2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE0/10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch-1:Ge1/2": {
+    "switch-1:GE1/2": {
         "description": "SW4 Routing Peering",
         "ip": "10.0.0.1 255.255.255.0",
         "state": {
@@ -99,8 +99,8 @@
         },
         "vrf": "VRF1"
     },
-    "switch-4:Ge0/10": {}
-}</data><data key="d12">{"sid": "switch-1", "tid": "switch-4", "id": "1a55473cf64b1d33fe9a470093808d0d"}</data></edge><edge id="e74000249c5487a013e4c07805ef8fab" source="switch-1" target="switch-2">
+    "switch-4:GE0/10": {}
+}</data><data key="d12">{"sid": "switch-1", "tid": "switch-4", "id": "f934e0e2e2ac1819699a53688126ed8f"}</data></edge><edge id="e74000249c5487a013e4c07805ef8fab" source="switch-1" target="switch-2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -112,8 +112,8 @@
       </data>
     <data key="d9">{
     "lag_members": {
-        "switch-1:Ge4/6": "switch-2:Ge1/5",
-        "switch-1:Ge4/7": "switch-2:Ge1/6"
+        "switch-1:GE4/6": "switch-2:GE1/5",
+        "switch-1:GE4/7": "switch-2:GE1/6"
     },
     "switch-1:LAG3": {
         "description": "switch-2: trunk LAG",
@@ -152,7 +152,7 @@
       </data>
     <data key="d9">{
     "lag_members": {
-        "switch-1:Ge1/1": "switch-3:Ge0/1"
+        "switch-1:GE1/1": "switch-3:GE0/1"
     },
     "switch-1:LAG11": {
         "description": "switch-3: trunk LAG",

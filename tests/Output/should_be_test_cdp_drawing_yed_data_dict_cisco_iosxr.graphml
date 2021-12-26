@@ -58,24 +58,24 @@
           <y:Shape type="roundrectangle" />
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">asr9k-5</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.5.173.110</y:NodeLabel></y:ShapeNode>
       </data>
-    <data key="d11">{"id": "asr9k-5"}</data></node><edge id="1d3157bb401f8e9559bd470f2cdc0724" source="router_XR_01" target="cust_rt_1">
+    <data key="d11">{"id": "asr9k-5"}</data></node><edge id="59b6fe358a554479d4daab6d41a72571" source="router_XR_01" target="cust_rt_1">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge0/0/0/19<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge1/1<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE0/0/0/19<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE1/1<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "cust_rt_1:Ge1/1": {
+    "cust_rt_1:GE1/1": {
         "description": "To cust_rt_1  Gi0/0/19",
         "ip": "10.0.0.2 255.255.255.192",
         "mtu": "4484",
         "vrf": "UPSTREAM"
     },
-    "router_XR_01:Ge0/0/0/19": {
+    "router_XR_01:GE0/0/0/19": {
         "description": "To cust_rt_1  Gi1/1",
         "ip": "10.0.0.1 255.255.255.192",
         "mtu": "4484",
@@ -96,18 +96,18 @@
             "mtu": "4484"
         }
     }
-}</data><data key="d12">{"sid": "router_XR_01", "tid": "cust_rt_1", "id": "1d3157bb401f8e9559bd470f2cdc0724"}</data></edge><edge id="8575cc2718c982f72a7a5ba1704ce236" source="router_XR_01" target="cust_rt_2">
+}</data><data key="d12">{"sid": "router_XR_01", "tid": "cust_rt_1", "id": "59b6fe358a554479d4daab6d41a72571"}</data></edge><edge id="47cbfdfd248a0b17bf6fec62589a5a72" source="router_XR_01" target="cust_rt_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
         <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Te0/0/2/0<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge1/2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE1/2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "cust_rt_2:Ge1/2": {},
+    "cust_rt_2:GE1/2": {},
     "router_XR_01:Te0/0/2/0": {
         "description": "To cust_rt_2 Gi1/2",
         "ip": "10.1.0.1 255.255.255.192,2001::4321/64 eui-64",
@@ -129,24 +129,24 @@
             "mtu": "4484"
         }
     }
-}</data><data key="d12">{"sid": "router_XR_01", "tid": "cust_rt_2", "id": "8575cc2718c982f72a7a5ba1704ce236"}</data></edge><edge id="7f721142407f147c9809638ffe2ce5f2" source="router_XR_01" target="asr9k-5">
+}</data><data key="d12">{"sid": "router_XR_01", "tid": "cust_rt_2", "id": "47cbfdfd248a0b17bf6fec62589a5a72"}</data></edge><edge id="1622cd9fc587ffbf13edc2529e82c55e" source="router_XR_01" target="asr9k-5">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge0/0/0/8<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge0/0/0/8<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE0/0/0/8<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE0/0/0/8<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "asr9k-5:Ge0/0/0/8": {},
-    "router_XR_01:Ge0/0/0/8": {
+    "asr9k-5:GE0/0/0/8": {},
+    "router_XR_01:GE0/0/0/8": {
         "chassis_id": "0026.9815.c3e6",
         "peer_capabilities": "R",
         "peer_port_description": "GigabitEthernet0/0/0/8 peer"
     }
-}</data><data key="d12">{"sid": "router_XR_01", "tid": "asr9k-5", "id": "7f721142407f147c9809638ffe2ce5f2"}</data></edge></graph>
+}</data><data key="d12">{"sid": "router_XR_01", "tid": "asr9k-5", "id": "1622cd9fc587ffbf13edc2529e82c55e"}</data></edge></graph>
     <data key="d7">
         <y:Resources>
         </y:Resources>

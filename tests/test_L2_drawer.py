@@ -1,4 +1,6 @@
 import sys
+import pprint
+
 sys.path.insert(0,'..')
 
 # after updated sys path, can do N2G import from parent dir
@@ -73,30 +75,31 @@ interface GigabitEthernet1/5
     drawing = create_yed_diagram()
     drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
+    # pprint.pprint(drawer.parsed_data)
     assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
-                                                                            'src_label': 'Ge4/6',
+                                                                            'src_label': 'GE4/6',
                                                                             'target': {'bottom_label': 'cisco WS-C6509', 'id': 'switch-2', 'top_label': '10.2.2.2'},
-                                                                            'trgt_label': 'Ge1/5'},
+                                                                            'trgt_label': 'GE1/5'},
                                                                            {'source': 'switch-1',
-                                                                            'src_label': 'Ge1/1',
+                                                                            'src_label': 'GE1/1',
                                                                             'target': {'bottom_label': 'cisco WS-C3560-48TS', 'id': 'switch-3', 'top_label': '10.3.3.3'},
-                                                                            'trgt_label': 'Ge0/1'},
+                                                                            'trgt_label': 'GE0/1'},
                                                                            {'source': 'switch-1',
-                                                                            'src_label': 'Ge1/2',
+                                                                            'src_label': 'GE1/2',
                                                                             'target': {'bottom_label': 'cisco WS-C3560-48TS', 'id': 'switch-4', 'top_label': '10.4.4.4'},
-                                                                            'trgt_label': 'Ge0/10'}],
-                                                             'interfaces': {'Ge1/1': {'description': 'switch-3:Gi0/1',
+                                                                            'trgt_label': 'GE0/10'}],
+                                                             'interfaces': {'GE1/1': {'description': 'switch-3:Gi0/1',
                                                                                       'is_l2': True,
                                                                                       'l2_mode': 'trunk',
                                                                                       'mtu': '9216',
                                                                                       'trunk_vlans': '1771,1887'},
-                                                                                'Ge1/2': {'description': 'SW4 Routing Peering', 'ip': '10.0.0.1 255.255.255.0', 'vrf': 'VRF1'},
-                                                                                'Ge4/6': {'access_vlan': '2150', 'description': 'switch-2: access', 'is_l2': True, 'l2_mode': 'access'}}},
+                                                                                'GE1/2': {'description': 'SW4 Routing Peering', 'ip': '10.0.0.1 255.255.255.0', 'vrf': 'VRF1'},
+                                                                                'GE4/6': {'access_vlan': '2150', 'description': 'switch-2: access', 'is_l2': True, 'l2_mode': 'access'}}},
                                                 'switch-2': {'cdp_peers': [{'source': 'switch-2',
-                                                                            'src_label': 'Ge1/5',
+                                                                            'src_label': 'GE1/5',
                                                                             'target': {'bottom_label': 'cisco WS-C6509', 'id': 'switch-1', 'top_label': '10.1.1.1'},
-                                                                            'trgt_label': 'Ge4/6'}],
-                                                             'interfaces': {'Ge1/5': {'access_vlan': '2150', 'description': 'switch-1: access', 'is_l2': True, 'l2_mode': 'access'}}}}}
+                                                                            'trgt_label': 'GE4/6'}],
+                                                             'interfaces': {'GE1/5': {'access_vlan': '2150', 'description': 'switch-1: access', 'is_l2': True, 'l2_mode': 'access'}}}}}
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_base.graphml") as should_be:
@@ -112,29 +115,29 @@ def test_cdp_drawing_yed_data_path():
     drawer = layer_2_drawer(drawing, config)
     drawer.work(data)
     assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
-                                                                            'src_label': 'Ge4/6',
+                                                                            'src_label': 'GE4/6',
                                                                             'target': {'bottom_label': 'cisco WS-C6509', 'id': 'switch-2', 'top_label': '10.2.2.2'},
-                                                                            'trgt_label': 'Ge1/5'},
+                                                                            'trgt_label': 'GE1/5'},
                                                                            {'source': 'switch-1',
-                                                                            'src_label': 'Ge1/1',
+                                                                            'src_label': 'GE1/1',
                                                                             'target': {'bottom_label': 'cisco WS-C3560-48TS', 'id': 'switch-3', 'top_label': '10.3.3.3'},
-                                                                            'trgt_label': 'Ge0/1'},
+                                                                            'trgt_label': 'GE0/1'},
                                                                            {'source': 'switch-1',
-                                                                            'src_label': 'Ge1/2',
+                                                                            'src_label': 'GE1/2',
                                                                             'target': {'bottom_label': 'cisco WS-C3560-48TS', 'id': 'switch-4', 'top_label': '10.4.4.4'},
-                                                                            'trgt_label': 'Ge0/10'}],
-                                                             'interfaces': {'Ge1/1': {'description': 'switch-3:Gi0/1',
+                                                                            'trgt_label': 'GE0/10'}],
+                                                             'interfaces': {'GE1/1': {'description': 'switch-3:Gi0/1',
                                                                                       'is_l2': True,
                                                                                       'l2_mode': 'trunk',
                                                                                       'mtu': '9216',
                                                                                       'trunk_vlans': '1771,1887'},
-                                                                                'Ge1/2': {'description': 'SW4 Routing Peering', 'ip': '10.0.0.1 255.255.255.0', 'vrf': 'VRF1'},
-                                                                                'Ge4/6': {'access_vlan': '2150', 'description': 'switch-2: access', 'is_l2': True, 'l2_mode': 'access'}}},
+                                                                                'GE1/2': {'description': 'SW4 Routing Peering', 'ip': '10.0.0.1 255.255.255.0', 'vrf': 'VRF1'},
+                                                                                'GE4/6': {'access_vlan': '2150', 'description': 'switch-2: access', 'is_l2': True, 'l2_mode': 'access'}}},
                                                 'switch-2': {'cdp_peers': [{'source': 'switch-2',
-                                                                            'src_label': 'Ge1/5',
+                                                                            'src_label': 'GE1/5',
                                                                             'target': {'bottom_label': 'cisco WS-C6509', 'id': 'switch-1', 'top_label': '10.1.1.1'},
-                                                                            'trgt_label': 'Ge4/6'}],
-                                                             'interfaces': {'Ge1/5': {'access_vlan': '2150', 'description': 'switch-1: access', 'is_l2': True, 'l2_mode': 'access'}}}}}
+                                                                            'trgt_label': 'GE4/6'}],
+                                                             'interfaces': {'GE1/5': {'access_vlan': '2150', 'description': 'switch-1: access', 'is_l2': True, 'l2_mode': 'access'}}}}}
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_base.graphml") as should_be:

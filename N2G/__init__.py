@@ -2,8 +2,6 @@ from .plugins.diagrams.N2G_DrawIO import drawio_diagram
 from .plugins.diagrams.N2G_yEd import yed_diagram
 from .plugins.diagrams.N2G_V3D import v3d_diagramm
 
-from .utils import N2G_utils
-
 from .plugins.drawers.ip_drawer import ip_drawer
 from .plugins.drawers.layer_2_drawer import layer_2_drawer
 from .plugins.drawers.ospf_drawer import ospf_drawer

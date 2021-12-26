@@ -28,7 +28,6 @@ import logging
 import pprint
 import os
 import json
-from N2G import N2G_utils
 import ipaddress
 
 try:
@@ -180,6 +179,11 @@ class ip_drawer:
                 add_network, scope="group", name="add_network", add_ttp=True
             )
             for platform_name, text_list in data.items():
+                if (
+                    "_all_" not in self.config["platforms"]
+                    and not platform_name in self.config["platforms"]
+                ):
+                    continue
                 ttp_template = get_template(
                     misc="N2G/ip_drawer/{}.txt".format(platform_name)
                 )
@@ -197,6 +201,11 @@ class ip_drawer:
                 for entry in dirs:
                     if entry.is_dir():
                         platform_name = entry.name
+                        if (
+                            "_all_" not in self.config["platforms"]
+                            and not platform_name in self.config["platforms"]
+                        ):
+                            continue
                         ttp_template = get_template(
                             misc="N2G/ip_drawer/{}.txt".format(platform_name)
                         )
