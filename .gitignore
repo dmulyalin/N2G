@@ -11,3 +11,5 @@ docs/Makefile
 Diagrams/*
 N2G.egg-info/*
 tests/Output/test_*
+tests/htmlcov/*
+tests/.coverage
