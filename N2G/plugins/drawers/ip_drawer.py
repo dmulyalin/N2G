@@ -18,7 +18,6 @@ addresses.
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
 | Fortigate     |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-
 """
 if __name__ == "__main__":
     import sys
@@ -34,6 +33,8 @@ import ipaddress
 
 try:
     from ttp import ttp
+    from ttp_templates import ttp_vars as ttp_templates_vars
+    from ttp_templates import get_template
 
     HAS_TTP = True
 except ImportError:
@@ -92,7 +93,9 @@ class ip_drawer:
                 "_all_"
             ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
         }
-        self.ttp_vars = ttp_vars or N2G_utils.ttp_variables
+        self.ttp_vars = ttp_vars or {
+            "IfsNormalize": ttp_templates_vars.short_interface_names
+        }
         self.config.update(config)
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
@@ -102,6 +105,21 @@ class ip_drawer:
         self.graph_dict = {"nodes": [], "links": []}
         self.nodes_to_links_dict = {}  # used by group_links
         self.collapse_ptp_dict = {}  # used by collapse_ptp
+
+    def _make_hash_tuple(self, item):
+        target = (
+            item["target"]["id"] if isinstance(item["target"], dict) else item["target"]
+        )
+        return tuple(
+            sorted(
+                [
+                    item["source"],
+                    target,
+                    item.get("src_label", ""),
+                    item.get("trgt_label", ""),
+                ]
+            )
+        )
 
     def work(self, data):
         """
@@ -155,7 +173,6 @@ class ip_drawer:
             raise ModuleNotFoundError(
                 "N2G:ip_drawer failed importing TTP, is it installed?"
             )
-        templates_path = "{}/ttp_templates/IP_Drawer/{}.txt"
         # process data dictionary
         if isinstance(data, dict):
             parser = ttp(vars=self.ttp_vars)
@@ -163,11 +180,9 @@ class ip_drawer:
                 add_network, scope="group", name="add_network", add_ttp=True
             )
             for platform_name, text_list in data.items():
-                ttp_template = N2G_utils.open_ttp_template(
-                    self.config, platform_name, templates_path
+                ttp_template = get_template(
+                    misc="N2G/ip_drawer/{}.txt".format(platform_name)
                 )
-                if not ttp_template:
-                    continue
                 parser.add_template(template=ttp_template, template_name=platform_name)
                 for item in text_list:
                     parser.add_input(item, template_name=platform_name)
@@ -181,13 +196,15 @@ class ip_drawer:
             with os.scandir(data) as dirs:
                 for entry in dirs:
                     if entry.is_dir():
-                        ttp_template = N2G_utils.open_ttp_template(
-                            self.config, entry.name, templates_path
+                        platform_name = entry.name
+                        ttp_template = get_template(
+                            misc="N2G/ip_drawer/{}.txt".format(platform_name)
                         )
-                        if not ttp_template:
-                            continue
                         parser.add_template(
                             template=ttp_template, template_name=entry.name
+                        )
+                        parser.add_input(
+                            data=os.path.abspath(entry), template_name=platform_name
                         )
         else:
             log.error(
@@ -338,7 +355,7 @@ class ip_drawer:
             for network, ips in interfaces_ip.items():
                 for ip in ips:
                     arp_node_id = "{}:{}".format(network, ip)
-                    link_hash = N2G_utils.make_hash_tuple(
+                    link_hash = self._make_hash_tuple(
                         {"source": arp_node_id, "target": network}
                     )
                     _ = self.nodes_dict.pop(arp_node_id, None)
@@ -381,7 +398,7 @@ class ip_drawer:
                 )
 
     def _add_link(self, item, network=None):
-        link_hash = N2G_utils.make_hash_tuple(item)
+        link_hash = self._make_hash_tuple(item)
         if link_hash not in self.links_dict:
             self.links_dict[link_hash] = item
         # check if need to pre-process nodes_to_links_dict used by group_links
@@ -439,7 +456,7 @@ class ip_drawer:
                     description, sort_keys=True, indent=4, separators=(",", ": ")
                 )
                 grouped_link["label"] = "x{}".format(links_to_group_count)
-                grouped_link_hash = N2G_utils.make_hash_tuple(grouped_link)
+                grouped_link_hash = self._make_hash_tuple(grouped_link)
                 self.links_dict[grouped_link_hash] = grouped_link
         del self.nodes_to_links_dict
 

@@ -168,58 +168,58 @@
         "network": "10.1.234.0/24",
         "port_description": "to SWITCH_2 shared subnet"
     }
-}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_1", "id": "952474ebf336a177bbd41289b4e2ed35"}</data></edge><edge id="b6955367ebddf99cfc0b97434c418bb0" source="10.123.111.0/24" target="switch_1">
+}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_1", "id": "952474ebf336a177bbd41289b4e2ed35"}</data></edge><edge id="8860dfb3f5c9058ce1e5e70cb99fcba6" source="10.123.111.0/24" target="switch_1">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">SVI123:CORP:10.123.111.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">VLAN123:CORP:10.123.111.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:SVI123": {
+    "switch_1:VLAN123": {
         "ip": "10.123.111.1",
         "netmask": "24",
         "network": "10.123.111.0/24",
         "port_description": "Workstations Vlan",
         "vrf": "CORP"
     }
-}</data><data key="d12">{"sid": "10.123.111.0/24", "tid": "switch_1", "id": "b6955367ebddf99cfc0b97434c418bb0"}</data></edge><edge id="a4970be66979a89143e462604abddac2" source="10.123.222.0/24" target="switch_1">
+}</data><data key="d12">{"sid": "10.123.111.0/24", "tid": "switch_1", "id": "8860dfb3f5c9058ce1e5e70cb99fcba6"}</data></edge><edge id="e8a7a4298fc2a5b3bff4c6653505f357" source="10.123.222.0/24" target="switch_1">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">SVI123:CORP:10.123.222.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">VLAN123:CORP:10.123.222.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:SVI123": {
+    "switch_1:VLAN123": {
         "ip": "10.123.222.1",
         "netmask": "24",
         "network": "10.123.222.0/24",
         "port_description": "Workstations Vlan",
         "vrf": "CORP"
     }
-}</data><data key="d12">{"sid": "10.123.222.0/24", "tid": "switch_1", "id": "a4970be66979a89143e462604abddac2"}</data></edge><edge id="a770e55c77089e5680e8f4043d89b564" source="10.123.233.0/24" target="switch_1">
+}</data><data key="d12">{"sid": "10.123.222.0/24", "tid": "switch_1", "id": "e8a7a4298fc2a5b3bff4c6653505f357"}</data></edge><edge id="b500a8da0a3bd62f7ab8d7775d1893dd" source="10.123.233.0/24" target="switch_1">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">SVI123:CORP:10.123.233.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">VLAN123:CORP:10.123.233.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:SVI123": {
+    "switch_1:VLAN123": {
         "ip": "10.123.233.1",
         "netmask": "24",
         "network": "10.123.233.0/24",
         "port_description": "Workstations Vlan",
         "vrf": "CORP"
     }
-}</data><data key="d12">{"sid": "10.123.233.0/24", "tid": "switch_1", "id": "a770e55c77089e5680e8f4043d89b564"}</data></edge><edge id="b75f72fa0e114d58f1c3c63195994163" source="10.123.0.5/32" target="switch_2">
+}</data><data key="d12">{"sid": "10.123.233.0/24", "tid": "switch_1", "id": "b500a8da0a3bd62f7ab8d7775d1893dd"}</data></edge><edge id="b75f72fa0e114d58f1c3c63195994163" source="10.123.0.5/32" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
@@ -250,46 +250,46 @@
         "network": "10.1.234.0/24",
         "port_description": "to SWITCH_2 shared subnet"
     }
-}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_2", "id": "0300de4a5d29b2adabb4e0dc5e56115f"}</data></edge><edge id="0aa5cf0906173cfcd316cc99045d911c" source="10.11.11.0/24" target="switch_2">
+}</data><data key="d12">{"sid": "10.1.234.0/24", "tid": "switch_2", "id": "0300de4a5d29b2adabb4e0dc5e56115f"}</data></edge><edge id="07630f0e587fe2ac5fb9c0c3d7b60158" source="10.11.11.0/24" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">SVI11:global:10.11.11.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">VLAN11:global:10.11.11.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_2:SVI11": {
+    "switch_2:VLAN11": {
         "ip": "10.11.11.1",
         "netmask": "24",
         "network": "10.11.11.0/24",
         "port_description": "Workstations Vlan"
     }
-}</data><data key="d12">{"sid": "10.11.11.0/24", "tid": "switch_2", "id": "0aa5cf0906173cfcd316cc99045d911c"}</data></edge><edge id="01e3bd974e127cffaa2ee8404b50b403" source="10.22.22.0/24" target="switch_2">
+}</data><data key="d12">{"sid": "10.11.11.0/24", "tid": "switch_2", "id": "07630f0e587fe2ac5fb9c0c3d7b60158"}</data></edge><edge id="d704bcca5875c3c4ab487a4688ccee7b" source="10.22.22.0/24" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
-        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">SVI22:global:10.22.22.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">VLAN22:global:10.22.22.1/24<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_2:SVI22": {
+    "switch_2:VLAN22": {
         "ip": "10.22.22.1",
         "netmask": "24",
         "network": "10.22.22.0/24",
         "port_description": "Workstations Vlan"
     }
-}</data><data key="d12">{"sid": "10.22.22.0/24", "tid": "switch_2", "id": "01e3bd974e127cffaa2ee8404b50b403"}</data></edge><edge id="261a1d4390ea7cffa746f20e3a586b05" source="switch_1" target="switch_2">
+}</data><data key="d12">{"sid": "10.22.22.0/24", "tid": "switch_2", "id": "d704bcca5875c3c4ab487a4688ccee7b"}</data></edge><edge id="c3087405a36f415b29dbeaf337b4d3e0" source="switch_1" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
         <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Te1/1/3:VRF2:10.123.2.3/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge1/3:VRF1:10.123.2.2/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE1/3:VRF1:10.123.2.2/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
@@ -300,21 +300,21 @@
         "port_description": "to SWITCH_2 vrf VRF1 link 1",
         "vrf": "VRF2"
     },
-    "switch_2:Ge1/3": {
+    "switch_2:GE1/3": {
         "ip": "10.123.2.2",
         "netmask": "31",
         "network": "10.123.2.2/31",
         "port_description": "to SWITCH_1 link 1",
         "vrf": "VRF1"
     }
-}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "261a1d4390ea7cffa746f20e3a586b05"}</data></edge><edge id="5ea7299f8ddea0c687753e5cfb63c36d" source="switch_1" target="switch_2">
+}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "c3087405a36f415b29dbeaf337b4d3e0"}</data></edge><edge id="187265e65d9a053821bc458fc52586e9" source="switch_1" target="switch_2">
       <data key="d10">
         <y:PolyLineEdge>
          <y:LineStyle color="#000000" type="line" width="1.0" />
          <y:Arrows source="none" target="none" />
          <y:BendStyle smoothed="false" />
         <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Te1/1/4:VRF2:10.123.2.4/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
-    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">Ge1/4:VRF1:10.123.2.5/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">GE1/4:VRF1:10.123.2.5/31<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
@@ -325,14 +325,14 @@
         "port_description": "to SWITCH_2 vrf VRF1 link 2",
         "vrf": "VRF2"
     },
-    "switch_2:Ge1/4": {
+    "switch_2:GE1/4": {
         "ip": "10.123.2.5",
         "netmask": "31",
         "network": "10.123.2.4/31",
         "port_description": "to SWITCH_1 links 2",
         "vrf": "VRF1"
     }
-}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "5ea7299f8ddea0c687753e5cfb63c36d"}</data></edge></graph>
+}</data><data key="d12">{"sid": "switch_1", "tid": "switch_2", "id": "187265e65d9a053821bc458fc52586e9"}</data></edge></graph>
     <data key="d7">
         <y:Resources>
         </y:Resources>

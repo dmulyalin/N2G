@@ -1,0 +1,5 @@
+black
+openpyxlpre-commit
+pytest
+ttp
+ttp-templates

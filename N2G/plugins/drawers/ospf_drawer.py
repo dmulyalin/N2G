@@ -58,9 +58,9 @@ object ``ModuleNotFoundError`` exception raised.
 How it works
 ------------
 
-Output from devices parsd using TTP Templates into a dictionary structure, reference
-``ttp://misc/N2G/N2G/ospf_lsdb/`` templates for parsing templates content and samples
-of structure produced.
+CLI output from devices parsed using TTP Templates into a dictionary structure, refer to
+``ttp://misc/N2G/ospf_lsdb/XYZ_NOS.txt`` templates for parsing templates content and samples
+of structure produced at `TTP templates collection <https://dmulyalin.github.io/ttp_templates>`_
 
 After parsing, results processed further to form a dictionary of nodes and links keyed 
 by unique nodes and links identifiers wit values being nodes dictionaries and for links
@@ -83,8 +83,7 @@ TBD
 API Reference
 -------------
 
-.. autofunction:: N2G.plugins.drawers.OSPFv2_LSDB_CLI.ospfv2_lsdb_cli
-.. autofunction:: N2G.plugins.drawers.OSPFv2_LSDB_CLI.ospfv2_lsdb_cli.work
+.. autoclass:: N2G.plugins.drawers.ospf_drawer.ospf_drawer
 """
 import logging
 import json
@@ -112,7 +111,7 @@ log = logging.getLogger(__name__)
 
 class ospf_drawer:
     """
-    Main class to instantiate OSPFv2 LSDB CLI drawer object.
+    Main class to instantiate OSPFv2 LSDB drawer object.
 
     :param drawing: (obj) N2G Diagram object
     :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating

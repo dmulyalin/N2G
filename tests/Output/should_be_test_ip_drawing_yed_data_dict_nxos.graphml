@@ -50,12 +50,12 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.133.137.1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">HSRP VIP</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "ARP:switch_1:SVI133": {
+    "ARP:switch_1:VLAN133": {
         "age": "-",
         "ip": "10.133.137.1",
         "mac": "d0:94:78:90:11:11"
     },
-    "FHRP:switch_1:SVI133": {
+    "FHRP:switch_1:VLAN133": {
         "group": "133",
         "ip": "10.133.137.1",
         "type": "HSRP"
@@ -70,7 +70,7 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.133.137.30</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "ARP:switch_1:SVI133": {
+    "ARP:switch_1:VLAN133": {
         "age": "-",
         "ip": "10.133.137.30",
         "mac": "d0:94:78:90:12:34"
@@ -85,7 +85,7 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.133.137.91</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "ARP:switch_1:SVI133": {
+    "ARP:switch_1:VLAN133": {
         "age": "-",
         "ip": "10.133.137.91",
         "mac": "d0:94:78:90:43:21"
@@ -109,17 +109,17 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.134.137.1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">VRRP VIP</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "ARP:switch_1:SVI134": {
+    "ARP:switch_1:VLAN134": {
         "age": "-",
         "ip": "10.134.137.1",
         "mac": "d0:94:78:90:11:11"
     },
-    "FHRP:switch_1:SVI134": {
+    "FHRP:switch_1:VLAN134": {
         "group": "1334",
         "ip": "10.134.137.1",
         "type": "VRRP"
     },
-    "FHRP:switch_2:SVI134": {
+    "FHRP:switch_2:VLAN134": {
         "group": "1334",
         "ip": "10.134.137.1",
         "type": "VRRP"
@@ -134,7 +134,7 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.134.137.31</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "ARP:switch_1:SVI134": {
+    "ARP:switch_1:VLAN134": {
         "age": "91",
         "ip": "10.134.137.31",
         "mac": "d0:94:78:90:be:ef"
@@ -149,7 +149,7 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.134.137.81</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ARP entry</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "ARP:switch_1:SVI134": {
+    "ARP:switch_1:VLAN134": {
         "age": "81",
         "ip": "10.134.137.81",
         "mac": "d0:94:78:90:fe:eb"
@@ -182,7 +182,7 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:SVI133": {
+    "switch_1:VLAN133": {
         "fhrp": [
             {
                 "group": "133",
@@ -230,7 +230,7 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:SVI134": {
+    "switch_1:VLAN134": {
         "fhrp": [
             {
                 "group": "1334",
@@ -278,7 +278,7 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_2:SVI134": {
+    "switch_2:VLAN134": {
         "fhrp": [
             {
                 "group": "1334",
@@ -303,13 +303,13 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:SVI222": {
+    "switch_1:VLAN222": {
         "ip": "10.222.137.1",
         "netmask": "30",
         "network": "10.222.137.0/30",
         "port_description": "PTP OSPF Routing pat to  siwtch2"
     },
-    "switch_2:SVI222": {
+    "switch_2:VLAN222": {
         "ip": "10.222.137.2",
         "netmask": "30",
         "network": "10.222.137.0/30",
@@ -326,13 +326,13 @@
     </y:EdgeLabel></y:PolyLineEdge>
       </data>
     <data key="d9">{
-    "switch_1:SVI223": {
+    "switch_1:VLAN223": {
         "ip": "10.223.137.1",
         "netmask": "30",
         "network": "10.223.137.0/30",
         "port_description": "PTP OSPF Routing pat to siwtch3"
     },
-    "switch_3:SVI223": {
+    "switch_3:VLAN223": {
         "ip": "10.223.137.2",
         "netmask": "30",
         "network": "10.223.137.0/30",
