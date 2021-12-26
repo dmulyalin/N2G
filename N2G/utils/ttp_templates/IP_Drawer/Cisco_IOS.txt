@@ -63,6 +63,7 @@ interface {{ interface | resuball("IfsNormalize") }}
  standby {{ group | let("type", "HSRP") }}  {{ ip | IP }}
  vrrp {{ group | let("type", "VRRP") }} ip {{ ip | IP }}
  </group>
+! {{ _end_ }}
 </group>
 
 <!-- ARP cache group -->

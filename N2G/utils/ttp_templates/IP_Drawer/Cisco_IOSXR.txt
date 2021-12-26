@@ -50,6 +50,10 @@ Template produces this dictionary:
 
 <input>url = "./Cisco_IOSXR/"</input>
 
+<group record="local_hostname" void="">
+hostname {{ local_hostname }}
+</group>
+
 <!-- Interfaces configuration group -->
 <group name="{{ local_hostname }}.interfaces.{{ interface }}">
 interface {{ interface | resuball("IfsNormalize") }}
@@ -59,5 +63,6 @@ interface {{ interface | resuball("IfsNormalize") }}
  ipv4 address {{ ip | IP }} {{ netmask }}
  ipv4 address {{ ip | IP }} {{ netmask }} secondary
  </group>
+! {{ _end_ }}
 </group>
 </template>

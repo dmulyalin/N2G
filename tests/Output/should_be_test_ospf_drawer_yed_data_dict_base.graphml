@@ -1,0 +1,370 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
+    
+    <key attr.name="Description" attr.type="string" for="graph" id="d0" />
+    <key for="port" id="d1" yfiles.type="portgraphics" />
+    <key for="port" id="d2" yfiles.type="portgeometry" />
+    <key for="port" id="d3" yfiles.type="portuserdata" />
+    <key attr.name="url" attr.type="string" for="node" id="d4" />
+    <key attr.name="description" attr.type="string" for="node" id="d5" />
+    <key for="node" id="d6" yfiles.type="nodegraphics" />
+    <key for="graphml" id="d7" yfiles.type="resources" />
+    <key attr.name="url" attr.type="string" for="edge" id="d8" />
+    <key attr.name="description" attr.type="string" for="edge" id="d9" />
+    <key for="edge" id="d10" yfiles.type="edgegraphics" />
+    <key attr.name="nmetadata" attr.type="string" for="node" id="d11">
+        <default />
+    </key>
+    <key attr.name="emetadata" attr.type="string" for="edge" id="d12">
+        <default />
+    </key>
+    <key attr.name="gmetadata" attr.type="string" for="graph" id="d13">
+        <default />
+    </key>
+    <graph edgedefault="directed" id="G">
+    
+    <node id="10.0.1.1">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.0.1.1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "area": "0.0.0.0",
+    "asbr": false,
+    "connected_stub": [
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.0",
+            "metric": "9100"
+        },
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.4",
+            "metric": "9000"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.0.1",
+            "metric": "1"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.1.1",
+            "metric": "1"
+        }
+    ],
+    "lsdb_source": {
+        "hostname": null,
+        "ospf_pid": "1",
+        "ospf_rid": "10.0.1.1"
+    },
+    "originator_rid": "10.0.1.1",
+    "ptp_peers": [
+        {
+            "link_data": "0.0.0.12",
+            "link_id": "10.0.1.4",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.10",
+            "link_id": "10.0.1.2",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.11",
+            "link_id": "10.0.1.3",
+            "metric": "1100"
+        },
+        {
+            "link_data": "10.1.0.1",
+            "link_id": "10.0.1.3",
+            "metric": "9100"
+        },
+        {
+            "link_data": "10.1.0.5",
+            "link_id": "10.0.1.2",
+            "metric": "9000"
+        }
+    ]
+}</data><data key="d11">{"id": "10.0.1.1"}</data></node><node id="10.0.1.2">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.0.1.2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "area": "0.0.0.0",
+    "asbr": false,
+    "connected_stub": [
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.8",
+            "metric": "9100"
+        },
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.4",
+            "metric": "9000"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.0.2",
+            "metric": "1"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.1.2",
+            "metric": "1"
+        }
+    ],
+    "lsdb_source": {
+        "hostname": null,
+        "ospf_pid": "1",
+        "ospf_rid": "10.0.1.1"
+    },
+    "originator_rid": "10.0.1.2",
+    "ptp_peers": [
+        {
+            "link_data": "0.0.0.52",
+            "link_id": "10.0.1.3",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.53",
+            "link_id": "10.0.1.4",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.51",
+            "link_id": "10.0.1.1",
+            "metric": "1100"
+        },
+        {
+            "link_data": "10.1.0.9",
+            "link_id": "10.0.1.4",
+            "metric": "9100"
+        },
+        {
+            "link_data": "10.1.0.6",
+            "link_id": "10.0.1.1",
+            "metric": "9000"
+        }
+    ]
+}</data><data key="d11">{"id": "10.0.1.2"}</data></node><node id="10.0.1.3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.0.1.3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "area": "0.0.0.0",
+    "asbr": false,
+    "connected_stub": [
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.0",
+            "metric": "9100"
+        },
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.12",
+            "metric": "9000"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.0.3",
+            "metric": "1"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.1.3",
+            "metric": "1"
+        }
+    ],
+    "lsdb_source": {
+        "hostname": null,
+        "ospf_pid": "1",
+        "ospf_rid": "10.0.1.1"
+    },
+    "originator_rid": "10.0.1.3",
+    "ptp_peers": [
+        {
+            "link_data": "0.0.0.48",
+            "link_id": "10.0.1.2",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.47",
+            "link_id": "10.0.1.1",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.49",
+            "link_id": "10.0.1.4",
+            "metric": "1100"
+        },
+        {
+            "link_data": "10.1.0.2",
+            "link_id": "10.0.1.1",
+            "metric": "9100"
+        },
+        {
+            "link_data": "10.1.0.13",
+            "link_id": "10.0.1.4",
+            "metric": "9000"
+        }
+    ]
+}</data><data key="d11">{"id": "10.0.1.3"}</data></node><node id="10.0.1.4">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.0.1.4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "area": "0.0.0.0",
+    "asbr": false,
+    "connected_stub": [
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.8",
+            "metric": "9100"
+        },
+        {
+            "link_data": "255.255.255.252",
+            "link_id": "10.1.0.12",
+            "metric": "9000"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.0.4",
+            "metric": "1"
+        },
+        {
+            "link_data": "255.255.255.255",
+            "link_id": "10.0.1.4",
+            "metric": "1"
+        }
+    ],
+    "lsdb_source": {
+        "hostname": null,
+        "ospf_pid": "1",
+        "ospf_rid": "10.0.1.1"
+    },
+    "originator_rid": "10.0.1.4",
+    "ptp_peers": [
+        {
+            "link_data": "0.0.0.47",
+            "link_id": "10.0.1.1",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.48",
+            "link_id": "10.0.1.2",
+            "metric": "1100"
+        },
+        {
+            "link_data": "0.0.0.49",
+            "link_id": "10.0.1.3",
+            "metric": "1100"
+        },
+        {
+            "link_data": "10.1.0.10",
+            "link_id": "10.0.1.2",
+            "metric": "9100"
+        },
+        {
+            "link_data": "10.1.0.14",
+            "link_id": "10.0.1.3",
+            "metric": "9000"
+        }
+    ]
+}</data><data key="d11">{"id": "10.0.1.4"}</data></node><edge id="49a567128867d4c54a8287bac7b6dc90" source="10.0.1.3" target="10.0.1.1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">A:0.0.0.0<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.2:9100<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.1:9100<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ospf_area": "0.0.0.0",
+    "source_ip": "10.1.0.2",
+    "source_rid": "10.0.1.3",
+    "subnet": "10.1.0.0/30",
+    "target_ip": "10.1.0.1",
+    "target_rid": "10.0.1.1"
+}</data><data key="d12">{"sid": "10.0.1.3", "tid": "10.0.1.1", "id": "49a567128867d4c54a8287bac7b6dc90"}</data></edge><edge id="4e2173f2481427b99bab4dd5a62219fd" source="10.0.1.2" target="10.0.1.1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">A:0.0.0.0<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.6:9000<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.5:9000<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ospf_area": "0.0.0.0",
+    "source_ip": "10.1.0.6",
+    "source_rid": "10.0.1.2",
+    "subnet": "10.1.0.4/30",
+    "target_ip": "10.1.0.5",
+    "target_rid": "10.0.1.1"
+}</data><data key="d12">{"sid": "10.0.1.2", "tid": "10.0.1.1", "id": "4e2173f2481427b99bab4dd5a62219fd"}</data></edge><edge id="435ba5c875f6ff224d0a1a47a62adaf0" source="10.0.1.4" target="10.0.1.2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">A:0.0.0.0<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.10:9100<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.9:9100<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ospf_area": "0.0.0.0",
+    "source_ip": "10.1.0.10",
+    "source_rid": "10.0.1.4",
+    "subnet": "10.1.0.8/30",
+    "target_ip": "10.1.0.9",
+    "target_rid": "10.0.1.2"
+}</data><data key="d12">{"sid": "10.0.1.4", "tid": "10.0.1.2", "id": "435ba5c875f6ff224d0a1a47a62adaf0"}</data></edge><edge id="10a859f3e35eee55698c3325cb712bd6" source="10.0.1.4" target="10.0.1.3">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">A:0.0.0.0<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.14:9000<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.1.0.13:9000<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ospf_area": "0.0.0.0",
+    "source_ip": "10.1.0.14",
+    "source_rid": "10.0.1.4",
+    "subnet": "10.1.0.12/30",
+    "target_ip": "10.1.0.13",
+    "target_rid": "10.0.1.3"
+}</data><data key="d12">{"sid": "10.0.1.4", "tid": "10.0.1.3", "id": "10a859f3e35eee55698c3325cb712bd6"}</data></edge></graph>
+    <data key="d7">
+        <y:Resources>
+        </y:Resources>
+    </data>
+    </graphml>

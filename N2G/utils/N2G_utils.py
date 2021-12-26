@@ -34,12 +34,13 @@ ttp_variables = {
         "Pt": ["^Port[^-]"],
         "100G": ["^HundredGigE", "^100GE"],
         "mgmt": ["^MgmtEth", "^MEth"],
-        "SVI": ["^Vlan", "^Vlanif", "^BDI"]
+        "SVI": ["^Vlan", "^Vlanif", "^BDI"],
     },
     # used by L2 drawer to identify if is_physical_port, that used by
     # add all connected nodes feature
-    "physical_ports": ["Ge", "Te", "Fe", "Eth", "100G", "mgmt", "40G"]
+    "physical_ports": ["Ge", "Te", "Fe", "Eth", "100G", "mgmt", "40G"],
 }
+
 
 def make_hash_tuple(item):
     target = (
@@ -55,7 +56,8 @@ def make_hash_tuple(item):
             ]
         )
     )
-    
+
+
 def open_ttp_template(config, template_name, templates_path):
     path_to_n2g = os.path.dirname(__file__)
     try:
@@ -64,9 +66,7 @@ def open_ttp_template(config, template_name, templates_path):
             and not template_name in config["platforms"]
         ):
             return False
-        path = templates_path.format(
-            path_to_n2g, template_name
-        )
+        path = templates_path.format(path_to_n2g, template_name)
         with open(path, "r") as file:
             return file.read()
     except Exception as excptn:

@@ -22,16 +22,23 @@ addresses.
 """
 if __name__ == "__main__":
     import sys
+
     sys.path.insert(0, ".")
-	
+
 import logging
 import pprint
 import os
 import json
-from ttp import ttp
 from N2G import N2G_utils
 import ipaddress
 
+try:
+    from ttp import ttp
+    
+    HAS_TTP = True
+except ImportError:
+    HAS_TTP = False
+    
 # initiate logging
 log = logging.getLogger(__name__)
 
@@ -64,9 +71,9 @@ class ip_drawer:
     * ``drawing`` - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
     * ``config`` - dictionary of configuration options to define processing behavior
     * ``ttp_vars`` - dictionary to use for TTP parser object template variables
-    
+
     **config options**
-    
+
     * ``blbl`` - integer, length of interface description to use as bottom label for subnet nodes, if False or 0, bottom label will not be set
     * ``lbl_next_to_subnet`` - boolean, put link port:vrf:ip label next to subnet node
     """
@@ -144,6 +151,8 @@ class ip_drawer:
         self._update_drawing()
 
     def _parse(self, data):
+        if not HAS_TTP:
+            raise ModuleNotFoundError("N2G:ip_drawer failed importing TTP, is it installed?")
         templates_path = "{}/ttp_templates/IP_Drawer/{}.txt"
         # process data dictionary
         if isinstance(data, dict):
@@ -152,7 +161,9 @@ class ip_drawer:
                 add_network, scope="group", name="add_network", add_ttp=True
             )
             for platform_name, text_list in data.items():
-                ttp_template = N2G_utils.open_ttp_template(self.config, platform_name, templates_path)
+                ttp_template = N2G_utils.open_ttp_template(
+                    self.config, platform_name, templates_path
+                )
                 if not ttp_template:
                     continue
                 parser.add_template(template=ttp_template, template_name=platform_name)
@@ -168,7 +179,9 @@ class ip_drawer:
             with os.scandir(data) as dirs:
                 for entry in dirs:
                     if entry.is_dir():
-                        ttp_template = N2G_utils.open_ttp_template(self.config, entry.name, templates_path)
+                        ttp_template = N2G_utils.open_ttp_template(
+                            self.config, entry.name, templates_path
+                        )
                         if not ttp_template:
                             continue
                         parser.add_template(
@@ -184,7 +197,7 @@ class ip_drawer:
         # pprint.pprint(self.parsed_data, width = 100)
 
     def _form_base_graph_dict(self):
-        interfaces_ip = {} # need this dict to skip ARP entries
+        interfaces_ip = {}  # need this dict to skip ARP entries
         for platform, hosts_data in self.parsed_data.items():
             for hostname, host_data in hosts_data.items():
                 self._add_node({"id": hostname, "top_label": "Device"}, host_data)
@@ -197,19 +210,30 @@ class ip_drawer:
                             interfaces_ip.setdefault(network, []).append(ip["ip"])
                         network_node = {"id": network, "top_label": "Subnet"}
                         # add bottom lable to node
-                        if interface_data.get("port_description") and self.config.get("blbl"):
-                            if len(interface_data["port_description"]) > self.config["blbl"]:
-                                network_node["bottom_label"] = "{}..".format(interface_data["port_description"][:self.config["blbl"]])
+                        if interface_data.get("port_description") and self.config.get(
+                            "blbl"
+                        ):
+                            if (
+                                len(interface_data["port_description"])
+                                > self.config["blbl"]
+                            ):
+                                network_node["bottom_label"] = "{}..".format(
+                                    interface_data["port_description"][
+                                        : self.config["blbl"]
+                                    ]
+                                )
                             else:
-                                network_node["bottom_label"] = "{}".format(interface_data["port_description"])
+                                network_node["bottom_label"] = "{}".format(
+                                    interface_data["port_description"]
+                                )
                         link_description_data = {
-                                k: v
-                                for k, v in interface_data.items()
-                                if not k in ["arp", "ip_addresses"]
-                            }
+                            k: v
+                            for k, v in interface_data.items()
+                            if not k in ["arp", "ip_addresses"]
+                        }
                         link_description_data.update(ip)
                         link_description = {
-                            "{}:{}".format(hostname, interface): link_description_data 
+                            "{}:{}".format(hostname, interface): link_description_data
                         }
                         link_dict = {
                             "source": network,
@@ -252,12 +276,12 @@ class ip_drawer:
                             ip_obj = ipaddress.ip_address(ip)
                             network = str(
                                 [i for i in interface_network_objects if ip_obj in i][0]
-                            )                            
+                            )
                             # add IP address node
                             node_id = "{}:{}".format(network, ip)
                             description = {
                                 "FHRP:{}:{}".format(hostname, interface): fhrp_entry
-                            }               
+                            }
                             self._add_node(
                                 {
                                     "id": node_id,
@@ -306,17 +330,14 @@ class ip_drawer:
                             )
                             # add link to network
                             link_dict = {"source": node_id, "target": network}
-                            self._add_link(link_dict)                        
+                            self._add_link(link_dict)
         # clean up ARP entries that duplicate interface IPs
         if self.config.get("add_arp"):
             for network, ips in interfaces_ip.items():
                 for ip in ips:
                     arp_node_id = "{}:{}".format(network, ip)
                     link_hash = N2G_utils.make_hash_tuple(
-                        {
-                            "source": arp_node_id, 
-                            "target": network
-                        }
+                        {"source": arp_node_id, "target": network}
                     )
                     _ = self.nodes_dict.pop(arp_node_id, None)
                     _ = self.links_dict.pop(link_hash, None)
@@ -447,8 +468,12 @@ class ip_drawer:
             link_dict = {
                 "source": link_1["target"],
                 "target": link_2["target"],
-                "src_label": link_1["trgt_label"] if link_1.get("trgt_label") else link_1["src_label"],
-                "trgt_label": link_2["trgt_label"] if link_2.get("trgt_label") else link_2["src_label"],
+                "src_label": link_1["trgt_label"]
+                if link_1.get("trgt_label")
+                else link_1["src_label"],
+                "trgt_label": link_2["trgt_label"]
+                if link_2.get("trgt_label")
+                else link_2["src_label"],
                 "description": json.dumps(
                     description,
                     sort_keys=True,

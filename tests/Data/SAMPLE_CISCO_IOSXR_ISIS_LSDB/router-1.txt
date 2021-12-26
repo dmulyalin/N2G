@@ -1,0 +1,773 @@
+RP/0/RP0/CPU0:router-1#show isis database verbose 
+Mon Aug  9 15:36:45.455 AEST
+
+IS-IS 100 (Level-2) Link State Database
+LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime/Rcvd  ATT/P/OL
+router-2.00-00        0x000004d1   0x93a2        64768/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  Router ID:      192.0.1.1
+  Hostname:       router-2
+  Metric: 0          IP-Extended 192.0.1.1/32
+    Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+  Metric: 16777214   IS-Extended router-3.00
+    Local Interface ID: 9, Remote Interface ID: 50
+    Interface IP Address: 192.1.0.17
+    Neighbor IP Address: 192.1.0.18
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 1000
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 802        IS-Extended router-1.00
+    Local Interface ID: 7, Remote Interface ID: 53
+    Interface IP Address: 192.1.0.25
+    Neighbor IP Address: 192.1.0.26
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 802
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+router-3.00-00        0x000004c9   0x10aa        65164/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  Router ID:      192.0.1.2
+  Hostname:       router-3
+  Metric: 0          IP-Extended 192.0.1.2/32
+    Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+  Metric: 301        IS-Extended router-4.00
+    Local Interface ID: 48, Remote Interface ID: 53
+    Interface IP Address: 192.1.0.33
+    Neighbor IP Address: 192.1.0.34
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 301
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 16777214   IS-Extended router-2.00
+    Local Interface ID: 50, Remote Interface ID: 9
+    Interface IP Address: 192.1.0.18
+    Neighbor IP Address: 192.1.0.17
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 1000
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+router-1.00-00      * 0x000004cf   0x887a        64732/*            0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  IP Address:     192.0.0.5
+  Router ID:      192.0.1.5
+  Metric: 0          IP-Extended 192.0.0.5/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.5
+  Metric: 0          IP-Extended 192.0.1.5/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.5
+  Hostname:       router-1
+  Metric: 15         IS-Extended router-4.00
+    Local Interface ID: 58, Remote Interface ID: 55
+    Interface IP Address: 192.1.0.29
+    Neighbor IP Address: 192.1.0.30
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 15
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 802        IS-Extended router-2.00
+    Local Interface ID: 53, Remote Interface ID: 7
+    Interface IP Address: 192.1.0.26
+    Neighbor IP Address: 192.1.0.25
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 802
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+router-4.00-00        0x000004c8   0x0b03        65479/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  IP Address:     192.0.0.6
+  Router ID:      192.0.1.6
+  Metric: 0          IP-Extended 192.0.0.6/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.6
+  Metric: 0          IP-Extended 192.0.1.6/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.6
+  Hostname:       router-4
+  Metric: 15         IS-Extended router-1.00
+    Local Interface ID: 55, Remote Interface ID: 58
+    Interface IP Address: 192.1.0.30
+    Neighbor IP Address: 192.1.0.29
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 15
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 301        IS-Extended router-3.00
+    Local Interface ID: 53, Remote Interface ID: 48
+    Interface IP Address: 192.1.0.34
+    Neighbor IP Address: 192.1.0.33
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 301
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+
+ Total Level-2 LSP count: 4     Local Level-2 LSP count: 1
+
+IS-IS 656 (Level-2) Link State Database
+LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime/Rcvd  ATT/P/OL
+router-2.00-00        0x000011df   0x5156        64791/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0x8e
+  Hostname:       router-2
+  IPv6 Address:   fddd:2:c101::1
+  Metric: 0          MT (IPv6 Unicast) IPv6 fddd:2:c101::1/128
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+  Metric: 1          MT (IPv6 Unicast) IPv6 fddc:0:1::/48
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 0          MT (IPv6 Unicast) IPv6-Ext-InAr fddc:3::/36
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 0          MT (IPv6 Unicast) IPv6-Ext-InAr fddc::/36
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Router Cap:     0.0.0.0 D:0 S:0
+    IPv6 Router ID: fddd:2:c101::1
+    SR Algorithm: 
+      Algorithm: 0
+      Algorithm: 1
+      Algorithm: 128
+    SRv6: O:0
+    Node Maximum SID Depth: 
+      SRH Max SL:       3
+      SRH Max End Pop:  3
+      SRH Max T.insert: 2
+      SRH Max T.encaps: 2
+      SRH Max End D:    3
+    Flex-Algo Definition: 
+      Algorithm: 128 Metric-Type: 1 Alg-type: 0 Priority: 128
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-1.00
+    Local Interface ID: 68, Remote Interface ID: 57
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:0:1:e000:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:0:1001:e001:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:0:1::/48 D:0 Metric: 0 Algorithm: 0
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:0:1:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:0:1001::/48 D:0 Metric: 0 Algorithm: 128
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:0:1001:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  MT:             IPv6 Unicast                                 0/0/0
+router-3.00-00        0x000011d3   0xfa14        65452/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0x8e
+  Hostname:       router-3
+  IPv6 Address:   fddd:2:c101::2
+  Metric: 0          MT (IPv6 Unicast) IPv6-Ext-InAr fddc::/36
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 1          MT (IPv6 Unicast) IPv6 fddc:0:2::/48
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 0          MT (IPv6 Unicast) IPv6-Ext-InAr fddc:2::/36
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 0          MT (IPv6 Unicast) IPv6-Ext-InAr fddc:3::/36
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 0          MT (IPv6 Unicast) IPv6 fddd:2:c101::2/128
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+  Router Cap:     0.0.0.0 D:0 S:0
+    IPv6 Router ID: fddd:2:c101::2
+    SR Algorithm: 
+      Algorithm: 0
+      Algorithm: 1
+      Algorithm: 128
+    SRv6: O:0
+    Node Maximum SID Depth: 
+      SRH Max SL:       3
+      SRH Max End Pop:  3
+      SRH Max T.insert: 2
+      SRH Max T.encaps: 2
+      SRH Max End D:    3
+    Flex-Algo Definition: 
+      Algorithm: 128 Metric-Type: 1 Alg-type: 0 Priority: 128
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-4.00
+    Local Interface ID: 68, Remote Interface ID: 60
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:0:2:e000:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:0:1002:e001:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:0:2::/48 D:0 Metric: 0 Algorithm: 0
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:0:2:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:0:1002::/48 D:0 Metric: 0 Algorithm: 128
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:0:1002:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  MT:             IPv6 Unicast                                 0/0/0
+router-1.00-00      * 0x000011cc   0x3964        65058/*            0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0x8e
+  Hostname:       router-1
+  IPv6 Address:   fddd:2:c201::1
+  Metric: 0          MT (IPv6 Unicast) IPv6 fddd:2:c201::1/128
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+  Metric: 1          MT (IPv6 Unicast) IPv6 fddc:2:1::/48
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Router Cap:     0.0.0.0 D:0 S:0
+    IPv6 Router ID: fddd:2:c201::1
+    SR Algorithm: 
+      Algorithm: 0
+      Algorithm: 1
+      Algorithm: 128
+    SRv6: O:0
+    Node Maximum SID Depth: 
+      SRH Max SL:       3
+      SRH Max End Pop:  3
+      SRH Max T.insert: 2
+      SRH Max T.encaps: 2
+      SRH Max End D:    3
+    Flex-Algo Definition: 
+      Algorithm: 128 Metric-Type: 1 Alg-type: 0 Priority: 128
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-2.00
+    Local Interface ID: 57, Remote Interface ID: 68
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:1:e000:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1001:e001:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-5.00
+    Local Interface ID: 64, Remote Interface ID: 102
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:1:e002:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1001:e003:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-4.00
+    Local Interface ID: 60, Remote Interface ID: 62
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:1:e004:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1001:e005:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:1::/48 D:0 Metric: 0 Algorithm: 0
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:1:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:1001::/48 D:0 Metric: 0 Algorithm: 128
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:1001:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  MT:             IPv6 Unicast                                 0/0/0
+router-4.00-00        0x000011c8   0xce06        65307/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0x8e
+  Hostname:       router-4
+  IPv6 Address:   fddd:2:c201::2
+  Metric: 0          MT (IPv6 Unicast) IPv6 fddd:2:c201::2/128
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+  Metric: 1          MT (IPv6 Unicast) IPv6 fddc:2:2::/48
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Router Cap:     0.0.0.0 D:0 S:0
+    IPv6 Router ID: fddd:2:c201::2
+    SR Algorithm: 
+      Algorithm: 0
+      Algorithm: 1
+      Algorithm: 128
+    SRv6: O:0
+    Node Maximum SID Depth: 
+      SRH Max SL:       3
+      SRH Max End Pop:  3
+      SRH Max T.insert: 2
+      SRH Max T.encaps: 2
+      SRH Max End D:    3
+    Flex-Algo Definition: 
+      Algorithm: 128 Metric-Type: 1 Alg-type: 0 Priority: 128
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-3.00
+    Local Interface ID: 60, Remote Interface ID: 68
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:2:e002:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1002:e003:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-6.00
+    Local Interface ID: 64, Remote Interface ID: 102
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:2:e000:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1002:e001:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-1.00
+    Local Interface ID: 62, Remote Interface ID: 60
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:2:e004:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1002:e005:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:2::/48 D:0 Metric: 0 Algorithm: 0
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:2:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:1002::/48 D:0 Metric: 0 Algorithm: 128
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:1002:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  MT:             IPv6 Unicast                                 0/0/0
+router-5.00-00       0x000011bf   0x6fbd        65486/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0x8e
+  Hostname:       router-5
+  IPv6 Address:   fddd:2:c301::1
+  Metric: 1          MT (IPv6 Unicast) IPv6 fddc:2:3::/48
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 0          MT (IPv6 Unicast) IPv6 fddd:2:c301::1/128
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+  Router Cap:     0.0.0.0 D:0 S:0
+    IPv6 Router ID: fddd:2:c301::1
+    SR Algorithm: 
+      Algorithm: 0
+      Algorithm: 1
+      Algorithm: 128
+    SRv6: O:0
+    Node Maximum SID Depth: 
+      SRH Max SL:       3
+      SRH Max End Pop:  3
+      SRH Max T.insert: 2
+      SRH Max T.encaps: 2
+      SRH Max End D:    3
+    Flex-Algo Definition: 
+      Algorithm: 128 Metric-Type: 1 Alg-type: 0 Priority: 128
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-1.00
+    Local Interface ID: 102, Remote Interface ID: 64
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:3:e001:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1003:e002:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:3::/48 D:0 Metric: 0 Algorithm: 0
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:3:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:1003::/48 D:0 Metric: 0 Algorithm: 128
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:1003:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  MT:             IPv6 Unicast                                 0/0/0
+router-6.00-00       0x000011c8   0xac7e        65408/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0x8e
+  Hostname:       router-6
+  IPv6 Address:   fddd:2:c301::2
+  Metric: 1          MT (IPv6 Unicast) IPv6 fddc:2:4::/48
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+  Metric: 0          MT (IPv6 Unicast) IPv6 fddd:2:c301::2/128
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+  Router Cap:     0.0.0.0 D:0 S:0
+    IPv6 Router ID: fddd:2:c301::2
+    SR Algorithm: 
+      Algorithm: 0
+      Algorithm: 1
+      Algorithm: 128
+    SRv6: O:0
+    Node Maximum SID Depth: 
+      SRH Max SL:       3
+      SRH Max End Pop:  3
+      SRH Max T.insert: 2
+      SRH Max T.encaps: 2
+      SRH Max End D:    3
+    Flex-Algo Definition: 
+      Algorithm: 128 Metric-Type: 1 Alg-type: 0 Priority: 128
+  Metric: 10         MT (IPv6 Unicast) IS-Extended router-4.00
+    Local Interface ID: 102, Remote Interface ID: 64
+    Physical BW: 10000000 kbits/sec
+    Link Average Delay: 1 us
+    Link Min/Max Delay: 1/1 us
+    Link Delay Variation: 0 us
+    END.X SID: fddc:2:4:e000:: B:0 S:0 P:0 uA (PSP/USD) Alg:0
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+    END.X SID: fddc:2:1004:e001:: B:0 S:0 P:0 uA (PSP/USD) Alg:128
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 16, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:4::/48 D:0 Metric: 0 Algorithm: 0
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:4:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  SRv6 Locator:   MT (IPv6 Unicast) fddc:2:1004::/48 D:0 Metric: 0 Algorithm: 128
+    Prefix Attribute Flags: X:0 R:0 N:0 E:0 A:0
+    END SID: fddc:2:1004:: uN (PSP/USD)
+      SID Structure:
+        Block Length: 32, Node-ID Length: 16, Func-Length: 0, Args-Length: 0
+  MT:             IPv6 Unicast                                 0/0/0
+
+ Total Level-2 LSP count: 6     Local Level-2 LSP count: 1
+
+IS-IS 1000 (Level-2) Link State Database
+LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime/Rcvd  ATT/P/OL
+router-1.00-00      * 0x000004c3   0x3159        65246/*            0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  Router ID:      192.0.1.5
+  Hostname:       router-1
+  Metric: 100        IS-Extended router-4.00
+    Local Interface ID: 61, Remote Interface ID: 56
+    Interface IP Address: 192.1.0.81
+    Neighbor IP Address: 192.1.0.82
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 100
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 0          IP-Extended 192.0.1.5/32
+    Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+router-4.00-00        0x000004c7   0xae7b        64846/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  Router ID:      192.0.1.6
+  Hostname:       router-4
+  Metric: 100        IS-Extended router-1.00
+    Local Interface ID: 56, Remote Interface ID: 61
+    Interface IP Address: 192.1.0.82
+    Neighbor IP Address: 192.1.0.81
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 100
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 0          IP-Extended 192.0.1.6/32
+    Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+
+ Total Level-2 LSP count: 2     Local Level-2 LSP count: 1
+
+IS-IS 2001 (Level-2) Link State Database
+LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime/Rcvd  ATT/P/OL
+router-1.00-00      * 0x0000354e   0x6d14        64990/*            0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  Router ID:      192.0.1.5
+  Hostname:       router-1
+  Metric: 1000       IS-Extended router-4.00
+    Local Interface ID: 62, Remote Interface ID: 57
+    Interface IP Address: 192.1.0.49
+    Neighbor IP Address: 192.1.0.50
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 1000
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 0          IP-Extended 192.0.1.5/32
+    Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+  Metric: 1002       IS-Extended router-5.00
+    Local Interface ID: 55, Remote Interface ID: 100
+    Interface IP Address: 192.1.0.58
+    Neighbor IP Address: 192.1.0.57
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 1002
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+router-4.00-00        0x000011a7   0x09c8        64971/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  Router ID:      192.0.1.6
+  Hostname:       router-4
+  Metric: 1000       IS-Extended router-1.00
+    Local Interface ID: 57, Remote Interface ID: 62
+    Interface IP Address: 192.1.0.50
+    Neighbor IP Address: 192.1.0.49
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 1000
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+  Metric: 0          IP-Extended 192.0.1.6/32
+    Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+  Metric: 501        IS-Extended router-6.00
+    Local Interface ID: 54, Remote Interface ID: 101
+    Interface IP Address: 192.1.0.66
+    Neighbor IP Address: 192.1.0.65
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 501
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+router-5.00-00       0x0000355a   0x9f65        64964/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  IP Address:     192.0.0.9
+  Router ID:      192.0.1.9
+  Metric: 0          IP-Extended 192.0.0.9/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.9
+  Metric: 0          IP-Extended 192.0.1.9/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.9
+  Hostname:       router-5
+  Metric: 1002       IS-Extended router-1.00
+    Local Interface ID: 100, Remote Interface ID: 55
+    Interface IP Address: 192.1.0.57
+    Neighbor IP Address: 192.1.0.58
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 1002
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+router-6.00-00       0x000011ad   0xbe41        64929/65535        0/0/0
+  Auth:           Algorithm HMAC-MD5, Length: 17
+  Area Address:   49.1000
+  NLPID:          0xcc
+  IP Address:     192.0.0.10
+  Router ID:      192.0.1.10
+  Metric: 0          IP-Extended 192.0.0.10/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.10
+  Metric: 0          IP-Extended 192.0.1.10/32
+    Prefix Attribute Flags: X:0 R:0 N:1 E:0 A:0
+    Source Router ID: 192.0.1.10
+  Hostname:       router-6
+  Metric: 501        IS-Extended router-4.00
+    Local Interface ID: 101, Remote Interface ID: 54
+    Interface IP Address: 192.1.0.65
+    Neighbor IP Address: 192.1.0.66
+    Affinity: 0x00000000
+    Physical BW: 10000000 kbits/sec
+    Reservable Global pool BW: 0 kbits/sec
+    Global Pool BW Unreserved: 
+      [0]: 0        kbits/sec          [1]: 0        kbits/sec
+      [2]: 0        kbits/sec          [3]: 0        kbits/sec
+      [4]: 0        kbits/sec          [5]: 0        kbits/sec
+      [6]: 0        kbits/sec          [7]: 0        kbits/sec
+    Admin. Weight: 501
+    Ext Admin Group: Length: 32
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+      0x00000000   0x00000000
+    Physical BW: 10000000 kbits/sec
+
+ Total Level-2 LSP count: 4     Local Level-2 LSP count: 1
+RP/0/RP0/CPU0:router-1#

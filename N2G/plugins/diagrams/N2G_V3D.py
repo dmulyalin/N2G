@@ -28,15 +28,15 @@ def logging_config(LOG_LEVEL, LOG_FILE):
 
 logging_config(LOG_LEVEL, LOG_FILE)
 
+
 class v3d_diagramm:
-    
     def __init__(self, node_duplicates="skip", link_duplicates="skip"):
         self.drawing = {"nodes": [], "links": []}
         self.node_duplicates = node_duplicates
         self.link_duplicates = link_duplicates
         self.nodes_dict = {}
         self.links_dict = {}
-        
+
     def _node_exists(self, id, **kwargs):
         # check if node with given id already exists
         if id in self.nodes_dict:
@@ -49,16 +49,9 @@ class v3d_diagramm:
             return True
         else:
             return False
-            
+
     def add_node(
-        self,
-        id,
-        label="",
-        data={},
-        url="",
-        color="red",
-        nodeResolution=8,
-        **kwargs
+        self, id, label="", data={}, url="", color="green", nodeResolution=8, **kwargs
     ):
         """
         Method to add node to the diagram.
@@ -73,31 +66,27 @@ class v3d_diagramm:
         * ``height`` (int) node height in pixels
         * ``x_pos`` (int) node position on x axis
         * ``y_pos`` (int) node position on y axis
-
+        * ``kwargs`` (dict) any additional kwargs to add to node data
         """
+        # add data attributes and/or url to node
+        node_data = {**data, **kwargs}
+        # process node
         if self._node_exists(id, label=label, data=data, url=url):
             return
         if not label.strip():
             label = id
         # create node element
         node = {
-                "id": id,
-                "label": label,
-                "color": color,
-                "nodeResolution": nodeResolution
-            }
-        # add data attributes and/or url to node
-        node.update(data)
-        node.update(kwargs)
+            "id": id,
+            "label": label,
+            "color": color,
+            "nodeResolution": nodeResolution,
+            "data": node_data
+        }
         # add node to nodes dictionary
         self.nodes_dict[id] = node
-        
-    def update_node(
-        self,
-        id,
-        data={},
-        **kwargs
-    ):
+
+    def update_node(self, id, data={}, **kwargs):
         """
         Method to update node details. Uses node ``id`` to search for node to update
 
@@ -112,7 +101,7 @@ class v3d_diagramm:
         # update node attributes
         node.update(data)
         node.update(kwargs)
-        
+
     def _link_exists(self, id, edge_tup):
         """method, used to check dublicate edges"""
         # check if edge with given id already exists
@@ -127,7 +116,7 @@ class v3d_diagramm:
                 pass
             return True
         self.links_dict[id] = {}
-        
+
     def add_link(
         self,
         source,
@@ -148,16 +137,19 @@ class v3d_diagramm:
         * ``source`` (str) mandatory, target node id
         * ``label`` (str) link label to display at the centre of the link
         * ``data`` (dict) dictionary of key value pairs to add as link data
+        * ``description`` (str) description of the link
         * ``url`` (str) url string to save as link ``url`` attribute
         * ``src_label`` (str) link label to display next to source node
         * ``trgt_label`` (str) link label to display next to target node
-
+        * ``kwargs`` (dict) any additional kwargs to add to link data
+        
         .. note:: If source or target nodes does not exists, they will be automatically
           created
-          
+
         All labels are optional and substituted with empty values to calculate link id.
         """
-        link_data = {}
+        # form link data and url
+        link_data = {**data, **kwargs}
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
         source = source_node_dict.pop("id")
@@ -177,19 +169,17 @@ class v3d_diagramm:
             return
         # create link
         link = {
-                "id": edge_id,
-                "label": label,
-                "source": source,
-                "target": target,
-                "src_label": src_label,
-                "trgt_label": trgt_label
-            }
-        # add links data and url
-        link_data.update(data)
-        link_data.update(kwargs)
+            "id": edge_id,
+            "label": label,
+            "source": source,
+            "target": target,
+            "src_label": src_label,
+            "trgt_label": trgt_label,
+            "data": link_data,
+        }
         # save link to graph
         self.links_dict[edge_id] = link
-        
+
     def layout(self, algo="kk", dx=500, dy=500, dz=500, **kwargs):
         """
         Method to calculate graph layout using Python
@@ -247,9 +237,7 @@ class v3d_diagramm:
         for item in self.links_dict.values():
             igraph_graph.add_vertex(name=item.get("source"))
             igraph_graph.add_vertex(name=item.get("target"))
-            igraph_graph.add_edge(
-                source=item.get("source"), target=data.get("target")
-            )
+            igraph_graph.add_edge(source=item.get("source"), target=data.get("target"))
         # calculate layout
         layout = igraph_graph.layout(layout=algo, **kwargs)
         # scale layout to diagram size
@@ -265,7 +253,7 @@ class v3d_diagramm:
             )
             node_geometry_element.set("x", str(round(x_coord)))
             node_geometry_element.set("y", str(round(y_coord)))
-            
+
     def from_dict(self, data):
         """
         Method to build graph from dictionary.
@@ -365,94 +353,75 @@ class v3d_diagramm:
 
     def dump_dict(self):
         self.drawing = {
-            "nodes": list(self.nodes_dict.values()), 
-            "links": list(self.links_dict.values())
+            "nodes": list(self.nodes_dict.values()),
+            "links": list(self.links_dict.values()),
         }
-        return self.drawing     
-        
+        return self.drawing
+
     def dump_json(self, **kwargs):
-        return json.dumps(self.dump_dict(), **kwargs)
+        """
+        Method to transform graph data in a JSON formatted string.
 
-    def run(self, ip="0.0.0.0", port=9000):
-        index_html = """
-<head>
-  <style> body { margin: 0; } </style>
-  
-  <script src="//unpkg.com/dat.gui"></script>
-  <script src="//unpkg.com/3d-force-graph"></script>
-  
-</head>
-
-<body>
-  <div id="3d-graph"></div>
- 
-  <script type="module">    
-    import { UnrealBloomPass } from '//unpkg.com/three/examples/jsm/postprocessing/UnrealBloomPass.js';
-    
-    const elem = document.getElementById("3d-graph");
-    const json_data = `{{ json_data | json }}`;
-    var gData = JSON.parse(json_data);
-    
-    // create graph
-    const Graph = ForceGraph3D()(elem)
-        .enableNodeDrag(true)
-        .nodeLabel(node => node.label)
-        .graphData(gData)
-        .onNodeDragEnd(node => {
-          node.fx = node.x;
-          node.fy = node.y;
-          node.fz = node.z;
-        });
+        **Parameters**
         
-    // add bloom
-    const bloomPass = new UnrealBloomPass();
-    bloomPass.strength = 3;
-    bloomPass.radius = 1;
-    bloomPass.threshold = 0.1;
-    Graph.postProcessingComposer().addPass(bloomPass);
-    
-    //Define GUI
-    const Settings = function() {
-      this.Distance = 20;
-      this.isAnimationActive = true;
-      this.isRotating = false;
-    };
-    var settings = new Settings();
-    const gui = new dat.GUI();
+        * ``kwargs`` (dict) kwargs to use with ``json.dumps`` method
+        """
+        gdict = self.dump_dict()
+        # try to load all the nodes and links description as json data
+        for node in gdict["nodes"]:
+            try:
+                if "description" in node["data"]:
+                    node["data"]["description"] = json.loads(node["data"]["description"])
+            except:
+                continue
+        for link in gdict["links"]:
+            try:
+                if "description" in link["data"]:
+                    link["data"]["description"] = json.loads(link["data"]["description"])
+            except:
+                continue
+        return json.dumps(gdict, **kwargs)
 
-    // link distance:
-    const linkForce = Graph
-      .d3Force('link')
-      .distance(settings.Distance);
+    def dump_file(self, filename=None, folder="./Output/", json_kwargs={"sort_keys": True, "indent": 4}):
+        """
+        Method to save current diagram to text file in a JSON format.
 
-    const controllerOne = gui.add(settings, 'Distance', 0, 100);
-    controllerOne.onChange(updateLinkDistance);
-    function updateLinkDistance() {
-      linkForce.distance(settings.Distance);
-      Graph.numDimensions(3); // Re-heat simulation
-    }
-    
-    // pause / resume animation
-    const controllerAnim = gui.add(settings, 'isAnimationActive');
-    controllerAnim.onChange(updateAnimation);
-    function updateAnimation() {
-      Settings.isAnimationActive ? Graph.resumeAnimation() : Graph.pauseAnimation() ;
-      Settings.isAnimationActive = !Settings.isAnimationActive;
-    }    
+        **Parameters**
 
-  </script>
-</body>        
+        * ``filename`` (str) name of the file to save diagram into
+        * ``folder`` (str) OS path to folder where to save diagram file
+
+        If no ``filename`` provided, timestamped format will be
+        used to produce filename, e.g.: ``Sun Jun 28 20-30-57 2020_output.txt``
+        """
+        import time
+
+        # check output folder, if not exists, create it
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        # create file name
+        if not filename:
+            ctime = time.ctime().replace(":", "-")
+            filename = "{}_output.txt".format(ctime)
+        # save file to disk
+        with open(folder + filename, "w") as outfile:
+            outfile.write(self.dump_json(**json_kwargs))
+            
+    def run(self, ip="0.0.0.0", port=9000):
+        """
+        Method to run FLASK web server using built-in browser app
         """
         from flask import Flask, render_template_string, Markup
-
-        app = Flask(__name__)
+        from N2G.utils.V3D_web_server import graph_browser
         
+        app = Flask(__name__)
+
         # based on https://stackoverflow.com/a/19269087/12300761 answer:
-        app.jinja_env.filters['json'] = lambda v: Markup(json.dumps(v))
-    
-        @app.route('/')
+        app.jinja_env.filters["json"] = lambda v: Markup(json.dumps(v))
+
+        @app.route("/")
         def home():
-            return render_template_string(index_html, json_data=self.dump_dict())
-            
+            return render_template_string(graph_browser, json_data=self.dump_json())
+
         print("Starting server on http://{}:{}".format(ip, port))
         app.run(host=ip, port=port, debug=True)

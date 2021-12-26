@@ -110,25 +110,25 @@ except ImportError:
 def translate_headers(headers, translate_dict):
     """
     Helper function to perform headers translation.
-    
+
     :param headers: (list) list of headers to translate
     :param translate_dict: (dict) map of headers to translate to
-    
+
     For example if ``headers`` are::
-    
+
         headers = ["device:a", "interface:a", "label", "device:b", "interface:b"]
-        
+
     and ``translate_dict`` is::
-    
+
         translate_dict = {
-            "source": ["device:a", "hostname:a"], 
+            "source": ["device:a", "hostname:a"],
             "target": ["device:b", "hostname:b"],
             "src_label": ["src_label", "interface:a", "ip:a"],
             "trgt_label": ["trgt_label", "interface:b", "ip:b"]
         }
-        
+
     this function will transform ``headers`` list in::
-    
+
         headers = ["source", "src_label", "label", "target", "trgt_label"]
     """
     for index, header in enumerate(headers):
@@ -137,28 +137,26 @@ def translate_headers(headers, translate_dict):
         for translate_header, headers_list in translate_dict.items():
             if header in headers_list:
                 headers[index] = translate_header
-                break    
- 
+                break
+
 
 def xlsx_data_adapter(
-        drawing, 
-        data, 
-        node_tabs=["nodes"], 
-        link_tabs=["links"],
-        node_headers_map = {
-            "id": ["device", "hostname"]
-        }, 
-        link_headers_map = {
-            "source": ["device:a", "hostname:a"], 
-            "target": ["device:b", "hostname:b"],
-            "src_label": ["interface:a", "ip:a"],
-            "trgt_label": ["interface:b", "ip:b"]
-        }
-    ):
+    drawing,
+    data,
+    node_tabs=["nodes"],
+    link_tabs=["links"],
+    node_headers_map={"id": ["device", "hostname"]},
+    link_headers_map={
+        "source": ["device:a", "hostname:a"],
+        "target": ["device:b", "hostname:b"],
+        "src_label": ["interface:a", "ip:a"],
+        "trgt_label": ["interface:b", "ip:b"],
+    },
+):
     """
-    Function to load data from XLSX file and add it to diagram using 
+    Function to load data from XLSX file and add it to diagram using
     ``from_dict`` method.
-    
+
     :param drawing: N2G drawing module object
     :param data: (str) OS path to xlsx file to load
     :param node_tabs: (list) list of tabs with nodes data, default ``["nodes"]``
@@ -166,9 +164,9 @@ def xlsx_data_adapter(
     :param node_headers_map: (dict) dictionary to use to translate node tabs headers
     :param link_headers_map: (dict) dictionary to use to translate link tabs headers
     :return: ``True`` on success and ``False`` on failure to load data
-    """            
-    wb = load_workbook(data, data_only=True, read_only=True)     
-    
+    """
+    wb = load_workbook(data, data_only=True, read_only=True)
+
     graph_dict = {"nodes": [], "links": []}
 
     try:
@@ -183,7 +181,7 @@ def xlsx_data_adapter(
                     graph_dict["nodes"].append(
                         dict(zip(node_headers, [c if c else "" for c in row]))
                     )
-        
+
         for link_tab in link_tabs:
             link_headers = []
             for row in wb[link_tab].iter_rows(values_only=True):
@@ -194,19 +192,15 @@ def xlsx_data_adapter(
                     graph_dict["links"].append(
                         dict(zip(link_headers, [c if c else "" for c in row]))
                     )
-                
+
         # add data to graph
         drawing.from_dict(graph_dict, diagram_name="Page-1")
     except:
-        log.error("N2G:xlsx_data_adapter, failed: {}".format(
-                traceback.format_exc()
-            )
-        )
+        log.error("N2G:xlsx_data_adapter, failed: {}".format(traceback.format_exc()))
         return False
-        
+
     # clean up
     wb.close()
-    del graph_dict, wb       
-    
+    del graph_dict, wb
+
     return True
-            

@@ -60,8 +60,7 @@ Sample Usage
 
 *As a module*::
 
-    from N2G.N2G_L2_Drawer import layer_2_drawer
-    from N2G import yed_diagram as create_yed_diagram
+    from N2G import layer_2_drawer, yed_diagram
     
     data = {
         "Cisco_IOS": [
@@ -84,7 +83,7 @@ Sample Usage
         "combine_peers": False,
         "platforms": ["_all_"]    
     }
-    drawing_l2 = create_yed_diagram()
+    drawing_l2 = yed_diagram()
     drawer = layer_2_drawer(drawing_l2, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="l2_diagram_1.graphml", folder="./Output/")
@@ -95,15 +94,22 @@ API Reference
 """
 if __name__ == "__main__":
     import sys
-    sys.path.insert(0, '.')
-    
+
+    sys.path.insert(0, ".")
+
 import logging
 import pprint
 import json
 import os
-from ttp import ttp
 from N2G import N2G_utils
 
+try:
+    from ttp import ttp
+    
+    HAS_TTP = True
+except ImportError:
+    HAS_TTP = False
+    
 # initiate logging
 log = logging.getLogger(__name__)
 
@@ -115,8 +121,8 @@ log = logging.getLogger(__name__)
 
 class layer_2_drawer:
     """
-    Class to instantiate L2 Drawer to process CDP and LLDP neighbors 
-    together with devices' running configuration and state and produce 
+    Class to instantiate L2 Drawer to process CDP and LLDP neighbors
+    together with devices' running configuration and state and produce
     diagram out of it.
 
     **Parameters**
@@ -213,12 +219,16 @@ class layer_2_drawer:
         self._update_drawing()
 
     def _parse(self, data):
+        if not HAS_TTP:
+            raise ModuleNotFoundError("N2G:l2_drawer failed importing TTP, is it installed?")
         templates_path = "{}/ttp_templates/L2_Drawer/{}.txt"
         # process data dictionary
         if isinstance(data, dict):
             parser = ttp(vars=self.ttp_vars)
             for platform_name, text_list in data.items():
-                ttp_template = N2G_utils.open_ttp_template(self.config, platform_name, templates_path)
+                ttp_template = N2G_utils.open_ttp_template(
+                    self.config, platform_name, templates_path
+                )
                 if not ttp_template:
                     continue
                 parser.add_template(template=ttp_template, template_name=platform_name)
@@ -231,7 +241,9 @@ class layer_2_drawer:
             with os.scandir(data) as dirs:
                 for entry in dirs:
                     if entry.is_dir():
-                        ttp_template = N2G_utils.open_ttp_template(self.config, entry.name, templates_path)
+                        ttp_template = N2G_utils.open_ttp_template(
+                            self.config, entry.name, templates_path
+                        )
                         if not ttp_template:
                             continue
                         parser.add_template(
@@ -285,9 +297,8 @@ class layer_2_drawer:
 
     def _add_link(self, item, hosts, host_data):
         # skip LAG or MLAG interfaces
-        if self.config["skip_lag"] and ( 
-            "LAG" in item.get("src_label", "") or
-            "LAG" in item.get("trgt_label", "")       
+        if self.config["skip_lag"] and (
+            "LAG" in item.get("src_label", "") or "LAG" in item.get("trgt_label", "")
         ):
             return
         link_hash = N2G_utils.make_hash_tuple(item)
@@ -394,7 +405,6 @@ class layer_2_drawer:
             # check if need to combine peers, add lag to combine_peers_dict
             if self.config.get("combine_peers"):
                 self._update_combine_peers_dict(item=lag_link, link_hash=lag_link_hash)
-
 
     def _add_lags_to_links_dict(self):
         """
@@ -590,7 +600,7 @@ class layer_2_drawer:
                     "label": "L2",
                     "shape_type": "ellipse",
                     "height": 40,
-                    "width": 40
+                    "width": 40,
                 },
                 host_data={},
             )
@@ -599,14 +609,16 @@ class layer_2_drawer:
                 "source": port_id[0],
                 "target": l2_node_id,
                 "src_label": port_id[1],
-                "description": {l2_node_port_id: {}}
+                "description": {l2_node_port_id: {}},
             }
             # get interface data from parsing results to add it to description
             for platform, hosts in self.parsed_data.items():
                 try:
                     if port_id[1].startswith("MLAG"):
                         link_to_l2_node["description"] = {
-                            l2_node_port_id: hosts[port_id[0]]["interfaces"][port_id[1].replace("MLAG", "LAG")]
+                            l2_node_port_id: hosts[port_id[0]]["interfaces"][
+                                port_id[1].replace("MLAG", "LAG")
+                            ]
                         }
                     else:
                         link_to_l2_node["description"] = {
@@ -633,11 +645,11 @@ class layer_2_drawer:
                     old_link_data = json.loads(old_link.get("description", {}))
                     _ = old_link_data.pop(l2_node_port_id, None)
                     old_link["description"] = json.dumps(
-                            old_link_data,
-                            sort_keys=True,
-                            indent=4,
-                            separators=(",", ": "),
-                        )
+                        old_link_data,
+                        sort_keys=True,
+                        indent=4,
+                        separators=(",", ": "),
+                    )
                     # form new link
                     old_link["source"] = l2_node_id
                     new_link_hash = N2G_utils.make_hash_tuple(old_link)

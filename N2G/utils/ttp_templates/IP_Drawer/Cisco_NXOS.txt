@@ -68,6 +68,7 @@ interface {{ interface | resuball("IfsNormalize") }}
     address {{ ip | IP }} primary
   </group>
  </group>
+! {{ _end_ }}
 </group>
 
 <!-- ARP cache group -->

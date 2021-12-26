@@ -331,7 +331,7 @@ class drawio_diagram:
 
         .. note:: If source or target nodes does not exists, they will be automatically
           created
-          
+
         All labels are optional and substituted with empty values to calculate link id.
         """
         link_data = {}
@@ -577,7 +577,15 @@ class drawio_diagram:
         """
         self.add_diagram(id=diagram_name, width=width, height=height)
         [self.add_node(**node) for node in data.get("nodes", [])]
-        [self.add_link(**link) for link in data.get("links", [])]
+        # add links
+        for link in data.get("links", []):
+            link["source"] = link["source"].replace("\n", "&lt;br&gt;")
+            link["target"] = link["target"].replace("\n", "&lt;br&gt;")
+            link["label"] = link.get("label", "").replace("\n", "&#xa;")
+            link["src_label"] = link.get("src_label", "").replace("\n", "&#xa;")
+            link["trgt_label"] = link.get("trgt_label", "").replace("\n", "&#xa;")
+            self.add_link(**link)
+        # add links
         [self.add_link(**edge) for edge in data.get("edges", [])]
 
     def from_list(self, data, diagram_name="Page-1", width=1360, height=864):
@@ -767,10 +775,10 @@ class drawio_diagram:
 
         1. Edge tuple produced: ``tuple(sorted([label, source, target, src_label, trgt_label]))``
         2. MD5 hash derived from tuple: ``hashlib.md5(",".join(edge_tup).encode()).hexdigest()``
-        
+
         If no ``label, src_label, trgt_label`` provided, they substituted with empty values in
         assumption that values for existing link are empty as well.
-        
+
         This method will replace existing or add new labels to the link.
 
         Existing data attribute will be amended with new values using dictionary
