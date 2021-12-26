@@ -153,7 +153,15 @@ class ospf_drawer:
     * ``112*`` - Huawei DCN OSPF links
     """
 
-    def __init__(self, drawing, ttp_vars: dict = {}, ip_lookup_data: dict = {}, add_connected: bool = False, ptp_filter: list = ["0*", "112*"], add_data: bool = True):
+    def __init__(
+        self,
+        drawing,
+        ttp_vars: dict = {},
+        ip_lookup_data: dict = {},
+        add_connected: bool = False,
+        ptp_filter: list = ["0*", "112*"],
+        add_data: bool = True,
+    ):
         self.ttp_vars = ttp_vars
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
@@ -232,15 +240,7 @@ class ospf_drawer:
 
         :param data: (dict) link dictionary with source, target and label keys
         """
-        return tuple(
-            sorted(
-                [
-                    data["source"],
-                    data["target"],
-                    data.get("label", ""),
-                ]
-            )
-        )
+        return tuple(sorted([data["source"], data["target"], data.get("label", "")]))
 
     def _parse(self, data: [dict, str]) -> None:
         """
@@ -251,7 +251,9 @@ class ospf_drawer:
         :return: None
         """
         if not HAS_TTP:
-            raise ModuleNotFoundError("N2G:ospf_drawer failed importing TTP, is it installed?")
+            raise ModuleNotFoundError(
+                "N2G:ospf_drawer failed importing TTP, is it installed?"
+            )
         parser = ttp(vars=self.ttp_vars, log_level="ERROR")
         # process data dictionary
         if isinstance(data, dict):
@@ -295,11 +297,13 @@ class ospf_drawer:
             node={
                 "id": router_lsa["originator_rid"],
                 "label": router_lsa["originator_rid"],
-                "bottom_label": "Node"
+                "bottom_label": "Node",
             },
             node_data={
                 "lsdb_source": {
-                    "hostname": self.ip_lookup_data.get(ospf_data["local_rid"], {}).get("hostname"),
+                    "hostname": self.ip_lookup_data.get(ospf_data["local_rid"], {}).get(
+                        "hostname"
+                    ),
                     "ospf_rid": ospf_data["local_rid"],
                     "ospf_pid": ospf_pid,
                 },
@@ -328,7 +332,9 @@ class ospf_drawer:
             bma_ip = ipaddress.IPv4Address(bma_peer["link_id"])
             bma_subnet = ""
             for connet in router_lsa.get("connected_stub", []):
-                net = ipaddress.IPv4Network("{}/{}".format(connet["link_id"], connet["link_data"]))        
+                net = ipaddress.IPv4Network(
+                    "{}/{}".format(connet["link_id"], connet["link_data"])
+                )
                 if bma_ip in net:
                     bma_subnet = str(net)
                     break
@@ -348,7 +354,7 @@ class ospf_drawer:
                         bma_peer["link_data"], bma_peer["metric"]
                     ),
                     "label": "A:{}".format(router_lsa["area"]),
-                    "target": "DR {}".format(bma_peer["link_id"])
+                    "target": "DR {}".format(bma_peer["link_id"]),
                 }
             )
         # go over connected subnets
@@ -359,12 +365,16 @@ class ospf_drawer:
                 for i in router_lsa.get("ptp_peers", [])
                 if not i["link_data"].startswith("0.")
             ]
-            node_peering_ip.extend([
-                ipaddress.IPv4Address(i["link_id"])
-                for i in router_lsa.get("bma_peers", [])
-            ])
+            node_peering_ip.extend(
+                [
+                    ipaddress.IPv4Address(i["link_id"])
+                    for i in router_lsa.get("bma_peers", [])
+                ]
+            )
             for connet in router_lsa.get("connected_stub", []):
-                net = ipaddress.IPv4Network("{}/{}".format(connet["link_id"], connet["link_data"]))
+                net = ipaddress.IPv4Network(
+                    "{}/{}".format(connet["link_id"], connet["link_data"])
+                )
                 # filter networks that already formed ptp links
                 for ip in node_peering_ip:
                     if ip in net:
@@ -375,7 +385,7 @@ class ospf_drawer:
                         node={
                             "id": str(net),
                             "label": str(net),
-                            "bottom_label": "Subnet"
+                            "bottom_label": "Subnet",
                         }
                     )
                     self._add_link(
@@ -383,20 +393,20 @@ class ospf_drawer:
                             "source": router_lsa["originator_rid"],
                             "src_label": "M:{}".format(connet["metric"]),
                             "label": "A:{}".format(router_lsa["area"]),
-                            "target": str(net)
+                            "target": str(net),
                         }
                     )
-    
+
     def _process_external_lsa(
         self, external_lsa: dict, ospf_pid: str, ospf_data: dict, device: dict
     ) -> None:
         pass
- 
+
     def _process_summary_lsa(
         self, summry_lsa: dict, ospf_pid: str, ospf_data: dict, device: dict
     ) -> None:
         pass
-        
+
     def _form_base_graph_dict(self) -> None:
         for device in self.parsed_data:
             # go over all OSPF processes on the box
@@ -405,19 +415,18 @@ class ospf_drawer:
                 for router_lsa in ospf_data.get("router_lsa", []):
                     self._process_router_lsa(router_lsa, ospf_pid, ospf_data, device)
                 for external_lsa in ospf_data.get("external_lsa", []):
-                    self._process_external_lsa(external_lsa, ospf_pid, ospf_data, device)
+                    self._process_external_lsa(
+                        external_lsa, ospf_pid, ospf_data, device
+                    )
                 for summry_lsa in ospf_data.get("summry_lsa", []):
                     self._process_summary_lsa(summry_lsa, ospf_pid, ospf_data, device)
-                    
+
     def _add_node(self, node: dict, node_data: dict = {}) -> None:
         # add new node
         if not node["id"] in self.nodes_dict:
             if node_data and self.add_data:
                 node["description"] = json.dumps(
-                    node_data,
-                    sort_keys=True,
-                    indent=4,
-                    separators=(",", ": "),
+                    node_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
             self.nodes_dict[node["id"]] = node
         # update node attributes if they do not exists already
@@ -428,10 +437,7 @@ class ospf_drawer:
                     stored_node[key] = value
             if not "description" in stored_node and node_data and self.add_data:
                 stored_node["description"] = json.dumps(
-                    node_data,
-                    sort_keys=True,
-                    indent=4,
-                    separators=(",", ": "),
+                    node_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
 
     def _add_link(self, link: dict, link_data: dict = {}) -> None:
@@ -440,10 +446,7 @@ class ospf_drawer:
         if link not in self.links_dict[link_hash]:
             if link_data and self.add_data:
                 link["description"] = json.dumps(
-                    link_data,
-                    sort_keys=True,
-                    indent=4,
-                    separators=(",", ": "),
+                    link_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
             self.links_dict[link_hash].append(link)
 
@@ -493,7 +496,7 @@ class ospf_drawer:
                 # add link back to links if have not found a match for it
                 else:
                     self._add_link(link)
-                    
+
     def _lookup_rid(self):
         """
         Method to lookup RID in lookup data and use hostname as label and ID,
@@ -504,15 +507,27 @@ class ospf_drawer:
             if node["id"] in self.ip_lookup_data:
                 node_id = node["id"]
                 node["id"] = self.ip_lookup_data[node_id].get("hostname", node_id)
-                node["label"] = self.ip_lookup_data[node_id].get("hostname", node["label"])
-                node.update({k:v for k, v in self.ip_lookup_data[node_id].items() if k != "interface"})
+                node["label"] = self.ip_lookup_data[node_id].get(
+                    "hostname", node["label"]
+                )
+                node.update(
+                    {
+                        k: v
+                        for k, v in self.ip_lookup_data[node_id].items()
+                        if k != "interface"
+                    }
+                )
         for links in self.links_dict.values():
             for link in links:
                 if link["source"] in self.ip_lookup_data:
-                    link["source"] = self.ip_lookup_data[link["source"]].get("hostname", link["source"])
+                    link["source"] = self.ip_lookup_data[link["source"]].get(
+                        "hostname", link["source"]
+                    )
                 if link["target"] in self.ip_lookup_data:
-                    link["target"] = self.ip_lookup_data[link["target"]].get("hostname", link["target"])
-                    
+                    link["target"] = self.ip_lookup_data[link["target"]].get(
+                        "hostname", link["target"]
+                    )
+
     def _lookup_ip_interfaces(self):
         """
         Method to search for link IP addresses in lookup table and add 
@@ -526,7 +541,8 @@ class ospf_drawer:
                     if self.ip_lookup_data.get(link_src_ip, {}).get("interface"):
                         link["src_label"] = "{}:{}:{}".format(
                             self.ip_lookup_data[link_src_ip]["interface"],
-                            link_src_ip, link_src_metric
+                            link_src_ip,
+                            link_src_metric,
                         )
                 # modify target label
                 if link.get("trgt_label"):
@@ -534,9 +550,10 @@ class ospf_drawer:
                     if self.ip_lookup_data.get(link_trgt_ip, {}).get("interface"):
                         link["trgt_label"] = "{}:{}:{}".format(
                             self.ip_lookup_data[link_trgt_ip]["interface"],
-                            link_trgt_ip, link_trgt_metric
+                            link_trgt_ip,
+                            link_trgt_metric,
                         )
-                    
+
     def _update_drawing(self):
         """
         Method to add formed links and nodes to the drawing object

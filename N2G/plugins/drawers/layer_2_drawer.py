@@ -105,11 +105,11 @@ from N2G import N2G_utils
 
 try:
     from ttp import ttp
-    
+
     HAS_TTP = True
 except ImportError:
     HAS_TTP = False
-    
+
 # initiate logging
 log = logging.getLogger(__name__)
 
@@ -220,7 +220,9 @@ class layer_2_drawer:
 
     def _parse(self, data):
         if not HAS_TTP:
-            raise ModuleNotFoundError("N2G:l2_drawer failed importing TTP, is it installed?")
+            raise ModuleNotFoundError(
+                "N2G:l2_drawer failed importing TTP, is it installed?"
+            )
         templates_path = "{}/ttp_templates/L2_Drawer/{}.txt"
         # process data dictionary
         if isinstance(data, dict):
@@ -568,10 +570,7 @@ class layer_2_drawer:
                                 {"{}:{}".format(hostname, intf_name): ""}
                             )
                         self.links_dict[link_hash]["description"] = json.dumps(
-                            link_data,
-                            sort_keys=True,
-                            indent=4,
-                            separators=(",", ": "),
+                            link_data, sort_keys=True, indent=4, separators=(",", ": ")
                         )
 
     def _combine_peers(self):
@@ -645,10 +644,7 @@ class layer_2_drawer:
                     old_link_data = json.loads(old_link.get("description", {}))
                     _ = old_link_data.pop(l2_node_port_id, None)
                     old_link["description"] = json.dumps(
-                        old_link_data,
-                        sort_keys=True,
-                        indent=4,
-                        separators=(",", ": "),
+                        old_link_data, sort_keys=True, indent=4, separators=(",", ": ")
                     )
                     # form new link
                     old_link["source"] = l2_node_id

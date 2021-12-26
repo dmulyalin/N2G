@@ -201,16 +201,12 @@ def cli_tool():
         default="",
         type=str,
         help=argparse.SUPPRESS,
-    )    
+    )
     # -----------------------------------------------------------------------------
     # V3D options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
-        "--run",
-        action="store_true",
-        dest="RUN",
-        default=False,
-        help=argparse.SUPPRESS,
+        "--run", action="store_true", dest="RUN", default=False, help=argparse.SUPPRESS
     )
     run_options.add_argument(
         "--port",
@@ -219,8 +215,8 @@ def cli_tool():
         default=9000,
         type=int,
         help=argparse.SUPPRESS,
-    )  
-    
+    )
+
     # -----------------------------------------------------------------------------
     # XLSX data adapter options
     # -----------------------------------------------------------------------------
@@ -246,11 +242,7 @@ def cli_tool():
     # CDP and LLDP (L2) options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
-        "-L2",
-        action="store_true",
-        dest="L2",
-        default=False,
-        help=argparse.SUPPRESS,
+        "-L2", action="store_true", dest="L2", default=False, help=argparse.SUPPRESS
     )
     run_options.add_argument(
         "-L2-add-lag",
@@ -292,11 +284,7 @@ def cli_tool():
     # IP drawer options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
-        "-IP",
-        action="store_true",
-        dest="IP",
-        default=False,
-        help=argparse.SUPPRESS,
+        "-IP", action="store_true", dest="IP", default=False, help=argparse.SUPPRESS
     )
     run_options.add_argument(
         "-IP-group-links",
@@ -330,11 +318,7 @@ def cli_tool():
     # OSPF drawer options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
-        "-OSPF",
-        action="store_true",
-        dest="OSPF",
-        default=False,
-        help=argparse.SUPPRESS,
+        "-OSPF", action="store_true", dest="OSPF", default=False, help=argparse.SUPPRESS
     )
     run_options.add_argument(
         "-OSPF-add-con",
@@ -347,11 +331,7 @@ def cli_tool():
     # ISIS drawer options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
-        "-ISIS",
-        action="store_true",
-        dest="ISIS",
-        default=False,
-        help=argparse.SUPPRESS,
+        "-ISIS", action="store_true", dest="ISIS", default=False, help=argparse.SUPPRESS
     )
     run_options.add_argument(
         "-ISIS-add-con",
@@ -359,7 +339,7 @@ def cli_tool():
         dest="ISIS_ADD_CON",
         default=False,
         help=argparse.SUPPRESS,
-    )    
+    )
     # -----------------------------------------------------------------------------
     # Parse arguments
     # -----------------------------------------------------------------------------
@@ -373,11 +353,11 @@ def cli_tool():
     IP_LOOKUP = args.IP_LOOKUP
     NO_DATA = args.NO_DATA
     LAYOUT = args.LAYOUT
-    
+
     # V3D arguments
     RUN = args.RUN
     PORT = args.PORT
-    
+
     # XLSX adapter arguments
     XLSX_NODE_TABS = args.XLSX_NODE_TABS
     XLSX_LINK_TABS = args.XLSX_LINK_TABS
@@ -404,7 +384,7 @@ def cli_tool():
     # ISIS drawer arguments
     ISIS = args.ISIS
     ISIS_ADD_CON = args.ISIS_ADD_CON
-    
+
     # Instantiate diagram
     ext = "txt"
     if MODULE == "yed":
@@ -415,7 +395,7 @@ def cli_tool():
         ext = "drawio"
     elif MODULE == "v3d":
         drawing = v3d_diagramm()
-        
+
     # create output filename and folder
     if not FILENAME:
         FILENAME = "output_{}.{}".format(ctime, ext)
@@ -424,7 +404,7 @@ def cli_tool():
 
     if not os.path.exists(OUT_FOLDER):
         os.mkdir(OUT_FOLDER)
-        
+
     # check if need to use XLSX adapter
     if DATA.endswith(".xlsx"):
         xlsx_data_adapter(
@@ -464,18 +444,28 @@ def cli_tool():
 
     # add OSPF LSDB links/nodes to diagram
     if OSPF:
-        drawer = ospf_drawer(drawing, ip_lookup_data=IP_LOOKUP, add_connected=OSPF_ADD_CON, add_data=NO_DATA)
+        drawer = ospf_drawer(
+            drawing,
+            ip_lookup_data=IP_LOOKUP,
+            add_connected=OSPF_ADD_CON,
+            add_data=NO_DATA,
+        )
         drawer.work(DATA)
 
     # add ISIS LSDB links/nodes to diagram
     if ISIS:
-        drawer = isis_drawer(drawing, ip_lookup_data=IP_LOOKUP, add_connected=ISIS_ADD_CON, add_data=NO_DATA)
+        drawer = isis_drawer(
+            drawing,
+            ip_lookup_data=IP_LOOKUP,
+            add_connected=ISIS_ADD_CON,
+            add_data=NO_DATA,
+        )
         drawer.work(DATA)
-        
+
     # layout diagram
     if LAYOUT:
         drawing.layout(algo=LAYOUT)
-        
+
     # save diagram
     if RUN and MODULE == "v3d":
         # run V3D built in topology browser

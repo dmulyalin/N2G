@@ -81,7 +81,7 @@ class v3d_diagramm:
             "label": label,
             "color": color,
             "nodeResolution": nodeResolution,
-            "data": node_data
+            "data": node_data,
         }
         # add node to nodes dictionary
         self.nodes_dict[id] = node
@@ -371,18 +371,27 @@ class v3d_diagramm:
         for node in gdict["nodes"]:
             try:
                 if "description" in node["data"]:
-                    node["data"]["description"] = json.loads(node["data"]["description"])
+                    node["data"]["description"] = json.loads(
+                        node["data"]["description"]
+                    )
             except:
                 continue
         for link in gdict["links"]:
             try:
                 if "description" in link["data"]:
-                    link["data"]["description"] = json.loads(link["data"]["description"])
+                    link["data"]["description"] = json.loads(
+                        link["data"]["description"]
+                    )
             except:
                 continue
         return json.dumps(gdict, **kwargs)
 
-    def dump_file(self, filename=None, folder="./Output/", json_kwargs={"sort_keys": True, "indent": 4}):
+    def dump_file(
+        self,
+        filename=None,
+        folder="./Output/",
+        json_kwargs={"sort_keys": True, "indent": 4},
+    ):
         """
         Method to save current diagram to text file in a JSON format.
 
@@ -406,14 +415,14 @@ class v3d_diagramm:
         # save file to disk
         with open(folder + filename, "w") as outfile:
             outfile.write(self.dump_json(**json_kwargs))
-            
+
     def run(self, ip="0.0.0.0", port=9000):
         """
         Method to run FLASK web server using built-in browser app
         """
         from flask import Flask, render_template_string, Markup
         from N2G.utils.V3D_web_server import graph_browser
-        
+
         app = Flask(__name__)
 
         # based on https://stackoverflow.com/a/19269087/12300761 answer:

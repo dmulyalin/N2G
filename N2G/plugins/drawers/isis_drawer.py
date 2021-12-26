@@ -141,7 +141,15 @@ class isis_drawer:
         1.1.1.1,router-1,"1 St address, City X",Gi1
     """
 
-    def __init__(self, drawing, ttp_vars: dict = {}, ip_lookup_data: dict = {}, add_connected: bool = False, ptp_filter: list = [], add_data: bool = True):
+    def __init__(
+        self,
+        drawing,
+        ttp_vars: dict = {},
+        ip_lookup_data: dict = {},
+        add_connected: bool = False,
+        ptp_filter: list = [],
+        add_data: bool = True,
+    ):
         self.ttp_vars = ttp_vars
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
@@ -220,15 +228,7 @@ class isis_drawer:
 
         :param data: (dict) link dictionary with source, target and label keys
         """
-        return tuple(
-            sorted(
-                [
-                    data["source"],
-                    data["target"],
-                    data.get("label", ""),
-                ]
-            )
-        )
+        return tuple(sorted([data["source"], data["target"], data.get("label", "")]))
 
     def _parse(self, data: [dict, str]) -> None:
         """
@@ -239,7 +239,9 @@ class isis_drawer:
         :return: None
         """
         if not HAS_TTP:
-            raise ModuleNotFoundError("N2G:isis_drawer failed importing TTP, is it installed?")
+            raise ModuleNotFoundError(
+                "N2G:isis_drawer failed importing TTP, is it installed?"
+            )
         parser = ttp(vars=self.ttp_vars, log_level="ERROR")
         # process data dictionary
         if isinstance(data, dict):
@@ -274,9 +276,7 @@ class isis_drawer:
         self.parsed_data = parser.result(structure="flat_list")
         # import pprint; pprint.pprint(self.parsed_data, width = 100)
 
-    def _process_lsp(
-        self, lsp: dict, isis_pid: str, device: dict
-    ) -> None:
+    def _process_lsp(self, lsp: dict, isis_pid: str, device: dict) -> None:
         """"""
         # make node out of router LSP
         self._add_node(
@@ -284,7 +284,7 @@ class isis_drawer:
                 "id": lsp["hostname"],
                 "label": lsp["hostname"],
                 "bottom_label": "Node",
-                "top_label": lsp["rid"]
+                "top_label": lsp["rid"],
             },
             node_data=lsp,
         )
@@ -299,16 +299,16 @@ class isis_drawer:
                     "src_label": "{}:{}".format(
                         link.get("local_ip", link.get("local_intf_id")), link["metric"]
                     ),
-                    "label": "{}:{}".format(isis_pid, lsp["level"].replace("Level-", "L")),
+                    "label": "{}:{}".format(
+                        isis_pid, lsp["level"].replace("Level-", "L")
+                    ),
                     "target": link["peer_name"],
                     "local_intf_id": link.get("local_intf_id"),
                     "peer_intf_id": link.get("peer_intf_id"),
                     "peer_ip": link.get("peer_ip"),
-                    "local_ip": link.get("local_ip")
+                    "local_ip": link.get("local_ip"),
                 },
-                link_data = {
-                    lsp["hostname"]: {"isis_pid": isis_pid, **link}
-                }
+                link_data={lsp["hostname"]: {"isis_pid": isis_pid, **link}},
             )
         # go over connected subnets
         if self.add_connected:
@@ -317,7 +317,7 @@ class isis_drawer:
                     node={
                         "id": network["network"],
                         "label": network["network"],
-                        "bottom_label": "Subnet"
+                        "bottom_label": "Subnet",
                     }
                 )
                 self._add_link(
@@ -325,11 +325,10 @@ class isis_drawer:
                         "source": lsp["hostname"],
                         "src_label": "M:{}".format(network["metric"]),
                         "label": lsp["level"],
-                        "target": network["network"]
+                        "target": network["network"],
                     }
                 )
 
-        
     def _form_base_graph_dict(self) -> None:
         for device in self.parsed_data:
             # go over all ISIS processes on the box
@@ -338,16 +337,12 @@ class isis_drawer:
                 for lsp in isis_data.get("LSP", []):
                     self._process_lsp(lsp, isis_pid, device)
 
-                    
     def _add_node(self, node: dict, node_data: dict = {}) -> None:
         # add new node
         if not node["id"] in self.nodes_dict:
             if node_data and self.add_data:
                 node["description"] = json.dumps(
-                    node_data,
-                    sort_keys=True,
-                    indent=4,
-                    separators=(",", ": "),
+                    node_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
             self.nodes_dict[node["id"]] = node
         # update node attributes if they do not exists already
@@ -358,10 +353,7 @@ class isis_drawer:
                     stored_node[key] = value
             if not "description" in stored_node and node_data and self.add_data:
                 stored_node["description"] = json.dumps(
-                    node_data,
-                    sort_keys=True,
-                    indent=4,
-                    separators=(",", ": "),
+                    node_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
 
     def _add_link(self, link: dict, link_data: dict = {}) -> None:
@@ -370,10 +362,7 @@ class isis_drawer:
         if link not in self.links_dict[link_hash]:
             if link_data and self.add_data:
                 link["description"] = json.dumps(
-                    link_data,
-                    sort_keys=True,
-                    indent=4,
-                    separators=(",", ": "),
+                    link_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
             self.links_dict[link_hash].append(link)
 
@@ -399,24 +388,26 @@ class isis_drawer:
                 if local_intf_id and peer_intf_id:
                     for link_2 in links:
                         if (
-                            link_2["peer_intf_id"] == local_intf_id and 
-                            link_2["local_intf_id"] == peer_intf_id 
+                            link_2["peer_intf_id"] == local_intf_id
+                            and link_2["local_intf_id"] == peer_intf_id
                         ):
                             link["trgt_label"] = link_2["src_label"]
                             self._add_link(
                                 link=link,
                                 link_data={
                                     **json.loads(link["description"]),
-                                    **json.loads(link_2["description"])
-                                }
+                                    **json.loads(link_2["description"]),
+                                },
                             )
                             # form new link label if PID does not match
                             if link["label"] != link_2["label"]:
                                 pid_1, level_1 = link["label"].split(":")
                                 pid_2, level_2 = link_2["label"].split(":")
                                 link["label"] = "{}:{}".format(
-                                    pid_1 if pid_1 == pid_2 else "{}-{}".format(pid_1, pid_2),
-                                    level_1
+                                    pid_1
+                                    if pid_1 == pid_2
+                                    else "{}-{}".format(pid_1, pid_2),
+                                    level_1,
                                 )
                             pair_link_index = links.index(link_2)
                             break
@@ -424,24 +415,26 @@ class isis_drawer:
                 elif local_ip and peer_ip:
                     for link_2 in links:
                         if (
-                            link_2["peer_ip"] == local_ip and 
-                            link_2["local_ip"] == peer_ip 
+                            link_2["peer_ip"] == local_ip
+                            and link_2["local_ip"] == peer_ip
                         ):
                             link["trgt_label"] = link_2["src_label"]
                             self._add_link(
                                 link=link,
                                 link_data={
                                     **json.loads(link["description"]),
-                                    **json.loads(link_2["description"])
-                                }
+                                    **json.loads(link_2["description"]),
+                                },
                             )
                             # form new link label if PID does not match
                             if link["label"] != link_2["label"]:
                                 pid_1, level_1 = link["label"].split(":")
                                 pid_2, level_2 = link_2["label"].split(":")
                                 link["label"] = "{}:{}".format(
-                                    pid_1 if pid_1 == pid_2 else "{}-{}".format(pid_1, pid_2),
-                                    level_1
+                                    pid_1
+                                    if pid_1 == pid_2
+                                    else "{}-{}".format(pid_1, pid_2),
+                                    level_1,
                                 )
                             pair_link_index = links.index(link_2)
                             break
@@ -451,7 +444,7 @@ class isis_drawer:
                 # add link back to links if have not found a match for it
                 else:
                     self._add_link(link)
-                    
+
     def _lookup_rid(self):
         """
         Method to lookup RID in lookup data and update node labels.
@@ -461,11 +454,12 @@ class isis_drawer:
             if node_ip in self.ip_lookup_data:
                 node.update(
                     {
-                        k:v for k, v in self.ip_lookup_data[node_ip].items() 
+                        k: v
+                        for k, v in self.ip_lookup_data[node_ip].items()
                         if k in ["top_label", "bottom_label", "label"]
                     }
                 )
-                    
+
     def _lookup_ip_interfaces(self):
         """
         Method to search for link IP addresses in lookup table and add 
@@ -482,7 +476,8 @@ class isis_drawer:
                     if self.ip_lookup_data.get(link_src_ip, {}).get("interface"):
                         link["src_label"] = "{}:{}:{}".format(
                             self.ip_lookup_data[link_src_ip]["interface"],
-                            link_src_ip, link_src_metric
+                            link_src_ip,
+                            link_src_metric,
                         )
                 # modify target label
                 if link.get("trgt_label"):
@@ -493,9 +488,10 @@ class isis_drawer:
                     if self.ip_lookup_data.get(link_trgt_ip, {}).get("interface"):
                         link["trgt_label"] = "{}:{}:{}".format(
                             self.ip_lookup_data[link_trgt_ip]["interface"],
-                            link_trgt_ip, link_trgt_metric
+                            link_trgt_ip,
+                            link_trgt_metric,
                         )
-                    
+
     def _update_drawing(self):
         """
         Method to add formed links and nodes to the drawing object

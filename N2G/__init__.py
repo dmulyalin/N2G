@@ -19,5 +19,5 @@ __all__ = (
     "layer_2_drawer",
     "ospf_drawer",
     "xlsx_data_adapter",
-    "isis_drawer"
+    "isis_drawer",
 )

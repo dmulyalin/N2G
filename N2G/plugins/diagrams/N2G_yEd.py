@@ -333,8 +333,7 @@ class yed_diagram:
         # save original node ID in nmetadata attribute - used to load graph from file:
         node.append(
             self._create_data_element(
-                id=self.y_attr["node"]["nmetadata"],
-                text=json_dumps({"id": id}),
+                id=self.y_attr["node"]["nmetadata"], text=json_dumps({"id": id})
             )
         )
 
@@ -559,8 +558,7 @@ class yed_diagram:
         # save original id in node custom attribute:
         node.append(
             self._create_data_element(
-                id=self.y_attr["node"]["nmetadata"],
-                text=json_dumps({"id": id}),
+                id=self.y_attr["node"]["nmetadata"], text=json_dumps({"id": id})
             )
         )
 
@@ -879,17 +877,7 @@ class yed_diagram:
                     elif "target" in placement:
                         trgt_label = label_item.text
                 # form edge hash
-                edge_tup = tuple(
-                    sorted(
-                        [
-                            source,
-                            target,
-                            label,
-                            src_label,
-                            trgt_label,
-                        ]
-                    )
-                )
+                edge_tup = tuple(sorted([source, target, label, src_label, trgt_label]))
                 edge_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
             self.edges_ids.update({edge_id: edge.attrib["id"]})
 
@@ -1560,17 +1548,7 @@ class yed_diagram:
         """
         if not id and not ids:
             # create edge id
-            edge_tup = tuple(
-                sorted(
-                    [
-                        source,
-                        target,
-                        label,
-                        src_label,
-                        trgt_label,
-                    ]
-                )
-            )
+            edge_tup = tuple(sorted([source, target, label, src_label, trgt_label]))
             ids.append(hashlib.md5(",".join(edge_tup).encode()).hexdigest())
         else:
             ids = ids + [id] if id else ids

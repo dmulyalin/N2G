@@ -15,12 +15,7 @@ ttp_variables = {
     "IfsNormalize": {
         "Lo": ["^Loopback"],
         "Ge": ["^GigabitEthernet", "^Gi"],
-        "LAG": [
-            "^Eth-Trunk",
-            "^port-channel",
-            "^Port-channel",
-            "^Bundle-Ether",
-        ],
+        "LAG": ["^Eth-Trunk", "^port-channel", "^Port-channel", "^Bundle-Ether"],
         "Te": [
             "^TenGigabitEthernet",
             "^TenGe",

@@ -1,0 +1,25 @@
+# to run pre-commit on demand using below configuration:
+# pre-commit run --all-files
+
+default_language_version:
+    python: python3.7
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-ast
+      - id: end-of-file-fixer
+        exclude: ^tests/|^docs/|.*txt$|.*rst$|.*svg$
+      - id: requirements-txt-fixer
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+        exclude: ^tests/
+  # black
+  - repo: https://github.com/psf/black
+    rev: 19.3b0
+    hooks:
+      - id: black
+        exclude: ^tests/|^docs/|gitignore|README|LICENSE|MANIFEST|requirements|.*txt|.*rst|.*svg$
+        args:
+          - "--line-length=88"

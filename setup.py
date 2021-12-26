@@ -22,10 +22,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    entry_points = {
-        'console_scripts': ['n2g=N2G.utils.N2G_cli:cli_tool']
-    },
-    package_data = {
-        'N2G': ['utils/ttp_templates/*/*.txt']
-    }
+    entry_points={"console_scripts": ["n2g=N2G.utils.N2G_cli:cli_tool"]},
+    package_data={"N2G": ["utils/ttp_templates/*/*.txt"]},
 )

@@ -34,11 +34,11 @@ import ipaddress
 
 try:
     from ttp import ttp
-    
+
     HAS_TTP = True
 except ImportError:
     HAS_TTP = False
-    
+
 # initiate logging
 log = logging.getLogger(__name__)
 
@@ -152,7 +152,9 @@ class ip_drawer:
 
     def _parse(self, data):
         if not HAS_TTP:
-            raise ModuleNotFoundError("N2G:ip_drawer failed importing TTP, is it installed?")
+            raise ModuleNotFoundError(
+                "N2G:ip_drawer failed importing TTP, is it installed?"
+            )
         templates_path = "{}/ttp_templates/IP_Drawer/{}.txt"
         # process data dictionary
         if isinstance(data, dict):
@@ -475,10 +477,7 @@ class ip_drawer:
                 if link_2.get("trgt_label")
                 else link_2["src_label"],
                 "description": json.dumps(
-                    description,
-                    sort_keys=True,
-                    indent=4,
-                    separators=(",", ": "),
+                    description, sort_keys=True, indent=4, separators=(",", ": ")
                 ),
             }
             self._add_link(link_dict)
