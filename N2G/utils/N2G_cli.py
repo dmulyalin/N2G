@@ -439,7 +439,7 @@ def cli_tool():
             "label_vrf": IP_lbl_vrf,
             "add_arp": IP_add_arp,
         }
-        drawer = cli_ip_data(drawing, config)
+        drawer = cli_ip_data(drawing, **config)
         drawer.work(DATA)
 
     # add OSPF LSDB links/nodes to diagram

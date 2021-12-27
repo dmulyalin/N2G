@@ -79,24 +79,33 @@ class cli_ip_data:
     * ``lbl_next_to_subnet`` - boolean, put link port:vrf:ip label next to subnet node
     """
 
-    def __init__(self, drawing, config={}, ttp_vars=None):
-        self.config = {
-            "group_links": False,
-            "add_arp": False,
-            "label_interface": False,
-            "label_vrf": False,
-            "collapse_ptp": True,
-            "add_fhrp": False,
-            "blbl": 0,
-            "lbl_next_to_subnet": False,
-            "platforms": [
-                "_all_"
-            ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
-        }
+    def __init__(
+        self,
+        drawing,
+        config={},
+        ttp_vars=None,
+        group_links=False,
+        add_arp=False,
+        label_interface=False,
+        label_vrf=False,
+        collapse_ptp=True,
+        add_fhrp=False,
+        blbl=0,
+        lbl_next_to_subnet=False,
+        platforms=None,
+    ):
+        self.group_links = group_links
+        self.add_arp = add_arp
+        self.label_interface = label_interface
+        self.label_vrf = label_vrf
+        self.collapse_ptp = collapse_ptp
+        self.add_fhrp = add_fhrp
+        self.blbl = blbl
+        self.lbl_next_to_subnet = lbl_next_to_subnet
+        self.platforms = platforms or ["_all_"]
         self.ttp_vars = ttp_vars or {
             "IfsNormalize": ttp_templates_vars.short_interface_names
         }
-        self.config.update(config)
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
         self.parsed_data = {}
@@ -161,9 +170,9 @@ class cli_ip_data:
         self._parse(data)
         self._form_base_graph_dict()
         # go through config statements
-        if self.config.get("collapse_ptp"):
+        if self.collapse_ptp:
             self._collapse_ptp()
-        if self.config.get("group_links"):
+        if self.group_links:
             self._group_links()
         # form graph dictionary and add it to drawing
         self._update_drawing()
@@ -181,8 +190,8 @@ class cli_ip_data:
             )
             for platform_name, text_list in data.items():
                 if (
-                    "_all_" not in self.config["platforms"]
-                    and not platform_name in self.config["platforms"]
+                    "_all_" not in self.platforms
+                    and not platform_name in self.platforms
                 ):
                     continue
                 ttp_template = get_template(
@@ -203,8 +212,8 @@ class cli_ip_data:
                     if entry.is_dir():
                         platform_name = entry.name
                         if (
-                            "_all_" not in self.config["platforms"]
-                            and not platform_name in self.config["platforms"]
+                            "_all_" not in self.platforms
+                            and not platform_name in self.platforms
                         ):
                             continue
                         ttp_template = get_template(
@@ -234,22 +243,15 @@ class cli_ip_data:
                     interface_networks = []
                     for ip in interface_data.get("ip_addresses", []):
                         network = ip["network"]
-                        if self.config.get("add_arp") or self.config.get("add_fhrp"):
+                        if self.add_arp or self.add_fhrp:
                             interface_networks.append(network)
                             interfaces_ip.setdefault(network, []).append(ip["ip"])
                         network_node = {"id": network, "top_label": "Subnet"}
                         # add bottom lable to node
-                        if interface_data.get("port_description") and self.config.get(
-                            "blbl"
-                        ):
-                            if (
-                                len(interface_data["port_description"])
-                                > self.config["blbl"]
-                            ):
+                        if interface_data.get("port_description") and self.blbl:
+                            if len(interface_data["port_description"]) > self.blbl:
                                 network_node["bottom_label"] = "{}..".format(
-                                    interface_data["port_description"][
-                                        : self.config["blbl"]
-                                    ]
+                                    interface_data["port_description"][: self.blbl]
                                 )
                             else:
                                 network_node["bottom_label"] = "{}".format(
@@ -281,13 +283,13 @@ class cli_ip_data:
                             )
                         else:
                             link_label = "{}/{}".format(ip["ip"], ip["netmask"])
-                            if self.config["label_vrf"]:
+                            if self.label_vrf:
                                 link_label = "{}:{}".format(
                                     interface_data.get("vrf", "global"), link_label
                                 )
-                            if self.config["label_interface"]:
+                            if self.label_interface:
                                 link_label = "{}:{}".format(interface, link_label)
-                            if self.config.get("lbl_next_to_subnet"):
+                            if self.lbl_next_to_subnet:
                                 link_dict["src_label"] = link_label
                             else:
                                 link_dict["trgt_label"] = link_label
@@ -295,7 +297,7 @@ class cli_ip_data:
                         self._add_node(network_node)
                         self._add_link(link_dict, network)
                     # check if need to add FHRP IPs
-                    if self.config.get("add_fhrp"):
+                    if self.add_fhrp:
                         interface_network_objects = [
                             ipaddress.ip_network(i) for i in interface_networks
                         ]
@@ -328,7 +330,7 @@ class cli_ip_data:
                             link_dict = {"source": node_id, "target": network}
                             self._add_link(link_dict)
                     # check if need to add ARP to diagram
-                    if self.config.get("add_arp"):
+                    if self.add_arp:
                         interface_network_objects = [
                             ipaddress.ip_network(i) for i in interface_networks
                         ]
@@ -361,7 +363,7 @@ class cli_ip_data:
                             link_dict = {"source": node_id, "target": network}
                             self._add_link(link_dict)
         # clean up ARP entries that duplicate interface IPs
-        if self.config.get("add_arp"):
+        if self.add_arp:
             for network, ips in interfaces_ip.items():
                 for ip in ips:
                     arp_node_id = "{}:{}".format(network, ip)
@@ -412,9 +414,9 @@ class cli_ip_data:
         if link_hash not in self.links_dict:
             self.links_dict[link_hash] = item
         # check if need to pre-process nodes_to_links_dict used by group_links
-        if self.config.get("group_links"):
+        if self.group_links:
             self._update_nodes_to_links_dict(item, link_hash)
-        if self.config.get("collapse_ptp") and network:
+        if self.collapse_ptp and network:
             if (network.split("/")[1] in ["30", "31"] and "." in network) or (
                 network.split("/")[1] in ["127"] and ":" in network
             ):

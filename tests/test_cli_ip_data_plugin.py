@@ -71,7 +71,7 @@ interface Vlan22
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_base.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_base.graphml") as produced:
@@ -147,7 +147,7 @@ interface Vlan22
         "group_links": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_group_links.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_group_links.graphml") as produced:
@@ -223,7 +223,7 @@ interface Vlan22
         "label_vrf": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_vrf_link_label.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_vrf_link_label.graphml") as produced:
@@ -297,7 +297,7 @@ interface Vlan22
         "label_interface": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_interface_link_label.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_interface_link_label.graphml") as produced:
@@ -372,7 +372,7 @@ interface Vlan22
         "label_vrf": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_interface_vrf_link_label.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_interface_vrf_link_label.graphml") as produced:
@@ -439,7 +439,7 @@ Internet  10.1.234.3             78   0008.e3ff.4321  ARPA   TenGigabitEthernet1
         "add_arp": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_arp.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_arp.graphml") as produced:
@@ -534,7 +534,7 @@ Internet  10.1.234.99             5   00ac.0007.001a  ARPA   TenGigabitEthernet1
         # "collapse_ptp": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml") as produced:
@@ -606,7 +606,7 @@ interface Vlan223
         "add_fhrp": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_nxos.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_nxos.graphml") as produced:
@@ -678,7 +678,7 @@ interface Eth-Trunk5.200
         "add_fhrp": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_huawei.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_huawei.graphml") as produced:
@@ -737,7 +737,7 @@ config system interface
         "add_arp": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, config)
+    drawer = cli_ip_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_fortigate.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_fortigate.graphml") as produced:
