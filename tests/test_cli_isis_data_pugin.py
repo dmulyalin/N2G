@@ -4,7 +4,7 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
-from N2G import isis_drawer
+from N2G import cli_isis_data
 
 mock_data_xr = {"Cisco_IOSXR": ["""
 RP/0/RP0/CPU0:ROUTER-X1#show isis database verbose 
@@ -532,15 +532,15 @@ RP/0/RP0/CPU0:ROUTER-X1#
     """]
 }
     
-# def test_isis_drawer_yed_data_dict_base():
-#     config = {}
-#     drawing = create_yed_diagram()
-#     drawer = isis_drawer(drawing, config)
-#     drawer.work(mock_data_xr)
-#     drawer.drawing.dump_file(filename="test_isis_drawer_yed_data_dict_base.graphml", folder="./Output/")
-#     # with open ("./Output/test_isis_drawer_yed_data_dict_base.graphml") as produced:
-#     #     with open("./Output/should_be_test_isis_drawer_yed_data_dict_base.graphml") as should_be:
-#     #         assert produced.read() == should_be.read()
+def test_cli_isis_yed_data_dict_base():
+    config = {}
+    drawing = create_yed_diagram()
+    drawer = cli_isis_data(drawing, config)
+    drawer.work(mock_data_xr)
+    drawer.drawing.dump_file(filename="test_cli_isis_yed_data_dict_base.graphml", folder="./Output/")
+    # with open ("./Output/test_isis_drawer_yed_data_dict_base.graphml") as produced:
+    #     with open("./Output/should_be_test_isis_drawer_yed_data_dict_base.graphml") as should_be:
+    #         assert produced.read() == should_be.read()
             
-# test_isis_drawer_yed_data_dict_base()
+# test_cli_isis_yed_data_dict_base()
 

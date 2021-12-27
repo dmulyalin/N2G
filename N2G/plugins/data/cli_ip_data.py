@@ -63,7 +63,7 @@ def add_network(data):
 # -----------------------------------------------------------------------------
 
 
-class ip_drawer:
+class cli_ip_data:
     """
 
     **Parameters**
@@ -74,7 +74,8 @@ class ip_drawer:
 
     **config options**
 
-    * ``blbl`` - integer, length of interface description to use as bottom label for subnet nodes, if False or 0, bottom label will not be set
+    * ``blbl`` - integer, bottom label length (blbl) of interface description to use for subnet nodes, 
+      if False or 0, bottom label will not be set
     * ``lbl_next_to_subnet`` - boolean, put link port:vrf:ip label next to subnet node
     """
 
@@ -170,7 +171,7 @@ class ip_drawer:
     def _parse(self, data):
         if not HAS_TTP:
             raise ModuleNotFoundError(
-                "N2G:ip_drawer failed importing TTP, is it installed?"
+                "N2G:cli_ip_data failed importing TTP, is it installed?"
             )
         # process data dictionary
         if isinstance(data, dict):
@@ -185,7 +186,7 @@ class ip_drawer:
                 ):
                     continue
                 ttp_template = get_template(
-                    misc="N2G/ip_drawer/{}.txt".format(platform_name)
+                    misc="N2G/cli_ip_data/{}.txt".format(platform_name)
                 )
                 parser.add_template(template=ttp_template, template_name=platform_name)
                 for item in text_list:
@@ -207,7 +208,7 @@ class ip_drawer:
                         ):
                             continue
                         ttp_template = get_template(
-                            misc="N2G/ip_drawer/{}.txt".format(platform_name)
+                            misc="N2G/cli_ip_data/{}.txt".format(platform_name)
                         )
                         parser.add_template(
                             template=ttp_template, template_name=entry.name

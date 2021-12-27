@@ -70,16 +70,16 @@ if __name__ == "__main__":
 
     sys.path.insert(0, ".")
 
-from N2G import drawio_diagram
-from N2G import yed_diagram
-from N2G import v3d_diagramm
-
-from N2G import xlsx_data_adapter
-
-from N2G import layer_2_drawer
-from N2G import ip_drawer
-from N2G import ospf_drawer
-from N2G import isis_drawer
+from N2G import (
+    drawio_diagram,
+    yed_diagram,
+    v3d_diagramm,
+    xlsx_data,
+    cli_l2_data,
+    cli_ip_data,
+    cli_ospf_data,
+    cli_isis_data,
+)
 
 __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
@@ -358,11 +358,11 @@ def cli_tool():
     RUN = args.RUN
     PORT = args.PORT
 
-    # XLSX adapter arguments
+    # XLSX data plugin arguments
     XLSX_NODE_TABS = args.XLSX_NODE_TABS
     XLSX_LINK_TABS = args.XLSX_LINK_TABS
 
-    # CDP and LLDP drawer arguments
+    # CDP and LLDP data plugin  arguments
     L2 = args.L2
     L2_add_lag = args.L2_add_lag
     L2_group_links = args.L2_group_links
@@ -370,18 +370,18 @@ def cli_tool():
     L2_platforms = args.L2_platforms
     L2_combine_peers = args.L2_combine_peers
 
-    # IP drawer arguments
+    # IP data plugin arguments
     IP = args.IP
     IP_group_links = args.IP_group_links
     IP_lbl_intf = args.IP_lbl_intf
     IP_lbl_vrf = args.IP_lbl_vrf
     IP_add_arp = args.IP_add_arp
 
-    # OSPF drawer arguments
+    # OSPF data plugin arguments
     OSPF = args.OSPF
     OSPF_ADD_CON = args.OSPF_ADD_CON
 
-    # ISIS drawer arguments
+    # ISIS data plugin arguments
     ISIS = args.ISIS
     ISIS_ADD_CON = args.ISIS_ADD_CON
 
@@ -407,7 +407,7 @@ def cli_tool():
 
     # check if need to use XLSX adapter
     if DATA.endswith(".xlsx"):
-        xlsx_data_adapter(
+        xlsx_data(
             drawing,
             DATA,
             link_tabs=[i.strip() for i in XLSX_LINK_TABS.split(",")]
@@ -428,7 +428,7 @@ def cli_tool():
             "platforms": [i.strip() for i in L2_platforms.split(",")],
             "combine_peers": L2_combine_peers,
         }
-        drawer = layer_2_drawer(drawing, config)
+        drawer = cli_l2_data(drawing, config)
         drawer.work(DATA)
 
     # add IP and Subnets nodes and links to diagram
@@ -439,12 +439,12 @@ def cli_tool():
             "label_vrf": IP_lbl_vrf,
             "add_arp": IP_add_arp,
         }
-        drawer = ip_drawer(drawing, config)
+        drawer = cli_ip_data(drawing, config)
         drawer.work(DATA)
 
     # add OSPF LSDB links/nodes to diagram
     if OSPF:
-        drawer = ospf_drawer(
+        drawer = cli_ospf_data(
             drawing,
             ip_lookup_data=IP_LOOKUP,
             add_connected=OSPF_ADD_CON,
@@ -454,7 +454,7 @@ def cli_tool():
 
     # add ISIS LSDB links/nodes to diagram
     if ISIS:
-        drawer = isis_drawer(
+        drawer = cli_isis_data(
             drawing,
             ip_lookup_data=IP_LOOKUP,
             add_connected=ISIS_ADD_CON,

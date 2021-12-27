@@ -4,7 +4,7 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
-from N2G import ospf_drawer
+from N2G import cli_ospf_data
 
 mock_data_xr = {"Cisco_IOSXR": ["""
 RP/0/RP0/CPU0:router-1#show ospf database router 
@@ -413,7 +413,7 @@ RP/0/RSP0/CPU0:router-1#show ospf database external
 def test_ospf_drawer_yed_data_dict_base():
     config = {}
     drawing = create_yed_diagram()
-    drawer = ospf_drawer(drawing, config)
+    drawer = cli_ospf_data(drawing, config)
     drawer.work(mock_data_xr)
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_data_dict_base.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_data_dict_base.graphml") as produced:
@@ -424,7 +424,7 @@ def test_ospf_drawer_yed_data_dict_base():
 
 def test_ospf_drawer_yed_data_dict_add_connected():
     drawing = create_yed_diagram()
-    drawer = ospf_drawer(drawing, add_connected=True)
+    drawer = cli_ospf_data(drawing, add_connected=True)
     drawer.work(mock_data_xr)
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_data_dict_add_connected.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_data_dict_add_connected.graphml") as produced:
@@ -435,7 +435,7 @@ def test_ospf_drawer_yed_data_dict_add_connected():
 
 def test_ospf_drawer_yed_data_dict_no_add_data():
     drawing = create_yed_diagram()
-    drawer = ospf_drawer(drawing, add_data=False)
+    drawer = cli_ospf_data(drawing, add_data=False)
     drawer.work(mock_data_xr)
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_data_dict_no_add_data.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_data_dict_no_add_data.graphml") as produced:
@@ -448,7 +448,7 @@ def test_ospf_drawer_yed_cisco_ios_lsdb():
     with open("./Data/SAMPLE_CISCO_IOS_OSPFv2_LSDB/cisco_ios_show_ip_ospf_database_router_external_summary_IOL4_ABR.txt") as f:
         data = f.read()
     drawing = create_yed_diagram()
-    drawer = ospf_drawer(drawing)
+    drawer = cli_ospf_data(drawing)
     drawer.work({"Cisco_IOS": [data]})    
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_cisco_ios_lsdb.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_cisco_ios_lsdb.graphml") as produced:

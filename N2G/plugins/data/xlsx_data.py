@@ -1,10 +1,10 @@
 """
-XLSX data adapter
-*****************
+XLSX Data Plugin
+****************
 
-This adapter loads data from xlsx tables and transforms it in a dictionary
-supported by N2G diagram plugins. Using ``from_dict`` method, this adapter 
-loads data in diagram plugin.
+This plugin loads data from xlsx tables and transforms it in a dictionary
+supported by N2G diagram plugins. Using ``from_dict`` method, this plugin 
+loads data into diagram plugin.
 
 **Prerequisites**
 
@@ -17,14 +17,14 @@ loads data in diagram plugin.
 
 **Sample usage**
 
-Code to invoke ``xlsx_data_adapter``:
+Code to invoke ``xlsx_data``:
 
     from N2G import drawio_diagram
-    from N2G import xlsx_data_adapter
+    from N2G import xlsx_data
 
     drawio_drawing = drawio_diagram()
     
-    xlsx_data_adapter(
+    xlsx_data(
         drawio_drawing, 
         "./Data/nodes_and_links_data.xlsx", 
         node_tabs="nodes", 
@@ -92,7 +92,7 @@ Above table will be transformed to::
     r1          Gi1/1          DF-10Km  r2        Gi3/4      
     r3          10GE2/1/1      DF-32Km  r2        Ten1/1   
         
-.. autofunction:: N2G.plugins.data_adapters.xlsx_data_adapter.xlsx_data_adapter
+.. autofunction:: N2G.plugins.data.xlsx_data.xlsx_data
 """
 
 import logging
@@ -140,7 +140,7 @@ def translate_headers(headers, translate_dict):
                 break
 
 
-def xlsx_data_adapter(
+def xlsx_data(
     drawing,
     data,
     node_tabs=["nodes"],
@@ -196,7 +196,7 @@ def xlsx_data_adapter(
         # add data to graph
         drawing.from_dict(graph_dict, diagram_name="Page-1")
     except:
-        log.error("N2G:xlsx_data_adapter, failed: {}".format(traceback.format_exc()))
+        log.error("N2G:xlsx_data, failed: {}".format(traceback.format_exc()))
         return False
 
     # clean up

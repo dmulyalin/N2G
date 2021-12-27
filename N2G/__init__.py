@@ -2,20 +2,19 @@ from .plugins.diagrams.N2G_DrawIO import drawio_diagram
 from .plugins.diagrams.N2G_yEd import yed_diagram
 from .plugins.diagrams.N2G_V3D import v3d_diagramm
 
-from .plugins.drawers.ip_drawer import ip_drawer
-from .plugins.drawers.layer_2_drawer import layer_2_drawer
-from .plugins.drawers.ospf_drawer import ospf_drawer
-from .plugins.drawers.isis_drawer import isis_drawer
-
-from .plugins.data_adapters.xlsx_data_adapter import xlsx_data_adapter
+from .plugins.data.xlsx_data import xlsx_data
+from .plugins.data.cli_ip_data import cli_ip_data
+from .plugins.data.cli_l2_data import cli_l2_data
+from .plugins.data.cli_ospf_data import cli_ospf_data
+from .plugins.data.cli_isis_data import cli_isis_data
 
 __all__ = (
     "drawio_diagram",
     "yed_diagram",
     "v3d_diagramm",
-    "ip_drawer",
-    "layer_2_drawer",
-    "ospf_drawer",
-    "xlsx_data_adapter",
-    "isis_drawer",
+    "xlsx_data",
+    "cli_ip_data",
+    "cli_l2_data",
+    "cli_ospf_data",
+    "cli_isis_data",
 )

@@ -1,4 +1,10 @@
 """
+L2 Data Plugin
+**************
+
+Layer 2 data plugin, where layer refers to 
+`Open Systems Interconnection model (OSI model) <https://en.wikipedia.org/wiki/OSI_model>`_.
+
 This module can produce diagrams pertaining to layer 2 of OSI model, hence the name "layer 2". It targets to build network diagrams with relationships and nodes derived from CDP and LLDP protocols, together with adding L1/L2 related data to diagram elements.
 
 How it works
@@ -58,7 +64,7 @@ Sample Usage
 
 *As a module*::
 
-    from N2G import layer_2_drawer, yed_diagram
+    from N2G import cli_l2_data, yed_diagram
     
     data = {
         "Cisco_IOS": [
@@ -82,7 +88,7 @@ Sample Usage
         "platforms": ["_all_"]    
     }
     drawing_l2 = yed_diagram()
-    drawer = layer_2_drawer(drawing_l2, config)
+    drawer = cli_l2_data(drawing_l2, config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="l2_diagram_1.graphml", folder="./Output/")
     
@@ -118,9 +124,9 @@ log = logging.getLogger(__name__)
 # -----------------------------------------------------------------------------
 
 
-class layer_2_drawer:
+class cli_l2_data:
     """
-    Class to instantiate L2 Drawer to process CDP and LLDP neighbors
+    Class to instantiate L2 (layer two) data plugin to process CDP and LLDP neighbors
     together with devices' running configuration and state and produce
     diagram out of it.
 
@@ -238,7 +244,7 @@ class layer_2_drawer:
     def _parse(self, data):
         if not HAS_TTP:
             raise ModuleNotFoundError(
-                "N2G:l2_drawer failed importing TTP, is it installed?"
+                "N2G:cli_l2_data failed importing TTP, is it installed?"
             )
         # process data dictionary
         if isinstance(data, dict):
@@ -250,7 +256,7 @@ class layer_2_drawer:
                 ):
                     continue
                 ttp_template = get_template(
-                    misc="N2G/layer_2_drawer/{}.txt".format(platform_name)
+                    misc="N2G/cli_l2_data/{}.txt".format(platform_name)
                 )
                 parser.add_template(template=ttp_template, template_name=platform_name)
                 for item in text_list:
@@ -269,7 +275,7 @@ class layer_2_drawer:
                         ):
                             continue
                         ttp_template = get_template(
-                            misc="N2G/layer_2_drawer/{}.txt".format(platform_name)
+                            misc="N2G/cli_l2_data/{}.txt".format(platform_name)
                         )
                         parser.add_template(
                             template=ttp_template, template_name=entry.name

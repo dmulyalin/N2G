@@ -1,5 +1,1 @@
-Drawer - Layer 2
-================
-
-.. automodule:: N2G.plugins.drawers.layer_2_drawer
-   :members:
+.. automodule:: N2G.plugins.data.cli_l2_data
