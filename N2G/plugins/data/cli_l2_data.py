@@ -147,24 +147,30 @@ class cli_l2_data:
     * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
     """
 
-    def __init__(self, drawing, config={}, ttp_vars=None):
+    def __init__(
+        self,
+        drawing,
+        ttp_vars=None,
+        add_interfaces_data=True,
+        group_links=False,
+        add_lag=False,
+        add_all_connected=False,
+        combine_peers=False,
+        skip_lag=True,
+        platforms=None,
+    ):
         # init attributes
-        self.config = {
-            "add_interfaces_data": True,
-            "group_links": False,
-            "add_lag": False,
-            "add_all_connected": False,
-            "combine_peers": False,
-            "skip_lag": True,
-            "platforms": [
-                "_all_"
-            ],  # or platforms name, e.g. ["Cisco_IOS", "Cisco_IOSXR"]
-        }
+        self.add_interfaces_data = add_interfaces_data
+        self.group_links = group_links
+        self.add_lag = add_lag
+        self.add_all_connected = add_all_connected
+        self.combine_peers = combine_peers
+        self.skip_lag = skip_lag
+        self.platforms = platforms or ["_all_"]
         self.ttp_vars = ttp_vars or {
             "IfsNormalize": ttp_templates_vars.short_interface_names,
             "physical_ports": ttp_templates_vars.physical_ports,
         }
-        self.config.update(config)
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
         self.parsed_data = {}
@@ -230,13 +236,13 @@ class cli_l2_data:
         self._parse(data)
         self._form_base_graph_dict()
         # go through config statements
-        if self.config.get("add_lag"):
+        if self.add_lag:
             self._add_lags_to_links_dict()
-        if self.config.get("group_links"):
+        if self.group_links:
             self._group_links()
-        if self.config.get("add_all_connected"):
+        if self.add_all_connected:
             self._add_all_connected()
-        if self.config.get("combine_peers"):
+        if self.combine_peers:
             self._combine_peers()
         # form graph dictionary and add it to drawing
         self._update_drawing()
@@ -251,8 +257,8 @@ class cli_l2_data:
             parser = ttp(vars=self.ttp_vars)
             for platform_name, text_list in data.items():
                 if (
-                    "_all_" not in self.config["platforms"]
-                    and not platform_name in self.config["platforms"]
+                    "_all_" not in self.platforms
+                    and not platform_name in self.platforms
                 ):
                     continue
                 ttp_template = get_template(
@@ -270,8 +276,8 @@ class cli_l2_data:
                     if entry.is_dir():
                         platform_name = entry.name
                         if (
-                            "_all_" not in self.config["platforms"]
-                            and not platform_name in self.config["platforms"]
+                            "_all_" not in self.platforms
+                            and not platform_name in self.platforms
                         ):
                             continue
                         ttp_template = get_template(
@@ -331,7 +337,7 @@ class cli_l2_data:
 
     def _add_link(self, item, hosts, host_data):
         # skip LAG or MLAG interfaces
-        if self.config["skip_lag"] and (
+        if self.skip_lag and (
             "LAG" in item.get("src_label", "") or "LAG" in item.get("trgt_label", "")
         ):
             return
@@ -344,16 +350,16 @@ class cli_l2_data:
                 "trgt_label": item["trgt_label"],
             }
         # check if need to add interfaces data
-        if self.config.get("add_interfaces_data"):
+        if self.add_interfaces_data:
             self._add_interfaces_data(item, hosts, host_data, link_hash)
         # check if need to pre-process lag_links_dict used by add_lag
-        if self.config.get("add_lag"):
+        if self.add_lag:
             self._update_lag_links_dict(item, hosts, host_data)
         # check if need to pre-process nodes_to_links_dict used by group_links
-        if self.config.get("group_links"):
+        if self.group_links:
             self._update_nodes_to_links_dict(item, link_hash)
         # check if need to combine peers, preprocess combine_peers_dict
-        if self.config.get("combine_peers"):
+        if self.combine_peers:
             self._update_combine_peers_dict(item, link_hash)
 
     def _add_interfaces_data(self, item, hosts, host_data, link_hash):
@@ -437,7 +443,7 @@ class cli_l2_data:
             members_hash = self._make_hash_tuple(item)
             _ = self.links_dict.pop(members_hash, None)
             # check if need to combine peers, add lag to combine_peers_dict
-            if self.config.get("combine_peers"):
+            if self.combine_peers:
                 self._update_combine_peers_dict(item=lag_link, link_hash=lag_link_hash)
 
     def _add_lags_to_links_dict(self):
@@ -550,7 +556,7 @@ class cli_l2_data:
                     self._add_node(node, host_data={})
                     # add link to graph
                     link = {"source": hostname}
-                    if "lag_id" in intf_data and self.config["add_lag"]:
+                    if "lag_id" in intf_data and self.add_lag:
                         lag_intf_name = "LAG{}".format(intf_data["lag_id"])
                         src_if = "{}:{}".format(hostname, lag_intf_name)
                         lag_intf_data = host_data["interfaces"].get(lag_intf_name, {})
@@ -685,7 +691,7 @@ class cli_l2_data:
                 # need to remove this L2 node and links to it as it
                 # turned out links are part of LAG, as a result node
                 # will be added for LAG together with links to peers
-                elif self.config.get("add_lag"):
+                elif self.add_lag:
                     _ = self.links_dict.pop(link_to_l2_node_hash)
                     _ = self.nodes_dict.pop(l2_node_id)
                     break

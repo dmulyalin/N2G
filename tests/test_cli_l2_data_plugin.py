@@ -73,7 +73,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     # pprint.pprint(drawer.parsed_data)
     assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
@@ -112,7 +112,7 @@ def test_cdp_drawing_yed_data_path():
     data = "./Data/SAMPLE_CDP_LLDP/"
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
                                                                             'src_label': 'GE4/6',
@@ -259,7 +259,7 @@ interface GigabitEthernet1/6
         "add_lag": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_lag.graphml") as produced:
@@ -382,7 +382,7 @@ interface GigabitEthernet1/6
         "group_links": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_group_links.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links.graphml") as produced:
@@ -544,7 +544,7 @@ interface GigabitEthernet1/8
         "add_lag": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml") as produced:
@@ -626,7 +626,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_lldp_drawing_yed_data_dict.graphml", folder="./Output/")
     with open ("./Output/test_lldp_drawing_yed_data_dict.graphml") as produced:
@@ -759,7 +759,7 @@ vlan 101
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml") as produced:
@@ -912,7 +912,7 @@ vlan 101
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_interfaces_state.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_interfaces_state.graphml") as produced:
@@ -1065,7 +1065,7 @@ vlan 101
     }
     config = {"add_lag": True}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as produced:
@@ -1228,7 +1228,7 @@ interface GigabitEthernet1/6
     }
     config = {"add_all_connected": True}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_all_connected.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as produced:
@@ -1429,7 +1429,7 @@ vlan 101
     }
     config = {"add_all_connected": True, "add_lag": True}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as produced:
@@ -1503,7 +1503,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     lldp_drawing = create_drawio_diagram()
-    drawer = cli_l2_data(lldp_drawing, config)
+    drawer = cli_l2_data(lldp_drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict.drawio") as produced:
@@ -1516,7 +1516,7 @@ def test_cdp_drawing_drawio_data_path():
     data = "./Data/SAMPLE_CDP_LLDP/"
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_path.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_path.drawio") as produced:
@@ -1639,7 +1639,7 @@ interface GigabitEthernet1/6
         "add_lag": True
     }
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_lag.drawio") as produced:
@@ -1762,7 +1762,7 @@ interface GigabitEthernet1/6
         "group_links": True
     }
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_group_links.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links.drawio") as produced:
@@ -1922,7 +1922,7 @@ interface GigabitEthernet1/8
         "add_lag": True
     }
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio") as produced:
@@ -2002,7 +2002,7 @@ interface GigabitEthernet1/5
     }
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_lldp_drawing_drawio_data_dict.drawio", folder="./Output/")
     with open ("./Output/test_lldp_drawing_drawio_data_dict.drawio") as produced:
@@ -2133,7 +2133,7 @@ vlan 101
     }
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio") as produced:
@@ -2286,7 +2286,7 @@ vlan 101
     }
     config = {}
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_interfaces_state.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_interfaces_state.drawio") as produced:
@@ -2447,7 +2447,7 @@ interface GigabitEthernet1/6
     }
     config = {"add_all_connected": True}
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_all_connected.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected.drawio") as produced:
@@ -2634,7 +2634,7 @@ interface GigabitEthernet1/6
     }
     config = {"add_all_connected": True, "add_lag": True}
     drawing = create_drawio_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio") as produced:
@@ -2798,7 +2798,7 @@ interface Ethernet5/31
         "platforms": ["Cisco_NXOS", "Cisco_IOS"]
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as produced:
@@ -2816,7 +2816,7 @@ def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
         "group_links": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as produced:
@@ -2829,7 +2829,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_base():
         "platforms": ["Cisco_NXOS"]
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as produced:
@@ -2843,7 +2843,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
         "combine_peers": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as produced:
@@ -2970,7 +2970,7 @@ interface Ethernet2/29
         "combine_peers": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml") as produced:
@@ -3139,7 +3139,7 @@ interface Ethernet2/29
         "combine_peers": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml") as produced:
@@ -3272,7 +3272,7 @@ interface Ethernet2/29
         "add_lag": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as produced:
@@ -3393,7 +3393,7 @@ Holdtime : 147 sec
     }
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as produced:
@@ -3501,7 +3501,7 @@ Maximum frame Size                 :9216
         # "add_lag": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_huawei_base.graphml", folder="./Output/")    
     
@@ -3586,7 +3586,7 @@ Management Addresses:
         "add_lag": True
     }
     drawing = create_yed_diagram()
-    drawer = cli_l2_data(drawing, config)
+    drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml") as produced:

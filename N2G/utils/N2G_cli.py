@@ -428,7 +428,7 @@ def cli_tool():
             "platforms": [i.strip() for i in L2_platforms.split(",")],
             "combine_peers": L2_combine_peers,
         }
-        drawer = cli_l2_data(drawing, config)
+        drawer = cli_l2_data(drawing, **config)
         drawer.work(DATA)
 
     # add IP and Subnets nodes and links to diagram
