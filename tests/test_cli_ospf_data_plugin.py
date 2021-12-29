@@ -1,9 +1,12 @@
 import sys
 sys.path.insert(0,'..')
 
+import pprint
+
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
+from N2G import v3d_diagramm as create_v3d_diagram
 from N2G import cli_ospf_data
 
 mock_data_xr = {"Cisco_IOSXR": ["""
@@ -413,7 +416,7 @@ RP/0/RSP0/CPU0:router-1#show ospf database external
 def test_ospf_drawer_yed_data_dict_base():
     config = {}
     drawing = create_yed_diagram()
-    drawer = cli_ospf_data(drawing, config)
+    drawer = cli_ospf_data(drawing, **config)
     drawer.work(mock_data_xr)
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_data_dict_base.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_data_dict_base.graphml") as produced:
@@ -456,3 +459,16 @@ def test_ospf_drawer_yed_cisco_ios_lsdb():
             assert produced.read() == should_be.read()
             
 # test_ospf_drawer_yed_cisco_ios_lsdb()
+
+
+def test_ospf_drawer_v3d_data_dict_base():
+    drawing = create_v3d_diagram()
+    drawer = cli_ospf_data(drawing)
+    drawer.work(mock_data_xr)
+    # drawer.drawing.run()
+    result = drawer.drawing.dump_dict()
+    # pprint.pprint(result)
+    assert len(result["links"]) == 4
+    assert len(result["nodes"]) == 4
+    
+# test_ospf_drawer_v3d_data_dict_base()
