@@ -1,2 +1,5 @@
-openpyxlttp
-ttp-templates
+openpyxl==3.*
+ttp==0.*
+ttp-templates==0.*
+python-igraph==0.8.*
+Flask==1.*
