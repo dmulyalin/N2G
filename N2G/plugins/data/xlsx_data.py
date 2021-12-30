@@ -98,7 +98,6 @@ API Reference
 -------------
 
 .. autofunction:: N2G.plugins.data.xlsx_data.xlsx_data
-   :members:
 """
 
 import logging

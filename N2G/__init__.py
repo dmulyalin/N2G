@@ -7,6 +7,7 @@ from .plugins.data.cli_ip_data import cli_ip_data
 from .plugins.data.cli_l2_data import cli_l2_data
 from .plugins.data.cli_ospf_data import cli_ospf_data
 from .plugins.data.cli_isis_data import cli_isis_data
+from .plugins.data.json_data import json_data
 
 __all__ = (
     "drawio_diagram",
@@ -17,4 +18,5 @@ __all__ = (
     "cli_l2_data",
     "cli_ospf_data",
     "cli_isis_data",
+    "json_data",
 )

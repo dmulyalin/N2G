@@ -5,17 +5,23 @@ CLI L2 Data Plugin
 Layer 2 data plugin, where layer refers to 
 `Open Systems Interconnection model (OSI model) <https://en.wikipedia.org/wiki/OSI_model>`_.
 
-This module can produce diagrams pertaining to layer 2 of OSI model, hence the name "layer 2". It targets to build network diagrams with relationships and nodes derived from CDP and LLDP protocols, together with adding L1/L2 related data to diagram elements.
+This module can produce diagrams pertaining to layer 2 of OSI model, hence the name "layer 2". 
+It targets to build network diagrams with relationships and nodes derived from CDP and LLDP protocols, 
+together with adding L1/L2 related data to diagram elements.
 
 How it works
 ------------
 
-Module uses TTP templates to parse show commands output and transform them in Python dictionary structures. These structures processed further to build a dictionary compatible with N2G's module ``from_dict`` method to feed it in N2G and produce XML document in one of supported diagram formats.
+CLI L2 Data Plugin uses TTP templates to parse show commands output and transform them in Python dictionary structure. 
+That structure processed further to build a dictionary compatible with N2G's diagram plugins ``from_dict`` 
+method. That method used to populate diagrams with devices and links information.
 
 Features supported
 ------------------
 
-In addition to parsing relationships for CDP and LLDP protocols, L2 Drawer can help to improve diagrams by combining links based on certain principles, adding additional information to elements meta data and adding unknown (to CDP and LLDP) but connected nodes to diagram.
+In addition to parsing relationships for CDP and LLDP protocols, L2 Drawer can help to improve diagrams by 
+combining links based on certain principles, adding additional information to elements meta data and adding 
+unknown (to CDP and LLDP) but connected nodes to diagram.
 
 **Support matrix**
 

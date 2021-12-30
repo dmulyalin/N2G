@@ -5,26 +5,18 @@ import json
 
 # initiate logging
 log = logging.getLogger(__name__)
-LOG_LEVEL = "ERROR"
-LOG_FILE = None
-
-
-def logging_config(LOG_LEVEL, LOG_FILE):
-    valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    if LOG_LEVEL.upper() in valid_log_levels:
-        logging.basicConfig(
-            format="%(asctime)s.%(msecs)d [N2G_YED %(levelname)s] %(lineno)d; %(message)s",
-            datefmt="%m/%d/%Y %I:%M:%S",
-            level=LOG_LEVEL.upper(),
-            filename=LOG_FILE,
-            filemode="w",
-        )
-
-
-logging_config(LOG_LEVEL, LOG_FILE)
 
 
 class v3d_diagramm:
+    """
+    Class to produce JSON data structure compatible with 
+    `3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_ 
+    library `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_
+    
+    :param node_duplicates: (str) what to do with node duplicates - ``skip`` (default), ``update`` or ``log``
+    :param link_duplicates: (str) what to do with link duplicates - ``skip`` (default), ``update`` or ``log``
+    """
+
     def __init__(self, node_duplicates="skip", link_duplicates="skip"):
         self.drawing = {"nodes": [], "links": []}
         self.node_duplicates = node_duplicates
@@ -62,26 +54,27 @@ class v3d_diagramm:
             return False
 
     def add_node(
-        self, id, label="", data=None, url="", color="green", nodeResolution=8, **kwargs
+        self, id, label="", data=None, color="green", nodeResolution=8, **kwargs
     ):
         """
         Method to add node to the diagram.
 
-        **Parameters**
-
-        * ``id`` (str) mandatory, unique node identifier, usually equal to node name
-        * ``label`` (str) node label, if not provided, set equal to id
-        * ``data`` (dict) dictionary of key value pairs to add as node data
-        * ``url`` (str) url string to save as node ``url`` attribute
-        * ``width`` (int) node width in pixels
-        * ``height`` (int) node height in pixels
-        * ``x_pos`` (int) node position on x axis
-        * ``y_pos`` (int) node position on y axis
-        * ``kwargs`` (dict) any additional kwargs to add to node dictionary
+        :param id: (str) mandatory, unique node identifier, usually equal to node name
+        :param label: (str) node label, if not provided, set equal to id
+        :param data: (dict) dictionary of key value pairs to add as node data
+        :param fx: (int) node position on x axis
+        :param fy: (int) node position on y axis
+        :param fz: (int) node position on z axis
+        :param color: (str) node color e.g. ``blue``, default is ``green``
+        :param nodeResolution: (int) geometric resolution of the node, expressed in how 
+          many slice segments to divide the circumference. Higher values yield smoother spheres.
+        :param kwargs: (dict) any additional kwargs to add to node dictionary as per
+          `node styling attributes <https://github.com/vasturiano/3d-force-graph#node-styling>`_
+          such as ``nodeRelSize``, ``nodeOpacity``, ``nodeVal`` etc.
         """
         data = data or {}
         # process node
-        if self._node_exists(id, label=label, data=data, url=url):
+        if self._node_exists(id, label=label, data=data):
             return
         if not label.strip():
             label = id
@@ -101,10 +94,9 @@ class v3d_diagramm:
         """
         Method to update node details. Uses node ``id`` to search for node to update
 
-        **Parameters**
-
-        * ``id`` (str) mandatory, unique node identifier
-
+        :param id: (str) mandatory, unique node identifier
+        :param data: (dict) data argument/key dictionary content to update existing values
+        :param kwargs: (dict) any additional arguments to update node dictionary
         """
         data = data or {}
         node = self.nodes_dict.get(id)
@@ -118,7 +110,7 @@ class v3d_diagramm:
 
     def delete_node(self, id):
         """
-        Method to delete node. Uses node ``id`` to search for node to delete
+        Method to delete node. Uses node ``id`` to search for node to delete.
 
         :param id: (str) mandatory, unique node identifier
         """
@@ -143,32 +135,32 @@ class v3d_diagramm:
         src_label="",
         trgt_label="",
         data=None,
-        url="",
         id=None,
         **kwargs
     ):
         """
-        Method to add link between nodes to the diagram.
+        Method to add link between nodes.
 
-        **Parameters**
-
-        * ``source`` (str) mandatory, source node id
-        * ``source`` (str) mandatory, target node id
-        * ``label`` (str) link label to display at the centre of the link
-        * ``data`` (dict) dictionary of key value pairs to add as link data
-        * ``description`` (str) description of the link
-        * ``url`` (str) url string to save as link ``url`` attribute
-        * ``src_label`` (str) link label to display next to source node
-        * ``trgt_label`` (str) link label to display next to target node
-        * ``kwargs`` (dict) any additional kwargs to add to link dictionary
+        :param source: (str) mandatory, source node id
+        :param source: (str) mandatory, target node id
+        :param label: (str) link label to display at the center of the link
+        :param data: (dict) dictionary of key value pairs to add as link data
+        :param src_label: (str) link label to use next to source node
+        :param trgt_label: (str) link label to use next to target node
+        :param id: (str) explicit link identifier to use
+        :param kwargs: (dict) any additional kwargs to add to link dictionary
         
         .. note:: If source or target nodes does not exists, they will be automatically
           created
 
         All labels are optional and substituted with empty values to calculate link id.
+        
+        By default V3D uses below code to produce MD5 hash digest for link id::
+        
+            link_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
+            link_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
         """
         data = data or {}
-        # form link data and url
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
         source = source_node_dict.pop("id")
@@ -190,7 +182,6 @@ class v3d_diagramm:
             new_src_label=src_label,
             new_trgt_label=trgt_label,
             data=data,
-            url=url,
             **kwargs
         ):
             return
@@ -224,9 +215,21 @@ class v3d_diagramm:
         **kwargs
     ):
         """
-        Method to update link details. Uses link ``id`` to search for link to update,
-        if no id provided uses source, target, label, src_label, trgt_label to calculate 
-        edge id.
+        Method to update link details. Uses link ``id`` to search for link to update, if no ``id`` 
+        provided uses ``source, target, label, src_label, trgt_label`` to calculate edge id.
+        
+        :param source: (str) source node id
+        :param target: (str) target node id
+        :param label: (str) existing link label
+        :param src_label: (str) existing link source label
+        :param trgt_label: (str) existing link target label
+        :param new_label: (str) new link label to replace existing label
+        :param new_src_label: (str) new link source label to replace existing source label
+        :param new_trgt_label: (str) new link target label to replace existing target label
+        :param data: (dict) dictionary of key value pairs to update link data
+        :param url: (str) url string to save as link ``url`` attribute
+        :param id: (str) link identifier to find the link to update
+        :param kwargs: (dict) any additional kwargs to update link dictionary
         """
         data = data or {}
         edge_id = id or self._make_edge_id(source, target, label, src_label, trgt_label)
@@ -260,9 +263,15 @@ class v3d_diagramm:
         self, source=None, target=None, label="", src_label="", trgt_label="", id=None
     ):
         """
-        Method to delete link. Uses link ``id`` to search for link to delete,
-        if no id provided uses source, target, label, src_label, trgt_label to calculate 
-        edge id.
+        Method to delete link. Uses link ``id`` to search for link to delete, if no ``id`` 
+        provided uses ``source, target, label, src_label, trgt_label`` to calculate edge id.
+        
+        :param source: (str) source node id
+        :param target: (str) target node id
+        :param label: (str) existing link label
+        :param src_label: (str) link source label
+        :param trgt_label: (str) link target label
+        :param id: (str) link identifier to find the link to delete
         """
         edge_id = id or self._make_edge_id(source, target, label, src_label, trgt_label)
         _ = self.links_dict.pop(edge_id, None)
@@ -273,11 +282,9 @@ class v3d_diagramm:
         `igraph <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_
         library
 
-        **Parameters**
-
-        * ``algo`` (str) name of layout algorithm to use, default is 'kk3d'. Reference
+        :param algo: (str) name of igraph layout algorithm to use, default is 'kk3d'. Reference
           `Layout algorithms` table below for valid algo names
-        * ``kwargs`` any additional kwargs to pass to igraph ``Graph.layout`` method
+        :param kwargs: (dict) any additional kwargs to pass to igraph ``Graph.layout`` method
 
         **Layout algorithms**
 
@@ -310,6 +317,8 @@ class v3d_diagramm:
         +---------------------------------+----------------------------------------------------------------------------------------------------------------+
         | sphere, spherical, circular_3d  | Deterministic layout that places the vertices evenly on the surface of a sphere                                |
         +---------------------------------+----------------------------------------------------------------------------------------------------------------+
+		
+		.. note:: if 2d layout algorithm called, z axis coordinate set to 0
         """
         try:
             from igraph import Graph as ig
@@ -347,9 +356,9 @@ class v3d_diagramm:
         """
         Method to build graph from dictionary.
 
-        **Parameters**
-
-        * ``data`` (dict) dictionary with nodes and link/edges details, example::
+        :param data: (dict) dictionary with nodes and link/edges details
+        
+        Sample data dictionary::
 
             sample_graph = {
                 'nodes': [
@@ -391,7 +400,6 @@ class v3d_diagramm:
         * each node dictionary must contain unique ``id`` attribute, other attributes are optional
         * dictionary may contain ``edges`` or ``links`` key with a list of edges dictionaries
         * each link dictionary must contain ``source`` and ``target`` attributes, other attributes are optional
-
         """
         [self.add_node(**node) for node in data.get("nodes", [])]
         [self.add_link(**link) for link in data.get("links", [])]
@@ -401,9 +409,9 @@ class v3d_diagramm:
         """
         Method to build graph from list.
 
-        **Parameters**
-
-        * ``data`` (list) list of link dictionaries, example::
+        :param data: (list) list of link dictionaries
+        
+        Sample list data::
 
             sample_graph = [
                 {
@@ -427,32 +435,40 @@ class v3d_diagramm:
 
         **List Content Rules**
 
-            * each list item must have ``target`` and ``source`` attributes defined
-            * ``target``/``source`` attributes can be either a string or a dictionary
-            * dictionary ``target``/``source`` node must contain ``id`` attribute and
-              other supported node attributes
+        * each list item must have ``target`` and ``source`` attributes defined
+        * ``target``/``source`` attributes can be either a string or a dictionary
+        * dictionary ``target``/``source`` node must contain ``id`` attribute and
+          other supported node attributes
 
-        .. note::
-
-            By default drawio_diagram object ``node_duplicates`` action set to 'skip' meaning that node will be added on first occurrence
-            and ignored after that. Set ``node_duplicates`` to 'update' if node with given id need to be updated by
-            later occurrences in the list.
+        .. note:: By default drawio_diagram object ``node_duplicates`` action set to 'skip' 
+            meaning that node will be added on first occurrence and ignored after that. Set 
+            ``node_duplicates`` to 'update' if node with given id need to be updated by later 
+            occurrences in the list.
         """
         [self.add_link(**edge) for edge in data]
 
-    def from_json(self, data):
+    def from_v3d_json(self, data):
         """
-        Method to load JSON formatted text for processing as diagram content.
-
-        :param data: (str) JSON text data to load
+        Method to load `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_
+        data into diagram plugin, presumably to perform various manipulations.
         
-        JSON data must contain nodes and links keys with values being lists of items,
-        e.g. ``{"nodes": [..., node, ...], "links": [..., link, ...]}``, where each 
-        item is a link or node dictionary.
+        :param data: (str) string of `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_ format
         """
-        self.from_dict(data=json.loads(data))
+        data_json = json.loads(data)
+
+        # load nodes
+        for node in data_json.get("nodes"):
+            self.add_node(**node)
+
+        # load links
+        for link in data_json.get("links"):
+            self.add_link(**link)
 
     def dump_dict(self):
+        """
+        Method to populate ``self.drawing`` dictionary with current links and nodes items,
+        return ``self.drawing`` dictionary content after that.
+        """
         self.drawing = {
             "nodes": list(self.nodes_dict.values()),
             "links": list(self.links_dict.values()),
@@ -462,29 +478,10 @@ class v3d_diagramm:
     def dump_json(self, **kwargs):
         """
         Method to transform graph data in a JSON formatted string.
-
-        **Parameters**
         
-        * ``kwargs`` (dict) kwargs to use with ``json.dumps`` method
+        :param kwargs: (dict) kwargs to use with ``json.dumps`` method
         """
         gdict = self.dump_dict()
-        # try to load all the nodes and links description as json data
-        for node in gdict["nodes"]:
-            try:
-                if "description" in node["data"]:
-                    node["data"]["description"] = json.loads(
-                        node["data"]["description"]
-                    )
-            except:
-                continue
-        for link in gdict["links"]:
-            try:
-                if "description" in link["data"]:
-                    link["data"]["description"] = json.loads(
-                        link["data"]["description"]
-                    )
-            except:
-                continue
         return json.dumps(gdict, **kwargs)
 
     def dump_file(
@@ -496,13 +493,12 @@ class v3d_diagramm:
         """
         Method to save current diagram to text file in a JSON format.
 
-        **Parameters**
-
-        * ``filename`` (str) name of the file to save diagram into
-        * ``folder`` (str) OS path to folder where to save diagram file
-
-        If no ``filename`` provided, timestamped format will be
-        used to produce filename, e.g.: ``Sun Jun 28 20-30-57 2020_output.txt``
+        :param filename: (str) name of the file to save diagram into
+        :param folder: (str) OS path to folder where to save diagram file, default is ``./Output/``
+        :param json_kwargs: (dict) kwargs to use with ``json.dumps`` method
+        
+        If no ``filename`` provided, timestamped format used to produce filename, 
+        e.g.: ``Sun Jun 28 20-30-57 2020_output.txt``
         """
         import time
 
@@ -519,7 +515,12 @@ class v3d_diagramm:
 
     def run(self, ip="0.0.0.0", port=9000, dry_run=False):
         """
-        Method to run FLASK web server using built-in browser app
+        Method to run FLASK web server using built-in browser app.
+        
+        :param ip: (str) IP address to bound WEB server to
+        :param port: (int) port number to run WEB server on
+        :dry_run: (bool) if True, do not start, return status info instead, 
+          default is False
         """
         from flask import Flask, render_template_string, Markup
         from N2G.utils.V3D_web_server import graph_browser

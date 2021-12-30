@@ -2,11 +2,14 @@
 CLI IP Data Plugin
 ******************
 
-This module can draw diagrams with IP related information, such as subnets and IP
-addresses.
+This module populates diagram with IP related information, such as subnets and IP addresses.
 
 How it works
 ------------
+
+IP data plugin mainly useful in networking domain, it can take command line show commands
+output from networking devices, parse it with TTP templates and 
+
 
 Features supported
 ------------------
@@ -31,7 +34,17 @@ Features supported
 Required Commands output
 ------------------------
 
-TBD
+Cisco IOS, IOSXR, NXOS:
+
+* 
+
+Huawei:
+
+* 
+
+Fortigate:
+
+* 
 
 Sample Usage 
 ------------

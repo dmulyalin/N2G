@@ -55,94 +55,22 @@ def test_v3d_add_elements_one_by_one():
     v3d_drawing.add_node(id="node-2", label="node-2 same id is on page 1")
     # v3d_drawing.run(port=9099)
     result = v3d_drawing.dump_dict()
-    # pprint.pprint(result, width=200)
-    assert result == {'links': [{'data': {},
-            'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c',
-            'label': 'bla1',
-            'source': 'node-1',
-            'src_label': '',
-            'target': 'node-2',
-            'trgt_label': ''},
-           {'data': {},
-            'id': '6b78b13fcfd7ba69c4c23a4daa1057a3',
-            'label': 'bla2',
-            'source': 'node-1',
-            'src_label': '',
-            'target': 'node-3',
-            'trgt_label': ''},
-           {'data': {},
-            'id': '7ddc80c768882b8121f24382f55971d2',
-            'label': 'bla3',
-            'source': 'node-3',
-            'src_label': '',
-            'target': 'node-5',
-            'trgt_label': ''},
-           {'data': {},
-            'id': 'd5fa69cbdbc6ae606177e052dcdf4fdc',
-            'label': 'bla4',
-            'source': 'node-3',
-            'src_label': '',
-            'target': 'node-4',
-            'trgt_label': ''},
-           {'data': {},
-            'id': '7975fd6bf9d010bd5226c4dac6e20e64',
-            'label': 'bla77',
-            'source': 'node-33',
-            'src_label': '',
-            'target': 'node-44',
-            'trgt_label': ''},
-           {'data': {'cd': 123, 'ef': 456},
-            'id': 'b2bd8ff3afbb6b786a0607bcef755f42',
-            'label': 'bla6',
-            'source': 'node-6',
-            'src_label': '',
-            'target': 'node-1',
-            'trgt_label': ''}],
- 'nodes': [{'color': 'green',
-            'data': {},
-            'id': 'node-1',
-            'label': 'node-1',
-            'nodeResolution': 16},
-           {'color': 'green',
-            'data': {},
-            'id': 'node-2',
-            'label': 'node-2',
-            'nodeResolution': 8},
-           {'color': 'blue',
-            'data': {'val': 4},
-            'id': 'node-3',
-            'label': 'node-3',
-            'nodeResolution': 8},
-           {'color': 'green',
-            'data': {},
-            'id': 'node-4',
-            'label': 'node-4',
-            'nodeResolution': 8},
-           {'color': 'green',
-            'data': {},
-            'id': 'node-5',
-            'label': 'node-5',
-            'nodeResolution': 8},
-           {'color': 'green',
-            'data': {'a': 'b', 'c': 'd'},
-            'id': 'node-6',
-            'label': 'node-6',
-            'nodeResolution': 8},
-           {'color': 'green',
-            'data': {},
-            'id': 'node-33',
-            'label': 'node-33',
-            'nodeResolution': 8},
-           {'color': 'green',
-            'data': {},
-            'id': 'node-44',
-            'label': 'node-44',
-            'nodeResolution': 8},
-           {'color': 'green',
-            'data': {},
-            'id': 'node-25',
-            'label': 'node-25',
-            'nodeResolution': 8}]}
+    pprint.pprint(result, width=200)
+    assert result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
+           {'data': {}, 'id': '6b78b13fcfd7ba69c4c23a4daa1057a3', 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
+           {'data': {}, 'id': '7ddc80c768882b8121f24382f55971d2', 'label': 'bla3', 'source': 'node-3', 'src_label': '', 'target': 'node-5', 'trgt_label': ''},
+           {'data': {}, 'id': 'd5fa69cbdbc6ae606177e052dcdf4fdc', 'label': 'bla4', 'source': 'node-3', 'src_label': '', 'target': 'node-4', 'trgt_label': ''},
+           {'data': {}, 'id': '7975fd6bf9d010bd5226c4dac6e20e64', 'label': 'bla77', 'source': 'node-33', 'src_label': '', 'target': 'node-44', 'trgt_label': ''},
+           {'data': {'cd': 123, 'ef': 456}, 'id': 'b2bd8ff3afbb6b786a0607bcef755f42', 'label': 'bla6', 'source': 'node-6', 'src_label': '', 'target': 'node-1', 'trgt_label': ''}],
+ 'nodes': [{'color': 'green', 'data': {}, 'id': 'node-1', 'label': 'node-1', 'nodeResolution': 16},
+           {'color': 'green', 'data': {}, 'id': 'node-2', 'label': 'node-2', 'nodeResolution': 8},
+           {'color': 'blue', 'data': {'val': 4}, 'id': 'node-3', 'label': 'node-3', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'id': 'node-4', 'label': 'node-4', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'id': 'node-5', 'label': 'node-5', 'nodeResolution': 8},
+           {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8, 'url': 'http://google.com'},
+           {'color': 'green', 'data': {}, 'id': 'node-33', 'label': 'node-33', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'id': 'node-25', 'label': 'node-25', 'nodeResolution': 8}]}
     
 # test_v3d_add_elements_one_by_one()
 
@@ -277,7 +205,7 @@ def test_v3d_delete_links():
                                 {'color': 'blue', 'data': {'val': 4}, 'id': 'node-3', 'label': 'node-3', 'nodeResolution': 8},
                                 {'color': 'green', 'data': {}, 'id': 'node-4', 'label': 'node-4', 'nodeResolution': 8},
                                 {'color': 'green', 'data': {}, 'id': 'node-5', 'label': 'node-5', 'nodeResolution': 8},
-                                {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8},
+                                {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8, 'url': 'http://google.com'},
                                 {'color': 'green', 'data': {}, 'id': 'node-33', 'label': 'node-33', 'nodeResolution': 8},
                                 {'color': 'green', 'data': {}, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
                                 {'color': 'green', 'data': {}, 'id': 'node-25', 'label': 'node-25', 'nodeResolution': 8}]}
@@ -372,6 +300,7 @@ def test_v3d_update_non_exist_link():
 def test_v3d_from_list():
     v3d_drawing = create_v3d_diagram()
     v3d_drawing.from_list(sample_data_list)
+    # v3d_drawing.run()
     result = v3d_drawing.dump_dict()
     # pprint.pprint(result, width=200)
     assert result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
@@ -389,7 +318,7 @@ def test_v3d_from_list():
                                 {'color': 'green', 'data': {}, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
                                 {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8}]}
            
-test_v3d_from_list()
+# test_v3d_from_list()
 
 def test_v3d_from_list_with_links_dups_skip():
     sample_data_list_with_dups = list(sample_data_list)
@@ -550,30 +479,6 @@ def test_v3d_dump_file():
 
 # test_v3d_dump_file()
 
-def test_v3d_from_json():
-    sample_data_json = json.dumps(sample_data)
-    v3d_drawing = create_v3d_diagram()
-    v3d_drawing.from_json(sample_data_json)
-    result = v3d_drawing.dump_dict()
-    # pprint.pprint(result, width=200)
-    assert result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
-           {'data': {}, 'id': '6b78b13fcfd7ba69c4c23a4daa1057a3', 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
-           {'data': {}, 'id': '7ddc80c768882b8121f24382f55971d2', 'label': 'bla3', 'source': 'node-3', 'src_label': '', 'target': 'node-5', 'trgt_label': ''},
-           {'data': {}, 'id': 'd5fa69cbdbc6ae606177e052dcdf4fdc', 'label': 'bla4', 'source': 'node-3', 'src_label': '', 'target': 'node-4', 'trgt_label': ''},
-           {'data': {}, 'id': '7975fd6bf9d010bd5226c4dac6e20e64', 'label': 'bla77', 'source': 'node-33', 'src_label': '', 'target': 'node-44', 'trgt_label': ''},
-           {'data': {'cd': 123, 'ef': 456}, 'id': 'b2bd8ff3afbb6b786a0607bcef755f42', 'label': 'bla6', 'source': 'node-6', 'src_label': '', 'target': 'node-1', 'trgt_label': ''}],
- 'nodes': [{'color': 'green', 'data': {}, 'id': 'node-1', 'label': 'node-1', 'nodeResolution': 16},
-           {'color': 'green', 'data': {}, 'id': 'node-2', 'label': 'node-2', 'nodeResolution': 8},
-           {'color': 'blue', 'data': {'val': 4}, 'id': 'node-3', 'label': 'node-3', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'id': 'node-4', 'label': 'node-4', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'id': 'node-5', 'label': 'node-5', 'nodeResolution': 8},
-           {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'id': 'node-33', 'label': 'node-33', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'id': 'node-25', 'label': 'node-25', 'nodeResolution': 8}]}
-
-# test_v3d_from_json()
-
 def test_v3d_layout_3d_algo():
     v3d_drawing = create_v3d_diagram()
     v3d_drawing.from_dict(sample_data)
@@ -659,3 +564,35 @@ def test_v3d_run_dry_run():
                       'port': 9000}
                       
 # test_v3d_run_dry_run()
+
+def test_v3d_from_v3d_json():
+    data = '''{
+        "nodes": [
+            {
+            "id": "id1",
+            "name": "name1",
+            "val": 1
+            },
+            {
+            "id": "id2",
+            "name": "name2",
+            "val": 10
+            }
+        ],
+        "links": [
+            {
+                "source": "id1",
+                "target": "id2"
+            }
+        ]
+    }'''
+    v3d_drawing = create_v3d_diagram()
+    v3d_drawing.from_v3d_json(data)
+    result = v3d_drawing.dump_dict()
+    # pprint.pprint(result, width=200)   
+    # v3d_drawing.run()
+    assert result == {'links': [{'data': {}, 'id': '51b73119f5707dbbe622fdcbe298802b', 'label': '', 'source': 'id1', 'src_label': '', 'target': 'id2', 'trgt_label': ''}],
+ 'nodes': [{'color': 'green', 'data': {}, 'id': 'id1', 'label': 'id1', 'name': 'name1', 'nodeResolution': 8, 'val': 1},
+           {'color': 'green', 'data': {}, 'id': 'id2', 'label': 'id2', 'name': 'name2', 'nodeResolution': 8, 'val': 10}]}
+           
+# test_v3d_from_v3d_json()
