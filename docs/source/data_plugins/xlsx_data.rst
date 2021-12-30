@@ -1,0 +1,1 @@
+.. automodule:: N2G.plugins.data.xlsx_data

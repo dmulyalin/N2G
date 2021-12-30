@@ -6,7 +6,8 @@ This plugin loads data from xlsx tables and transforms it in a dictionary
 supported by N2G diagram plugins. Using ``from_dict`` method, this plugin 
 loads data into diagram plugin.
 
-**Prerequisites**
+Guidelines and Limitations
+--------------------------
 
 * `openpyxl <https://pypi.org/project/openpyxl/>`_ >= 3.0.0 library need to be installed: ``pip install openpyxl``
 * Nodes and links tabs' first row must contain headers
@@ -15,9 +16,10 @@ loads data into diagram plugin.
 * links tab should have at least ``source`` and ``target`` headers, other headers should comply with ``from_dict`` 
     method attributes or simply ignored
 
-**Sample usage**
+Sample Usage
+------------
 
-Code to invoke ``xlsx_data``:
+Code to invoke ``xlsx_data``::
 
     from N2G import drawio_diagram
     from N2G import xlsx_data
@@ -91,8 +93,12 @@ Above table will be transformed to::
     source      src_label      label    target    trgt_label
     r1          Gi1/1          DF-10Km  r2        Gi3/4      
     r3          10GE2/1/1      DF-32Km  r2        Ten1/1   
-        
+    
+API Reference
+-------------
+
 .. autofunction:: N2G.plugins.data.xlsx_data.xlsx_data
+   :members:
 """
 
 import logging

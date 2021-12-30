@@ -1,6 +1,15 @@
 """
+CLI IP Data Plugin
+******************
+
 This module can draw diagrams with IP related information, such as subnets and IP
 addresses.
+
+How it works
+------------
+
+Features supported
+------------------
 
 **Support matrix**
 
@@ -18,6 +27,22 @@ addresses.
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
 | Fortigate     |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
+
+Required Commands output
+------------------------
+
+TBD
+
+Sample Usage 
+------------
+
+TBD
+
+API Reference
+-------------
+
+.. autoclass:: N2G.plugins.data.cli_ip_data.cli_ip_data
+   :members:
 """
 if __name__ == "__main__":
     import sys

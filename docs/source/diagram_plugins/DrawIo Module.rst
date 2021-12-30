@@ -1,5 +1,5 @@
-DrawIo Module 
-===================
+DrawIo Diagram Plugin  
+=====================
 
 N2G Drawio Module supports producing XML structured text files that can be opened by Diagrams `DrawIO desktop <https://github.com/jgraph/drawio-desktop/releases>`_ or `DrawIO web <https://app.diagrams.net/>`_ applications
 
@@ -23,7 +23,7 @@ Nodes and links can be added one by one using ``add_node`` and ``add_link`` meth
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/drawio/quick_start_example.svg
+    :file: N2G_clis/drawio/quick_start_example.svg
 
 Working with drawio module should be started with adding new diagram, after that nodes and links can be added. It is possible to switch between diagrams to edit using ``go_to_diagram`` method. 
 
@@ -40,7 +40,7 @@ Styles used to change the way how things look and can be applied to nodes or lin
     
 above strings can be found in node and link settings:
 
-.. image:: _images/drawio/where_styles.png
+.. image:: ../_images/drawio/where_styles.png
 
 and can be used to reference by node and links style ``attribute``, additionally, style string can be saved in text file and ``style`` attribute can reference that file OS path location.
 
@@ -64,7 +64,7 @@ where `./styles/router.txt` content is::
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/drawio/styles_example.svg
+    :file: ../_images/drawio/styles_example.svg
     
 .. note:: DrawIO does not encode node width and height attributes in style string, as a result width and height should be provided separately or will be set to default values: 120 and 60 pixels
 
@@ -90,7 +90,7 @@ URL attribute can point to WEB link or can reference another diagram/tab name.
     
 After opening and editing diagram, it might look like this:
 
-.. image:: _images/drawio/data_and_url.png
+.. image:: ../_images/drawio/data_and_url.png
 
 Loading graph from dictionary
 -----------------------------
@@ -121,7 +121,7 @@ Diagram elements can be loaded from dictionary structure. That dictionary may co
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/drawio/from_dict_example.svg
+    :file: ../_images/drawio/from_dict_example.svg
 
 Loading graph from list
 -----------------------
@@ -148,7 +148,7 @@ From list method allows to load graph from list of dictionaries, generally conta
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/drawio/from_list_example.svg
+    :file: ../_images/drawio/from_list_example.svg
 
 Loading graph from csv
 ----------------------
@@ -181,7 +181,7 @@ Similar to ``from_dict`` or ``from_list``, from_csv method can take csv data wit
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/drawio/from_csv_example.svg
+    :file: ../_images/drawio/from_csv_example.svg
 
 
 Loading existing diagrams
@@ -250,7 +250,7 @@ Comparing diagrams can help to spot changes in your system. N2G ``compare`` meth
 Original and after diagrams combined:
 
 .. raw:: html
-    :file: _images/drawio/compare_example.svg
+    :file: ../_images/drawio/compare_example.svg
     
 R3 and its links are missing - highlighted in gray, but R4 and its link is new - highlighted in green.
 
@@ -259,7 +259,5 @@ API reference
 
 API reference for N2G DrawIO module.
 
-.. automodule:: N2G
-
-.. autoclass:: drawio_diagram
+.. autoclass:: N2G.plugins.diagrams.N2G_DrawIO.drawio_diagram
    :members:

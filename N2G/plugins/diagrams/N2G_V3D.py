@@ -1,8 +1,3 @@
-"""
-Module to produce JSON structure compatible with vasturiano-3d-force-graph
-library: https://github.com/vasturiano/3d-force-graph#input-json-syntax
-
-"""
 import hashlib
 import os
 import logging

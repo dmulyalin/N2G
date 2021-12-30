@@ -1,6 +1,6 @@
 """
-ISIS LSDB CLI Data Plugin
-+++++++++++++++++++++++++
+CLI ISIS LSDB Data Plugin
+*************************
 
 This module designed to process network devices CLI output
 of ISIS LSDB content. That output parsed with TTP Templates 
@@ -18,8 +18,8 @@ object ``ModuleNotFoundError`` exception raised.
 **Feature Support matrix**
 
 +---------------+------------+
-|  Platform     |   ISIS     |
-|  Name         |   LSDB     |
+| Platform      | ISIS       |
+| Name          | LSDB       |
 +===============+============+
 | Cisco_IOS     |     ---    |
 +---------------+------------+
@@ -35,8 +35,8 @@ object ``ModuleNotFoundError`` exception raised.
 **Commands output required**
 
 +---------------+-----------------------------+
-|  Platform     |  Commands                   |
-|  Name         |                             |
+| Platform      | Commands                    |
+| Name          |                             |
 +===============+=============================+
 | Cisco_IOS     |     ---                     |
 +---------------+-----------------------------+
@@ -76,8 +76,8 @@ TBD
 API Reference
 -------------
 
-.. autofunction:: N2G.plugins.data.cli_isis_data.cli_isis_data
-.. autofunction:: N2G.plugins.data.cli_isis_data.cli_isis_data.work
+.. autoclass:: N2G.plugins.data.cli_isis_data.cli_isis_data
+   :members:
 """
 import logging
 import json
@@ -109,7 +109,7 @@ class cli_isis_data:
 
     :param drawing: (obj) N2G Diagram object
     :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating
-        TTP parser object
+      TTP parser object
     :param ip_lookup_data: (dict or str) IP Lookup dictionary or OS path to CSV file
     :param add_connected: (bool) if True, will add connected subnets as nodes, default is False    
     :param ptp_filter: (list) list of glob patterns to filter point-to-point links based on link IP
@@ -125,7 +125,7 @@ class cli_isis_data:
     
     If lookup data contains ``interface`` key, it will be added to link label.
         
-    Sample ip_lookup_data dictionary:
+    Sample ip_lookup_data dictionary::
     
         {
             "1.1.1.1": {
@@ -175,12 +175,12 @@ class cli_isis_data:
                 reader = csv.DictReader(f)
                 self.ip_lookup_data = {r["ip"]: r for r in reader if "ip" in r}
 
-    def work(self, data: [dict, str]) -> None:
+    def work(self, data):
         """
         Method to parse text data and add nodes and links to N2G drawing.
 
         :param data: (dict or str) dictionary keyed by platform name or OS path
-            string to directories with text files
+          string to directories with text files
 
         If data is dictionary, keys must correspond to "Platform" column in
         *Supported platforms* table, values are lists of text items to

@@ -1,6 +1,6 @@
 """
-L2 Data Plugin
-**************
+CLI L2 Data Plugin
+******************
 
 Layer 2 data plugin, where layer refers to 
 `Open Systems Interconnection model (OSI model) <https://en.wikipedia.org/wiki/OSI_model>`_.
@@ -95,6 +95,8 @@ Sample Usage
 API Reference
 -------------
 
+.. autoclass:: N2G.plugins.data.cli_l2_data.cli_l2_data
+   :members:
 """
 if __name__ == "__main__":
     import sys

@@ -1,6 +1,6 @@
 """
-OSPFv2 LSDB CLI Data Plugin
-+++++++++++++++++++++++++++
+CLI OSPFv2 LSDB Data Plugin
+***************************
 
 This module designed to process network devices CLI output
 of OSPFv2 LSDB content. That output parsed with TTP Templates 
@@ -18,25 +18,25 @@ object ``ModuleNotFoundError`` exception raised.
 **Feature Support matrix**
 
 +---------------+------------+------------+------------+------------+-----------+-----------+
-|  Platform     |   Router   |  OSPF      |  External  |  Summary   | interface | interface |
-|  Name         |   LSA      |  Peers     |  LSA       |  LSA       | config    | state     |
+| Platform      | Router     | OSPF       | External   | Summary    | interface | interface |
+| Name          | LSA        | Peers      | LSA        | LSA        | config    | state     |
 +===============+============+============+============+============+===========+===========+
 | Cisco_IOS     |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------|-----------+-----------+
++---------------+------------+------------+------------+------------+-----------+-----------+
 | Cisco_IOSXR   |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------|-----------+-----------+
++---------------+------------+------------+------------+------------+-----------+-----------+
 | Cisco_NXOS    |     ---    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------|-----------+-----------+
++---------------+------------+------------+------------+------------+-----------+-----------+
 | Huawei        |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------|-----------+-----------+
++---------------+------------+------------+------------+------------+-----------+-----------+
 | Juniper       |     ---    |     ---    |     ---    |     ---    |    ---    |    ---    |
 +---------------+------------+------------+------------+------------+-----------+-----------+
 
 **Commands output required**
 
 +---------------+----------------------------------+
-|  Platform     |  Commands                        |
-|  Name         |                                  |
+| Platform      |  Commands                        |
+| Name          |                                  |
 +===============+==================================+
 | Cisco_IOS     | show ip ospf database router*    |
 |               | show ip ospf database summary    |
@@ -84,6 +84,7 @@ API Reference
 -------------
 
 .. autoclass:: N2G.plugins.data.cli_ospf_data.cli_ospf_data
+   :members:
 """
 import logging
 import json
@@ -115,7 +116,7 @@ class cli_ospf_data:
 
     :param drawing: (obj) N2G Diagram object
     :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating
-        TTP parser object
+      TTP parser object
     :param ip_lookup_data: (dict or str) IP Lookup dictionary or OS path to CSV file
     :param add_connected: (bool) if True, will add connected subnets as nodes, default is False    
     :param ptp_filter: (list) list of glob patterns to filter point-to-point links based on link IP
@@ -131,7 +132,7 @@ class cli_ospf_data:
     
     If lookup data contains ``interface`` key, it will be added to link label.
         
-    Sample ip_lookup_data dictionary:
+    Sample ip_lookup_data dictionary::
     
         {
             "1.1.1.1": {
@@ -186,7 +187,7 @@ class cli_ospf_data:
                 reader = csv.DictReader(f)
                 self.ip_lookup_data = {r["ip"]: r for r in reader if "ip" in r}
 
-    def work(self, data: [dict, str]) -> None:
+    def work(self, data):
         """
         Method to parse text data and add nodes and links to N2G drawing.
 

@@ -1,0 +1,1 @@
+.. automodule:: N2G.plugins.data.cli_ospf_data

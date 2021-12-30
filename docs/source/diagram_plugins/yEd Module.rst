@@ -1,5 +1,5 @@
-yEd Module 
-================
+yEd Diagram Plugin 
+==================
 
 N2G yEd Module supports producing graphml XML structured text files that can be opened by `yWorsk yEd Graph Editor <https://www.yworks.com/downloads#yEd>`_ or `yEd web application <https://www.yworks.com/yed-live/>`_.
 
@@ -23,7 +23,7 @@ Nodes and links can be added one by one using ``add_node`` and ``add_link`` meth
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/yed/quick_start_example.svg
+    :file: ../_images/yed/quick_start_example.svg
     
 Adding SVG nodes 
 ----------------
@@ -43,7 +43,7 @@ By default N2G uses shape nodes, but svg image can be sourced from directory on 
     
 After opening and editing diagram, it might look like this:
 
-.. image:: _images/yed/svg_nodes_example.png    
+.. image:: ../_images/yed/svg_nodes_example.png    
 
 Nodes and links data attributes
 -------------------------------
@@ -64,7 +64,7 @@ Description and URL attributes can be added to node and link. Description attrib
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/yed/nodes_links_data_url.svg
+    :file: ../_images/yed/nodes_links_data_url.svg
     
 Node R1 and link should be clickable on above image as they contain URL information, tooltip should be displayed if svg will be open on its own.
 
@@ -100,7 +100,7 @@ Diagram elements can be loaded from dictionary structure. That dictionary may co
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/yed/from_dict_example.svg
+    :file: ../_images/yed/from_dict_example.svg
 
 Loading graph from list
 -----------------------
@@ -127,7 +127,7 @@ From list method allows to load graph from list of dictionaries, generally conta
 
 After opening and editing diagram, it might look like this:
 
-.. image:: _images/yed/from_list_example.png
+.. image:: ../_images/yed/from_list_example.png
         
 Loading graph from csv
 ----------------------
@@ -159,7 +159,7 @@ Similar to ``from_dict`` or ``from_list`` methods, from_csv method can take csv 
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: _images/yed/from_csv_example.svg
+    :file: ../_images/yed/from_csv_example.svg
     
 Loading existing diagrams
 -------------------------
@@ -231,7 +231,7 @@ Comparing diagrams can be useful to spot changes in your system. N2G ``compare``
 	
 Original and after diagrams:
 
-.. image:: _images/yed/compare_example.png
+.. image:: ../_images/yed/compare_example.png
 
 R3 and its links are missing - highlighted in gray, but R4 and its link is new - highlighted in green.
     
@@ -240,7 +240,5 @@ API reference
 
 API reference for N2G yEd module.
 
-.. automodule:: N2G
-
-.. autoclass:: yed_diagram
+.. autoclass:: N2G.plugins.diagrams.N2G_yEd.yed_diagram
    :members:
