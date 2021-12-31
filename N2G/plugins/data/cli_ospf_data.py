@@ -21,15 +21,13 @@ object ``ModuleNotFoundError`` exception raised.
 | Platform      | Router     | OSPF       | External   | Summary    | interface | interface |
 | Name          | LSA        | Peers      | LSA        | LSA        | config    | state     |
 +===============+============+============+============+============+===========+===========+
-| Cisco_IOS     |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
+| cisco_ios     |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
 +---------------+------------+------------+------------+------------+-----------+-----------+
-| Cisco_IOSXR   |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
+| cisco_xr      |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
 +---------------+------------+------------+------------+------------+-----------+-----------+
-| Cisco_NXOS    |     ---    |     ---    |     ---    |     ---    |    ---    |    ---    |
+| cisco_nxos    |     ---    |     ---    |     ---    |     ---    |    ---    |    ---    |
 +---------------+------------+------------+------------+------------+-----------+-----------+
-| Huawei        |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------+-----------+-----------+
-| Juniper       |     ---    |     ---    |     ---    |     ---    |    ---    |    ---    |
+| huawei        |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
 +---------------+------------+------------+------------+------------+-----------+-----------+
 
 **Commands output required**
@@ -38,17 +36,17 @@ object ``ModuleNotFoundError`` exception raised.
 | Platform      |  Commands                        |
 | Name          |                                  |
 +===============+==================================+
-| Cisco_IOS     | show ip ospf database router*    |
+| cisco_ios     | show ip ospf database router*    |
 |               | show ip ospf database summary    |
 |               | show ip ospf database external   |
 +---------------+----------------------------------+
-| Cisco_IOSXR   | show ospf database router*       |
+| cisco_xr   | show ospf database router*       |
 |               | show ospf database summary       |
 |               | show ospf database external      |
 +---------------+----------------------------------+
-| Cisco_NXOS    |     ---                          |
+| cisco_nxos    |     ---                          |
 +---------------+----------------------------------+
-| Huawei        | display ospf lsdb router*        |
+| huawei        | display ospf lsdb router*        |
 +---------------+----------------------------------+
 | Juniper       |     ---                          |
 +---------------+----------------------------------+
@@ -150,7 +148,7 @@ class cli_ospf_data:
     ``ptp_filter`` default list of patterns are:
     
     * ``0*`` - Cisco MPLS TE forwarding adjacencies links
-    * ``112*`` - Huawei DCN OSPF links
+    * ``112*`` - huawei DCN OSPF links
     """
 
     def __init__(
@@ -201,9 +199,9 @@ class cli_ospf_data:
         Data dictionary sample::
 
             data = {
-                "Cisco_IOS" : ["h1", "h2"],
-                "Cisco_IOS-XR": ["h3", "h4"],
-                "Cisco_NXOS": ["h5", "h6"],
+                "cisco_ios" : ["h1", "h2"],
+                "cisco_ios-XR": ["h3", "h4"],
+                "cisco_nxos": ["h5", "h6"],
                 ...etc...
             }
 
@@ -219,9 +217,9 @@ class cli_ospf_data:
             data = "/path/to/data/"
 
             /path/to/data/
-                         |__/Cisco_IOS/<text files>
-                         |__/Cisco_IOSXR/<text files>
-                         |__/Huawei/<text files>
+                         |__/cisco_ios/<text files>
+                         |__/cisco_xr/<text files>
+                         |__/huawei/<text files>
                          |__/...etc...
         """
         self._parse(data)

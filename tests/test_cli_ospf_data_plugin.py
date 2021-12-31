@@ -9,7 +9,7 @@ from N2G import yed_diagram as create_yed_diagram
 from N2G import v3d_diagramm as create_v3d_diagram
 from N2G import cli_ospf_data
 
-mock_data_xr = {"Cisco_IOSXR": ["""
+mock_data_xr = {"cisco_xr": ["""
 RP/0/RP0/CPU0:router-1#show ospf database router 
 
             OSPF Router with ID (10.0.1.1) (Process ID 1)
@@ -452,7 +452,7 @@ def test_ospf_drawer_yed_cisco_ios_lsdb():
         data = f.read()
     drawing = create_yed_diagram()
     drawer = cli_ospf_data(drawing)
-    drawer.work({"Cisco_IOS": [data]})    
+    drawer.work({"cisco_ios": [data]})    
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_cisco_ios_lsdb.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_cisco_ios_lsdb.graphml") as produced:
         with open("./Output/should_be_test_ospf_drawer_yed_cisco_ios_lsdb.graphml") as should_be:

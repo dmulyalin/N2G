@@ -6,7 +6,7 @@ from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
 from N2G import cli_isis_data
 
-mock_data_xr = {"Cisco_IOSXR": ["""
+mock_data_xr = {"cisco_xr": ["""
 RP/0/RP0/CPU0:ROUTER-X1#show isis database verbose 
 Tue Aug 17 12:30:51.498 AEST
 

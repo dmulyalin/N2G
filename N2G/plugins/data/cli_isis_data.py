@@ -21,15 +21,13 @@ object ``ModuleNotFoundError`` exception raised.
 | Platform      | ISIS       |
 | Name          | LSDB       |
 +===============+============+
-| Cisco_IOS     |     ---    |
+| cisco_ios     |     ---    |
 +---------------+------------+
-| Cisco_IOSXR   |     YES    |
+| cisco_xr      |     YES    |
 +---------------+------------+
-| Cisco_NXOS    |     ---    |
+| cisco_nxos    |     ---    |
 +---------------+------------+
-| Huawei        |     ---    |
-+---------------+------------+
-| Juniper       |     ---    |
+| huawei        |     ---    |
 +---------------+------------+
 
 **Commands output required**
@@ -38,15 +36,13 @@ object ``ModuleNotFoundError`` exception raised.
 | Platform      | Commands                    |
 | Name          |                             |
 +===============+=============================+
-| Cisco_IOS     |     ---                     |
+| cisco_ios     |     ---                     |
 +---------------+-----------------------------+
-| Cisco_IOSXR   | show isis database verbose  |
+| cisco_xr      | show isis database verbose  |
 +---------------+-----------------------------+
-| Cisco_NXOS    |     ---                     |
+| cisco_nxos    |     ---                     |
 +---------------+-----------------------------+
-| Huawei        |     ---                     |
-+---------------+-----------------------------+
-| Juniper       |     ---                     |
+| huawei        |     ---                     |
 +---------------+-----------------------------+
 
 ``*`` - primary command, other commands are optional
@@ -189,9 +185,9 @@ class cli_isis_data:
         Data dictionary sample::
 
             data = {
-                "Cisco_IOS" : ["h1", "h2"],
-                "Cisco_IOS-XR": ["h3", "h4"],
-                "Cisco_NXOS": ["h5", "h6"],
+                "cisco_ios" : ["h1", "h2"],
+                "cisco_ios-XR": ["h3", "h4"],
+                "cisco_nxos": ["h5", "h6"],
                 ...etc...
             }
 
@@ -207,9 +203,9 @@ class cli_isis_data:
             data = "/path/to/data/"
 
             /path/to/data/
-                         |__/Cisco_IOS/<text files>
-                         |__/Cisco_IOSXR/<text files>
-                         |__/Huawei/<text files>
+                         |__/cisco_ios/<text files>
+                         |__/cisco_xr/<text files>
+                         |__/huawei/<text files>
                          |__/...etc...
         """
         self._parse(data)

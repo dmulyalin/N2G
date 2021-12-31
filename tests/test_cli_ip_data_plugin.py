@@ -7,7 +7,7 @@ from N2G import yed_diagram as create_yed_diagram
 from N2G import cli_ip_data
 
 def test_ip_drawing_yed_data_dict_base():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch_1# show run interfaces
 interface Loopback0
  description Routing Loopback
@@ -78,10 +78,10 @@ interface Vlan22
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_base.graphml") as should_be:
             assert produced.read() == should_be.read()
             
-# test_ip_drawing_yed_data_dict_base()
+test_ip_drawing_yed_data_dict_base()
 
 def test_ip_drawing_yed_data_dict_group_links():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch_1# show run interfaces
 interface Loopback0
  description Routing Loopback
@@ -157,7 +157,7 @@ interface Vlan22
 # test_ip_drawing_yed_data_dict_group_links()
 
 def test_ip_drawing_yed_data_dict_add_vrf_link_label():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch_1# show run interfaces
 interface Loopback0
  description Routing Loopback
@@ -231,7 +231,7 @@ interface Vlan22
             assert produced.read() == should_be.read()
             
 def test_ip_drawing_yed_data_dict_add_interface_link_label():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch_1# show run interfaces
 interface Loopback0
  description Routing Loopback
@@ -305,7 +305,7 @@ interface Vlan22
             assert produced.read() == should_be.read()
             
 def test_ip_drawing_yed_data_dict_add_interface_vrf_link_label():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch_1# show run interfaces
 interface Loopback0
  description Routing Loopback
@@ -380,7 +380,7 @@ interface Vlan22
             assert produced.read() == should_be.read()
             
 def test_ip_drawing_yed_data_dict_add_arp():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch_1# show run interfaces
 interface TenGigabitEthernet1/1/5
  description to SWITCH_3
@@ -449,7 +449,7 @@ Internet  10.1.234.3             78   0008.e3ff.4321  ARPA   TenGigabitEthernet1
 # test_ip_drawing_yed_data_dict_add_arp()
 
 def test_ip_drawing_yed_data_dict_add_arp_and_fhrp():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch_1# show run interfaces
 interface TenGigabitEthernet1/1/5
  description to SWITCH_3
@@ -544,7 +544,7 @@ Internet  10.1.234.99             5   00ac.0007.001a  ARPA   TenGigabitEthernet1
 # test_ip_drawing_yed_data_dict_add_arp_and_fhrp()
 
 def test_ip_drawing_yed_data_dict_nxos():
-    data = {"Cisco_NXOS": ["""
+    data = {"cisco_nxos": ["""
 switch_1# show run | sec interface
 interface Vlan133
   description OOB
@@ -614,7 +614,7 @@ interface Vlan223
             assert produced.read() == should_be.read()
             
 def test_ip_drawing_yed_data_dict_huawei():
-    data = {"Huawei": ["""
+    data = {"huawei": ["""
 <hua_sw1>dis current-configuration interface
 #
 interface Vlanif140
@@ -688,7 +688,7 @@ interface Eth-Trunk5.200
 # test_ip_drawing_yed_data_dict_huawei()
 
 def test_ip_drawing_yed_data_dict_fortigate():
-    data = {"Fortigate": ["""
+    data = {"fortinet": ["""
 forti-fw-01 (Corporate) # get system config 
 config system interface
     edit "vms_vlan"

@@ -9,7 +9,7 @@ from N2G import yed_diagram as create_yed_diagram
 from N2G import cli_l2_data
 
 def test_cdp_drawing_yed_data_dict():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -76,7 +76,7 @@ interface GigabitEthernet1/5
     drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
     # pprint.pprint(drawer.parsed_data)
-    assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
+    assert drawer.parsed_data == {'cisco_ios': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
                                                                             'src_label': 'GE4/6',
                                                                             'target': {'bottom_label': 'cisco WS-C6509', 'id': 'switch-2', 'top_label': '10.2.2.2'},
                                                                             'trgt_label': 'GE1/5'},
@@ -114,7 +114,7 @@ def test_cdp_drawing_yed_data_path():
     drawing = create_yed_diagram()
     drawer = cli_l2_data(drawing, **config)
     drawer.work(data)
-    assert drawer.parsed_data == {'Cisco_IOS': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
+    assert drawer.parsed_data == {'cisco_ios': {'switch-1': {'cdp_peers': [{'source': 'switch-1',
                                                                             'src_label': 'GE4/6',
                                                                             'target': {'bottom_label': 'cisco WS-C6509', 'id': 'switch-2', 'top_label': '10.2.2.2'},
                                                                             'trgt_label': 'GE1/5'},
@@ -146,7 +146,7 @@ def test_cdp_drawing_yed_data_path():
 # test_cdp_drawing_yed_data_path()
 
 def test_cdp_drawing_yed_data_dict_add_lag():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -269,7 +269,7 @@ interface GigabitEthernet1/6
 # test_cdp_drawing_yed_data_dict_add_lag()
 
 def test_cdp_drawing_yed_data_dict_group_links():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -392,7 +392,7 @@ interface GigabitEthernet1/6
 # test_cdp_drawing_yed_data_dict_group_links()
 
 def test_cdp_drawing_yed_data_dict_group_links_add_lag():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -554,7 +554,7 @@ interface GigabitEthernet1/8
 # test_cdp_drawing_yed_data_dict_group_links_add_lag()
 
 def test_lldp_drawing_yed_data_dict():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 ------------------------------------------------
 Local Intf: GigabitEthernet4/6
@@ -636,7 +636,7 @@ interface GigabitEthernet1/5
 # test_lldp_drawing_yed_data_dict()
 
 def test_cdp_drawing_yed_data_dict_add_vlans_to_nodes():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -769,7 +769,7 @@ vlan 101
 # test_cdp_drawing_yed_data_dict_add_vlans_to_nodes()
 
 def test_cdp_drawing_yed_data_dict_interfaces_state():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -922,7 +922,7 @@ vlan 101
 # test_cdp_drawing_yed_data_dict_interfaces_state()
 
 def test_cdp_drawing_yed_data_dict_lag_interfaces_state():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -1075,7 +1075,7 @@ vlan 101
 # test_cdp_drawing_yed_data_dict_lag_interfaces_state()
 
 def test_cdp_drawing_yed_data_dict_add_all_connected():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -1238,7 +1238,7 @@ interface GigabitEthernet1/6
 # test_cdp_drawing_yed_data_dict_add_all_connected()
 
 def test_cdp_drawing_yed_data_dict_add_all_connected_add_lag():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -1439,7 +1439,7 @@ vlan 101
 # test_cdp_drawing_yed_data_dict_add_all_connected_add_lag()
 
 def test_cdp_drawing_drawio_data_dict():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -1526,7 +1526,7 @@ def test_cdp_drawing_drawio_data_path():
 # test_cdp_drawing_drawio_data_path()
 
 def test_cdp_drawing_drawio_data_dict_add_lag():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -1649,7 +1649,7 @@ interface GigabitEthernet1/6
 # test_cdp_drawing_drawio_data_dict_add_lag()
 
 def test_cdp_drawing_drawio_data_dict_group_links():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -1770,7 +1770,7 @@ interface GigabitEthernet1/6
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_drawio_data_dict_group_links_add_lag():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -1930,7 +1930,7 @@ interface GigabitEthernet1/8
             assert produced.read() == should_be.read()
 
 def test_lldp_drawing_drawio_data_dict():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 ------------------------------------------------
 Local Intf: GigabitEthernet4/6
@@ -2010,7 +2010,7 @@ interface GigabitEthernet1/5
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -2143,7 +2143,7 @@ vlan 101
 # test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes()
 
 def test_cdp_drawing_drawio_data_dict_interfaces_state():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -2294,7 +2294,7 @@ vlan 101
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_drawio_data_dict_add_all_connected():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -2455,7 +2455,7 @@ interface GigabitEthernet1/6
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag():
-    data = {"Cisco_IOS": ["""
+    data = {"cisco_ios": ["""
 switch-1#show cdp neighbors detail
 -------------------------
 Device ID: switch-2
@@ -2642,7 +2642,7 @@ interface GigabitEthernet1/6
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_base():
-    data = { "Cisco_NXOS": [
+    data = { "cisco_nxos": [
     """
 nxos_switch_1# show cdp nei det
 ----------------------------------------
@@ -2747,7 +2747,7 @@ Port Description: cust_sw_3
 System Name: cust_sw_3
 System Description: Huawei Versatile Routing Platform Software
 VRP (R) software, Version 8.120 (OSCA V100R005C60)
-Copyright (C) 2012-2016 Huawei Technologies Co., Ltd.
+Copyright (C) 2012-2016 huawei Technologies Co., Ltd.
 HUAWEI OSCA
 
 Time remaining: 113 seconds
@@ -2795,7 +2795,7 @@ interface Ethernet5/31
     """]
     }
     config = {
-        "platforms": ["Cisco_NXOS", "Cisco_IOS"]
+        "platforms": ["cisco_nxos", "cisco_ios"]
     }
     drawing = create_yed_diagram()
     drawer = cli_l2_data(drawing, **config)
@@ -2810,7 +2810,7 @@ interface Ethernet5/31
 def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
     config = {
-        "platforms": ["Cisco_NXOS", "Cisco_IOS"],
+        "platforms": ["cisco_nxos", "cisco_ios"],
         "add_all_connected": True,
         "add_lag": True,
         "group_links": True
@@ -2826,7 +2826,7 @@ def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
 def test_cdp_drawing_yed_data_path_cisco_nxos_base():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
     config = {
-        "platforms": ["Cisco_NXOS"]
+        "platforms": ["cisco_nxos"]
     }
     drawing = create_yed_diagram()
     drawer = cli_l2_data(drawing, **config)
@@ -2839,7 +2839,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_base():
 def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
     config = {
-        "platforms": ["Cisco_NXOS"],
+        "platforms": ["cisco_nxos"],
         "combine_peers": True
     }
     drawing = create_yed_diagram()
@@ -2851,7 +2851,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data():
-    data = { "Cisco_NXOS": [
+    data = { "cisco_nxos": [
     """
 nxos_switch_1# show cdp nei det
 ----------------------------------------
@@ -2978,7 +2978,7 @@ interface Ethernet2/29
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links():
-    data = { "Cisco_NXOS": [
+    data = { "cisco_nxos": [
     """
 nxos_switch_1# show cdp nei det
 ----------------------------------------
@@ -3147,7 +3147,7 @@ interface Ethernet2/29
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag():
-    data = { "Cisco_NXOS": [
+    data = { "cisco_nxos": [
     """
 nxos_switch_1# show cdp nei det
 ----------------------------------------
@@ -3280,7 +3280,7 @@ interface Ethernet2/29
             assert produced.read() == should_be.read()
 
 def test_cdp_drawing_yed_data_dict_cisco_iosxr():
-    data = { "Cisco_IOSXR": [
+    data = { "cisco_xr": [
     """
 RP/0/RSP0/CPU0:router_XR_01#show run
 interface GigabitEthernet0/0/0/19
@@ -3401,7 +3401,7 @@ Holdtime : 147 sec
             assert produced.read() == should_be.read()
             
 def test_cdp_drawing_yed_data_dict_huawei_base():
-    data = { "Huawei": [
+    data = { "huawei": [
     """
 <HUAWEI-CSW-01>disp cur interface
 interface 10GE4/0/17
@@ -3440,7 +3440,7 @@ Port description                   :UPLINK to CSW 10GE4/0/9
 System name                        :R-RR1-TOR-581      
 System description                 :Huawei Versatile Routing Platform Software
 VRP (R) software, Version 8.150 (NE40E V800R009C10SPC200)
-Copyright (C) 2012-2017 Huawei Technologies Co., Ltd.
+Copyright (C) 2012-2017 huawei Technologies Co., Ltd.
 HUAWEI NE40E-X8A
 System capabilities supported      :bridge router
 Management address                 :10.1.1.2
@@ -3489,7 +3489,7 @@ Port description                   :UPLINK to CSW2 10GE4/0/9
 System name                        :R-RR1-TOR-581      
 System description                 :Huawei Versatile Routing Platform Software
 VRP (R) software, Version 8.150 (NE40E V800R009C10SPC200)
-Copyright (C) 2012-2017 Huawei Technologies Co., Ltd.
+Copyright (C) 2012-2017 huawei Technologies Co., Ltd.
 HUAWEI NE40E-X8A
 System capabilities supported      :bridge router
 Management address                 :10.1.1.2
@@ -3506,7 +3506,7 @@ Maximum frame Size                 :9216
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_huawei_base.graphml", folder="./Output/")    
     
 def test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag():
-    data = { "Cisco_IOSXR": [
+    data = { "cisco_xr": [
     """
 RP/0/RSP0/CPU0:router_XR_01#show run
 interface GigabitEthernet0/0/0/19

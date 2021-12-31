@@ -29,13 +29,13 @@ unknown (to CDP and LLDP) but connected nodes to diagram.
 |  Platform     |   CDP      |   LLDP    | interface | interface |   LAG     | links     |   node    | Add all   | Combine   |
 |  Name         |   peers    |   peers   | config    | state     |   links   | grouping  |   facts   | connected | peers     |
 +===============+============+===========+===========+===========+===========+===========+===========+===========+===========+
-| Cisco_IOS     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |
+| cisco_ios     |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_IOSXR   |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
+| cisco_xr      |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_NXOS    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |
+| cisco_nxos    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Huawei        |    ---     |    YES    |    YES    |    ---    |    YES    |    YES    |    YES    |    ---    |    YES    |
+| huawei        |    ---     |    YES    |    YES    |    ---    |    YES    |    YES    |    YES    |    ---    |    YES    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
 **Features Description**
@@ -59,7 +59,7 @@ Required Commands output
 * ``show running-configuration`` - optional, used for LAG and interfaces config 
 * ``show interface`` - optional, used for interfaces state and to add all connected nodes
 
-**Huawei**
+**huawei**
 
 * ``display lldp neighbor details`` - mandatory
 * ``display current-configuration`` - optional, used for LAG and interfaces config 
@@ -73,12 +73,12 @@ Sample Usage
     from N2G import cli_l2_data, yed_diagram
     
     data = {
-        "Cisco_IOS": [
+        "cisco_ios": [
             "CSC-HOST-1 show commands output",
             ...
             "CSC-HOST-N show commands output"
         ],
-        "Huawei": [
+        "huawei": [
             "HUA-HOST-1 display commands output",
             ...
             "HUA-HOST-N display commands output"        
@@ -220,9 +220,9 @@ class cli_l2_data:
         Data dictionary sample::
 
             data = {
-                "Cisco_IOS" : ["h1", "h2"],
-                "Cisco_IOS-XR": ["h3", "h4"],
-                "Cisco_NXOS": ["h5", "h6"],
+                "cisco_ios" : ["h1", "h2"],
+                "cisco_ios-XR": ["h3", "h4"],
+                "cisco_nxos": ["h5", "h6"],
                 ...etc...
             }
 
@@ -236,9 +236,9 @@ class cli_l2_data:
         Directories structure sample::
 
             /path/to/data/
-                         |__/Cisco_IOS/<text files>
-                         |__/Cisco_IOSXR/<text files>
-                         |__/Huawei/<text files>
+                         |__/cisco_ios/<text files>
+                         |__/cisco_xr/<text files>
+                         |__/huawei/<text files>
                          |__/...etc...
         """
         self._parse(data)

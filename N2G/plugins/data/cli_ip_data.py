@@ -17,41 +17,41 @@ Features Supported
 |  Platform     | IP/Subnets |   ARP     | interface | interface | links     | FHRP      | Reverse   |
 |  Name         |            |           | config    | state     | grouping  | Protocols | DNS       |
 +===============+============+===========+===========+===========+===========+===========+===========+
-| Cisco_IOS     |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
+| cisco_ios     |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_IOSXR   |    YES     |    ---    |    YES    |    ---    |    YES    |    YES    |    ---    |
+| cisco_xr      |    YES     |    ---    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Cisco_NXOS    |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
+| cisco_nxos    |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Huawei        |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
+| huawei        |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Fortigate     |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
+| fortinet      |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
 
 Required Commands output
 ------------------------
 
-Cisco IOS:
+cisco_ios:
 
 * ``show running-configuration`` or ``show running-configuration | section interface`` - mandatory output, used to parse interfaces IP addresses
 * ``show ip arp`` and/or ``show ip arp vrf xyz`` - required by ARP visualization feature
 
-Cisco IOSXR:
+cisco_xr:
 
 * ``show running-configuration`` or ``show running-configuration interface`` - mandatory output, used to parse interfaces IP addresses
 * ``show arp`` and/or ``show arp vrf xyz/all`` - required by ARP visualization feature
 
-Cisco NXOS:
+cisco_nxos:
 
 * ``show running-configuration`` or ``show running-configuration | section interface`` - mandatory output, used to parse interfaces IP addresses
 * ``show ip arp`` - required by ARP visualization feature
 
-Huawei:
+huawei:
 
 * ``display current-configuration interface`` - mandatory output, used to parse interfaces IP addresses
 * ``display arp all`` - required by ARP visualization feature
 
-Fortigate:
+fortinet:
 
 * ``get system config``  - mandatory output, used to parse interfaces IP addresses
 * ``get system arp`` - required by ARP visualization feature
@@ -61,7 +61,7 @@ Sample Usage
 
 Code to populate yEd diagram object with IP and subnet nodes using data dictionary::
 
-    data = {"Huawei": ['''
+    data = {"huawei": ['''
     <hua_sw1>dis current-configuration interface
     #
     interface Vlanif140
@@ -119,7 +119,7 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
     192.168.1.1         a008-6fc1-1111       I      Vlanif200 
     192.168.1.10        a008-6fc1-1110   30  D/300  Vlanif200 
         '''],
-    "Cisco_NXOS": ['''
+    "cisco_nxos": ['''
     switch_1# show run | sec interface
     interface Vlan133
       description OOB
@@ -224,7 +224,7 @@ class cli_ip_data:
 
     :param drawing: (obj) - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
     :param ttp_vars: (dict) - dictionary to use for TTP parser object template variables
-    :param platforms: (list) - list of platform names to process e.g. ``Cisco_IOS``, ``Cisco_IOSXR``, ``_all_`` (default) etc.
+    :param platforms: (list) - list of platform names to process e.g. ``cisco_ios``, ``cisco_xr``, ``_all_`` (default) etc.
     :param group_links: (bool) - if True, will group links between same nodes, default is False
     :param add_arp: (bool) - if True, will add IP nodes out of ARP parsing results, default is False
     :param label_interface: (bool) - if True, will add interface name to the link's source and target labels, default is False
@@ -301,9 +301,9 @@ class cli_ip_data:
         Data dictionary sample::
 
             data = {
-                "Cisco_IOS" : ["h1", "h2"],
-                "Cisco_IOS-XR": ["h3", "h4"],
-                "Cisco_NXOS": ["h5", "h6"],
+                "cisco_ios" : ["h1", "h2"],
+                "cisco_xr": ["h3", "h4"],
+                "cisco_nxos": ["h5", "h6"],
                 ...etc...
             }
 
@@ -317,9 +317,9 @@ class cli_ip_data:
         Directories structure sample::
 
             /path/to/data/
-                         |__/Cisco_IOS/<text files>
-                         |__/Cisco_IOSXR/<text files>
-                         |__/Huawei/<text files>
+                         |__/cisco_ios/<text files>
+                         |__/cisco_xr/<text files>
+                         |__/huawei/<text files>
                          |__/...etc...
         """
         self._parse(data)
