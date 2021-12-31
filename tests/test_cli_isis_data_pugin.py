@@ -1,5 +1,6 @@
 import sys
 sys.path.insert(0,'..')
+import pprint
 
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
@@ -537,10 +538,19 @@ def test_cli_isis_yed_data_dict_base():
     drawing = create_yed_diagram()
     drawer = cli_isis_data(drawing, config)
     drawer.work(mock_data_xr)
-    drawer.drawing.dump_file(filename="test_cli_isis_yed_data_dict_base.graphml", folder="./Output/")
-    # with open ("./Output/test_isis_drawer_yed_data_dict_base.graphml") as produced:
-    #     with open("./Output/should_be_test_isis_drawer_yed_data_dict_base.graphml") as should_be:
-    #         assert produced.read() == should_be.read()
+    drawing.dump_file(filename="test_cli_isis_yed_data_dict_base.graphml", folder="./Output/")
+    with open ("./Output/test_cli_isis_yed_data_dict_base.graphml") as produced:
+        with open("./Output/should_be_test_cli_isis_yed_data_dict_base.graphml") as should_be:
+            assert produced.read() == should_be.read()
             
 # test_cli_isis_yed_data_dict_base()
+
+
+def test_cli_isis_yed_data_dict_base_platform_filter():
+    drawing = create_yed_diagram()
+    drawer = cli_isis_data(drawing, platforms="non_existing")
+    drawer.work(mock_data_xr)
+    assert not drawer.parsed_data
+            
+# test_cli_isis_yed_data_dict_base_platform_filter()
 

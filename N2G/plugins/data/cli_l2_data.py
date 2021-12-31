@@ -2,26 +2,21 @@
 CLI L2 Data Plugin
 ******************
 
-Layer 2 data plugin, where layer refers to 
-`Open Systems Interconnection model (OSI model) <https://en.wikipedia.org/wiki/OSI_model>`_.
-
-This module can produce diagrams pertaining to layer 2 of OSI model, hence the name "layer 2". 
-It targets to build network diagrams with relationships and nodes derived from CDP and LLDP protocols, 
-together with adding L1/L2 related data to diagram elements.
-
-How it works
-------------
+CLI L2 Data Plugin can produce diagrams based on `OSI model <https://en.wikipedia.org/wiki/OSI_model>`_ 
+layer 2 information, hence the name "layer 2". This plugin builds network diagrams with relationships 
+and nodes using CDP and LLDP protocols neighbors information. In addition, adding L1/L2 related data to 
+diagram elements.
 
 CLI L2 Data Plugin uses TTP templates to parse show commands output and transform them in Python dictionary structure. 
 That structure processed further to build a dictionary compatible with N2G's diagram plugins ``from_dict`` 
 method. That method used to populate diagrams with devices and links information.
 
-Features supported
-------------------
-
-In addition to parsing relationships for CDP and LLDP protocols, L2 Drawer can help to improve diagrams by 
-combining links based on certain principles, adding additional information to elements meta data and adding 
+In addition to parsing relationships for CDP and LLDP protocols, L2 Data Plugin can help to manipulate diagrams by 
+combining links based on certain criteria, adding additional information to elements meta data and adding 
 unknown (to CDP and LLDP) but connected nodes to diagram.
+
+Features Supported
+------------------
 
 **Support matrix**
 
@@ -53,13 +48,13 @@ unknown (to CDP and LLDP) but connected nodes to diagram.
 Required Commands output
 ------------------------
 
-**Cisco**
+cisco_ios, cisco_xr, cisco_nxos:
 
 * ``show cdp neighbor details`` and/or ``show lldp neighbor details`` - mandatory
 * ``show running-configuration`` - optional, used for LAG and interfaces config 
 * ``show interface`` - optional, used for interfaces state and to add all connected nodes
 
-**huawei**
+huawei:
 
 * ``display lldp neighbor details`` - mandatory
 * ``display current-configuration`` - optional, used for LAG and interfaces config 
@@ -68,23 +63,72 @@ Required Commands output
 Sample Usage 
 ------------
 
-*As a module*::
+Code to populate yEd diagram object with CDP and LLDP sourced nodes and links::
 
     from N2G import cli_l2_data, yed_diagram
     
-    data = {
-        "cisco_ios": [
-            "CSC-HOST-1 show commands output",
-            ...
-            "CSC-HOST-N show commands output"
-        ],
-        "huawei": [
-            "HUA-HOST-1 display commands output",
-            ...
-            "HUA-HOST-N display commands output"        
-        ]
-        ...
-    }
+    data = {"cisco_ios": ['''
+    switch-1#show cdp neighbors detail
+    -------------------------
+    Device ID: switch-2
+    Entry address(es):
+      IP address: 10.2.2.2
+    Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+    Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
+    
+    -------------------------
+    Device ID: switch-3
+    Entry address(es):
+      IP address: 10.3.3.3
+    Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
+    Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
+    
+    -------------------------
+    Device ID: switch-4
+    Entry address(es):
+      IP address: 10.4.4.4
+    Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
+    Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
+    
+    switch-1#show run
+    interface GigabitEthernet4/6
+     description switch-2: access
+     switchport
+     switchport access vlan 2150
+     switchport mode access
+     spanning-tree portfast edge
+    !
+    interface GigabitEthernet1/1
+     description switch-3:Gi0/1
+     switchport
+     switchport trunk allowed vlan 1771,1887
+     switchport mode trunk
+     mtu 9216
+    !
+    interface GigabitEthernet1/2
+     description SW4 Routing Peering
+     vrf forwarding VRF1
+     ip address 10.0.0.1 255.255.255.0
+        ''',
+        '''
+    switch-2#show cdp neighbors detail
+    -------------------------
+    Device ID: switch-1
+    Entry address(es):
+      IP address: 10.1.1.1
+    Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
+    Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
+    
+    switch-2#show run
+    interface GigabitEthernet1/5
+     description switch-1: access
+     switchport
+     switchport access vlan 2150
+     switchport mode access
+     spanning-tree portfast edge
+        ''']
+        }
+        
     config = {
         "add_interfaces_data": True,
         "group_links": False,
@@ -93,10 +137,11 @@ Sample Usage
         "combine_peers": False,
         "platforms": ["_all_"]    
     }
+
     drawing_l2 = yed_diagram()
-    drawer = cli_l2_data(drawing_l2, config)
+    drawer = cli_l2_data(drawing_l2, **config)
     drawer.work(data)
-    drawer.drawing.dump_file(filename="l2_diagram_1.graphml", folder="./Output/")
+    drawer.drawing.dump_file()
     
 API Reference
 -------------
@@ -138,21 +183,15 @@ class cli_l2_data:
     together with devices' running configuration and state and produce
     diagram out of it.
 
-    **Parameters**
-
-    * ``drawing`` - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
-    * ``config`` - dictionary of configuration options to define processing behavior
-    * ``ttp_vars`` - dictionary to use for TTP parser object template variables
-
-    Supported ``config`` dictionary attributes:
-
-    * ``add_interfaces_data`` - boolean, default ``True``, add interfaces configuration and state data to links
-    * ``group_links`` - boolean, default ``False``, group links between nodes
-    * ``add_lag`` - boolean, default ``False``, add LAG/MLAG links to diagram
-    * ``add_all_connected`` - boolean, default ``False``, add all nodes connected to devices based on interfaces state
-    * ``combine_peers`` - boolean, default ``False``, combine CDP/LLDP peers behind same interface by adding L2 node
-    * ``skip_lag`` - boolean, default ``True``, skip CDP peers for LAG, some platforms send CDP/LLDP PDU from LAG ports
-    * ``platforms`` - list of platforms to work with, by default it is ["_all_"]
+    :param drawing: (obj) N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
+    :param ttp_vars: (dict) dictionary to use as TTP parser object template variables
+    :param platforms: (list) - list of platform names to process e.g. ``cisco_ios``, ``cisco_xr`` etc, default is ``_all_``
+    :param add_interfaces_data: (bool) default ``True``, add interfaces configuration and state data to links
+    :param group_links: (bool) default ``False``, group links between nodes
+    :param add_lag: (bool) default ``False``, add LAG/MLAG links to diagram
+    :param add_all_connected: (bool) default ``False``, add all nodes connected to devices based on interfaces state
+    :param combine_peers`: (bool) default ``False``, combine CDP/LLDP peers behind same interface by adding L2 node
+    :param skip_lag: (bool) default ``True``, skip CDP peers for LAG, some platforms send CDP/LLDP PDU from LAG ports
     """
 
     def __init__(
@@ -190,6 +229,12 @@ class cli_l2_data:
         self.combine_peers_dict = {}  # used by combine_peers
 
     def _make_hash_tuple(self, item):
+        """
+        Method to create link hash tuple out of source, target, src_label
+        and trgt_label values
+        
+        :param item: (dict) link dictionary
+        """
         target = (
             item["target"]["id"] if isinstance(item["target"], dict) else item["target"]
         )
@@ -206,40 +251,41 @@ class cli_l2_data:
 
     def work(self, data):
         """
-        Method to parse text data and add nodes and links
-        to drawing dictionary
+        Method to parse text data and add nodes and links to N2G drawing.
 
-        **Parameters**
-
-        * ``data`` dictionary or OS path string to directories with text files
+        :param data: (dict or str) dictionary or OS path string to directories with text files
 
         If data is dictionary, keys must correspond to "Platform" column in
-        *Supported platforms* table, values are lists of text items to
+        `Features Supported`_ section table, values are lists of text items to
         process.
 
         Data dictionary sample::
 
             data = {
                 "cisco_ios" : ["h1", "h2"],
-                "cisco_ios-XR": ["h3", "h4"],
+                "cisco_ios": ["h3", "h4"],
                 "cisco_nxos": ["h5", "h6"],
                 ...etc...
             }
 
         Where ``hX`` devices show commands output.
 
-        If data is a string with OS path to directory, child directories names
-        must correspond to "Platform" column in *Supported platforms* table.
-        Each child directory should contain text files with show commands output
-        for each device.
+        If data is an OS path directory string, child directories' names must correspond
+        to **Platform** column in `Features Supported`_ section table. Each child directory 
+        should contain text files with show commands output for each device, names of files 
+        are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
 
-            /path/to/data/
-                         |__/cisco_ios/<text files>
-                         |__/cisco_xr/<text files>
-                         |__/huawei/<text files>
-                         |__/...etc...
+            ├───folder_with_data
+                ├───cisco_ios
+                │       switch1.txt
+                │       switch2.txt
+                └───cisco_nxos
+                        nxos_switch_1.txt
+                        nxos_switch_2.txt
+                        
+        To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
         self._form_base_graph_dict()
@@ -256,6 +302,11 @@ class cli_l2_data:
         self._update_drawing()
 
     def _parse(self, data):
+        """
+        Function to parse text data using TTP templates
+        
+        :param data: (dict or str) data to parse
+        """
         if not HAS_TTP:
             raise ModuleNotFoundError(
                 "N2G:cli_l2_data failed importing TTP, is it installed?"
@@ -707,6 +758,9 @@ class cli_l2_data:
         del self.combine_peers_dict
 
     def _update_drawing(self):
+        """
+        Method to add formed links and nodes to the drawing object
+        """
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())
         # pprint.pprint(self.graph_dict, width =100)

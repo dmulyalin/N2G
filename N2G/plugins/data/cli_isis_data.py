@@ -2,20 +2,25 @@
 CLI ISIS LSDB Data Plugin
 *************************
 
-This module designed to process network devices CLI output
-of ISIS LSDB content. That output parsed with TTP Templates 
-and processed further to populate N2G Drawing with nodes and 
-links details.
+This module designed to process ISIS Link State Database (LSDB) of network devices 
+CLI output and make diagram out of it.
 
-Dependencies:
+Show commands output from devices parsed using TTP Templates into a dictionary structure.
 
-* TTP >= 0.8.0, to install: ``pip install ttp``
-* TTP Templates >= 0.2.0, to install: ``pip install ttp-templates``
+After parsing, results processed further to form a dictionary of nodes and links keyed 
+by unique nodes and links identifiers, dictionary values are nodes dictionaries and for links
+it is a list of dictionaries of links between pair of nodes. For nodes ISIS RID 
+used as a unique ID, for links it is sorted tuple of ``source``, ``target`` and ``label`` 
+keys' values. This structure helps to eliminate duplicates.
 
-If no TTP modules installed, on an attempt to instantiate ``cli_isis_data``
-object ``ModuleNotFoundError`` exception raised.
+Next step is post processing, such as packing links between nodes or IP lookups.
 
-**Feature Support matrix**
+Last step is to populate N2G drawing with new nodes and links using ``from_dict`` method.
+
+Features Supported
+------------------
+
+**Support matrix**
 
 +---------------+------------+
 | Platform      | ISIS       |
@@ -30,45 +35,129 @@ object ``ModuleNotFoundError`` exception raised.
 | huawei        |     ---    |
 +---------------+------------+
 
-**Commands output required**
+Required Commands output
+------------------------
 
-+---------------+-----------------------------+
-| Platform      | Commands                    |
-| Name          |                             |
-+===============+=============================+
-| cisco_ios     |     ---                     |
-+---------------+-----------------------------+
-| cisco_xr      | show isis database verbose  |
-+---------------+-----------------------------+
-| cisco_nxos    |     ---                     |
-+---------------+-----------------------------+
-| huawei        |     ---                     |
-+---------------+-----------------------------+
+cisco_xr:
 
-``*`` - primary command, other commands are optional
-
-How it works
-------------
-
-Output from devices parsd using TTP Templates into a dictionary structure, reference
-``ttp://misc/N2G/N2G/isis_lsdb/`` templates for parsing templates content and samples
-of structure produced.
-
-After parsing, results processed further to form a dictionary of nodes and links keyed 
-by unique nodes and links identifiers, dictionary values are nodes dictionaries and for links
-it is a list of dictionaries of links between pair of nodes. For nodes ISIS RID 
-used as a unique ID, for links it is sorted tuple of ``source``, ``target`` and ``label`` 
-keys' values. This structure helps to eliminate duplicates.
-
-Next step is post processing, such as packing links between nodes or IP lookups.
-
-Last step is to populate N2G drawing with new nodes and links using ``from_dict`` method.
+* ``show isis database verbose`` - mandatory output, used to parse ISIS LSDB content
 
 Sample usage
 ------------
 
-TBD
+Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
 
+    from N2G import yed_diagram as create_yed_diagram
+    from N2G import cli_isis_data
+    
+    isis_lsdb_data = {"cisco_xr": ['''
+    RP/0/RP0/CPU0:ROUTER-X1#show isis database verbose    
+
+    IS-IS 1234 (Level-2) Link State Database
+    LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime/Rcvd  ATT/P/OL
+    ROUTER-X1.00-00      * 0x00000832   0x74bc        64943/*            0/0/0
+    Auth:           Algorithm HMAC-MD5, Length: 17
+    Area Address:   49.1234
+    NLPID:          0xcc
+    Router ID:      10.211.1.1
+    Hostname:       ROUTER-X1
+    Metric: 0          IP-Extended 10.211.1.1/32
+        Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+    Metric: 16777214   IS-Extended ROUTER-X2.00
+        Local Interface ID: 9, Remote Interface ID: 50
+        Interface IP Address: 10.123.0.17
+        Neighbor IP Address: 10.123.0.18
+        Affinity: 0x00000000
+        Physical BW: 10000000 kbits/sec
+        Reservable Global pool BW: 0 kbits/sec
+        Global Pool BW Unreserved: 
+        [0]: 0        kbits/sec          [1]: 0        kbits/sec
+        [2]: 0        kbits/sec          [3]: 0        kbits/sec
+        [4]: 0        kbits/sec          [5]: 0        kbits/sec
+        [6]: 0        kbits/sec          [7]: 0        kbits/sec
+        Admin. Weight: 1000
+        Ext Admin Group: Length: 32
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        Physical BW: 10000000 kbits/sec
+    Metric: 802        IS-Extended ROUTER-X5.00
+        Local Interface ID: 7, Remote Interface ID: 53
+        Interface IP Address: 10.123.0.25
+        Neighbor IP Address: 10.123.0.26
+        Affinity: 0x00000000
+        Physical BW: 10000000 kbits/sec
+        Reservable Global pool BW: 0 kbits/sec
+        Global Pool BW Unreserved: 
+        [0]: 0        kbits/sec          [1]: 0        kbits/sec
+        [2]: 0        kbits/sec          [3]: 0        kbits/sec
+        [4]: 0        kbits/sec          [5]: 0        kbits/sec
+        [6]: 0        kbits/sec          [7]: 0        kbits/sec
+        Admin. Weight: 802
+        Ext Admin Group: Length: 32
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        Physical BW: 10000000 kbits/sec
+    ROUTER-X2.00-00        0x00000826   0x4390        65258/65535        0/0/0
+    Auth:           Algorithm HMAC-MD5, Length: 17
+    Area Address:   49.1234
+    NLPID:          0xcc
+    Router ID:      10.211.1.2
+    Hostname:       ROUTER-X2
+    Metric: 0          IP-Extended 10.211.1.2/32
+        Prefix Attribute Flags: X:1 R:0 N:0 E:0 A:0
+    Metric: 301        IS-Extended ROUTER-X6.00
+        Local Interface ID: 48, Remote Interface ID: 53
+        Interface IP Address: 10.123.0.33
+        Neighbor IP Address: 10.123.0.34
+        Affinity: 0x00000000
+        Physical BW: 10000000 kbits/sec
+        Reservable Global pool BW: 0 kbits/sec
+        Global Pool BW Unreserved: 
+        [0]: 0        kbits/sec          [1]: 0        kbits/sec
+        [2]: 0        kbits/sec          [3]: 0        kbits/sec
+        [4]: 0        kbits/sec          [5]: 0        kbits/sec
+        [6]: 0        kbits/sec          [7]: 0        kbits/sec
+        Admin. Weight: 301
+        Ext Admin Group: Length: 32
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        Physical BW: 10000000 kbits/sec
+    Metric: 16777214   IS-Extended ROUTER-X1.00
+        Local Interface ID: 50, Remote Interface ID: 9
+        Interface IP Address: 10.123.0.18
+        Neighbor IP Address: 10.123.0.17
+        Affinity: 0x00000000
+        Physical BW: 10000000 kbits/sec
+        Reservable Global pool BW: 0 kbits/sec
+        Global Pool BW Unreserved: 
+        [0]: 0        kbits/sec          [1]: 0        kbits/sec
+        [2]: 0        kbits/sec          [3]: 0        kbits/sec
+        [4]: 0        kbits/sec          [5]: 0        kbits/sec
+        [6]: 0        kbits/sec          [7]: 0        kbits/sec
+        Admin. Weight: 1000
+        Ext Admin Group: Length: 32
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        0x00000000   0x00000000
+        Physical BW: 10000000 kbits/sec
+    
+    Total Level-2 LSP count: 2     Local Level-2 LSP count: 1
+    RP/0/RP0/CPU0:ROUTER-X1# 
+        ''']
+    }
+
+    drawing = create_yed_diagram()
+    drawer = cli_isis_data(drawing)
+    drawer.work(isis_lsdb_data)
+    drawing.dump_file()
+    
 API Reference
 -------------
 
@@ -101,11 +190,11 @@ log = logging.getLogger(__name__)
 
 class cli_isis_data:
     """
-    Main class to instantiate ISIS LSDB drawer object.
+    Main class to instantiate ISIS LSDB Data Plugin object.
 
     :param drawing: (obj) N2G Diagram object
-    :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating
-      TTP parser object
+    :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating TTP parser object
+    :param platforms: (list) - list of platform names to process e.g. ``cisco_ios``, ``cisco_xr`` etc, default is ``_all_``
     :param ip_lookup_data: (dict or str) IP Lookup dictionary or OS path to CSV file
     :param add_connected: (bool) if True, will add connected subnets as nodes, default is False    
     :param ptp_filter: (list) list of glob patterns to filter point-to-point links based on link IP
@@ -140,23 +229,25 @@ class cli_isis_data:
     def __init__(
         self,
         drawing,
-        ttp_vars: dict = {},
-        ip_lookup_data: dict = {},
+        ttp_vars: dict = None,
+        ip_lookup_data: dict = None,
         add_connected: bool = False,
-        ptp_filter: list = [],
+        ptp_filter: list = None,
         add_data: bool = True,
+        platforms: list = None,
     ):
-        self.ttp_vars = ttp_vars
+        self.ttp_vars = ttp_vars or {}
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
         self.add_connected = add_connected
-        self.ptp_filter = ptp_filter
+        self.ptp_filter = ptp_filter or []
         self.add_data = add_data
+        self.platforms = platforms or ["_all_"]
         self.parsed_data = {}
         self.nodes_dict = {}
         self.links_dict = {}
         self.graph_dict = {"nodes": [], "links": []}
-        self.ip_lookup_data = ip_lookup_data
+        self.ip_lookup_data = ip_lookup_data or {}
         self._load_ip_lookup_data()
 
     def _load_ip_lookup_data(self) -> None:
@@ -179,34 +270,36 @@ class cli_isis_data:
           string to directories with text files
 
         If data is dictionary, keys must correspond to "Platform" column in
-        *Supported platforms* table, values are lists of text items to
+        `Features Supported`_ section table, values are lists of text items to
         process.
 
         Data dictionary sample::
 
             data = {
                 "cisco_ios" : ["h1", "h2"],
-                "cisco_ios-XR": ["h3", "h4"],
+                "cisco_xr": ["h3", "h4"],
                 "cisco_nxos": ["h5", "h6"],
                 ...etc...
             }
 
         Where ``hX`` device's show commands output.
 
-        If data is a string with OS path to directory, sub directories names
-        must correspond to "Platform" column in *Supported platforms* table.
-        Each child directory should contain text files with show commands output
-        for each device.
+        If data is an OS path directory string, child directories' names must correspond
+        to **Platform** column in `Features Supported`_ section table. Each child directory 
+        should contain text files with show commands output for each device, names of files 
+        are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
 
-            data = "/path/to/data/"
-
-            /path/to/data/
-                         |__/cisco_ios/<text files>
-                         |__/cisco_xr/<text files>
-                         |__/huawei/<text files>
-                         |__/...etc...
+            ├───folder_with_data
+                ├───cisco_ios
+                │       switch1.txt
+                │       switch2.txt
+                └───cisco_nxos
+                        nxos_switch_1.txt
+                        nxos_switch_2.txt
+                        
+        To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
         self._form_base_graph_dict()
@@ -230,8 +323,7 @@ class cli_isis_data:
         """
         Method to parse data using TTP Templates
 
-        :param data: (dict or str) dictionary of data items or OS
-            path to folders with data to parse
+        :param data: (dict or str) dictionary of data items or OS path to folders with data to parse
         :return: None
         """
         if not HAS_TTP:
@@ -242,6 +334,11 @@ class cli_isis_data:
         # process data dictionary
         if isinstance(data, dict):
             for platform_name, text_list in data.items():
+                if (
+                    "_all_" not in self.platforms
+                    and not platform_name in self.platforms
+                ):
+                    continue
                 ttp_template = get_template(
                     misc="N2G/cli_isis_data/{}.txt".format(platform_name)
                 )
@@ -255,6 +352,11 @@ class cli_isis_data:
                 for entry in dirs:
                     if entry.is_dir():
                         platform_name = entry.name
+                        if (
+                            "_all_" not in self.platforms
+                            and not platform_name in self.platforms
+                        ):
+                            continue
                         ttp_template = get_template(
                             misc="N2G/cli_isis_data/{}.txt".format(platform_name)
                         )
@@ -273,7 +375,13 @@ class cli_isis_data:
         # import pprint; pprint.pprint(self.parsed_data, width = 100)
 
     def _process_lsp(self, lsp: dict, isis_pid: str, device: dict) -> None:
-        """"""
+        """
+        Method to process ISIS LSP dictionary extracting node, links and subnets.
+        
+        :param lsp: (dict) LSP dictionary
+        :param isis_pid: (str) ISIS Process ID string
+        :param devcie: (dict) evice dictionary
+        """
         # make node out of router LSP
         self._add_node(
             node={

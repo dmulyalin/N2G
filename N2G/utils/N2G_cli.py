@@ -17,7 +17,7 @@ filename and folder options.
     
 *Supported options*::   
 
-    Parsing order is: CDP/LLDP (L2) => ...
+    Parsing order is: CDP/LLDP (L2)  => IP => OSPF => ISIS
     
     -d,   --data         OS path to data folder with files or file
     -of,  --out-folder   Folder where to save result, default ./Output/
@@ -85,7 +85,7 @@ __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
 
 cli_help = """
-Parsing order is: CDP/LLDP (L2) => ...
+Parsing order is: CDP/LLDP (L2)  => IP => OSPF => ISIS
 
 -d,   --data         OS path to data folder with files or file
 -of,  --out-folder   Folder where to save result, default ./Output/

@@ -12,9 +12,9 @@ Guidelines and Limitations
 * `openpyxl <https://pypi.org/project/openpyxl/>`_ >= 3.0.0 library need to be installed: ``pip install openpyxl``
 * Nodes and links tabs' first row must contain headers
 * nodes tab should have at least ``id`` header, other headers should comply with ``from_dict`` method attributes 
-    or simply ignored
+  or simply ignored
 * links tab should have at least ``source`` and ``target`` headers, other headers should comply with ``from_dict`` 
-    method attributes or simply ignored
+  method attributes or simply ignored
 
 Sample Usage
 ------------

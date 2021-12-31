@@ -2,63 +2,10 @@
 CLI OSPFv2 LSDB Data Plugin
 ***************************
 
-This module designed to process network devices CLI output
-of OSPFv2 LSDB content. That output parsed with TTP Templates 
-and processed further to populate N2G Drawing with nodes and 
-links details.
+CLI OSPFv2 LSDB Data Plugin can process network devices CLI output of OSPFv2 LSDB content to 
+populate N2G drawing with OSPF topology nodes and links.
 
-Dependencies:
-
-* TTP >= 0.8.0, to install: ``pip install ttp``
-* TTP Templates >= 0.2.0, to install: ``pip install ttp-templates``
-
-If no TTP modules installed, on an attempt to instantiate ``cli_ospf_data``
-object ``ModuleNotFoundError`` exception raised.
-
-**Feature Support matrix**
-
-+---------------+------------+------------+------------+------------+-----------+-----------+
-| Platform      | Router     | OSPF       | External   | Summary    | interface | interface |
-| Name          | LSA        | Peers      | LSA        | LSA        | config    | state     |
-+===============+============+============+============+============+===========+===========+
-| cisco_ios     |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------+-----------+-----------+
-| cisco_xr      |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------+-----------+-----------+
-| cisco_nxos    |     ---    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------+-----------+-----------+
-| huawei        |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
-+---------------+------------+------------+------------+------------+-----------+-----------+
-
-**Commands output required**
-
-+---------------+----------------------------------+
-| Platform      |  Commands                        |
-| Name          |                                  |
-+===============+==================================+
-| cisco_ios     | show ip ospf database router*    |
-|               | show ip ospf database summary    |
-|               | show ip ospf database external   |
-+---------------+----------------------------------+
-| cisco_xr   | show ospf database router*       |
-|               | show ospf database summary       |
-|               | show ospf database external      |
-+---------------+----------------------------------+
-| cisco_nxos    |     ---                          |
-+---------------+----------------------------------+
-| huawei        | display ospf lsdb router*        |
-+---------------+----------------------------------+
-| Juniper       |     ---                          |
-+---------------+----------------------------------+
-
-``*`` - primary command, other commands are optional
-
-How it works
-------------
-
-CLI output from devices parsed using TTP Templates into a dictionary structure, refer to
-``ttp://misc/N2G/cli_ospf_data/XYZ_NOS.txt`` templates for parsing templates content and samples
-of structure produced at `TTP templates collection <https://dmulyalin.github.io/ttp_templates>`_
+CLI output from devices parsed using TTP Templates into a dictionary structure.
 
 After parsing, results processed further to form a dictionary of nodes and links keyed 
 by unique nodes and links identifiers wit values being nodes dictionaries and for links
@@ -73,11 +20,109 @@ IP addresses happens to be part of same subnet, link packed in one link.
 
 Last step is to populate N2G drawing with new nodes and links using ``from_dict`` method.
 
+Features Supported
+------------------
+
+**Support matrix**
+
++---------------+------------+------------+------------+------------+-----------+-----------+
+| Platform      | Router     | OSPF       | External   | Summary    | interface | interface |
+| Name          | LSA        | Peers      | LSA        | LSA        | config    | state     |
++===============+============+============+============+============+===========+===========+
+| cisco_ios     |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
++---------------+------------+------------+------------+------------+-----------+-----------+
+| cisco_xr      |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
++---------------+------------+------------+------------+------------+-----------+-----------+
+| cisco_nxos    |     ---    |     ---    |     ---    |     ---    |    ---    |    ---    |
++---------------+------------+------------+------------+------------+-----------+-----------+
+| huawei        |     YES    |     ---    |     ---    |     ---    |    ---    |    ---    |
++---------------+------------+------------+------------+------------+-----------+-----------+
+
+Required Commands output
+------------------------
+
+cisco_ios:
+
+* ``show ip ospf database router`` - mandatory, used to source nodes and links for topology
+* ``show ip ospf database summary``
+* ``show ip ospf database external``
+
+cisco_xr:
+
+* ``show ospf database router`` - mandatory, used to source nodes and links for topology
+* ``show ospf database summary``
+* ``show ospf database external``
+
+huawei:
+
+* ``display ospf lsdb router`` - mandatory, used to source nodes and links for topology
+
 Sample usage
 ------------
 
-TBD
+Code to populate yEd diagram object with OSPF LSDB sourced nodes and links::
 
+    from N2G import cli_l2_data, yed_diagram
+
+    data = {"cisco_xr": ['''
+    RP/0/RP0/CPU0:router-1#show ospf database router 
+    
+                OSPF Router with ID (10.0.1.1) (Process ID 1)
+    
+                    Router Link States (Area 0.0.0.0)
+    
+      LS age: 406
+      Options: (No TOS-capability, DC)
+      LS Type: Router Links
+      Link State ID: 10.0.1.1
+      Advertising Router: 10.0.1.1
+      LS Seq Number: 8000010c
+      Checksum: 0x24dd
+      Length: 132
+       Number of Links: 9
+    
+        Link connected to: another Router (point-to-point)
+         (Link ID) Neighboring Router ID: 10.0.1.4
+         (Link Data) Router Interface address: 0.0.0.12
+          Number of TOS metrics: 0
+           TOS 0 Metrics: 1100
+    
+        Link connected to: another Router (point-to-point)
+         (Link ID) Neighboring Router ID: 10.0.1.2
+         (Link Data) Router Interface address: 0.0.0.10
+          Number of TOS metrics: 0
+           TOS 0 Metrics: 1100    
+    
+      Routing Bit Set on this LSA
+      LS age: 1604
+      Options: (No TOS-capability, DC)
+      LS Type: Router Links
+      Link State ID: 10.0.1.2
+      Advertising Router: 10.0.1.2
+      LS Seq Number: 8000010b
+      Checksum: 0xdc96
+      Length: 132
+       Number of Links: 9
+    
+        Link connected to: another Router (point-to-point)
+         (Link ID) Neighboring Router ID: 10.0.1.3
+         (Link Data) Router Interface address: 0.0.0.52
+          Number of TOS metrics: 0
+           TOS 0 Metrics: 1100
+    
+        Link connected to: another Router (point-to-point)
+         (Link ID) Neighboring Router ID: 10.0.1.4
+         (Link Data) Router Interface address: 0.0.0.53
+          Number of TOS metrics: 0
+           TOS 0 Metrics: 1100
+        ''']
+    }
+
+    drawing = yed_diagram()
+    drawer = cli_ospf_data(drawing)
+    drawer.work(data)
+    drawer.drawing.dump_file()
+    
 API Reference
 -------------
 
@@ -113,8 +158,7 @@ class cli_ospf_data:
     Main class to instantiate OSPFv2 LSDB CLI Data Plugin object.
 
     :param drawing: (obj) N2G Diagram object
-    :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating
-      TTP parser object
+    :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating TTP parser object
     :param ip_lookup_data: (dict or str) IP Lookup dictionary or OS path to CSV file
     :param add_connected: (bool) if True, will add connected subnets as nodes, default is False    
     :param ptp_filter: (list) list of glob patterns to filter point-to-point links based on link IP
@@ -154,23 +198,23 @@ class cli_ospf_data:
     def __init__(
         self,
         drawing,
-        ttp_vars: dict = {},
-        ip_lookup_data: dict = {},
+        ttp_vars: dict = None,
+        ip_lookup_data: dict = None,
         add_connected: bool = False,
-        ptp_filter: list = ["0*", "112*"],
+        ptp_filter: list = None,
         add_data: bool = True,
     ):
-        self.ttp_vars = ttp_vars
+        self.ttp_vars = ttp_vars or {}
         self.drawing = drawing
         self.drawing.node_duplicates = "update"
         self.add_connected = add_connected
-        self.ptp_filter = ptp_filter
+        self.ptp_filter = ptp_filter or ["0*", "112*"]
         self.add_data = add_data
         self.parsed_data = {}
         self.nodes_dict = {}
         self.links_dict = {}
         self.graph_dict = {"nodes": [], "links": []}
-        self.ip_lookup_data = ip_lookup_data
+        self.ip_lookup_data = ip_lookup_data or {}
         self._load_ip_lookup_data()
 
     def _load_ip_lookup_data(self) -> None:
@@ -187,7 +231,7 @@ class cli_ospf_data:
 
     def work(self, data):
         """
-        Method to parse text data and add nodes and links to N2G drawing.
+        Method to parse OSPF LSDB data and add nodes and links to N2G drawing.
 
         :param data: (dict or str) dictionary keyed by platform name or OS path
             string to directories with text files
@@ -200,27 +244,29 @@ class cli_ospf_data:
 
             data = {
                 "cisco_ios" : ["h1", "h2"],
-                "cisco_ios-XR": ["h3", "h4"],
+                "cisco_ios": ["h3", "h4"],
                 "cisco_nxos": ["h5", "h6"],
                 ...etc...
             }
 
         Where ``hX`` device's show commands output.
 
-        If data is a string with OS path to directory, sub directories names
-        must correspond to "Platform" column in *Supported platforms* table.
-        Each child directory should contain text files with show commands output
-        for each device.
+        If data is an OS path directory string, child directories' names must correspond
+        to **Platform** column in `Features Supported`_ section table. Each child directory 
+        should contain text files with show commands output for each device, names of files 
+        are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
 
-            data = "/path/to/data/"
-
-            /path/to/data/
-                         |__/cisco_ios/<text files>
-                         |__/cisco_xr/<text files>
-                         |__/huawei/<text files>
-                         |__/...etc...
+            ├───folder_with_data
+                ├───cisco_ios
+                │       switch1.txt
+                │       switch2.txt
+                └───cisco_nxos
+                        nxos_switch_1.txt
+                        nxos_switch_2.txt
+                        
+        To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
         self._form_base_graph_dict()

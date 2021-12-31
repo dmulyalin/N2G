@@ -5,28 +5,28 @@ CLI IP Data Plugin
 This plugin populates diagram with IP related information, such as subnets and IP addresses.
 
 IP data plugin mainly useful in networking domain, it can take show commands output from 
-networking devices, parse it with TTP templates in a structure that processed further and 
-loaded into one of diagram plugin objects using ``from_dict`` method
+network devices, parse it with TTP templates in a structure that processed further to 
+load into one of diagram plugin objects using ``from_dict`` method
 
 Features Supported
 ------------------
 
 **Support matrix**
 
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-|  Platform     | IP/Subnets |   ARP     | interface | interface | links     | FHRP      | Reverse   |
-|  Name         |            |           | config    | state     | grouping  | Protocols | DNS       |
-+===============+============+===========+===========+===========+===========+===========+===========+
-| cisco_ios     |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| cisco_xr      |    YES     |    ---    |    YES    |    ---    |    YES    |    YES    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| cisco_nxos    |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| huawei        |    YES     |    YES    |    YES    |    ---    |    YES    |    YES    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
-| fortinet      |    YES     |    YES    |    YES    |    ---    |    YES    |    ---    |    ---    |
-+---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+
++---------------+------------+-----------+-----------+-----------+-----------+
+|  Platform     | IP/Subnets |   ARP     | interface | links     | FHRP      |
+|  Name         |            |           | config    | grouping  | Protocols |
++===============+============+===========+===========+===========+===========+
+| cisco_ios     |    YES     |    YES    |    YES    |    YES    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+
+| cisco_xr      |    YES     |    ---    |    YES    |    YES    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+
+| cisco_nxos    |    YES     |    YES    |    YES    |    YES    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+
+| huawei        |    YES     |    YES    |    YES    |    YES    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+
+| fortinet      |    YES     |    YES    |    YES    |    YES    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+
 
 Required Commands output
 ------------------------
@@ -158,13 +158,8 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
     '''
     }
     
-    config = {
-        "add_arp": True,
-        "add_fhrp": True
-    }
-    
     drawing = create_yed_diagram()
-    drawer = cli_ip_data(drawing, **config)
+    drawer = cli_ip_data(drawing, add_arp=True, add_fhrp=True)
     drawer.work(data)
     drawer.drawing.dump_file(filename="ip_graph_dc_1.graphml", folder="./Output/")
 
@@ -223,18 +218,18 @@ class cli_ip_data:
     Class to instantiate IP Data Plugin.
 
     :param drawing: (obj) - N2G drawing object instantiated using drawing module e.g. yed_diagram or drawio_diagram
-    :param ttp_vars: (dict) - dictionary to use for TTP parser object template variables
-    :param platforms: (list) - list of platform names to process e.g. ``cisco_ios``, ``cisco_xr``, ``_all_`` (default) etc.
+    :param ttp_vars: (dict) - dictionary to use as TTP parser object template variables
+    :param platforms: (list) - list of platform names to process e.g. ``cisco_ios``, ``cisco_xr`` etc, default is ``_all_``
     :param group_links: (bool) - if True, will group links between same nodes, default is False
-    :param add_arp: (bool) - if True, will add IP nodes out of ARP parsing results, default is False
+    :param add_arp: (bool) - if True, will add IP nodes from ARP parsing results, default is False
     :param label_interface: (bool) - if True, will add interface name to the link's source and target labels, default is False
     :param label_vrf: (bool) - if True, will add VRF name to the link's source and target labels, default is False
     :param collapse_ptp: (bool) - if True (default) combines links for ``/31`` and ``/30`` IPv4 and ``/127`` IPv6 
       subnets into a single ink
-    :param add_fhrp: (bool) - if True adds HRSRP and VRRP IP addresses to the diagram, default is False
-    :param blbl: (int) - bottom label length (blbl) of interface description to use for subnet nodes, 
-      if False or 0, bottom label will not be set
-    :param lbl_next_to_subnet: (bool) - put link port:vrf:ip label next to subnet node
+    :param add_fhrp: (bool) - if True adds HSRP and VRRP IP addresses to the diagram, default is False
+    :param bottom_label_length: (int) - bottom label length of interface description to use for subnet nodes, 
+      if False or 0, bottom label will not be set for subnet nodes
+    :param lbl_next_to_subnet: (bool) - if True, put link ``port:vrf:ip`` label next to subnet node, default is False
     """
 
     def __init__(
@@ -247,7 +242,7 @@ class cli_ip_data:
         label_vrf=False,
         collapse_ptp=True,
         add_fhrp=False,
-        blbl=0,
+        bottom_label_length=0,
         lbl_next_to_subnet=False,
         platforms=None,
     ):
@@ -257,7 +252,7 @@ class cli_ip_data:
         self.label_vrf = label_vrf
         self.collapse_ptp = collapse_ptp
         self.add_fhrp = add_fhrp
-        self.blbl = blbl
+        self.bottom_label_length = bottom_label_length
         self.lbl_next_to_subnet = lbl_next_to_subnet
         self.platforms = platforms or ["_all_"]
         self.ttp_vars = ttp_vars or {
@@ -273,6 +268,12 @@ class cli_ip_data:
         self.collapse_ptp_dict = {}  # used by collapse_ptp
 
     def _make_hash_tuple(self, item):
+        """
+        Method to create link hash tuple out of source, target, src_label
+        and trgt_label values
+        
+        :param item: (dict) link dictionary
+        """
         target = (
             item["target"]["id"] if isinstance(item["target"], dict) else item["target"]
         )
@@ -289,13 +290,12 @@ class cli_ip_data:
 
     def work(self, data):
         """
-        Method to parse text data and add nodes and links
-        to drawing dictionary
+        Method to parse text data and add nodes and links to drawing object.
 
-        :param data: (dict) dictionary or OS path string to directories with text files
+        :param data: (dict or str) dictionary or OS path string to directories with data files
 
-        If data is dictionary, keys must correspond to "Platform" column in
-        *Supported platforms* table, values are lists of text items to
+        If data is dictionary, keys must correspond to **Platform** column in
+        `Features Supported`_ section table, values are lists of text items to
         process.
 
         Data dictionary sample::
@@ -309,18 +309,22 @@ class cli_ip_data:
 
         Where ``hX`` devices show commands output.
 
-        If data is a string with OS path to directory, child directories names
-        must correspond to "Platform" column in *Supported platforms* table.
-        Each child directory should contain text files with show commands output
-        for each device.
+        If data is an OS path directory string, child directories' names must correspond
+        to **Platform** column in `Features Supported`_ section table. Each child directory 
+        should contain text files with show commands output for each device, names of files 
+        are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
 
-            /path/to/data/
-                         |__/cisco_ios/<text files>
-                         |__/cisco_xr/<text files>
-                         |__/huawei/<text files>
-                         |__/...etc...
+            ├───folder_with_data
+                ├───cisco_ios
+                │       switch1.txt
+                │       switch2.txt
+                └───cisco_nxos
+                        nxos_switch_1.txt
+                        nxos_switch_2.txt
+                        
+        To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
         self._form_base_graph_dict()
@@ -333,6 +337,11 @@ class cli_ip_data:
         self._update_drawing()
 
     def _parse(self, data):
+        """
+        Function to parse text data using TTP templates
+        
+        :param data: (dict or str) data to parse
+        """
         if not HAS_TTP:
             raise ModuleNotFoundError(
                 "N2G:cli_ip_data failed importing TTP, is it installed?"
@@ -390,6 +399,9 @@ class cli_ip_data:
         # pprint.pprint(self.parsed_data, width = 100)
 
     def _form_base_graph_dict(self):
+        """
+        Method to form graph dictionaries of nodes and links out of parsing results.
+        """
         interfaces_ip = {}  # need this dict to skip ARP entries
         for platform, hosts_data in self.parsed_data.items():
             for hostname, host_data in hosts_data.items():
@@ -403,10 +415,18 @@ class cli_ip_data:
                             interfaces_ip.setdefault(network, []).append(ip["ip"])
                         network_node = {"id": network, "top_label": "Subnet"}
                         # add bottom lable to node
-                        if interface_data.get("port_description") and self.blbl:
-                            if len(interface_data["port_description"]) > self.blbl:
+                        if (
+                            interface_data.get("port_description")
+                            and self.bottom_label_length
+                        ):
+                            if (
+                                len(interface_data["port_description"])
+                                > self.bottom_label_length
+                            ):
                                 network_node["bottom_label"] = "{}..".format(
-                                    interface_data["port_description"][: self.blbl]
+                                    interface_data["port_description"][
+                                        : self.bottom_label_length
+                                    ]
                                 )
                             else:
                                 network_node["bottom_label"] = "{}".format(
@@ -528,7 +548,15 @@ class cli_ip_data:
                     _ = self.nodes_dict.pop(arp_node_id, None)
                     _ = self.links_dict.pop(link_hash, None)
 
-    def _add_node(self, item, host_data={}):
+    def _add_node(self, item, host_data=None):
+        """
+        Method to add single node to nodes dictionary if it does not exist or
+        update existing node.
+        
+        :param item: (dict) node dictionary to process
+        :param host_data: (dict) dictionary with network device details
+        """
+        host_data = host_data or {}
         # add new node
         if not item["id"] in self.nodes_dict:
             if host_data.get("node_facts"):
@@ -565,6 +593,12 @@ class cli_ip_data:
                 )
 
     def _add_link(self, item, network=None):
+        """
+        Method to add single link to links dictionary.
+        
+        :param item: (dict) link dictionary to process
+        :param network: (str) link subnet value e.g. "10.0.0.0/30"
+        """
         link_hash = self._make_hash_tuple(item)
         if link_hash not in self.links_dict:
             self.links_dict[link_hash] = item
@@ -579,7 +613,10 @@ class cli_ip_data:
 
     def _update_nodes_to_links_dict(self, item, link_hash):
         """
-        Method to update nodes_to_links_dict, used by group_links
+        Method to update nodes_to_links_dict, used by group_links feature.
+        
+        :param item: (dict) link dictionary
+        :param link_hash: (tuple) link identifier hash tuple
         """
         src = item["source"]
         tgt = item["target"]
@@ -629,7 +666,12 @@ class cli_ip_data:
 
     def _collapse_ptp(self):
         """
-        self.collapse_ptp_dict - mapping of ptp networks to link hashes
+        Method to combine ptp link into a single link, by default this plugin adds ptp
+        subnets as nodes with links to devices that have IP addresses out of that subnet,
+        this method deleted ptp subnet node and adds a link between devices instead.
+        
+        self.collapse_ptp_dict - mapping of ptp networks to link hashes used to combine 
+        ptp links.
 
         Sample::
 
@@ -667,6 +709,9 @@ class cli_ip_data:
             self._add_link(link_dict)
 
     def _update_drawing(self):
+        """
+        Method to populate drawing object with processed nodes and links using from_dict method.
+        """
         self.graph_dict["nodes"] = list(self.nodes_dict.values())
         self.graph_dict["links"] = list(self.links_dict.values())
         # pprint.pprint(self.graph_dict, width =100)

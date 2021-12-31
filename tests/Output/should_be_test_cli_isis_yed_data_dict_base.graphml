@@ -1,0 +1,906 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
+    
+    <key attr.name="Description" attr.type="string" for="graph" id="d0" />
+    <key for="port" id="d1" yfiles.type="portgraphics" />
+    <key for="port" id="d2" yfiles.type="portgeometry" />
+    <key for="port" id="d3" yfiles.type="portuserdata" />
+    <key attr.name="url" attr.type="string" for="node" id="d4" />
+    <key attr.name="description" attr.type="string" for="node" id="d5" />
+    <key for="node" id="d6" yfiles.type="nodegraphics" />
+    <key for="graphml" id="d7" yfiles.type="resources" />
+    <key attr.name="url" attr.type="string" for="edge" id="d8" />
+    <key attr.name="description" attr.type="string" for="edge" id="d9" />
+    <key for="edge" id="d10" yfiles.type="edgegraphics" />
+    <key attr.name="nmetadata" attr.type="string" for="node" id="d11">
+        <default />
+    </key>
+    <key attr.name="emetadata" attr.type="string" for="edge" id="d12">
+        <default />
+    </key>
+    <key attr.name="gmetadata" attr.type="string" for="graph" id="d13">
+        <default />
+    </key>
+    <graph edgedefault="directed" id="G">
+    
+    <node id="ROUTER-X1">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X1",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "9",
+            "local_ip": "10.123.0.17",
+            "metric": "16777214",
+            "peer_intf_id": "50",
+            "peer_ip": "10.123.0.18",
+            "peer_name": "ROUTER-X2"
+        },
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "7",
+            "local_ip": "10.123.0.25",
+            "metric": "802",
+            "peer_intf_id": "53",
+            "peer_ip": "10.123.0.26",
+            "peer_name": "ROUTER-X5"
+        }
+    ],
+    "lsp_id": "ROUTER-X1",
+    "networks": [
+        {
+            "metric": "0",
+            "network": "10.211.1.1/32"
+        }
+    ],
+    "rid": "10.211.1.1"
+}</data><data key="d11">{"id": "ROUTER-X1"}</data></node><node id="ROUTER-X2">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X2",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "48",
+            "local_ip": "10.123.0.33",
+            "metric": "301",
+            "peer_intf_id": "53",
+            "peer_ip": "10.123.0.34",
+            "peer_name": "ROUTER-X6"
+        },
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "50",
+            "local_ip": "10.123.0.18",
+            "metric": "16777214",
+            "peer_intf_id": "9",
+            "peer_ip": "10.123.0.17",
+            "peer_name": "ROUTER-X1"
+        }
+    ],
+    "lsp_id": "ROUTER-X2",
+    "networks": [
+        {
+            "metric": "0",
+            "network": "10.211.1.2/32"
+        }
+    ],
+    "rid": "10.211.1.2"
+}</data><data key="d11">{"id": "ROUTER-X2"}</data></node><node id="ROUTER-X5">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X5</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.5</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X5",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "58",
+            "local_ip": "10.123.0.29",
+            "metric": "15",
+            "peer_intf_id": "55",
+            "peer_ip": "10.123.0.30",
+            "peer_name": "ROUTER-X6"
+        },
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "53",
+            "local_ip": "10.123.0.26",
+            "metric": "802",
+            "peer_intf_id": "7",
+            "peer_ip": "10.123.0.25",
+            "peer_name": "ROUTER-X1"
+        }
+    ],
+    "lsp_id": "ROUTER-X5",
+    "networks": [
+        {
+            "metric": "0",
+            "network": "10.211.0.5/32"
+        },
+        {
+            "metric": "0",
+            "network": "10.211.1.5/32"
+        }
+    ],
+    "rid": "10.211.1.5"
+}</data><data key="d11">{"id": "ROUTER-X5"}</data></node><node id="ROUTER-X6">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X6</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.6</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X6",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "55",
+            "local_ip": "10.123.0.30",
+            "metric": "15",
+            "peer_intf_id": "58",
+            "peer_ip": "10.123.0.29",
+            "peer_name": "ROUTER-X5"
+        },
+        {
+            "affinity": "0x00000000",
+            "bw_kbit": "10000000",
+            "local_intf_id": "53",
+            "local_ip": "10.123.0.34",
+            "metric": "301",
+            "peer_intf_id": "48",
+            "peer_ip": "10.123.0.33",
+            "peer_name": "ROUTER-X2"
+        }
+    ],
+    "lsp_id": "ROUTER-X6",
+    "networks": [
+        {
+            "metric": "0",
+            "network": "10.211.0.6/32"
+        },
+        {
+            "metric": "0",
+            "network": "10.211.1.6/32"
+        }
+    ],
+    "rid": "10.211.1.6"
+}</data><data key="d11">{"id": "ROUTER-X6"}</data></node><node id="ROUTER-X7">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X7</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:2:c301::1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X7",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "102",
+            "metric": "10",
+            "peer_intf_id": "64",
+            "peer_name": "ROUTER-X5"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "103",
+            "metric": "10",
+            "peer_intf_id": "103",
+            "peer_name": "ROUTER-X8"
+        }
+    ],
+    "lsp_id": "ROUTER-X7",
+    "networks": [
+        {
+            "metric": "1",
+            "network": "fddc:2:3::/48"
+        },
+        {
+            "metric": "0",
+            "network": "fddd:2:c301::1/128"
+        }
+    ],
+    "rid": "fddd:2:c301::1"
+}</data><data key="d11">{"id": "ROUTER-X7"}</data></node><node id="ROUTER-X8">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X8</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:2:c301::2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X8",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "102",
+            "metric": "10",
+            "peer_intf_id": "64",
+            "peer_name": "ROUTER-X6"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "103",
+            "metric": "10",
+            "peer_intf_id": "103",
+            "peer_name": "ROUTER-X7"
+        }
+    ],
+    "lsp_id": "ROUTER-X8",
+    "networks": [
+        {
+            "metric": "0",
+            "network": "fddd:2:c301::2/128"
+        }
+    ],
+    "rid": "fddd:2:c301::2"
+}</data><data key="d11">{"id": "ROUTER-X8"}</data></node><node id="ROUTER-X3">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:3:c101::1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X3",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "64",
+            "metric": "10",
+            "peer_intf_id": "64",
+            "peer_name": "ROUTER-X1"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "66",
+            "metric": "10",
+            "peer_intf_id": "66",
+            "peer_name": "ROUTER-X4"
+        }
+    ],
+    "lsp_id": "ROUTER-X3",
+    "networks": [
+        {
+            "metric": "1",
+            "network": "fddc:0:3::/48"
+        },
+        {
+            "metric": "0",
+            "network": "fddc:3::/36"
+        },
+        {
+            "metric": "0",
+            "network": "fddd:3:c101::1/128"
+        }
+    ],
+    "rid": "fddd:3:c101::1"
+}</data><data key="d11">{"id": "ROUTER-X3"}</data></node><node id="ROUTER-X4">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="60" width="120" x="200" y="150" />
+          <y:Fill color="#FFFFFF" transparent="false" />
+          <y:BorderStyle color="#000000" raised="false" type="line" width="3.0" />
+          <y:Shape type="roundrectangle" />
+        <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:3:c101::2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
+      </data>
+    <data key="d5">{
+    "hostname": "ROUTER-X4",
+    "isis_area": "49.1234",
+    "level": "Level-2",
+    "links": [
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "64",
+            "metric": "10",
+            "peer_intf_id": "64",
+            "peer_name": "ROUTER-X2"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "local_intf_id": "66",
+            "metric": "10",
+            "peer_intf_id": "66",
+            "peer_name": "ROUTER-X3"
+        }
+    ],
+    "lsp_id": "ROUTER-X4",
+    "networks": [
+        {
+            "metric": "1",
+            "network": "fddc:0:4::/48"
+        },
+        {
+            "metric": "0",
+            "network": "fddc:3::/36"
+        },
+        {
+            "metric": "0",
+            "network": "fddd:3:c101::2/128"
+        }
+    ],
+    "rid": "fddd:3:c101::2"
+}</data><data key="d11">{"id": "ROUTER-X4"}</data></node><edge id="9c0fe588d61a7eaac2626cedbd982ebd" source="ROUTER-X2" target="ROUTER-X1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">1234:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.18:16777214<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.17:16777214<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X1": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "9",
+        "local_ip": "10.123.0.17",
+        "metric": "16777214",
+        "peer_intf_id": "50",
+        "peer_ip": "10.123.0.18",
+        "peer_name": "ROUTER-X2"
+    },
+    "ROUTER-X2": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "50",
+        "local_ip": "10.123.0.18",
+        "metric": "16777214",
+        "peer_intf_id": "9",
+        "peer_ip": "10.123.0.17",
+        "peer_name": "ROUTER-X1"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X2", "tid": "ROUTER-X1", "id": "9c0fe588d61a7eaac2626cedbd982ebd"}</data></edge><edge id="b409681456b8c6d91226b4ad76587ed3" source="ROUTER-X5" target="ROUTER-X1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">1234:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.26:802<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.25:802<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X1": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "7",
+        "local_ip": "10.123.0.25",
+        "metric": "802",
+        "peer_intf_id": "53",
+        "peer_ip": "10.123.0.26",
+        "peer_name": "ROUTER-X5"
+    },
+    "ROUTER-X5": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "53",
+        "local_ip": "10.123.0.26",
+        "metric": "802",
+        "peer_intf_id": "7",
+        "peer_ip": "10.123.0.25",
+        "peer_name": "ROUTER-X1"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X5", "tid": "ROUTER-X1", "id": "b409681456b8c6d91226b4ad76587ed3"}</data></edge><edge id="b8f9c5c37dbcea67b89b556bb19079ec" source="ROUTER-X6" target="ROUTER-X2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">1234:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.34:301<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.33:301<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X2": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "48",
+        "local_ip": "10.123.0.33",
+        "metric": "301",
+        "peer_intf_id": "53",
+        "peer_ip": "10.123.0.34",
+        "peer_name": "ROUTER-X6"
+    },
+    "ROUTER-X6": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "53",
+        "local_ip": "10.123.0.34",
+        "metric": "301",
+        "peer_intf_id": "48",
+        "peer_ip": "10.123.0.33",
+        "peer_name": "ROUTER-X2"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X6", "tid": "ROUTER-X2", "id": "b8f9c5c37dbcea67b89b556bb19079ec"}</data></edge><edge id="d767e415ad4b627d72bb680f8ea9072d" source="ROUTER-X6" target="ROUTER-X5">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">1234:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.30:15<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">10.123.0.29:15<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X5": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "58",
+        "local_ip": "10.123.0.29",
+        "metric": "15",
+        "peer_intf_id": "55",
+        "peer_ip": "10.123.0.30",
+        "peer_name": "ROUTER-X6"
+    },
+    "ROUTER-X6": {
+        "affinity": "0x00000000",
+        "bw_kbit": "10000000",
+        "isis_pid": "1234",
+        "local_intf_id": "55",
+        "local_ip": "10.123.0.30",
+        "metric": "15",
+        "peer_intf_id": "58",
+        "peer_ip": "10.123.0.29",
+        "peer_name": "ROUTER-X5"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X6", "tid": "ROUTER-X5", "id": "d767e415ad4b627d72bb680f8ea9072d"}</data></edge><edge id="1e9c4b8119f8dbfd184d70c3cae815db" source="ROUTER-X5" target="ROUTER-X1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">4567:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">57:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">68:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X1": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "68",
+        "metric": "10",
+        "peer_intf_id": "57",
+        "peer_name": "ROUTER-X5"
+    },
+    "ROUTER-X5": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "57",
+        "metric": "10",
+        "peer_intf_id": "68",
+        "peer_name": "ROUTER-X1"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X5", "tid": "ROUTER-X1", "id": "1e9c4b8119f8dbfd184d70c3cae815db"}</data></edge><edge id="142a08e3dedb99d7c761522dcbc4821c" source="ROUTER-X6" target="ROUTER-X2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">4567:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">60:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">68:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X2": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "68",
+        "metric": "10",
+        "peer_intf_id": "60",
+        "peer_name": "ROUTER-X6"
+    },
+    "ROUTER-X6": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "60",
+        "metric": "10",
+        "peer_intf_id": "68",
+        "peer_name": "ROUTER-X2"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X6", "tid": "ROUTER-X2", "id": "142a08e3dedb99d7c761522dcbc4821c"}</data></edge><edge id="176d9b9a2dc9363af41ed58b975309f8" source="ROUTER-X7" target="ROUTER-X5">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">4567:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">102:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">64:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X5": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "64",
+        "metric": "10",
+        "peer_intf_id": "102",
+        "peer_name": "ROUTER-X7"
+    },
+    "ROUTER-X7": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "102",
+        "metric": "10",
+        "peer_intf_id": "64",
+        "peer_name": "ROUTER-X5"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X7", "tid": "ROUTER-X5", "id": "176d9b9a2dc9363af41ed58b975309f8"}</data></edge><edge id="2467f6b72c53a6742c10ad8b77731ea8" source="ROUTER-X6" target="ROUTER-X5">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">4567:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">62:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">60:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X5": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "60",
+        "metric": "10",
+        "peer_intf_id": "62",
+        "peer_name": "ROUTER-X6"
+    },
+    "ROUTER-X6": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "62",
+        "metric": "10",
+        "peer_intf_id": "60",
+        "peer_name": "ROUTER-X5"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X6", "tid": "ROUTER-X5", "id": "2467f6b72c53a6742c10ad8b77731ea8"}</data></edge><edge id="315b7de18f2648fda4208d34dfe202a6" source="ROUTER-X8" target="ROUTER-X6">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">4567:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">102:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">64:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X6": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "64",
+        "metric": "10",
+        "peer_intf_id": "102",
+        "peer_name": "ROUTER-X8"
+    },
+    "ROUTER-X8": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "102",
+        "metric": "10",
+        "peer_intf_id": "64",
+        "peer_name": "ROUTER-X6"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X8", "tid": "ROUTER-X6", "id": "315b7de18f2648fda4208d34dfe202a6"}</data></edge><edge id="85e8c5ead22ab41bb29d0252e41b6985" source="ROUTER-X8" target="ROUTER-X7">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">4567:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">103:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">103:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X7": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "103",
+        "metric": "10",
+        "peer_intf_id": "103",
+        "peer_name": "ROUTER-X8"
+    },
+    "ROUTER-X8": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "4567",
+        "local_intf_id": "103",
+        "metric": "10",
+        "peer_intf_id": "103",
+        "peer_name": "ROUTER-X7"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X8", "tid": "ROUTER-X7", "id": "85e8c5ead22ab41bb29d0252e41b6985"}</data></edge><edge id="3de093088c4bdb020bcce072c55660c0" source="ROUTER-X2" target="ROUTER-X1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">8910:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">66:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">66:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X1": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "66",
+        "metric": "10",
+        "peer_intf_id": "66",
+        "peer_name": "ROUTER-X2"
+    },
+    "ROUTER-X2": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "66",
+        "metric": "10",
+        "peer_intf_id": "66",
+        "peer_name": "ROUTER-X1"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X2", "tid": "ROUTER-X1", "id": "3de093088c4bdb020bcce072c55660c0"}</data></edge><edge id="1fb6f3772235d9133330d7377d855566" source="ROUTER-X3" target="ROUTER-X1">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">8910:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">64:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">64:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X1": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "64",
+        "metric": "10",
+        "peer_intf_id": "64",
+        "peer_name": "ROUTER-X3"
+    },
+    "ROUTER-X3": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "64",
+        "metric": "10",
+        "peer_intf_id": "64",
+        "peer_name": "ROUTER-X1"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X3", "tid": "ROUTER-X1", "id": "1fb6f3772235d9133330d7377d855566"}</data></edge><edge id="a2e1cb7ea3037cd138e5ee60a8ad5abb" source="ROUTER-X4" target="ROUTER-X2">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">8910:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">64:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">64:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X2": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "64",
+        "metric": "10",
+        "peer_intf_id": "64",
+        "peer_name": "ROUTER-X4"
+    },
+    "ROUTER-X4": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "64",
+        "metric": "10",
+        "peer_intf_id": "64",
+        "peer_name": "ROUTER-X2"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X4", "tid": "ROUTER-X2", "id": "a2e1cb7ea3037cd138e5ee60a8ad5abb"}</data></edge><edge id="a3e2350bbaf6a5b3ba77ff4ceb8dfd22" source="ROUTER-X4" target="ROUTER-X3">
+      <data key="d10">
+        <y:PolyLineEdge>
+         <y:LineStyle color="#000000" type="line" width="1.0" />
+         <y:Arrows source="none" target="none" />
+         <y:BendStyle smoothed="false" />
+        <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">8910:L2<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="center" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">66:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="source" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel><y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="target_on_edge" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6E-17" verticalTextPosition="bottom" visible="true" width="32">66:10<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="target" side="on_edge" sideReference="relative_to_edge_flow" />
+    </y:EdgeLabel></y:PolyLineEdge>
+      </data>
+    <data key="d9">{
+    "ROUTER-X3": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "66",
+        "metric": "10",
+        "peer_intf_id": "66",
+        "peer_name": "ROUTER-X4"
+    },
+    "ROUTER-X4": {
+        "bw_kbit": "10000000",
+        "delay_avg_us": "1",
+        "delay_max_us": "1",
+        "delay_min_us": "1",
+        "delay_variation_us": "0",
+        "isis_pid": "8910",
+        "local_intf_id": "66",
+        "metric": "10",
+        "peer_intf_id": "66",
+        "peer_name": "ROUTER-X3"
+    }
+}</data><data key="d12">{"sid": "ROUTER-X4", "tid": "ROUTER-X3", "id": "a3e2350bbaf6a5b3ba77ff4ceb8dfd22"}</data></edge></graph>
+    <data key="d7">
+        <y:Resources>
+        </y:Resources>
+    </data>
+    </graphml>
