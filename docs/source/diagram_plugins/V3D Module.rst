@@ -4,6 +4,14 @@ V3D Diagram Plugin
 Module to produce JSON structure compatible with `3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_ 
 library `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_
 
+Why? Because network 3D visualisation is awesome. However, author is not aware of complete 
+application that is capable of displaying produced results utilizing 
+`3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_ library. There is an
+attempt to make such an application described in `Built-in Diagram Viewer`_ section, but it is 
+very (very) far from being perfect. Hence, if you are aware of better option to visualize data compatible 
+with `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_ please
+let the author know about it.
+
 Quick start
 -----------
 
@@ -212,7 +220,7 @@ Sample code to run built-in WEB server::
     v3d_drawing.from_list(sample_data_list)
     v3d_drawing.run(ip="0.0.0.0", "port"=9000)
     
-If all good, browsing to ``http://127.0.0.1:9000`` URL should load similar to below diagram:
+If all good, browsing to ``http://127.0.0.1:9000`` URL should load similar to below 3D diagram:
 
 .. image:: ../_images/v3d/v3d_webserver_run_example.png
 
