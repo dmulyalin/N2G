@@ -3,7 +3,9 @@
 
 # Need To Graph
 
-N2G is a library to generate diagrams in [yWorks](https://www.yworks.com/) graphml or [Diagrams](https://www.diagrams.net/) drawio formats.
+N2G is a library to generate diagrams in [yWorks](https://www.yworks.com/) graphml or [Diagrams](https://www.diagrams.net/) 
+drawio formats or produce JSON data compatible with [3d-force-graph JSON input syntax](https://github.com/vasturiano/3d-force-graph#input-json-syntax)
+allowing 3D visualization.
 
 <details><summary>Demo</summary>
 <img src="example.gif">  
