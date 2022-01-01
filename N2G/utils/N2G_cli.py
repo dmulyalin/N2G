@@ -1,12 +1,12 @@
 """
 This tool allows to use N2G module capabilities from command line interface.
 
-To produce diagram, N2G will need source data to work with, for drawer
-modules source data usually comes in the form of directories structure with 
+To produce diagram, N2G will need source data to work with, for data plugins
+source data usually comes in the form of directories structure with 
 text files containing show commands output for devices.
 
 After source data provided, CLI tool need to know what it needs to do, hence 
-next comes the options of various drawers, such as L2 - layer 2 drawer.
+next comes the options of various Data Plugins, such as L2 - layer 2 data plugin.
 
 And finally, results need to be saved somewhere on the local file system using 
 filename and folder options.
@@ -37,7 +37,7 @@ filename and folder options.
     -nm,     --node-headers-map    JSON dictionary structure for node headers translation           
     -lm,     --link-headers-map    JSON dictionary structure for link headers translation
     
-    CDP and LLDP L2 drawer options:
+    CDP and LLDP L2 Data Plugin options:
     -L2                 Parse CDP and LLDP data
     -L2-add-lag         Add LAG/M-LAG information and delete member links
     -L2-group-links     Group links between nodes
@@ -45,18 +45,18 @@ filename and folder options.
     -L2-combine-peers   Combine CDP/LLDP peers behind same interface
     -L2-platforms       Comma separated list of platforms to parse
     
-    IP network drawer:
+    IP Data Plugin:
     -IP                 Parse IP subnets
     -IP-group-links     Group links between nodes
     -IP-lbl-intf        Add interfaces names to link labels
     -IP-lbl-vrf         Add VRF names to link labels
     -IP-add-arp         Add ARP cache IPs to the diagram
     
-    OSPF LSDB Drawer:
+    OSPF LSDB Data Plugin:
     -OSPF               Diagram OSPFv2 LSDB data
     -OSPF-add-con       Add connected subnets to diagram
     
-    ISIS LSDB Drawer:
+    ISIS LSDB Data Plugin:
     -ISIS               Diagram ISIS LSDB data
     -ISIS-add-con       Add connected subnets to diagram
 """
@@ -105,7 +105,7 @@ XLSX data adapter. -d should point to ".xlsx" spreadsheet file.
 -nm,     --node-headers-map    JSON dictionary structure for node headers translation           
 -lm,     --link-headers-map    JSON dictionary structure for link headers translation
 
-CDP and LLDP L2 drawer options:
+CDP and LLDP L2 Data Plugin options:
 -L2                 Parse CDP and LLDP data
 -L2-add-lag         Add LAG/M-LAG information and delete member links
 -L2-group-links     Group links between nodes
@@ -113,18 +113,18 @@ CDP and LLDP L2 drawer options:
 -L2-combine-peers   Combine CDP/LLDP peers behind same interface
 -L2-platforms       Comma separated list of platforms to parse
 
-IP network drawer:
+IP Data Plugin:
 -IP                 Parse IP subnets
 -IP-group-links     Group links between nodes
 -IP-lbl-intf        Add interfaces names to link labels
 -IP-lbl-vrf         Add VRF names to link labels
 -IP-add-arp         Add ARP cache IPs to the diagram
 
-OSPF LSDB Drawer:
+OSPF LSDB Data Plugin:
 -OSPF               Diagram OSPFv2 LSDB data
 -OSPF-add-con       Add connected subnets to diagram
 
-ISIS LSDB Drawer:
+ISIS LSDB Data Plugin:
 -ISIS               Diagram ISIS LSDB data
 -ISIS-add-con       Add connected subnets to diagram
 """
@@ -281,7 +281,7 @@ def cli_tool():
         help=argparse.SUPPRESS,
     )
     # -----------------------------------------------------------------------------
-    # IP drawer options
+    # IP Data Plugin options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
         "-IP", action="store_true", dest="IP", default=False, help=argparse.SUPPRESS
@@ -315,7 +315,7 @@ def cli_tool():
         help=argparse.SUPPRESS,
     )
     # -----------------------------------------------------------------------------
-    # OSPF drawer options
+    # OSPF Data Plugin options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
         "-OSPF", action="store_true", dest="OSPF", default=False, help=argparse.SUPPRESS
@@ -328,7 +328,7 @@ def cli_tool():
         help=argparse.SUPPRESS,
     )
     # -----------------------------------------------------------------------------
-    # ISIS drawer options
+    # ISIS Data Plugin options
     # -----------------------------------------------------------------------------
     run_options.add_argument(
         "-ISIS", action="store_true", dest="ISIS", default=False, help=argparse.SUPPRESS
