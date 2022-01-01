@@ -23,7 +23,7 @@ Nodes and links can be added one by one using ``add_node`` and ``add_link`` meth
 After opening and editing diagram, it might look like this:
 
 .. raw:: html
-    :file: N2G_clis/drawio/quick_start_example.svg
+    :file: ../_images/drawio/quick_start_example.svg
 
 Working with drawio module should be started with adding new diagram, after that nodes and links can be added. It is possible to switch between diagrams to edit using ``go_to_diagram`` method. 
 
