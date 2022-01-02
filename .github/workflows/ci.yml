@@ -37,6 +37,7 @@ jobs:
         working-directory: tests 
         shell: bash
     strategy:
+      fail-fast: false
       matrix:
         python-version: [ '3.6', '3.7', '3.8', '3.9' ]
         platform: [ubuntu-latest, macOS-10.15, windows-latest]
