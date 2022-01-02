@@ -2,7 +2,7 @@ N2G
 ====================
 .. toctree::
    :maxdepth: 4
-   
+
    Overview
    Installation
    diagram_plugins/index

@@ -3,7 +3,7 @@ XLSX Data Plugin
 ****************
 
 This plugin loads data from xlsx tables and transforms it in a dictionary
-supported by N2G diagram plugins. Using ``from_dict`` method, this plugin 
+supported by N2G diagram plugins. Using ``from_dict`` method, this plugin
 loads data into diagram plugin.
 
 Guidelines and Limitations
@@ -11,9 +11,9 @@ Guidelines and Limitations
 
 * `openpyxl <https://pypi.org/project/openpyxl/>`_ >= 3.0.0 library need to be installed: ``pip install openpyxl``
 * Nodes and links tabs' first row must contain headers
-* nodes tab should have at least ``id`` header, other headers should comply with ``from_dict`` method attributes 
+* nodes tab should have at least ``id`` header, other headers should comply with ``from_dict`` method attributes
   or simply ignored
-* links tab should have at least ``source`` and ``target`` headers, other headers should comply with ``from_dict`` 
+* links tab should have at least ``source`` and ``target`` headers, other headers should comply with ``from_dict``
   method attributes or simply ignored
 
 Sample Usage
@@ -25,32 +25,32 @@ Code to invoke ``xlsx_data``::
     from N2G import xlsx_data
 
     drawio_drawing = drawio_diagram()
-    
+
     xlsx_data(
-        drawio_drawing, 
-        "./Data/nodes_and_links_data.xlsx", 
-        node_tabs="nodes", 
+        drawio_drawing,
+        "./Data/nodes_and_links_data.xlsx",
+        node_tabs="nodes",
         link_tabs="links"
     )
-    
+
     drawio_drawing.layout(algo="kk")
     drawio_drawing.dump_file(filename="diagram.drawio", folder="./Output/")
-    
+
 Where ``nodes_and_links_data.xlsx`` content for nodes tab::
 
     id   pic    label    bottom_label    top_label    description
     r1          r1       core            1.1.1.1      Core Router
     r2          r2       core            2.2.2.2      Core Router
     r3          r3       edge            3.3.3.3      Edge Router
-    
+
 for links tab::
-    
+
     source    src_label    label    target    trgt_label    description
     r1        Gi1/1        DF-10Km  r2        Gi3/4         DF link between R1 and R2
     r3        10GE2/1/1    DF-32Km  r2        Ten1/1        DF link between R3 and R2
-    
+
 Support available to translate headers to comply with N2G diagram modules
-``from_dict`` or ``from_list`` methods through the use of ``node_headers_map`` and 
+``from_dict`` or ``from_list`` methods through the use of ``node_headers_map`` and
 ``link_headers_map``.  For instance consider this table::
 
     # nodes tab:
@@ -58,29 +58,29 @@ Support available to translate headers to comply with N2G diagram modules
     r1         1.1.1.1   65123
     r2         1.1.1.2   65123
     r3         1.1.1.3   65123
-    
+
     # links tab:
     device:a    interface:a    label    device:b  interface:b
-    r1          Gi1/1          DF-10Km  r2        Gi3/4      
-    r3          10GE2/1/1      DF-32Km  r2        Ten1/1     
+    r1          Gi1/1          DF-10Km  r2        Gi3/4
+    r3          10GE2/1/1      DF-32Km  r2        Ten1/1
 
 If ``node_headers_map`` is::
-    
+
     node_headers_map = {
         "id": ["device", "hostname"],
         "tob_label": ["lo0_ip"],
         "bottom_label": ["bgp_asn"]
     }
-        
+
 And ``link_headers_map`` is::
 
     link_headers_map = {
-        "source": ["device:a", "hostname:a"], 
+        "source": ["device:a", "hostname:a"],
         "target": ["device:b", "hostname:b"],
         "src_label": ["interface:a", "ip:a"],
         "trgt_label": ["interface:b", "ip:b"]
     }
-    
+
 Above table will be transformed to::
 
     # nodes tab:
@@ -88,12 +88,12 @@ Above table will be transformed to::
     r1         1.1.1.1   65123
     r2         1.1.1.2   65123
     r3         1.1.1.3   65123
-    
+
     # links tab:
     source      src_label      label    target    trgt_label
-    r1          Gi1/1          DF-10Km  r2        Gi3/4      
-    r3          10GE2/1/1      DF-32Km  r2        Ten1/1   
-    
+    r1          Gi1/1          DF-10Km  r2        Gi3/4
+    r3          10GE2/1/1      DF-32Km  r2        Ten1/1
+
 API Reference
 -------------
 

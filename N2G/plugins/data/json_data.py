@@ -3,17 +3,17 @@ JSON Data Plugin
 ****************
 
 JSON data plugin loads structured data from JSON string and inputs it into
-diagram class - if JSON string produces list, uses ``from_list`` method, 
+diagram class - if JSON string produces list, uses ``from_list`` method,
 if JSON string produces dictionary uses ``from_dict`` method.
 
-Sample Usage 
+Sample Usage
 ------------
 
 Code to demonstrate how to use ``json_data`` plugin::
 
     from N2G import v3d_diagramm
     from N2G import json_data
-    
+
     sample_json_data = '''{
         "links": [{"data": {}, "label": "bla1", "source": "node-1", "src_label": "", "target": "node-2", "trgt_label": ""},
                 {"data": {}, "label": "bla2", "source": "node-1", "src_label": "", "target": "node-3", "trgt_label": ""},
@@ -35,7 +35,7 @@ Code to demonstrate how to use ``json_data`` plugin::
     v3d_drawing = create_v3d_diagram()
     json_data(v3d_drawing, sample_json_data)
     v3d_drawing.dump_file()
-    
+
 API Reference
 -------------
 
@@ -51,10 +51,10 @@ log = logging.getLogger(__name__)
 def json_data(drawing, data):
     """
     Function to load graph data from JSON text.
-    
+
     :param drawing: (obj) class object of one of N2G diagram plugins
     :param data: (str) JSON string to load
-    
+
     If JSON string produces list, uses ``frm_list`` method, if dictionary uses ``from_dict`` method
     """
     loaded_data = json.loads(data)

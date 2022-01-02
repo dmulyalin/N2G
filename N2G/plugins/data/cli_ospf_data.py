@@ -2,15 +2,15 @@
 CLI OSPFv2 LSDB Data Plugin
 ***************************
 
-CLI OSPFv2 LSDB Data Plugin can process network devices CLI output of OSPFv2 LSDB content to 
+CLI OSPFv2 LSDB Data Plugin can process network devices CLI output of OSPFv2 LSDB content to
 populate N2G drawing with OSPF topology nodes and links.
 
 CLI output from devices parsed using TTP Templates into a dictionary structure.
 
-After parsing, results processed further to form a dictionary of nodes and links keyed 
+After parsing, results processed further to form a dictionary of nodes and links keyed
 by unique nodes and links identifiers wit values being nodes dictionaries and for links
-it is a list of dictionaries of links between same pair of nodes. For nodes OSPF RID 
-used as a unique ID, for links it is sorted tuple of ``source``, ``target`` and ``label`` 
+it is a list of dictionaries of links between same pair of nodes. For nodes OSPF RID
+used as a unique ID, for links it is sorted tuple of ``source``, ``target`` and ``label``
 keys' values. This structure helps to eliminate duplicates.
 
 Next step is post processing, such as packing links between nodes. By default cli_ospf_data
@@ -65,12 +65,12 @@ Code to populate yEd diagram object with OSPF LSDB sourced nodes and links::
     from N2G import cli_l2_data, yed_diagram
 
     data = {"cisco_xr": ['''
-    RP/0/RP0/CPU0:router-1#show ospf database router 
-    
+    RP/0/RP0/CPU0:router-1#show ospf database router
+
                 OSPF Router with ID (10.0.1.1) (Process ID 1)
-    
+
                     Router Link States (Area 0.0.0.0)
-    
+
       LS age: 406
       Options: (No TOS-capability, DC)
       LS Type: Router Links
@@ -80,19 +80,19 @@ Code to populate yEd diagram object with OSPF LSDB sourced nodes and links::
       Checksum: 0x24dd
       Length: 132
        Number of Links: 9
-    
+
         Link connected to: another Router (point-to-point)
          (Link ID) Neighboring Router ID: 10.0.1.4
          (Link Data) Router Interface address: 0.0.0.12
           Number of TOS metrics: 0
            TOS 0 Metrics: 1100
-    
+
         Link connected to: another Router (point-to-point)
          (Link ID) Neighboring Router ID: 10.0.1.2
          (Link Data) Router Interface address: 0.0.0.10
           Number of TOS metrics: 0
-           TOS 0 Metrics: 1100    
-    
+           TOS 0 Metrics: 1100
+
       Routing Bit Set on this LSA
       LS age: 1604
       Options: (No TOS-capability, DC)
@@ -103,13 +103,13 @@ Code to populate yEd diagram object with OSPF LSDB sourced nodes and links::
       Checksum: 0xdc96
       Length: 132
        Number of Links: 9
-    
+
         Link connected to: another Router (point-to-point)
          (Link ID) Neighboring Router ID: 10.0.1.3
          (Link Data) Router Interface address: 0.0.0.52
           Number of TOS metrics: 0
            TOS 0 Metrics: 1100
-    
+
         Link connected to: another Router (point-to-point)
          (Link ID) Neighboring Router ID: 10.0.1.4
          (Link Data) Router Interface address: 0.0.0.53
@@ -122,7 +122,7 @@ Code to populate yEd diagram object with OSPF LSDB sourced nodes and links::
     drawer = cli_ospf_data(drawing)
     drawer.work(data)
     drawer.drawing.dump_file()
-    
+
 API Reference
 -------------
 
@@ -160,22 +160,22 @@ class cli_ospf_data:
     :param drawing: (obj) N2G Diagram object
     :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating TTP parser object
     :param ip_lookup_data: (dict or str) IP Lookup dictionary or OS path to CSV file
-    :param add_connected: (bool) if True, will add connected subnets as nodes, default is False    
+    :param add_connected: (bool) if True, will add connected subnets as nodes, default is False
     :param ptp_filter: (list) list of glob patterns to filter point-to-point links based on link IP
     :param add_data: (bool) if True (default) adds data information to nodes and links
-    
+
     ``ip_lookup_data`` dictionary must be keyed by OSPF RID IP address, with values
-    being dictionary which must contain ``hostname`` key with optional additional keys 
-    to use for N2G diagram module node, e.g. ``label``, ``top_label``, ``bottom_label``, 
-    ``interface``etc. If ``ip_lookup_data`` is an OS path to CSV file, that file's first 
-    column header must be ``ip`` , file must contain ``hostname`` column, other columns 
-    values set to N2G diagram module node attributes, e.g. ``label``, ``top_label``, 
-    ``bottom_label``, ``interface`` etc. 
-    
+    being dictionary which must contain ``hostname`` key with optional additional keys
+    to use for N2G diagram module node, e.g. ``label``, ``top_label``, ``bottom_label``,
+    ``interface``etc. If ``ip_lookup_data`` is an OS path to CSV file, that file's first
+    column header must be ``ip`` , file must contain ``hostname`` column, other columns
+    values set to N2G diagram module node attributes, e.g. ``label``, ``top_label``,
+    ``bottom_label``, ``interface`` etc.
+
     If lookup data contains ``interface`` key, it will be added to link label.
-        
+
     Sample ip_lookup_data dictionary::
-    
+
         {
             "1.1.1.1": {
                 "hostname": "router-1",
@@ -188,9 +188,9 @@ class cli_ospf_data:
 
         ip,hostname,bottom_label,interface
         1.1.1.1,router-1,"1 St address, City X",Gi1
-        
+
     ``ptp_filter`` default list of patterns are:
-    
+
     * ``0*`` - Cisco MPLS TE forwarding adjacencies links
     * ``112*`` - huawei DCN OSPF links
     """
@@ -252,8 +252,8 @@ class cli_ospf_data:
         Where ``hX`` device's show commands output.
 
         If data is an OS path directory string, child directories' names must correspond
-        to **Platform** column in `Features Supported`_ section table. Each child directory 
-        should contain text files with show commands output for each device, names of files 
+        to **Platform** column in `Features Supported`_ section table. Each child directory
+        should contain text files with show commands output for each device, names of files
         are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
@@ -265,7 +265,7 @@ class cli_ospf_data:
                 └───cisco_nxos
                         nxos_switch_1.txt
                         nxos_switch_2.txt
-                        
+
         To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
@@ -576,7 +576,7 @@ class cli_ospf_data:
 
     def _lookup_ip_interfaces(self):
         """
-        Method to search for link IP addresses in lookup table and add 
+        Method to search for link IP addresses in lookup table and add
         interface details to the link labels.
         """
         for links in self.links_dict.values():

@@ -11,6 +11,8 @@ repos:
       - id: check-ast
       - id: end-of-file-fixer
         exclude: ^tests/|^docs/|.*txt$|.*rst$|.*svg$
+      - id: trailing-whitespace
+        exclude: ^tests/|.+/diagrams/.+\.py$
       - id: check-added-large-files
         args: ['--maxkb=1000']
         exclude: ^tests/

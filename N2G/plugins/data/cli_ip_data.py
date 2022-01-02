@@ -4,8 +4,8 @@ CLI IP Data Plugin
 
 This plugin populates diagram with IP related information, such as subnets and IP addresses.
 
-IP data plugin mainly useful in networking domain, it can take show commands output from 
-network devices, parse it with TTP templates in a structure that processed further to 
+IP data plugin mainly useful in networking domain, it can take show commands output from
+network devices, parse it with TTP templates in a structure that processed further to
 load into one of diagram plugin objects using ``from_dict`` method
 
 Features Supported
@@ -56,7 +56,7 @@ fortinet:
 * ``get system config``  - mandatory output, used to parse interfaces IP addresses
 * ``get system arp`` - required by ARP visualization feature
 
-Sample Usage 
+Sample Usage
 ------------
 
 Code to populate yEd diagram object with IP and subnet nodes using data dictionary::
@@ -80,7 +80,7 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
      vlan-type dot1q 200
      description hua_sw3 OSPF  peering
      ip address 192.168.2.2 255.255.255.252
-     
+
     <hua_sw1>dis arp all
     10.1.1.2        a008-6fc1-1101        I         Vlanif140       VRF_MGMT
     10.1.1.1        a008-6fc1-1102   0    D         Vlanif140       VRF_MGMT
@@ -114,10 +114,10 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
      vlan-type dot1q 200
      description hua_sw1 OSPF  peering
      ip address 192.168.2.1 255.255.255.252
-     
+
     <hua_sw3>dis arp
-    192.168.1.1         a008-6fc1-1111       I      Vlanif200 
-    192.168.1.10        a008-6fc1-1110   30  D/300  Vlanif200 
+    192.168.1.1         a008-6fc1-1111       I      Vlanif200
+    192.168.1.10        a008-6fc1-1110   30  D/300  Vlanif200
         '''],
     "cisco_nxos": ['''
     switch_1# show run | sec interface
@@ -126,7 +126,7 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
       vrf member MGMT_OOB
       ip address 10.133.137.2/24
       hsrp 133
-        preempt 
+        preempt
         ip 10.133.137.1
     !
     interface Vlan134
@@ -143,8 +143,8 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
     interface Vlan223
       description PTP OSPF Routing pat to siwtch3
       ip address 10.223.137.1/30
-     
-    switch_1# show ip arp vrf all 
+
+    switch_1# show ip arp vrf all
     10.133.137.2    -  d094.7890.1111  Vlan133
     10.133.137.1    -  d094.7890.1111  Vlan133
     10.133.137.30   -  d094.7890.1234  Vlan133
@@ -157,7 +157,7 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
     10.222.137.2   21  d094.7890.2222  Vlan222
     '''
     }
-    
+
     drawing = create_yed_diagram()
     drawer = cli_ip_data(drawing, add_arp=True, add_fhrp=True)
     drawer.work(data)
@@ -218,10 +218,10 @@ class cli_ip_data:
     :param add_arp: (bool) - if True, will add IP nodes from ARP parsing results, default is False
     :param label_interface: (bool) - if True, will add interface name to the link's source and target labels, default is False
     :param label_vrf: (bool) - if True, will add VRF name to the link's source and target labels, default is False
-    :param collapse_ptp: (bool) - if True (default) combines links for ``/31`` and ``/30`` IPv4 and ``/127`` IPv6 
+    :param collapse_ptp: (bool) - if True (default) combines links for ``/31`` and ``/30`` IPv4 and ``/127`` IPv6
       subnets into a single ink
     :param add_fhrp: (bool) - if True adds HSRP and VRRP IP addresses to the diagram, default is False
-    :param bottom_label_length: (int) - bottom label length of interface description to use for subnet nodes, 
+    :param bottom_label_length: (int) - bottom label length of interface description to use for subnet nodes,
       if False or 0, bottom label will not be set for subnet nodes
     :param lbl_next_to_subnet: (bool) - if True, put link ``port:vrf:ip`` label next to subnet node, default is False
     """
@@ -265,7 +265,7 @@ class cli_ip_data:
         """
         Method to create link hash tuple out of source, target, src_label
         and trgt_label values
-        
+
         :param item: (dict) link dictionary
         """
         target = (
@@ -304,8 +304,8 @@ class cli_ip_data:
         Where ``hX`` devices show commands output.
 
         If data is an OS path directory string, child directories' names must correspond
-        to **Platform** column in `Features Supported`_ section table. Each child directory 
-        should contain text files with show commands output for each device, names of files 
+        to **Platform** column in `Features Supported`_ section table. Each child directory
+        should contain text files with show commands output for each device, names of files
         are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
@@ -317,7 +317,7 @@ class cli_ip_data:
                 └───cisco_nxos
                         nxos_switch_1.txt
                         nxos_switch_2.txt
-                        
+
         To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
@@ -333,7 +333,7 @@ class cli_ip_data:
     def _parse(self, data):
         """
         Function to parse text data using TTP templates
-        
+
         :param data: (dict or str) data to parse
         """
         if not HAS_TTP:
@@ -546,7 +546,7 @@ class cli_ip_data:
         """
         Method to add single node to nodes dictionary if it does not exist or
         update existing node.
-        
+
         :param item: (dict) node dictionary to process
         :param host_data: (dict) dictionary with network device details
         """
@@ -589,7 +589,7 @@ class cli_ip_data:
     def _add_link(self, item, network=None):
         """
         Method to add single link to links dictionary.
-        
+
         :param item: (dict) link dictionary to process
         :param network: (str) link subnet value e.g. "10.0.0.0/30"
         """
@@ -608,7 +608,7 @@ class cli_ip_data:
     def _update_nodes_to_links_dict(self, item, link_hash):
         """
         Method to update nodes_to_links_dict, used by group_links feature.
-        
+
         :param item: (dict) link dictionary
         :param link_hash: (tuple) link identifier hash tuple
         """
@@ -663,8 +663,8 @@ class cli_ip_data:
         Method to combine ptp link into a single link, by default this plugin adds ptp
         subnets as nodes with links to devices that have IP addresses out of that subnet,
         this method deleted ptp subnet node and adds a link between devices instead.
-        
-        self.collapse_ptp_dict - mapping of ptp networks to link hashes used to combine 
+
+        self.collapse_ptp_dict - mapping of ptp networks to link hashes used to combine
         ptp links.
 
         Sample::

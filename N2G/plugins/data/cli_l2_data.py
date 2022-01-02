@@ -2,17 +2,17 @@
 CLI L2 Data Plugin
 ******************
 
-CLI L2 Data Plugin can produce diagrams based on `OSI model <https://en.wikipedia.org/wiki/OSI_model>`_ 
-layer 2 information, hence the name "layer 2". This plugin builds network diagrams with relationships 
-and nodes using CDP and LLDP protocols neighbors information. In addition, adding L1/L2 related data to 
+CLI L2 Data Plugin can produce diagrams based on `OSI model <https://en.wikipedia.org/wiki/OSI_model>`_
+layer 2 information, hence the name "layer 2". This plugin builds network diagrams with relationships
+and nodes using CDP and LLDP protocols neighbors information. In addition, adding L1/L2 related data to
 diagram elements.
 
-CLI L2 Data Plugin uses TTP templates to parse show commands output and transform them in Python dictionary structure. 
-That structure processed further to build a dictionary compatible with N2G's diagram plugins ``from_dict`` 
+CLI L2 Data Plugin uses TTP templates to parse show commands output and transform them in Python dictionary structure.
+That structure processed further to build a dictionary compatible with N2G's diagram plugins ``from_dict``
 method. That method used to populate diagrams with devices and links information.
 
-In addition to parsing relationships for CDP and LLDP protocols, L2 Data Plugin can help to manipulate diagrams by 
-combining links based on certain criteria, adding additional information to elements meta data and adding 
+In addition to parsing relationships for CDP and LLDP protocols, L2 Data Plugin can help to manipulate diagrams by
+combining links based on certain criteria, adding additional information to elements meta data and adding
 unknown (to CDP and LLDP) but connected nodes to diagram.
 
 Features Supported
@@ -51,22 +51,22 @@ Required Commands output
 cisco_ios, cisco_xr, cisco_nxos:
 
 * ``show cdp neighbor details`` and/or ``show lldp neighbor details`` - mandatory
-* ``show running-configuration`` - optional, used for LAG and interfaces config 
+* ``show running-configuration`` - optional, used for LAG and interfaces config
 * ``show interface`` - optional, used for interfaces state and to add all connected nodes
 
 huawei:
 
 * ``display lldp neighbor details`` - mandatory
-* ``display current-configuration`` - optional, used for LAG and interfaces config 
+* ``display current-configuration`` - optional, used for LAG and interfaces config
 * ``display interface`` - optional, used for interfaces state and to add all connected nodes
 
-Sample Usage 
+Sample Usage
 ------------
 
 Code to populate yEd diagram object with CDP and LLDP sourced nodes and links::
 
     from N2G import cli_l2_data, yed_diagram
-    
+
     data = {"cisco_ios": ['''
     switch-1#show cdp neighbors detail
     -------------------------
@@ -75,21 +75,21 @@ Code to populate yEd diagram object with CDP and LLDP sourced nodes and links::
       IP address: 10.2.2.2
     Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
     Interface: GigabitEthernet4/6,  Port ID (outgoing port): GigabitEthernet1/5
-    
+
     -------------------------
     Device ID: switch-3
     Entry address(es):
       IP address: 10.3.3.3
     Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
     Interface: GigabitEthernet1/1,  Port ID (outgoing port): GigabitEthernet0/1
-    
+
     -------------------------
     Device ID: switch-4
     Entry address(es):
       IP address: 10.4.4.4
     Platform: cisco WS-C3560-48TS,  Capabilities: Switch IGMP
     Interface: GigabitEthernet1/2,  Port ID (outgoing port): GigabitEthernet0/10
-    
+
     switch-1#show run
     interface GigabitEthernet4/6
      description switch-2: access
@@ -118,7 +118,7 @@ Code to populate yEd diagram object with CDP and LLDP sourced nodes and links::
       IP address: 10.1.1.1
     Platform: cisco WS-C6509,  Capabilities: Router Switch IGMP
     Interface: GigabitEthernet1/5,  Port ID (outgoing port): GigabitEthernet4/6
-    
+
     switch-2#show run
     interface GigabitEthernet1/5
      description switch-1: access
@@ -128,21 +128,21 @@ Code to populate yEd diagram object with CDP and LLDP sourced nodes and links::
      spanning-tree portfast edge
         ''']
         }
-        
+
     config = {
         "add_interfaces_data": True,
         "group_links": False,
         "add_lag": False,
         "add_all_connected": False,
         "combine_peers": False,
-        "platforms": ["_all_"]    
+        "platforms": ["_all_"]
     }
 
     drawing_l2 = yed_diagram()
     drawer = cli_l2_data(drawing_l2, **config)
     drawer.work(data)
     drawer.drawing.dump_file()
-    
+
 API Reference
 -------------
 
@@ -227,7 +227,7 @@ class cli_l2_data:
         """
         Method to create link hash tuple out of source, target, src_label
         and trgt_label values
-        
+
         :param item: (dict) link dictionary
         """
         target = (
@@ -266,8 +266,8 @@ class cli_l2_data:
         Where ``hX`` devices show commands output.
 
         If data is an OS path directory string, child directories' names must correspond
-        to **Platform** column in `Features Supported`_ section table. Each child directory 
-        should contain text files with show commands output for each device, names of files 
+        to **Platform** column in `Features Supported`_ section table. Each child directory
+        should contain text files with show commands output for each device, names of files
         are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
@@ -279,7 +279,7 @@ class cli_l2_data:
                 └───cisco_nxos
                         nxos_switch_1.txt
                         nxos_switch_2.txt
-                        
+
         To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
@@ -299,7 +299,7 @@ class cli_l2_data:
     def _parse(self, data):
         """
         Function to parse text data using TTP templates
-        
+
         :param data: (dict or str) data to parse
         """
         if not HAS_TTP:

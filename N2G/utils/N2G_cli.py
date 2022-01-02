@@ -2,41 +2,41 @@
 This tool allows to use N2G module capabilities from command line interface.
 
 To produce diagram, N2G will need source data to work with, for data plugins
-source data usually comes in the form of directories structure with 
+source data usually comes in the form of directories structure with
 text files containing show commands output for devices.
 
-After source data provided, CLI tool need to know what it needs to do, hence 
+After source data provided, CLI tool need to know what it needs to do, hence
 next comes the options of various Data Plugins, such as L2 - layer 2 data plugin.
 
-And finally, results need to be saved somewhere on the local file system using 
+And finally, results need to be saved somewhere on the local file system using
 filename and folder options.
 
 *Sample Usage*::
 
     n2g -d ./path/to/data/ -L2 -L2-group-links -fn diagram_1.graphml -f ./Output/
-    
-*Supported options*::   
+
+*Supported options*::
 
     Parsing order is: CDP/LLDP (L2)  => IP => OSPF => ISIS
-    
+
     -d,   --data         OS path to data folder with files or file
     -of,  --out-folder   Folder where to save result, default ./Output/
     -fn,  --filename     Results filename, by default filename based on current time
     -m,   --module       Module to use - yed, drawio or v3d
     -ipl, --ip_lookup    Path to CSV file for IP lookups, first column header must be ``ip``
-    --no-data            Do not add any data to links or nodes  
+    --no-data            Do not add any data to links or nodes
     --layout             Name of iGraph layout algorithm to run for the diagram e.g. "kk", "tree" etc.
-    
+
     V3D Module arguments:
     --run                Run built in test web server to display topology instead of saving to file
     --port               Port number to run server on
-        
-    XLSX data adapter. -d should point to ".xlsx" spreadsheet file.      
+
+    XLSX data adapter. -d should point to ".xlsx" spreadsheet file.
     -nt,     --node-tabs           Comma separate list of tabs with nodes data
     -lt,     --link-tabs           Comma separate list of tabs with links data
-    -nm,     --node-headers-map    JSON dictionary structure for node headers translation           
+    -nm,     --node-headers-map    JSON dictionary structure for node headers translation
     -lm,     --link-headers-map    JSON dictionary structure for link headers translation
-    
+
     CDP and LLDP L2 Data Plugin options:
     -L2                 Parse CDP and LLDP data
     -L2-add-lag         Add LAG/M-LAG information and delete member links
@@ -44,18 +44,18 @@ filename and folder options.
     -L2-add-connected   Add all connected nodes
     -L2-combine-peers   Combine CDP/LLDP peers behind same interface
     -L2-platforms       Comma separated list of platforms to parse
-    
+
     IP Data Plugin:
     -IP                 Parse IP subnets
     -IP-group-links     Group links between nodes
     -IP-lbl-intf        Add interfaces names to link labels
     -IP-lbl-vrf         Add VRF names to link labels
     -IP-add-arp         Add ARP cache IPs to the diagram
-    
+
     OSPF LSDB Data Plugin:
     -OSPF               Diagram OSPFv2 LSDB data
     -OSPF-add-con       Add connected subnets to diagram
-    
+
     ISIS LSDB Data Plugin:
     -ISIS               Diagram ISIS LSDB data
     -ISIS-add-con       Add connected subnets to diagram
@@ -92,17 +92,17 @@ Parsing order is: CDP/LLDP (L2)  => IP => OSPF => ISIS
 -fn,  --filename     Results filename, by default filename based on current time
 -m,   --module       Module to use - yed, drawio or v3d
 -ipl, --ip_lookup    Path to CSV file for IP lookups, first column header must be ``ip``
---no-data            Do not add any data to links or nodes  
+--no-data            Do not add any data to links or nodes
 --layout             Name of iGraph layout algorithm to run for the diagram e.g. "kk", "tree" etc.
 
 V3D Module arguments:
 --run                Run built in test web server to display topology instead of saving to file
 --port               Port number to run server on
-    
-XLSX data adapter. -d should point to ".xlsx" spreadsheet file.      
+
+XLSX data adapter. -d should point to ".xlsx" spreadsheet file.
 -nt,     --node-tabs           Comma separate list of tabs with nodes data
 -lt,     --link-tabs           Comma separate list of tabs with links data
--nm,     --node-headers-map    JSON dictionary structure for node headers translation           
+-nm,     --node-headers-map    JSON dictionary structure for node headers translation
 -lm,     --link-headers-map    JSON dictionary structure for link headers translation
 
 CDP and LLDP L2 Data Plugin options:

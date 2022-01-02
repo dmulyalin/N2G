@@ -2,15 +2,15 @@
 CLI ISIS LSDB Data Plugin
 *************************
 
-This module designed to process ISIS Link State Database (LSDB) of network devices 
+This module designed to process ISIS Link State Database (LSDB) of network devices
 CLI output and make diagram out of it.
 
 Show commands output from devices parsed using TTP Templates into a dictionary structure.
 
-After parsing, results processed further to form a dictionary of nodes and links keyed 
+After parsing, results processed further to form a dictionary of nodes and links keyed
 by unique nodes and links identifiers, dictionary values are nodes dictionaries and for links
-it is a list of dictionaries of links between pair of nodes. For nodes ISIS RID 
-used as a unique ID, for links it is sorted tuple of ``source``, ``target`` and ``label`` 
+it is a list of dictionaries of links between pair of nodes. For nodes ISIS RID
+used as a unique ID, for links it is sorted tuple of ``source``, ``target`` and ``label``
 keys' values. This structure helps to eliminate duplicates.
 
 Next step is post processing, such as packing links between nodes or IP lookups.
@@ -49,9 +49,9 @@ Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
 
     from N2G import yed_diagram as create_yed_diagram
     from N2G import cli_isis_data
-    
+
     isis_lsdb_data = {"cisco_xr": ['''
-    RP/0/RP0/CPU0:ROUTER-X1#show isis database verbose    
+    RP/0/RP0/CPU0:ROUTER-X1#show isis database verbose
 
     IS-IS 1234 (Level-2) Link State Database
     LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime/Rcvd  ATT/P/OL
@@ -70,7 +70,7 @@ Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
         Affinity: 0x00000000
         Physical BW: 10000000 kbits/sec
         Reservable Global pool BW: 0 kbits/sec
-        Global Pool BW Unreserved: 
+        Global Pool BW Unreserved:
         [0]: 0        kbits/sec          [1]: 0        kbits/sec
         [2]: 0        kbits/sec          [3]: 0        kbits/sec
         [4]: 0        kbits/sec          [5]: 0        kbits/sec
@@ -89,7 +89,7 @@ Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
         Affinity: 0x00000000
         Physical BW: 10000000 kbits/sec
         Reservable Global pool BW: 0 kbits/sec
-        Global Pool BW Unreserved: 
+        Global Pool BW Unreserved:
         [0]: 0        kbits/sec          [1]: 0        kbits/sec
         [2]: 0        kbits/sec          [3]: 0        kbits/sec
         [4]: 0        kbits/sec          [5]: 0        kbits/sec
@@ -116,7 +116,7 @@ Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
         Affinity: 0x00000000
         Physical BW: 10000000 kbits/sec
         Reservable Global pool BW: 0 kbits/sec
-        Global Pool BW Unreserved: 
+        Global Pool BW Unreserved:
         [0]: 0        kbits/sec          [1]: 0        kbits/sec
         [2]: 0        kbits/sec          [3]: 0        kbits/sec
         [4]: 0        kbits/sec          [5]: 0        kbits/sec
@@ -135,7 +135,7 @@ Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
         Affinity: 0x00000000
         Physical BW: 10000000 kbits/sec
         Reservable Global pool BW: 0 kbits/sec
-        Global Pool BW Unreserved: 
+        Global Pool BW Unreserved:
         [0]: 0        kbits/sec          [1]: 0        kbits/sec
         [2]: 0        kbits/sec          [3]: 0        kbits/sec
         [4]: 0        kbits/sec          [5]: 0        kbits/sec
@@ -147,9 +147,9 @@ Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
         0x00000000   0x00000000
         0x00000000   0x00000000
         Physical BW: 10000000 kbits/sec
-    
+
     Total Level-2 LSP count: 2     Local Level-2 LSP count: 1
-    RP/0/RP0/CPU0:ROUTER-X1# 
+    RP/0/RP0/CPU0:ROUTER-X1#
         ''']
     }
 
@@ -157,7 +157,7 @@ Code to populate yEd diagram object with ISIS LSDB sourced nodes and links::
     drawer = cli_isis_data(drawing)
     drawer.work(isis_lsdb_data)
     drawing.dump_file()
-    
+
 API Reference
 -------------
 
@@ -195,22 +195,22 @@ class cli_isis_data:
     :param ttp_vars: (dict) Dictionary to use as vars attribute while instantiating TTP parser object
     :param platforms: (list) - list of platform names to process e.g. ``cisco_ios``, ``cisco_xr`` etc, default is ``_all_``
     :param ip_lookup_data: (dict or str) IP Lookup dictionary or OS path to CSV file
-    :param add_connected: (bool) if True, will add connected subnets as nodes, default is False    
+    :param add_connected: (bool) if True, will add connected subnets as nodes, default is False
     :param ptp_filter: (list) list of glob patterns to filter point-to-point links based on link IP
     :param add_data: (bool) if True (default) adds data information to nodes and links
-    
+
     ``ip_lookup_data`` dictionary must be keyed by ISSI RID IP address, with values
-    being dictionary which must contain ``hostname`` key with optional additional keys 
-    to use for N2G diagram module node, e.g. ``label``, ``top_label``, ``bottom_label``, 
-    ``interface``etc. If ``ip_lookup_data`` is an OS path to CSV file, that file's first 
-    column header must be ``ip`` , file must contain ``hostname`` column, other columns 
-    values set to N2G diagram module node attributes, e.g. ``label``, ``top_label``, 
-    ``bottom_label``, ``interface`` etc. 
-    
+    being dictionary which must contain ``hostname`` key with optional additional keys
+    to use for N2G diagram module node, e.g. ``label``, ``top_label``, ``bottom_label``,
+    ``interface``etc. If ``ip_lookup_data`` is an OS path to CSV file, that file's first
+    column header must be ``ip`` , file must contain ``hostname`` column, other columns
+    values set to N2G diagram module node attributes, e.g. ``label``, ``top_label``,
+    ``bottom_label``, ``interface`` etc.
+
     If lookup data contains ``interface`` key, it will be added to link label.
-        
+
     Sample ip_lookup_data dictionary::
-    
+
         {
             "1.1.1.1": {
                 "hostname": "router-1",
@@ -284,8 +284,8 @@ class cli_isis_data:
         Where ``hX`` device's show commands output.
 
         If data is an OS path directory string, child directories' names must correspond
-        to **Platform** column in `Features Supported`_ section table. Each child directory 
-        should contain text files with show commands output for each device, names of files 
+        to **Platform** column in `Features Supported`_ section table. Each child directory
+        should contain text files with show commands output for each device, names of files
         are arbitrary, but output should contain device prompt to extract device hostname.
 
         Directories structure sample::
@@ -297,7 +297,7 @@ class cli_isis_data:
                 └───cisco_nxos
                         nxos_switch_1.txt
                         nxos_switch_2.txt
-                        
+
         To point N2G to above location ``data`` attribute string can be ``/var/data/n2g/folder_with_data/``
         """
         self._parse(data)
@@ -376,7 +376,7 @@ class cli_isis_data:
     def _process_lsp(self, lsp: dict, isis_pid: str, device: dict) -> None:
         """
         Method to process ISIS LSP dictionary extracting node, links and subnets.
-        
+
         :param lsp: (dict) LSP dictionary
         :param isis_pid: (str) ISIS Process ID string
         :param devcie: (dict) evice dictionary
@@ -567,7 +567,7 @@ class cli_isis_data:
 
     def _lookup_ip_interfaces(self):
         """
-        Method to search for link IP addresses in lookup table and add 
+        Method to search for link IP addresses in lookup table and add
         interface names to the link labels.
         """
         for links in self.links_dict.values():

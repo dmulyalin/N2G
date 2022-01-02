@@ -4,15 +4,15 @@ Installation
 Install from `PYPI <https://pypi.org/project/N2G/>`_ using pip::
 
 	pip install N2G
-	
+
 Or copy repository from GitHub and run::
 
 	python -m pip install .
-	
+
 or::
 
 	python setup.py install
-	
+
 Additional dependencies
 -----------------------
 

@@ -1,14 +1,14 @@
-V3D Diagram Plugin 
+V3D Diagram Plugin
 ==================
 
-Module to produce JSON structure compatible with `3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_ 
+Module to produce JSON structure compatible with `3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_
 library `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_
 
-Why? Because network 3D visualisation is awesome. However, author is not aware of complete 
-application that is capable of displaying produced results utilizing 
+Why? Because network 3D visualisation is awesome. However, author is not aware of complete
+application that is capable of displaying produced results utilizing
 `3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_ library. There is an
-attempt to make such an application described in `Built-in Diagram Viewer`_ section, but it is 
-very (very) far from being perfect. Hence, if you are aware of better option to visualize data compatible 
+attempt to make such an application described in `Built-in Diagram Viewer`_ section, but it is
+very (very) far from being perfect. Hence, if you are aware of better option to visualize data compatible
 with `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_ please
 let the author know about it.
 
@@ -17,8 +17,8 @@ Quick start
 
 Nodes and links can be added one by one using ``add_node`` and ``add_link`` methods
 
-.. code-block:: python 
-        
+.. code-block:: python
+
     from N2G import v3d_diagramm as create_v3d_diagram
 
     v3d_drawing = create_v3d_diagram()
@@ -26,11 +26,11 @@ Nodes and links can be added one by one using ``add_node`` and ``add_link`` meth
     v3d_drawing.add_node(id="node-2")
     v3d_drawing.add_link("node-1", "node-2", label="link 1")
     v3d_drawing.dump_file()
-    
+
 After opening and editing produced JSON text file, it might look like this:
 
-.. code-block:: python 
-        
+.. code-block:: python
+
     {
         "nodes": [
             {
@@ -109,8 +109,8 @@ Graph can be loaded from dictionary data using ``from_dict`` method, sample code
 
     v3d_drawing = create_v3d_diagram()
     v3d_drawing.from_dict(sample_data)
-    v3d_drawing.dump_file()    
-    
+    v3d_drawing.dump_file()
+
 Loading graph from list
 -----------------------
 
@@ -138,7 +138,7 @@ Existing `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-
 data can be loaded into V3D plugin for processing and manipulation using sample code::
 
     from N2G import v3d_diagramm as create_v3d_diagram
-    
+
     data = '''{
         "nodes": [
             {
@@ -159,17 +159,17 @@ data can be loaded into V3D plugin for processing and manipulation using sample 
             }
         ]
     }'''
-    
+
     v3d_drawing = create_v3d_diagram()
     v3d_drawing.from_v3d_json(data)
 
 Diagram layout
 --------------
 
-To arrange diagram nodes in certain way one can use ``layout`` method that relies on 
-`igraph library <https://igraph.org/2020/02/14/igraph-0.8.0-python.html>`_ to calculate 
+To arrange diagram nodes in certain way one can use ``layout`` method that relies on
+`igraph library <https://igraph.org/2020/02/14/igraph-0.8.0-python.html>`_ to calculate
 node coordinates in accordance with certain algorithm. List of supported layout algorithms
-and their details can be found `here <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_ 
+and their details can be found `here <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_
 together with brief description in `API Reference` section.
 
 Sample code to layout diagram:
@@ -177,7 +177,7 @@ Sample code to layout diagram:
 .. code-block:: python
 
     from N2G import v3d_diagramm as create_v3d_diagram
-    
+
     sample_data_list = [
         {'data': {}, 'label': 'bla1', 'source': {'id': 'node-1', 'nodeResolution': 16}, 'src_label': '', 'target': {'id': 'node-2'}, 'trgt_label': ''},
         {'data': {}, 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
@@ -190,14 +190,14 @@ Sample code to layout diagram:
     v3d_drawing = create_v3d_diagram()
     v3d_drawing.from_list(sample_data_list)
     v3d_drawing.layout(algo='kk3d', dx=200, dy=200, dz=200)
-    
+
 Where ``dx, dy and dz`` help to set diagram 3d size.
-    
+
 Built-in Diagram Viewer
 -----------------------
 
 V3D plugin comes with simple 3d diagram viewer for the purpose of demonstration and to explore
-produced diagram. 
+produced diagram.
 
 Built in WEB server uses Flask in debug mode, hence not suitable for production use.
 
@@ -206,7 +206,7 @@ To install Flask WEB framework - ``pip install Flask``
 Sample code to run built-in WEB server::
 
     from N2G import v3d_diagramm as create_v3d_diagram
-    
+
     sample_data_list = [
         {'data': {}, 'label': 'bla1', 'source': {'id': 'node-1', 'nodeResolution': 16}, 'src_label': '', 'target': {'id': 'node-2'}, 'trgt_label': ''},
         {'data': {}, 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
@@ -219,7 +219,7 @@ Sample code to run built-in WEB server::
     v3d_drawing = create_v3d_diagram()
     v3d_drawing.from_list(sample_data_list)
     v3d_drawing.run(ip="0.0.0.0", "port"=9000)
-    
+
 If all good, browsing to ``http://127.0.0.1:9000`` URL should load similar to below 3D diagram:
 
 .. image:: ../_images/v3d/v3d_webserver_run_example.png
