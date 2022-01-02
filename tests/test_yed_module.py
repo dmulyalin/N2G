@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import yed_diagram as create_yed_diagram
-
+from utils_tests import normalize_xml
 
 def test_1_add_elements_one_by_one():
     ###########################################
@@ -25,7 +25,7 @@ state: up
     yed_diagram.add_link('a', 'XR13', label = 'LLDP', src_label = 'Gi0/21', trgt_label = 'Fas1/22')
     yed_diagram.layout()
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output
+    assert normalize_xml(ret) == normalize_xml(expected_output)
     
 def test_2_from_dict():
     ###########################################
@@ -50,7 +50,7 @@ def test_2_from_dict():
     yed_diagram.from_dict(sample_graph)
     yed_diagram.layout()
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output
+    assert normalize_xml(ret) == normalize_xml(expected_output)
     
 def test_3_graph_compare():
     ###########################################
@@ -75,7 +75,7 @@ def test_3_graph_compare():
     yed_diagram.from_file("./Data/test_load.graphml")
     yed_diagram.compare(compare_graph)
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output
+    assert normalize_xml(ret) == normalize_xml(expected_output)
     
 def test_4_dups_handling():
     ###########################################
@@ -103,7 +103,7 @@ def test_4_dups_handling():
     yed_diagram.add_link('a', 'd')
     yed_diagram.from_dict(sample_graph)
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output
+    assert normalize_xml(ret) == normalize_xml(expected_output)
     
 def test_5_delete_nodes():
     ###########################################
@@ -117,7 +117,7 @@ def test_5_delete_nodes():
     yed_diagram.add_node(id="cc")
     yed_diagram.delete_node(id="e", ids=["a", "cc"])
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output   
+    assert normalize_xml(ret) == normalize_xml(expected_output)   
   
 def test_6_delete_links():  
     ###########################################
@@ -135,7 +135,7 @@ def test_6_delete_links():
     yed_diagram.delete_link(id="e0", ids=["e1", "e2"])  
     yed_diagram.delete_link(source="cc", target="dd")
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output 
+    assert normalize_xml(ret) == normalize_xml(expected_output) 
  
 def test_7_from_list_and_update_and_dups():   
     ###########################################
@@ -169,7 +169,7 @@ def test_7_from_list_and_update_and_dups():
         id="b", width=200, height=150, top_label="top llbl2"
     )
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output 
+    assert normalize_xml(ret) == normalize_xml(expected_output) 
     
 def test8_test_from_csv():
     ###########################################
@@ -195,7 +195,7 @@ a,router_1,"R1,2",,,
     yed_diagram.from_csv(csv_links_data)
     yed_diagram.layout()
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output 
+    assert normalize_xml(ret) == normalize_xml(expected_output) 
     
 def test9_test_from_list_with_update():
     """
@@ -251,7 +251,7 @@ def test9_test_from_list_with_update():
     yed_diagram.from_list(data1)
     yed_diagram.from_list(data2)
     ret = yed_diagram.dump_xml()
-    assert ret == expected_output 
+    assert normalize_xml(ret) == normalize_xml(expected_output) 
     
 def test_10_test_explicit_link_id():
     yed_diagram = create_yed_diagram()
@@ -277,7 +277,7 @@ def test_10_test_explicit_link_id():
     yed_diagram.dump_file(filename="yed.test_10_test_explicit_link_id.graphml", folder="./Output/")
     with open ("./Output/yed.test_10_test_explicit_link_id.graphml") as produced:
         with open("./Output/should_be_yed.test_10_test_explicit_link_id.graphml") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
     
     
 # test_10_test_explicit_link_id()

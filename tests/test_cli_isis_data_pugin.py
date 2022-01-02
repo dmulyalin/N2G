@@ -6,6 +6,7 @@ import pprint
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
 from N2G import cli_isis_data
+from utils_tests import normalize_xml
 
 mock_data_xr = {"cisco_xr": ["""
 RP/0/RP0/CPU0:ROUTER-X1#show isis database verbose 
@@ -541,7 +542,7 @@ def test_cli_isis_yed_data_dict_base():
     drawing.dump_file(filename="test_cli_isis_yed_data_dict_base.graphml", folder="./Output/")
     with open ("./Output/test_cli_isis_yed_data_dict_base.graphml") as produced:
         with open("./Output/should_be_test_cli_isis_yed_data_dict_base.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_cli_isis_yed_data_dict_base()
 

@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
-
+from utils_tests import normalize_xml
 
 def test_1_add_elements_one_by_one():
     ###########################################
@@ -31,7 +31,7 @@ def test_1_add_elements_one_by_one():
     drawio_drawing.dump_file(filename="test_1_add_elements_one_by_one.drawio", folder="./Output/")
     with open ("./Output/test_1_add_elements_one_by_one.drawio") as produced:
         with open("./Output/should_be_test_1_add_elements_one_by_one.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
     
 # test_1_add_elements_one_by_one()
     
@@ -59,7 +59,7 @@ def test_2_from_dict():
     drawio_drawing.dump_file(filename="test_2_from_dict.drawio", folder="./Output/")
     with open ("./Output/test_2_from_dict.drawio") as produced:
         with open("./Output/should_be_test_2_from_dict.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
     
 def test_3_from_list():
     ###########################################
@@ -77,7 +77,7 @@ def test_3_from_list():
     drawio_drawing.dump_file(filename="test_3_from_list.drawio", folder="./Output/")
     with open ("./Output/test_3_from_list.drawio") as produced:
         with open("./Output/should_be_test_3_from_list.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
     
 def test_4_from_csv():
     ###########################################
@@ -103,7 +103,7 @@ a,"R1,2","./Pics/cisco_router.txt",78,53
     drawio_drawing.dump_file(filename="test_4_from_csv.drawio", folder="./Output/")  
     with open ("./Output/test_4_from_csv.drawio") as produced:
         with open("./Output/should_be_test_4_from_csv.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
     
 def test_5_from_file_and_dups():
     ###########################################
@@ -133,7 +133,7 @@ def test_5_from_file_and_dups():
     drawio_drawing.dump_file(filename="test_5_from_file_and_dups.drawio", folder="./Output/")  
     with open ("./Output/test_5_from_file_and_dups.drawio") as produced:
         with open("./Output/should_be_test_5_from_file_and_dups.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
             
 def test_6_nodes_styles():
     ###########################################
@@ -157,7 +157,7 @@ def test_6_nodes_styles():
     drawio_drawing.dump_file(filename="test_6_nodes_styles.drawio", folder="./Output/") 
     with open ("./Output/test_6_nodes_styles.drawio") as produced:
         with open("./Output/should_be_test_6_nodes_styles.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
             
 def test_7_node_update():    
     ###########################################
@@ -172,7 +172,7 @@ def test_7_node_update():
     drawio_drawing.dump_file(filename="test_7_node_update.drawio", folder="./Output/")   
     with open ("./Output/test_7_node_update.drawio") as produced:
         with open("./Output/should_be_test_7_node_update.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
             
 def test_8_link_update():    
     ###########################################
@@ -186,7 +186,7 @@ def test_8_link_update():
     drawio_drawing.dump_file(filename="test_8_link_update.drawio", folder="./Output/") 
     with open ("./Output/test_8_link_update.drawio") as produced:
         with open("./Output/should_be_test_8_link_update.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
             
 def test_9_compare():    
     ###########################################
@@ -230,7 +230,7 @@ def test_9_compare():
     drawio_drawing.dump_file(filename="test_9_compare.drawio", folder="./Output/") 
     with open ("./Output/test_9_compare.drawio") as produced:
         with open("./Output/should_be_test_9_compare.drawio") as should_be:
-            assert produced.read() == should_be.read()     
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())     
 
 def test_10_node_delete():    
     ###########################################
@@ -242,7 +242,7 @@ def test_10_node_delete():
     drawio_drawing.dump_file(filename="test_10_node_delete.drawio", folder="./Output/") 
     with open ("./Output/test_10_node_delete.drawio") as produced:
         with open("./Output/should_be_test_10_node_delete.drawio") as should_be:
-            assert produced.read() == should_be.read()   
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())   
             
 def test_11_link_delete():    
     ###########################################
@@ -255,7 +255,7 @@ def test_11_link_delete():
     drawio_drawing.dump_file(filename="test_11_link_delete.drawio", folder="./Output/") 
     with open ("./Output/test_11_link_delete.drawio") as produced:
         with open("./Output/should_be_test_11_link_delete.drawio") as should_be:
-            assert produced.read() == should_be.read()   
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())   
             
 def test_12_add_link_labels():    
     ###########################################
@@ -278,7 +278,7 @@ def test_12_add_link_labels():
     drawio_drawing.dump_file(filename="test_12_add_link_labels.drawio", folder="./Output/")
     with open ("./Output/test_12_add_link_labels.drawio") as produced:
         with open("./Output/should_be_test_12_add_link_labels.drawio") as should_be:
-            assert produced.read() == should_be.read()   
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())   
             
 def test_13_update_link_labels():    
     ###########################################
@@ -330,7 +330,7 @@ def test_13_update_link_labels():
     drawio_drawing.dump_file(filename="test_13_update_link_labels.drawio", folder="./Output/")
     with open ("./Output/test_13_update_link_labels.drawio") as produced:
         with open("./Output/should_be_test_13_update_link_labels.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
 
 # test_13_update_link_labels()
 
@@ -361,6 +361,6 @@ def test_14_test_explicit_link_id():
     drawio_drawing.dump_file(filename="test_14_test_explicit_link_id.drawio", folder="./Output/")
     with open ("./Output/test_14_test_explicit_link_id.drawio") as produced:
         with open("./Output/should_be_test_14_test_explicit_link_id.drawio") as should_be:
-            assert produced.read() == should_be.read() 
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
     
 # test_14_test_explicit_link_id()

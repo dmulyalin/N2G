@@ -8,6 +8,7 @@ from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
 from N2G import v3d_diagramm as create_v3d_diagram
 from N2G import cli_ospf_data
+from utils_tests import normalize_xml
 
 mock_data_xr = {"cisco_xr": ["""
 RP/0/RP0/CPU0:router-1#show ospf database router 
@@ -421,7 +422,7 @@ def test_ospf_drawer_yed_data_dict_base():
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_data_dict_base.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_data_dict_base.graphml") as produced:
         with open("./Output/should_be_test_ospf_drawer_yed_data_dict_base.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_ospf_drawer_yed_data_dict_base()
 
@@ -432,7 +433,7 @@ def test_ospf_drawer_yed_data_dict_add_connected():
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_data_dict_add_connected.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_data_dict_add_connected.graphml") as produced:
         with open("./Output/should_be_test_ospf_drawer_yed_data_dict_add_connected.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_ospf_drawer_yed_data_dict_add_connected()
 
@@ -443,7 +444,7 @@ def test_ospf_drawer_yed_data_dict_no_add_data():
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_data_dict_no_add_data.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_data_dict_no_add_data.graphml") as produced:
         with open("./Output/should_be_test_ospf_drawer_yed_data_dict_no_add_data.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_ospf_drawer_yed_data_dict_no_add_data()
 
@@ -456,7 +457,7 @@ def test_ospf_drawer_yed_cisco_ios_lsdb():
     drawer.drawing.dump_file(filename="test_ospf_drawer_yed_cisco_ios_lsdb.graphml", folder="./Output/")
     with open ("./Output/test_ospf_drawer_yed_cisco_ios_lsdb.graphml") as produced:
         with open("./Output/should_be_test_ospf_drawer_yed_cisco_ios_lsdb.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_ospf_drawer_yed_cisco_ios_lsdb()
 

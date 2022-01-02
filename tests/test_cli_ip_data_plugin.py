@@ -5,6 +5,7 @@ sys.path.insert(0,'..')
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
 from N2G import cli_ip_data
+from utils_tests import normalize_xml
 
 def test_ip_drawing_yed_data_dict_base():
     data = {"cisco_ios": ["""
@@ -76,9 +77,9 @@ interface Vlan22
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_base.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_base.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_base.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
-test_ip_drawing_yed_data_dict_base()
+# test_ip_drawing_yed_data_dict_base()
 
 def test_ip_drawing_yed_data_dict_group_links():
     data = {"cisco_ios": ["""
@@ -152,7 +153,7 @@ interface Vlan22
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_group_links.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_group_links.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_group_links.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
     
 # test_ip_drawing_yed_data_dict_group_links()
 
@@ -228,7 +229,7 @@ interface Vlan22
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_vrf_link_label.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_vrf_link_label.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_add_vrf_link_label.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 def test_ip_drawing_yed_data_dict_add_interface_link_label():
     data = {"cisco_ios": ["""
@@ -302,7 +303,7 @@ interface Vlan22
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_interface_link_label.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_interface_link_label.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_add_interface_link_label.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 def test_ip_drawing_yed_data_dict_add_interface_vrf_link_label():
     data = {"cisco_ios": ["""
@@ -377,7 +378,7 @@ interface Vlan22
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_interface_vrf_link_label.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_interface_vrf_link_label.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_add_interface_vrf_link_label.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 def test_ip_drawing_yed_data_dict_add_arp():
     data = {"cisco_ios": ["""
@@ -444,7 +445,7 @@ Internet  10.1.234.3             78   0008.e3ff.4321  ARPA   TenGigabitEthernet1
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_arp.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_arp.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_add_arp.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_ip_drawing_yed_data_dict_add_arp()
 
@@ -539,7 +540,7 @@ Internet  10.1.234.99             5   00ac.0007.001a  ARPA   TenGigabitEthernet1
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_add_arp_and_fhrp.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
     
 # test_ip_drawing_yed_data_dict_add_arp_and_fhrp()
 
@@ -611,7 +612,7 @@ interface Vlan223
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_nxos.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_nxos.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_nxos.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 def test_ip_drawing_yed_data_dict_huawei():
     data = {"huawei": ["""
@@ -683,7 +684,7 @@ interface Eth-Trunk5.200
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_huawei.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_huawei.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_huawei.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
     
 # test_ip_drawing_yed_data_dict_huawei()
 
@@ -742,7 +743,7 @@ config system interface
     drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_fortigate.graphml", folder="./Output/")
     with open ("./Output/test_ip_drawing_yed_data_dict_fortigate.graphml") as produced:
         with open("./Output/should_be_test_ip_drawing_yed_data_dict_fortigate.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_ip_drawing_yed_data_dict_fortigate()
 	

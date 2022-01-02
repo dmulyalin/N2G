@@ -4,6 +4,7 @@ sys.path.insert(0,'..')
 
 from N2G import drawio_diagram
 from N2G import xlsx_data
+from utils_tests import normalize_xml
 
 def test_xlsx_data_base():
     drawio_drawing = drawio_diagram()
@@ -13,7 +14,7 @@ def test_xlsx_data_base():
     # run test
     with open ("./Output/test_xlsx_data_base.drawio") as produced:
         with open("./Output/should_be_test_xlsx_data_base.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_xlsx_data_base()
 
@@ -25,7 +26,7 @@ def test_xlsx_data_tanslate_headers():
     # run test
     with open ("./Output/test_xlsx_data_tanslate_headers.drawio") as produced:
         with open("./Output/should_be_test_xlsx_data_tanslate_headers.drawio") as should_be:
-            assert produced.read() == should_be.read()    
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())    
             
 # test_xlsx_data_tanslate_headers()
 
@@ -41,6 +42,6 @@ def test_xlsx_data_tanslate_headers_several_tabs():
     # run test
     with open ("./Output/test_xlsx_data_tanslate_headers_several_tabs.drawio") as produced:
         with open("./Output/should_be_test_xlsx_data_tanslate_headers_several_tabs.drawio") as should_be:
-            assert produced.read() == should_be.read()   
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())   
 			
 # test_xlsx_data_tanslate_headers_several_tabs()

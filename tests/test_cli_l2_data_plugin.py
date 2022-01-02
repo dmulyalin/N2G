@@ -7,6 +7,7 @@ sys.path.insert(0,'..')
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
 from N2G import cli_l2_data
+from utils_tests import normalize_xml
 
 def test_cdp_drawing_yed_data_dict():
     data = {"cisco_ios": ["""
@@ -103,7 +104,7 @@ interface GigabitEthernet1/5
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_base.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict()
 
@@ -141,7 +142,7 @@ def test_cdp_drawing_yed_data_path():
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_base.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_path()
 
@@ -264,7 +265,7 @@ interface GigabitEthernet1/6
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_lag.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_add_lag()
 
@@ -387,7 +388,7 @@ interface GigabitEthernet1/6
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_group_links.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_group_links.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_group_links()
 
@@ -549,7 +550,7 @@ interface GigabitEthernet1/8
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_group_links_add_lag.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_group_links_add_lag()
 
@@ -631,7 +632,7 @@ interface GigabitEthernet1/5
     drawer.drawing.dump_file(filename="test_lldp_drawing_yed_data_dict.graphml", folder="./Output/")
     with open ("./Output/test_lldp_drawing_yed_data_dict.graphml") as produced:
         with open("./Output/should_be_test_lldp_drawing_yed_data_dict.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_lldp_drawing_yed_data_dict()
 
@@ -764,7 +765,7 @@ vlan 101
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_vlans_to_nodes.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_add_vlans_to_nodes()
 
@@ -917,7 +918,7 @@ vlan 101
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_interfaces_state.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_interfaces_state.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_interfaces_state.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_interfaces_state()
 
@@ -1070,7 +1071,7 @@ vlan 101
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_lag_interfaces_state.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_lag_interfaces_state()
 
@@ -1233,7 +1234,7 @@ interface GigabitEthernet1/6
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_all_connected.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_all_connected.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_add_all_connected()
 
@@ -1434,7 +1435,7 @@ vlan 101
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_add_all_connected_add_lag.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_dict_add_all_connected_add_lag()
 
@@ -1508,7 +1509,7 @@ interface GigabitEthernet1/5
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_or_path.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_drawio_data_dict()
 
@@ -1521,7 +1522,7 @@ def test_cdp_drawing_drawio_data_path():
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_path.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_path.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_or_path.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_drawio_data_path()
 
@@ -1644,7 +1645,7 @@ interface GigabitEthernet1/6
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_lag.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_lag.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_drawio_data_dict_add_lag()
 
@@ -1767,7 +1768,7 @@ interface GigabitEthernet1/6
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_group_links.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_group_links.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_drawio_data_dict_group_links_add_lag():
     data = {"cisco_ios": ["""
@@ -1927,7 +1928,7 @@ interface GigabitEthernet1/8
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_group_links_add_lag.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_lldp_drawing_drawio_data_dict():
     data = {"cisco_ios": ["""
@@ -2007,7 +2008,7 @@ interface GigabitEthernet1/5
     drawer.drawing.dump_file(filename="test_lldp_drawing_drawio_data_dict.drawio", folder="./Output/")
     with open ("./Output/test_lldp_drawing_drawio_data_dict.drawio") as produced:
         with open("./Output/should_be_test_lldp_drawing_drawio_data_dict.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes():
     data = {"cisco_ios": ["""
@@ -2138,7 +2139,7 @@ vlan 101
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_drawio_data_dict_add_vlans_to_nodes()
 
@@ -2291,7 +2292,7 @@ vlan 101
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_interfaces_state.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_interfaces_state.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_interfaces_state.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_drawio_data_dict_add_all_connected():
     data = {"cisco_ios": ["""
@@ -2452,7 +2453,7 @@ interface GigabitEthernet1/6
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_all_connected.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_all_connected.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag():
     data = {"cisco_ios": ["""
@@ -2639,7 +2640,7 @@ interface GigabitEthernet1/6
     drawer.drawing.dump_file(filename="test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio", folder="./Output/")
     with open ("./Output/test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio") as produced:
         with open("./Output/should_be_test_cdp_drawing_drawio_data_dict_add_all_connected_add_lag.drawio") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_base():
     data = { "cisco_nxos": [
@@ -2803,7 +2804,7 @@ interface Ethernet5/31
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_base.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_cdp_drawing_yed_data_path_cisco_nxos()
 
@@ -2821,7 +2822,7 @@ def test_cdp_drawing_yed_data_path_cisco_ios_nxos_all():
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_ios_nxos_all.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_yed_data_path_cisco_nxos_base():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
@@ -2834,7 +2835,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_base():
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_nxos_base.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
     data = "./Data/SAMPLE_CDP_LLDP_2/"
@@ -2848,7 +2849,7 @@ def test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers():
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_path_cisco_nxos_combine_peers.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data():
     data = { "cisco_nxos": [
@@ -2975,7 +2976,7 @@ interface Ethernet2/29
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_has_data.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links():
     data = { "cisco_nxos": [
@@ -3144,7 +3145,7 @@ interface Ethernet2/29
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_two_links.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag():
     data = { "cisco_nxos": [
@@ -3277,7 +3278,7 @@ interface Ethernet2/29
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_nxos_combine_peer_behind_lag.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 def test_cdp_drawing_yed_data_dict_cisco_iosxr():
     data = { "cisco_xr": [
@@ -3398,7 +3399,7 @@ Holdtime : 147 sec
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 def test_cdp_drawing_yed_data_dict_huawei_base():
     data = { "huawei": [
@@ -3591,6 +3592,6 @@ Management Addresses:
     drawer.drawing.dump_file(filename="test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml", folder="./Output/")
     with open ("./Output/test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml") as produced:
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag.graphml") as should_be:
-            assert produced.read() == should_be.read()
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
     
 # test_cdp_drawing_yed_data_dict_cisco_iosxr_lldp_behind_lag()

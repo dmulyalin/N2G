@@ -9,7 +9,6 @@ sys.path.insert(0,'..')
 from N2G import drawio_diagram as create_drawio_diagram
 from N2G import yed_diagram as create_yed_diagram
 from N2G import v3d_diagramm as create_v3d_diagram
-
 from N2G import json_data
 
 sample_data = {
