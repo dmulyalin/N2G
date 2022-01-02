@@ -1,3 +1,6 @@
+import xmltodict
+import json
+
 import xml.etree.ElementTree as ET
 
 def compare_xml(doc_a, doc_b):
@@ -19,5 +22,15 @@ def compare_xml(doc_a, doc_b):
     return doc_a_norm == doc_b_norm
     
 def normalize_xml(doc):
-    root = ET.fromstring(doc)    
-    return ET.tostring(root, encoding="unicode")
+    """
+    Function to normalize XML
+    
+    :param doc: (str) XML string
+    """
+    # root = ET.fromstring(doc)    
+    # return ET.tostring(root, encoding="unicode")
+    # print(xmltodict.parse(doc, process_namespaces=True))
+    return json.dumps(
+        xmltodict.parse(doc, process_namespaces=True),
+        sort_keys=True, indent=4
+    )
