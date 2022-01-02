@@ -1,7 +1,7 @@
 black
 openpyxl==3.*
-pre-commit
-pytest
+pre-commit==2.*
+pytest==5.*
 ttp==0.*
 ttp-templates==0.*
 python-igraph==0.8.*
