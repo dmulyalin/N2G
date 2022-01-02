@@ -1,0 +1,29 @@
+name: N2G Tests
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run_tests:
+    name: run_tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # that is to run pytest from within tests directory
+        working-directory: tests 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools
+          pip install -r ../requirements-dev.txt
+      - name: Test with pytest
+        run: pytest -vv
