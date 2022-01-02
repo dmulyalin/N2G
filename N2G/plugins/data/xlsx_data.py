@@ -148,15 +148,10 @@ def translate_headers(headers, translate_dict):
 def xlsx_data(
     drawing,
     data,
-    node_tabs=["nodes"],
-    link_tabs=["links"],
-    node_headers_map={"id": ["device", "hostname"]},
-    link_headers_map={
-        "source": ["device:a", "hostname:a"],
-        "target": ["device:b", "hostname:b"],
-        "src_label": ["interface:a", "ip:a"],
-        "trgt_label": ["interface:b", "ip:b"],
-    },
+    node_tabs=None,
+    link_tabs=None,
+    node_headers_map=None,
+    link_headers_map=None,
 ):
     """
     Function to load data from XLSX file and add it to diagram using
@@ -170,6 +165,15 @@ def xlsx_data(
     :param link_headers_map: (dict) dictionary to use to translate link tabs headers
     :return: ``True`` on success and ``False`` on failure to load data
     """
+    node_tabs = node_tabs or ["nodes"]
+    link_tabs = link_tabs or ["links"]
+    node_headers_map = node_headers_map or {"id": ["device", "hostname"]}
+    link_headers_map = link_headers_map or {
+        "source": ["device:a", "hostname:a"],
+        "target": ["device:b", "hostname:b"],
+        "src_label": ["interface:a", "ip:a"],
+        "trgt_label": ["interface:b", "ip:b"],
+    }
     wb = load_workbook(data, data_only=True, read_only=True)
 
     graph_dict = {"nodes": [], "links": []}

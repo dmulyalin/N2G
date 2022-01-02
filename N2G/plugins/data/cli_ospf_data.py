@@ -465,7 +465,8 @@ class cli_ospf_data:
                 for summry_lsa in ospf_data.get("summry_lsa", []):
                     self._process_summary_lsa(summry_lsa, ospf_pid, ospf_data, device)
 
-    def _add_node(self, node: dict, node_data: dict = {}) -> None:
+    def _add_node(self, node: dict, node_data: dict = None) -> None:
+        node_data = node_data or {}
         # add new node
         if not node["id"] in self.nodes_dict:
             if node_data and self.add_data:
@@ -484,7 +485,8 @@ class cli_ospf_data:
                     node_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
 
-    def _add_link(self, link: dict, link_data: dict = {}) -> None:
+    def _add_link(self, link: dict, link_data: dict = None) -> None:
+        link_data = link_data or {}
         link_hash = self._make_hash_tuple(link)
         self.links_dict.setdefault(link_hash, [])
         if link not in self.links_dict[link_hash]:

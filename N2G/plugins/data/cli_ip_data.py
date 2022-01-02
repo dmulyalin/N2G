@@ -169,13 +169,7 @@ API Reference
 .. autoclass:: N2G.plugins.data.cli_ip_data.cli_ip_data
    :members:
 """
-if __name__ == "__main__":
-    import sys
-
-    sys.path.insert(0, ".")
-
 import logging
-import pprint
 import os
 import json
 import ipaddress

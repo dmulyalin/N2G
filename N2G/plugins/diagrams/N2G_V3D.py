@@ -317,8 +317,8 @@ class v3d_diagramm:
         +---------------------------------+----------------------------------------------------------------------------------------------------------------+
         | sphere, spherical, circular_3d  | Deterministic layout that places the vertices evenly on the surface of a sphere                                |
         +---------------------------------+----------------------------------------------------------------------------------------------------------------+
-		
-		.. note:: if 2d layout algorithm called, z axis coordinate set to 0
+        
+        .. note:: if 2d layout algorithm called, z axis coordinate set to 0
         """
         try:
             from igraph import Graph as ig
@@ -401,9 +401,12 @@ class v3d_diagramm:
         * dictionary may contain ``edges`` or ``links`` key with a list of edges dictionaries
         * each link dictionary must contain ``source`` and ``target`` attributes, other attributes are optional
         """
-        [self.add_node(**node) for node in data.get("nodes", [])]
-        [self.add_link(**link) for link in data.get("links", [])]
-        [self.add_link(**edge) for edge in data.get("edges", [])]
+        for node in data.get("nodes", []):
+            self.add_node(**node)
+        for link in data.get("links", []):
+            self.add_link(**link)
+        for edge in data.get("edges", []):
+            self.add_link(**edge)
 
     def from_list(self, data):
         """
@@ -445,7 +448,8 @@ class v3d_diagramm:
             ``node_duplicates`` to 'update' if node with given id need to be updated by later 
             occurrences in the list.
         """
-        [self.add_link(**edge) for edge in data]
+        for edge in data:
+            self.add_link(**edge)
 
     def from_v3d_json(self, data):
         """
@@ -484,12 +488,7 @@ class v3d_diagramm:
         gdict = self.dump_dict()
         return json.dumps(gdict, **kwargs)
 
-    def dump_file(
-        self,
-        filename=None,
-        folder="./Output/",
-        json_kwargs={"sort_keys": True, "indent": 4},
-    ):
+    def dump_file(self, filename=None, folder="./Output/", json_kwargs=None):
         """
         Method to save current diagram to text file in a JSON format.
 
@@ -502,6 +501,7 @@ class v3d_diagramm:
         """
         import time
 
+        json_kwargs = json_kwargs or {"sort_keys": True, "indent": 4}
         # check output folder, if not exists, create it
         if not os.path.exists(folder):
             os.makedirs(folder)

@@ -168,7 +168,6 @@ import logging
 import json
 import os
 import csv
-import ipaddress
 from fnmatch import fnmatchcase
 
 try:
@@ -441,7 +440,8 @@ class cli_isis_data:
                 for lsp in isis_data.get("LSP", []):
                     self._process_lsp(lsp, isis_pid, device)
 
-    def _add_node(self, node: dict, node_data: dict = {}) -> None:
+    def _add_node(self, node: dict, node_data: dict = None) -> None:
+        node_data = node_data or None
         # add new node
         if not node["id"] in self.nodes_dict:
             if node_data and self.add_data:
@@ -460,7 +460,8 @@ class cli_isis_data:
                     node_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
 
-    def _add_link(self, link: dict, link_data: dict = {}) -> None:
+    def _add_link(self, link: dict, link_data: dict = None) -> None:
+        link_data = link_data or {}
         link_hash = self._make_hash_tuple(link)
         self.links_dict.setdefault(link_hash, [])
         if link not in self.links_dict[link_hash]:
@@ -475,12 +476,12 @@ class cli_isis_data:
         Method to iterate over links between node pairs and pack links based
         on the local and peer interface IDs
         """
-        for hash in self.links_dict.keys():
-            links = self.links_dict[hash]
+        for link_hash in self.links_dict.keys():
+            links = self.links_dict[link_hash]
             # continue if only one link between node pairs
             if len(links) <= 1:
                 continue
-            self.links_dict[hash] = []
+            self.links_dict[link_hash] = []
             while links:
                 link = links.pop()
                 pair_link_index = None

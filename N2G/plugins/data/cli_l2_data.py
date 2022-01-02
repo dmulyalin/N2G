@@ -149,11 +149,6 @@ API Reference
 .. autoclass:: N2G.plugins.data.cli_l2_data.cli_l2_data
    :members:
 """
-if __name__ == "__main__":
-    import sys
-
-    sys.path.insert(0, ".")
-
 import logging
 import pprint
 import json

@@ -132,11 +132,11 @@ class drawio_diagram:
           first tab
 
         """
-        if diagram_name != None:
+        if diagram_name is not None:
             self.current_diagram = self.drawing.find(
                 "./diagram[@name='{name}']".format(name=diagram_name)
             )
-        elif diagram_index != None:
+        elif diagram_index is not None:
             try:
                 self.current_diagram = self.drawing.findall("./diagram")[diagram_index]
             except IndexError:
@@ -169,14 +169,13 @@ class drawio_diagram:
             elif self.node_duplicates == "update":
                 self.update_node(id, **kwargs)
             return True
-        else:
-            return False
+        return False
 
     def add_node(
         self,
         id,
         label="",
-        data={},
+        data=None,
         url="",
         style="",
         width=120,
@@ -208,6 +207,7 @@ class drawio_diagram:
             outlineConnect=0;
 
         """
+        data = data or {}
         node_data = {}
         if self._node_exists(id, label=label, data=data, url=url):
             return
@@ -237,7 +237,15 @@ class drawio_diagram:
         self.current_root.append(node)
 
     def update_node(
-        self, id, label=None, data={}, url=None, style="", width="", height="", **kwargs
+        self,
+        id,
+        label=None,
+        data=None,
+        url=None,
+        style="",
+        width="",
+        height="",
+        **kwargs
     ):
         """
         Method to update node details. Uses node ``id`` to search for node to update
@@ -253,6 +261,7 @@ class drawio_diagram:
         * ``style`` (str) string containing DrawIO style parameters to apply to the node
 
         """
+        data = data or {}
         node_data = {}
         node = self.current_root.find("./object[@id='{}']".format(id))
         # update data and url attributes
@@ -297,7 +306,7 @@ class drawio_diagram:
         target,
         style="",
         label="",
-        data={},
+        data=None,
         url="",
         src_label="",
         trgt_label="",
@@ -334,6 +343,7 @@ class drawio_diagram:
 
         All labels are optional and substituted with empty values to calculate link id.
         """
+        data = data or {}
         link_data = {}
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
@@ -576,7 +586,8 @@ class drawio_diagram:
 
         """
         self.add_diagram(id=diagram_name, width=width, height=height)
-        [self.add_node(**node) for node in data.get("nodes", [])]
+        for node in data.get("nodes", []):
+            self.add_node(**node)
         # add links
         for link in data.get("links", []):
             link["source"] = link["source"].replace("\n", "&lt;br&gt;")
@@ -586,7 +597,8 @@ class drawio_diagram:
             link["trgt_label"] = link.get("trgt_label", "").replace("\n", "&#xa;")
             self.add_link(**link)
         # add links
-        [self.add_link(**edge) for edge in data.get("edges", [])]
+        for edge in data.get("edges", []):
+            self.add_link(**edge)
 
     def from_list(self, data, diagram_name="Page-1", width=1360, height=864):
         """
@@ -732,7 +744,7 @@ class drawio_diagram:
         label="",
         source="",
         target="",
-        data={},
+        data=None,
         url="",
         style="",
         src_label="",
@@ -757,7 +769,7 @@ class drawio_diagram:
         * ``source`` (str) - existing edge source node id
         * ``target`` (str) - existing edge target node id
         * ``new_label`` (str) - new edge label
-        * ``data`` (str) - edge new data attributes
+        * ``data`` (dict) - edge new data attributes
         * ``url`` (str) - edge new url attribute
         * ``style`` (str) - OS path to file or sting containing style to apply to edge
         * ``new_src_label`` (str) - new edge source label`
@@ -786,11 +798,12 @@ class drawio_diagram:
 
         New style will replace existing style.
         """
+        data = data or {}
         link_data = {}
         # get new label
-        new_label = new_label if new_label != None else label
-        new_src_label = new_src_label if new_src_label != None else src_label
-        new_trgt_label = new_trgt_label if new_trgt_label != None else trgt_label
+        new_label = new_label if new_label is not None else label
+        new_src_label = new_src_label if new_src_label is not None else src_label
+        new_trgt_label = new_trgt_label if new_trgt_label is not None else trgt_label
         # create edge id
         edge_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
         new_edge_tup = tuple(
@@ -1022,7 +1035,7 @@ class drawio_diagram:
                     ["{}={}".format(k, v) for k, v in style_dict.items()]
                 )
 
-    def delete_node(self, id=None, ids=[]):
+    def delete_node(self, id=None, ids=None):
         """
         Method to delete node by its id. Bulk delete operation
         supported by providing list of node ids to delete.
@@ -1033,6 +1046,7 @@ class drawio_diagram:
         * ``ids`` (list) list of node ids to delete
 
         """
+        ids = ids or []
         ids = ids + [id] if id else ids
         for node_id in ids:
             node = self.current_root.find("./object[@id='{}']".format(node_id))
@@ -1053,7 +1067,7 @@ class drawio_diagram:
                     self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
                     self.current_root.remove(edge)
 
-    def delete_link(self, id=None, ids=[], label="", source="", target="", **kwargs):
+    def delete_link(self, id=None, ids=None, label="", source="", target="", **kwargs):
         """
         Method to delete link by its id. Bulk delete operation
         supported by providing list of link ids to delete.
@@ -1073,6 +1087,7 @@ class drawio_diagram:
         * ``target`` (str) link target to calculate id of single link to delete
 
         """
+        ids = ids or []
         if not id and not ids:
             # create edge id
             src_label = kwargs.get("src_label", "")

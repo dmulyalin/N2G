@@ -174,7 +174,8 @@ class yed_diagram:
         self.svg_pics_dict = {}
         self._load_yattrs()
         # register name spaces names to dump them properly in XML output
-        [ET.register_namespace(k, v) for k, v in self.namespaces.items()]
+        for k, v in self.namespaces.items():
+            ET.register_namespace(k, v)
 
     def _load_yattrs(self):
         """
@@ -211,7 +212,7 @@ class yed_diagram:
         function to create label elemnts for appending to edge/nodes' elements
         """
         element = ET.fromstring(xml_template)
-        if label != None:
+        if label is not None:
             element.text = label
         if path == "":
             element.attrib.update(kwargs)
@@ -247,7 +248,7 @@ class yed_diagram:
         label="",
         top_label="",
         bottom_label="",
-        attributes={},
+        attributes=None,
         description="",
         shape_type="roundrectangle",
         url="",
@@ -284,6 +285,7 @@ class yed_diagram:
             }
 
         """
+        attributes = attributes or {}
         # check duplicates
         if self._node_exists(
             id,
@@ -348,7 +350,7 @@ class yed_diagram:
         id,
         pic_path="./Pics/",
         label="",
-        attributes={},
+        attributes=None,
         description="",
         url="",  # string, data to add tonode URL
         width=50,
@@ -381,6 +383,7 @@ class yed_diagram:
                 'DropShadow': { 'color': '#B3A691', 'offsetX': '5', 'offsetY': '5'}
             }
         """
+        attributes = attributes or {}
         # check duplicates
         if self._node_exists(
             id, label=label, attributes=attributes, description=description
@@ -498,7 +501,7 @@ class yed_diagram:
         label="",  # string, label at the center of the node
         top_label="",  # string, label at the top of the node
         bottom_label="",  # string, label at the bottom of the node
-        attributes={},  # dictionary, contains node attributes
+        attributes=None,  # dictionary, contains node attributes
         description="",  # string, data to add in node description
         url="",  # string, data to add tonode URL
     ):
@@ -507,6 +510,7 @@ class yed_diagram:
 
         Method to add group node to join nodes in cluster.
         """
+        attributes = attributes or {}
         # check for node duplicates:
         if self._node_exists(
             id,
@@ -520,7 +524,7 @@ class yed_diagram:
         self.nodes_ids[id] = id
         # create node element:
         node = ET.fromstring(
-            group_node_xml.format(attrib_id=self.y_attr["node"]["nodegraphics"])
+            self.group_node_xml.format(attrib_id=self.y_attr["node"]["nodegraphics"])
         )
         self.nodes_ids[id] = id
         node.set("id", id)
@@ -581,7 +585,7 @@ class yed_diagram:
 
         """
         kwargs["id"] = id
-        if kwargs.get("group", "").strip() == True:
+        if kwargs.get("group", "").strip() is True:
             self._add_group_node(**kwargs)
         elif kwargs.get("pic", "").strip():
             self.add_svg_node(**kwargs)
@@ -610,7 +614,7 @@ class yed_diagram:
         src_label="",
         trgt_label="",
         description="",
-        attributes={},
+        attributes=None,
         url="",
         link_id=None,
     ):
@@ -641,6 +645,7 @@ class yed_diagram:
           created
 
         """
+        attributes = attributes or {}
         # check type of source and target attribute
         source_node_dict = source.copy() if isinstance(source, dict) else {"id": source}
         source = source_node_dict.pop("id")
@@ -766,9 +771,12 @@ class yed_diagram:
         * each link dictionary must contain ``source`` and ``target`` attributes, other attributes are optional
 
         """
-        [self.add_node(**node) for node in data.get("nodes", [])]
-        [self.add_link(**link) for link in data.get("links", [])]
-        [self.add_link(**edge) for edge in data.get("edges", [])]
+        for node in data.get("nodes", []):
+            self.add_node(**node)
+        for link in data.get("links", []):
+            self.add_link(**link)
+        for edge in data.get("edges", []):
+            self.add_link(**edge)
 
     def from_list(self, data):
         """
@@ -815,7 +823,9 @@ class yed_diagram:
             and ignored after that. Set ``node_duplicates`` to 'update' if node with given id need to be updated by
             later occurrences in the list.
         """
-        [self.add_link(**edge) for edge in data if edge]
+        for edge in data:
+            if edge:
+                self.add_link(**edge)
 
     def from_file(self, filename, file_load="xml"):
         """
@@ -832,7 +842,7 @@ class yed_diagram:
             if file_load.lower() == "xml":
                 self.from_xml(f.read())
             elif file_load.lower() == "csv":
-                self.from_csv(data=csv_load)
+                self.from_csv(f.read())
 
     def from_xml(self, text_data):
         """
@@ -972,7 +982,7 @@ class yed_diagram:
     def set_attributes(
         self,
         element,  # lxml object to update attributes for
-        attributes={},  # dictionary of attributes to update
+        attributes=None,  # dictionary of attributes to update
     ):
         """
         Method to set attributes for XML element
@@ -991,6 +1001,7 @@ class yed_diagram:
             }
 
         """
+        attributes = attributes or {}
         children = list(element)
         for tag, attribs in attributes.items():
             tag_exists = False
@@ -998,7 +1009,7 @@ class yed_diagram:
                 if tag in child.tag:
                     child.attrib.update(attribs)
                     tag_exists = True
-            if tag_exists == False:  # create tag element:
+            if tag_exists is False:  # create tag element:
                 tag_elem = ET.fromstring(
                     '<y:{} xmlns:y="http://www.yworks.com/xml/graphml"/>'.format(tag)
                 )
@@ -1011,7 +1022,7 @@ class yed_diagram:
         label=None,
         top_label=None,
         bottom_label=None,
-        attributes={},
+        attributes=None,
         description=None,
         width="",
         height="",
@@ -1047,6 +1058,7 @@ class yed_diagram:
         Attributes will replace existing values.
 
         """
+        attributes = attributes or {}
         # get node element:
         node = self.graph_root.find(
             "./_default_ns_:node[@id='{}']".format(self.nodes_ids.get(id, id)),
@@ -1121,7 +1133,7 @@ class yed_diagram:
         new_src_label=None,
         new_trgt_label=None,
         description="",
-        attributes={},
+        attributes=None,
     ):
         """
         Method to update edge/link details.
@@ -1159,6 +1171,7 @@ class yed_diagram:
         Attributes will replace existing values.
 
         """
+        attributes = attributes or {}
         # make new labels equal to existing labels if new label not provided
         new_label = new_label if new_label != None else label
         new_src_label = new_src_label if new_src_label != None else src_label
@@ -1239,22 +1252,10 @@ class yed_diagram:
     def compare(
         self,
         data,  # N2G dictionary data to compare against
-        missing_nodes={  # dict, attributes to apply to missing nodes
-            "BorderStyle": {"color": "#C0C0C0", "width": "2.0"},
-            "NodeLabel": {"textColor": "#C0C0C0"},
-        },
-        new_nodes={  # dict, attributes to apply to new nodes
-            "BorderStyle": {"color": "#00FF00", "width": "5.0"},
-            "NodeLabel": {"textColor": "#00FF00"},
-        },
-        missing_links={  # dict, attributes to apply to missing edges
-            "LineStyle": {"color": "#C0C0C0", "width": "1.0"},
-            "EdgeLabel": {"textColor": "#C0C0C0"},
-        },
-        new_links={  # dict, attributes to apply to new edges
-            "LineStyle": {"color": "#00FF00", "width": "1.0"},
-            "EdgeLabel": {"textColor": "#00FF00"},
-        },
+        missing_nodes=None,
+        new_nodes=None,
+        missing_links=None,
+        new_links=None,
     ):
         """
         Method to combine two graphs - existing and new - and produce resulting
@@ -1295,6 +1296,23 @@ class yed_diagram:
 
 
         """
+        missing_nodes = missing_nodes or {  # dict, attributes to apply to missing nodes
+            "BorderStyle": {"color": "#C0C0C0", "width": "2.0"},
+            "NodeLabel": {"textColor": "#C0C0C0"},
+        }
+        new_nodes = new_nodes or {  # dict, attributes to apply to new nodes
+            "BorderStyle": {"color": "#00FF00", "width": "5.0"},
+            "NodeLabel": {"textColor": "#00FF00"},
+        }
+        missing_links = missing_links or {  # dict, attributes to apply to missing edges
+            "LineStyle": {"color": "#C0C0C0", "width": "1.0"},
+            "EdgeLabel": {"textColor": "#C0C0C0"},
+        }
+        new_links = new_links or {  # dict, attributes to apply to new edges
+            "LineStyle": {"color": "#00FF00", "width": "1.0"},
+            "EdgeLabel": {"textColor": "#00FF00"},
+        }
+
         if isinstance(data, dict):
             # find new nodes
             existing_nodes = []
@@ -1371,7 +1389,7 @@ class yed_diagram:
                 else:
                     existing_edges.append(edge_id)
             # find missing edges:
-            for id in self.edges_ids.keys():
+            for id in list(self.edges_ids.keys()):
                 if not id in existing_edges and not id in new_links_list:
                     self.update_link(edge_id=id, attributes=missing_links)
 
@@ -1458,7 +1476,7 @@ class yed_diagram:
             node_geometry_element.set("x", str(round(x_coord)))
             node_geometry_element.set("y", str(round(y_coord)))
 
-    def delete_node(self, id=None, ids=[]):
+    def delete_node(self, id=None, ids=None):
         """
         Method to delete node by its id. Bulk delete operation
         supported by providing list of node ids to delete.
@@ -1469,6 +1487,7 @@ class yed_diagram:
         * ``ids`` (list) list of node ids to delete
 
         """
+        ids = ids or []
         ids = ids + [id] if id else ids
         for node_id in ids:
             node_id_to_pop = str(node_id)
@@ -1518,7 +1537,7 @@ class yed_diagram:
     def delete_link(
         self,
         id=None,
-        ids=[],
+        ids=None,
         label="",
         src_label="",
         trgt_label="",
@@ -1546,6 +1565,7 @@ class yed_diagram:
         * ``target`` (str) link target to calculate id of single link to delete
 
         """
+        ids = ids or []
         if not id and not ids:
             # create edge id
             edge_tup = tuple(sorted([source, target, label, src_label, trgt_label]))
