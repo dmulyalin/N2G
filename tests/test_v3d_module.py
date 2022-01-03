@@ -485,22 +485,18 @@ def test_v3d_layout_3d_algo():
     v3d_drawing.layout(algo='kk3d')
     # v3d_drawing.run()
     result = v3d_drawing.dump_dict()
-    # pprint.pprint(result, width=200)
-    assert result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
+    # pprint.pprint(result, width=200)        
+    assert result["links"] == [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
                                 {'data': {}, 'id': '6b78b13fcfd7ba69c4c23a4daa1057a3', 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
                                 {'data': {}, 'id': '7ddc80c768882b8121f24382f55971d2', 'label': 'bla3', 'source': 'node-3', 'src_label': '', 'target': 'node-5', 'trgt_label': ''},
                                 {'data': {}, 'id': 'd5fa69cbdbc6ae606177e052dcdf4fdc', 'label': 'bla4', 'source': 'node-3', 'src_label': '', 'target': 'node-4', 'trgt_label': ''},
                                 {'data': {}, 'id': '7975fd6bf9d010bd5226c4dac6e20e64', 'label': 'bla77', 'source': 'node-33', 'src_label': '', 'target': 'node-44', 'trgt_label': ''},
-                                {'data': {'cd': 123, 'ef': 456}, 'id': 'b2bd8ff3afbb6b786a0607bcef755f42', 'label': 'bla6', 'source': 'node-6', 'src_label': '', 'target': 'node-1', 'trgt_label': ''}],
-                      'nodes': [{'color': 'green', 'data': {}, 'fx': 52, 'fy': 69, 'fz': 21, 'id': 'node-1', 'label': 'node-1', 'nodeResolution': 16},
-                                {'color': 'green', 'data': {}, 'fx': 29, 'fy': 94, 'fz': 31, 'id': 'node-2', 'label': 'node-2', 'nodeResolution': 8},
-                                {'color': 'blue', 'data': {'val': 4}, 'fx': 45, 'fy': 36, 'fz': 7, 'id': 'node-3', 'label': 'node-3', 'nodeResolution': 8},
-                                {'color': 'green', 'data': {}, 'fx': 13, 'fy': 20, 'fz': 0, 'id': 'node-4', 'label': 'node-4', 'nodeResolution': 8},
-                                {'color': 'green', 'data': {}, 'fx': 64, 'fy': 6, 'fz': 6, 'id': 'node-5', 'label': 'node-5', 'nodeResolution': 8},
-                                {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'fx': 80, 'fy': 82, 'fz': 38, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8},
-                                {'color': 'green', 'data': {}, 'fx': 4, 'fy': 13, 'fz': 88, 'id': 'node-33', 'label': 'node-33', 'nodeResolution': 8},
-                                {'color': 'green', 'data': {}, 'fx': 10, 'fy': 41, 'fz': 100, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
-                                {'color': 'green', 'data': {}, 'fx': 96, 'fy': 12, 'fz': 85, 'id': 'node-25', 'label': 'node-25', 'nodeResolution': 8}]}
+                                {'data': {'cd': 123, 'ef': 456}, 'id': 'b2bd8ff3afbb6b786a0607bcef755f42', 'label': 'bla6', 'source': 'node-6', 'src_label': '', 'target': 'node-1', 'trgt_label': ''}]
+    for node in result["nodes"]:
+        assert node["fx"] >= 0
+        assert node["fy"] >= 0
+        assert node["fz"] >= 0
+
 # test_v3d_layout_3d_algo()
 
 
@@ -511,21 +507,16 @@ def test_v3d_layout_2d_algo():
     # v3d_drawing.run()
     result = v3d_drawing.dump_dict()
     # pprint.pprint(result, width=200)
-    assert result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
+    assert result["links"] == [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
            {'data': {}, 'id': '6b78b13fcfd7ba69c4c23a4daa1057a3', 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
            {'data': {}, 'id': '7ddc80c768882b8121f24382f55971d2', 'label': 'bla3', 'source': 'node-3', 'src_label': '', 'target': 'node-5', 'trgt_label': ''},
            {'data': {}, 'id': 'd5fa69cbdbc6ae606177e052dcdf4fdc', 'label': 'bla4', 'source': 'node-3', 'src_label': '', 'target': 'node-4', 'trgt_label': ''},
            {'data': {}, 'id': '7975fd6bf9d010bd5226c4dac6e20e64', 'label': 'bla77', 'source': 'node-33', 'src_label': '', 'target': 'node-44', 'trgt_label': ''},
-           {'data': {'cd': 123, 'ef': 456}, 'id': 'b2bd8ff3afbb6b786a0607bcef755f42', 'label': 'bla6', 'source': 'node-6', 'src_label': '', 'target': 'node-1', 'trgt_label': ''}],
- 'nodes': [{'color': 'green', 'data': {}, 'fx': 24, 'fy': 53, 'fz': 0, 'id': 'node-1', 'label': 'node-1', 'nodeResolution': 16},
-           {'color': 'green', 'data': {}, 'fx': 28, 'fy': 27, 'fz': 0, 'id': 'node-2', 'label': 'node-2', 'nodeResolution': 8},
-           {'color': 'blue', 'data': {'val': 4}, 'fx': 36, 'fy': 77, 'fz': 0, 'id': 'node-3', 'label': 'node-3', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'fx': 59, 'fy': 91, 'fz': 0, 'id': 'node-4', 'label': 'node-4', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'fx': 26, 'fy': 99, 'fz': 0, 'id': 'node-5', 'label': 'node-5', 'nodeResolution': 8},
-           {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'fx': 0, 'fy': 47, 'fz': 0, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'fx': 96, 'fy': 40, 'fz': 0, 'id': 'node-33', 'label': 'node-33', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'fx': 100, 'fy': 63, 'fz': 0, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
-           {'color': 'green', 'data': {}, 'fx': 63, 'fy': 1, 'fz': 0, 'id': 'node-25', 'label': 'node-25', 'nodeResolution': 8}]}
+           {'data': {'cd': 123, 'ef': 456}, 'id': 'b2bd8ff3afbb6b786a0607bcef755f42', 'label': 'bla6', 'source': 'node-6', 'src_label': '', 'target': 'node-1', 'trgt_label': ''}]
+    for node in result["nodes"]:
+        assert node["fx"] >= 0
+        assert node["fy"] >= 0
+        assert node["fz"] == 0           
            
 # test_v3d_layout_2d_algo()
 

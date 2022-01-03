@@ -6,27 +6,27 @@
           <mxCell id="1" parent="0" />
         <object id="node-1" label="node-1">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="401" y="759" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-2" label="node-2">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="564" y="864" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-3" label="node-3">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="877" y="74" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-4" label="node-4">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="1108" y="325" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-5" label="node-5">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="1011" y="167" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object a="b" c="d" id="node-6" label="node-6" link="http://google.com">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="279" y="286" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="b35ebf8a6eeb7084dd9f3e14ec85eb9c" label="bla1" source="node-1" target="node-2">
       <mxCell edge="1" parent="1" source="node-1" style="endArrow=none;" target="node-2">
@@ -46,11 +46,11 @@
       </mxCell>
     </object><object id="node-33" label="node-33">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="252" y="462" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-44" label="node-44">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="483" y="403" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="7975fd6bf9d010bd5226c4dac6e20e64" label="bla77" source="node-33" target="node-44">
       <mxCell edge="1" parent="1" source="node-33" style="endArrow=none;" target="node-44">
@@ -69,11 +69,11 @@
           <mxCell id="1" parent="0" />
         <object id="node-25" label="node-25" link="data:page/id,Page-1">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="1360" y="432" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-2" label="node-2 same id is on page 1">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="0" y="432" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object></root>
       </mxGraphModel>

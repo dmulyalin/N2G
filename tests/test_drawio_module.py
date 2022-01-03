@@ -3,6 +3,7 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
 from utils_tests import normalize_xml
+import xml.etree.ElementTree as ET
 
 def test_1_add_elements_one_by_one():
     ###########################################
@@ -27,7 +28,6 @@ def test_1_add_elements_one_by_one():
     drawio_drawing.add_node(id="node-25", url="Page-1")
     drawio_drawing.add_node(id="node-2", label="node-2 same id is on page 1")
     drawio_drawing.add_diagram("page_2")
-    drawio_drawing.layout(algo="kk")
     drawio_drawing.dump_file(filename="test_1_add_elements_one_by_one.drawio", folder="./Output/")
     with open ("./Output/test_1_add_elements_one_by_one.drawio") as produced:
         with open("./Output/should_be_test_1_add_elements_one_by_one.drawio") as should_be:
@@ -55,12 +55,12 @@ def test_2_from_dict():
         ]
     }
     drawio_drawing.from_dict(data, diagram_name="Page-1")
-    drawio_drawing.layout(algo="kk")
     drawio_drawing.dump_file(filename="test_2_from_dict.drawio", folder="./Output/")
     with open ("./Output/test_2_from_dict.drawio") as produced:
         with open("./Output/should_be_test_2_from_dict.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
-    
+# test_2_from_dict()
+
 def test_3_from_list():
     ###########################################
     # Test from_list method
@@ -73,12 +73,13 @@ def test_3_from_list():
         {"source": {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"}, "target": "node-3", "label": "bla4"}
     ]
     drawio_drawing.from_list(data, diagram_name="Page-1")
-    drawio_drawing.layout(algo="kk")
     drawio_drawing.dump_file(filename="test_3_from_list.drawio", folder="./Output/")
     with open ("./Output/test_3_from_list.drawio") as produced:
         with open("./Output/should_be_test_3_from_list.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
-    
+            
+# test_3_from_list()
+ 
 def test_4_from_csv():
     ###########################################
     # Test from_csv method
@@ -99,12 +100,13 @@ a,"R1,2","./Pics/cisco_router.txt",78,53
 """
     drawio_drawing.from_csv(csv_nodes_data)
     drawio_drawing.from_csv(csv_links_data)
-    drawio_drawing.layout(algo="kk")
     drawio_drawing.dump_file(filename="test_4_from_csv.drawio", folder="./Output/")  
     with open ("./Output/test_4_from_csv.drawio") as produced:
         with open("./Output/should_be_test_4_from_csv.drawio") as should_be:
-            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
-    
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
+
+# test_4_from_csv()
+
 def test_5_from_file_and_dups():
     ###########################################
     # Test loading from file and dups handling
@@ -129,12 +131,13 @@ def test_5_from_file_and_dups():
     drawio_drawing.add_node(id="node-66") # new node
     drawio_drawing.add_link("node-55", "node-3") # new link
     drawio_drawing.add_link("node-55", "node-66") # new link
-    drawio_drawing.layout(algo="kk") 
     drawio_drawing.dump_file(filename="test_5_from_file_and_dups.drawio", folder="./Output/")  
     with open ("./Output/test_5_from_file_and_dups.drawio") as produced:
         with open("./Output/should_be_test_5_from_file_and_dups.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
-            
+
+# test_5_from_file_and_dups()
+
 def test_6_nodes_styles():
     ###########################################
     # Test nodes styles from drawio library
@@ -153,12 +156,13 @@ def test_6_nodes_styles():
     drawio_drawing.add_link("Router-1", "node-2")
     drawio_drawing.add_link("Switch-1", "Router-3")
     drawio_drawing.add_link("Building-1", "Router-3")
-    drawio_drawing.layout(algo="kk")
     drawio_drawing.dump_file(filename="test_6_nodes_styles.drawio", folder="./Output/") 
     with open ("./Output/test_6_nodes_styles.drawio") as produced:
         with open("./Output/should_be_test_6_nodes_styles.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
             
+# test_6_nodes_styles()
+
 def test_7_node_update():    
     ###########################################
     # Test node update
@@ -226,11 +230,12 @@ def test_9_compare():
     drawio_drawing = create_drawio_diagram()
     drawio_drawing.from_dict(data=existing_graph)
     drawio_drawing.compare(new_graph)
-    drawio_drawing.layout(algo="kk")    
     drawio_drawing.dump_file(filename="test_9_compare.drawio", folder="./Output/") 
     with open ("./Output/test_9_compare.drawio") as produced:
         with open("./Output/should_be_test_9_compare.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())     
+
+# test_9_compare()
 
 def test_10_node_delete():    
     ###########################################
@@ -364,3 +369,38 @@ def test_14_test_explicit_link_id():
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
     
 # test_14_test_explicit_link_id()
+
+
+def test_15_from_dict_layout():
+    ###########################################
+    # Test from_dict method
+    ###########################################
+    drawio_drawing = create_drawio_diagram()
+    data = {
+        "nodes": [
+            {"id": "node-1"},
+            {"id": "node-2"},
+            {"id": "node-3"},
+            {"id": "node-4", "data": {"a": "b", "c": "d"}, "url": "http://google.com"}
+        ],
+        "links": [
+            {"source": "node-1", "target": "node-2", "label": "bla1"},
+            {"source": "node-2", "target": "node-3", "label": "bla2"},
+            {"source": "node-3", "target": "node-1", "label": "bla3"},
+            {"source": "node-4", "target": "node-3", "label": "bla4"}
+        ]
+    }
+    drawio_drawing.from_dict(data, diagram_name="Page-1")
+    drawio_drawing.layout(algo="kk")
+    drawio_drawing.dump_file(filename="test_15_from_dict_layout.drawio", folder="./Output/")
+    with open ("./Output/test_15_from_dict_layout.drawio") as produced:
+        root = ET.fromstring(produced.read())
+        # verify elements have coordinates assigned to them
+        elems = root.findall(".//mxGeometry[@height]")
+        assert elems, "Failed to find nodes using ET xpath"
+        for elem in elems:
+            assert int(elem.attrib["x"]) >= 0
+            assert int(elem.attrib["y"]) >= 0
+            assert not (elem.attrib["x"] == "200" and elem.attrib["y"] == "150"), "Detected default (x, y) coordinate values"
+            
+# test_15_from_dict_layout()

@@ -6,23 +6,23 @@
           <mxCell id="1" parent="0" />
         <object id="node-1" label="node-1">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#C0C0C0;fontColor=#C0C0C0" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="464" y="814" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-2" label="node-2">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="919" y="456" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-3" label="node-3">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="738" y="630" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object a="b" c="d" id="node-4" label="node-4" link="http://google.com">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="1081" y="626" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-55" label="node-55">
       <mxCell parent="1" style="shape=mxgraph.cisco.routers.atm_tag_switch_router;html=1;pointerEvents=1;dashed=0;fillColor=#C0C0C0;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontColor=#C0C0C0" vertex="1">
-          <mxGeometry as="geometry" height="82" width="64" x="497" y="571" />
+          <mxGeometry as="geometry" height="82" width="64" x="200" y="150" />
       </mxCell>
     </object><object id="b35ebf8a6eeb7084dd9f3e14ec85eb9c" label="bla1" source="node-1" target="node-2">
       <mxCell edge="1" parent="1" source="node-1" style="endArrow=none;strokeColor=#C0C0C0;fontColor=#C0C0C0" target="node-2">
@@ -46,11 +46,11 @@
       </mxCell>
     </object><object id="node-99" label="node-99">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#00FF00;fontColor=#00FF00" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="1023" y="116" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-100" label="node-100">
       <mxCell parent="1" style="shape=mxgraph.cisco.routers.atm_router;html=1;pointerEvents=1;dashed=0;fillColor=#00FF00;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontColor=#00FF00" vertex="1">
-          <mxGeometry as="geometry" height="53" width="78" x="1137" y="443" />
+          <mxGeometry as="geometry" height="53" width="78" x="200" y="150" />
       </mxCell>
     </object><object id="ce6c5017ca752fe1c66f8521571d2471" label="bla99" source="node-99" target="node-3">
       <mxCell edge="1" parent="1" source="node-99" style="endArrow=none;strokeColor=#00FF00;fontColor=#00FF00" target="node-3">

@@ -3,13 +3,12 @@ sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import yed_diagram as create_yed_diagram
 from utils_tests import normalize_xml
+import xml.etree.ElementTree as ET
 
 def test_1_add_elements_one_by_one():
     ###########################################
     # Test adding elements one by one
     ###########################################
-    with open("./Output/should_be_yed.test_1_add_elements.graphml", "r") as f:
-        expected_output = f.read()
     yed_diagram = create_yed_diagram()
     yed_diagram.add_node('a', top_label = 'top', bottom_label = 'bot')
     yed_diagram.add_node('b', label = 'somelabel', top_label = 'top', bottom_label = 'bot')
@@ -23,16 +22,17 @@ state: up
 """)
     yed_diagram.add_link('XR14', 'XR12')
     yed_diagram.add_link('a', 'XR13', label = 'LLDP', src_label = 'Gi0/21', trgt_label = 'Fas1/22')
-    yed_diagram.layout()
-    ret = yed_diagram.dump_xml()
-    assert normalize_xml(ret) == normalize_xml(expected_output)
-    
+    yed_diagram.dump_file(filename="test_1_add_elements_one_by_one.graphml", folder="./Output/")
+    with open ("./Output/test_1_add_elements_one_by_one.graphml") as produced:
+        with open("./Output/should_be_yed.test_1_add_elements.graphml") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
+            
+# test_1_add_elements_one_by_one()
+
 def test_2_from_dict():
     ###########################################
     # Test from dict method
-    ###########################################
-    with open("./Output/should_be_yed.test_2_from_dict.graphml", "r") as f:
-        expected_output = f.read()    
+    ########################################### 
     yed_diagram = create_yed_diagram()
     sample_graph={
     'nodes': [
@@ -47,11 +47,14 @@ def test_2_from_dict():
     {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
     {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
     ]}
-    yed_diagram.from_dict(sample_graph)
-    yed_diagram.layout()
-    ret = yed_diagram.dump_xml()
-    assert normalize_xml(ret) == normalize_xml(expected_output)
-    
+    yed_diagram.from_dict(sample_graph)    
+    yed_diagram.dump_file(filename="test_2_from_dict.graphml", folder="./Output/")
+    with open ("./Output/test_2_from_dict.graphml") as produced:
+        with open("./Output/should_be_yed.test_2_from_dict.graphml") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
+            
+# test_2_from_dict()
+
 def test_3_graph_compare():
     ###########################################
     # Test graph compare
@@ -193,10 +196,13 @@ a,router_1,"R1,2",,,
 """
     yed_diagram.from_csv(csv_nodes_data)
     yed_diagram.from_csv(csv_links_data)
-    yed_diagram.layout()
-    ret = yed_diagram.dump_xml()
-    assert normalize_xml(ret) == normalize_xml(expected_output) 
-    
+    yed_diagram.dump_file(filename="test8_test_from_csv.graphml", folder="./Output/")
+    with open ("./Output/test8_test_from_csv.graphml") as produced:
+        with open("./Output/should_be_yed.test8_test_from_csv.graphml") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
+            
+# test8_test_from_csv()
+
 def test9_test_from_list_with_update():
     """
     Test that data2 will update switch-1 with top label
@@ -279,5 +285,38 @@ def test_10_test_explicit_link_id():
         with open("./Output/should_be_yed.test_10_test_explicit_link_id.graphml") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
     
-    
 # test_10_test_explicit_link_id()
+
+
+def test_11_from_dict_with_layout():
+    ###########################################
+    # Test from dict method
+    ########################################### 
+    yed_diagram = create_yed_diagram()
+    sample_graph={
+    'nodes': [
+    {'id': 'a', 'pic': 'router_2', 'label': 'R1' }, 
+    {'id': 'b', 'bottom_label':'some', 'top_label':'top_some'}, 
+    {'id': 'c', 'label': 'somelabel', 'bottom_label':'botlabel', 'top_label':'toplabel', 'description': 'some node description'},
+    {'id': 'd', 'pic':'firewall.svg', 'label': 'somelabel1', 'description': 'some node description'},
+    {'id': 'e', 'pic': 'router_1', 'label': 'R1' }], 
+    'edges': [
+    {'source': 'a', 'src_label': 'Gig0/0\nUP', 'label': 'DF', 'target': 'b', 'trgt_label': 'Gig0/1', 'description': 'vlans_trunked: 1,2,3\nstate: up'}, 
+    {'source': 'b', 'src_label': 'Gig0/0', 'label': 'Copper', 'target': 'c', 'trgt_label': 'Gig0/2'},
+    {'source': 'c', 'src_label': 'Gig0/0', 'label': 'ZR', 'target': 'a', 'trgt_label': 'Gig0/3'},
+    {'source': 'd', 'src_label': 'Gig0/10', 'label': 'LR', 'target': 'c', 'trgt_label': 'Gig0/8'}
+    ]}
+    yed_diagram.from_dict(sample_graph)   
+    yed_diagram.layout(algo="kk")
+    yed_diagram.dump_file(filename="test_11_from_dict_with_layout.graphml", folder="./Output/")
+    with open ("./Output/test_11_from_dict_with_layout.graphml") as produced:
+        root = ET.fromstring(produced.read())        
+        # verify elements have coordinates assigned to them
+        elems = list(root.findall(".//{http://www.yworks.com/xml/graphml}Geometry[@height]"))
+        assert elems, "Failed to find nodes using ET xpath"
+        for elem in elems:
+            assert int(elem.attrib["x"]) >= 0
+            assert int(elem.attrib["y"]) >= 0
+            assert not (elem.attrib["x"] == "200" and elem.attrib["y"] == "150"), "Detected default (x, y) coordinate values"
+            
+# test_11_from_dict_with_layout()

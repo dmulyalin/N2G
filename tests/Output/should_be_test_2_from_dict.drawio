@@ -6,19 +6,19 @@
           <mxCell id="1" parent="0" />
         <object id="node-1" label="node-1">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="536" y="0" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-2" label="node-2">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="332" y="698" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="node-3" label="node-3">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="1042" y="120" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object a="b" c="d" id="node-4" label="node-4" link="http://google.com">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="802" y="0" />
+          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
       </mxCell>
     </object><object id="b35ebf8a6eeb7084dd9f3e14ec85eb9c" label="bla1" source="node-1" target="node-2">
       <mxCell edge="1" parent="1" source="node-1" style="endArrow=none;" target="node-2">
