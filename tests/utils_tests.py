@@ -1,6 +1,6 @@
 import xmltodict
 import json
-
+import sys
 import xml.etree.ElementTree as ET
 
 def compare_xml(doc_a, doc_b):
@@ -27,10 +27,14 @@ def normalize_xml(doc):
     
     :param doc: (str) XML string
     """
-    # root = ET.fromstring(doc)    
-    # return ET.tostring(root, encoding="unicode")
-    # print(xmltodict.parse(doc, process_namespaces=True))
-    return json.dumps(
-        xmltodict.parse(doc, process_namespaces=True),
-        sort_keys=True, indent=4
-    )
+    # use canonicalize function starting with Python 3.8
+    if sys.version_info.minor >= 8:
+        return ET.canonicalize(doc)
+    # convert to ET tree and back into string
+    else:
+        root = ET.fromstring(doc)
+        return ET.tostring(root, encoding="unicode")
+    # return json.dumps(
+    #     xmltodict.parse(doc, process_namespaces=True),
+    #     sort_keys=True, indent=4
+    # )
