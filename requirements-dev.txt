@@ -6,3 +6,4 @@ ttp==0.*
 ttp-templates==0.*
 python-igraph==0.8.*;python_version<'3.10'
 Flask==1.*
+xmltodict==0.*
