@@ -142,7 +142,7 @@ class v3d_diagramm:
         Method to add link between nodes.
 
         :param source: (str) mandatory, source node id
-        :param source: (str) mandatory, target node id
+        :param target: (str) mandatory, target node id
         :param label: (str) link label to display at the center of the link
         :param data: (dict) dictionary of key value pairs to add as link data
         :param src_label: (str) link label to use next to source node
