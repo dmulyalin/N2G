@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/jquery-ui.css">
+        <link rel="stylesheet" href="css/select2.min.css">
+        <script type="text/javascript" src="javascript/d3.v5.js"></script>
+        <script type="text/javascript" src="javascript/jquery-1.12.4.js"></script>
+        <script type="text/javascript" src="javascript/jquery-ui-1.12.1.js"></script>
+        <script src="javascript/select2.min.js"></script>
+    </head>
+    <body>
+
+<div id="frame">
+
+<div id="cell1" class="ui-widget ui-widget-content"></div>
+<div id="cell2" class="ui-widget ui-widget-content"></div>
+<div id="cell3" class="ui-widget ui-widget-content"></div>
+<div id="cell4" class="ui-widget ui-widget-content"></div>
+
+</div>
+
+<div id="menu">
+
+  <button id="hierarch_menu_unfold_button" class="ui-button ui-corner-all" title="Menu">
+    <span id="hierarch_menu_unfold_button_icon" class="ui-icon ui-icon-circle-arrow-s"></span>
+  </button>
+
+  <select id="hierarch_menu_with_search" name="Navigate">
+    <option></option>
+  </select>
+
+  <ul id="hierarch_menu" style="display:none; width: 170px;">
+    <li><div value="Nill">Not Implemented</div></li>
+    <li><div>Null</div>
+     <ul>
+       <li><div value="Null">Null</div></li>
+  	 </ul>
+    </li>
+   </ul>
+
+<div id="cell_selectors" title="display cell selectors">
+  <div id="cell1_selector" class="cell-selector-div change-color-selector-div" style="border-bottom-right-radius:3px;" title="top left cell"></div>
+  <div id="cell2_selector" class="cell-selector-div" style="border-bottom-left-radius:3px;" title="top right cell"></div>
+  <button id="cel_full_screen_button" class="ui-button cell-selector-buttons" title="Full Screen">O</button>
+  <div id="cell3_selector" class="cell-selector-div" style="border-top-right-radius:3px;" title="bottom left cell"></div>
+  <div id="cell4_selector" class="cell-selector-div" style="border-top-left-radius:3px;" title="bottom right cell"></div>
+  <button id="cell_clear_button" class="ui-button cell-selector-buttons" title="Clear cell">x</button>
+</div>
+
+</div>
+
+<button id="menu_unfold_button" class="ui-button ui-corner-all ui-button-icon-only" title="Menu">
+  <span id="menu_unfold_button_icon" class="ui-icon ui-icon-triangle-1-n"></span>
+</button>
+
+<script type="text/javascript">
+//render select2_menu_data with jinja2:
+var select2_menu = {{ select2_menu_data | safe }}
+
+//define variables:
+var svg_file;
+var selected_cell = 'cell1';
+
+//add resizable functionality using jquery:
+$("#cell1").resizable({
+handles: "e, s",
+containment: "#frame"
+});
+
+$("#cell2").resizable({
+handles: "s",
+containment: "#frame"
+});
+
+$("#cell3").resizable({
+handles: "e",
+containment: "#frame"
+});
+
+$("#cell1").on("resize", function(event, ui){
+			$("#cell2").css({'display': 'inline-block',
+							 'border': 'transparent',
+							 'border-bottom': 'solid',
+							 'border-left': 'solid',
+							 'border-width': 'thin'})
+			           .width( $("#frame").width() - ui.size.width - 1);
+			if ($("#cell2").height() == 0) {
+			               $("#cell2").height(ui.size.height);
+			}
+
+			$("#cell3").css({'display': 'inline-block',
+							 'border': 'transparent',
+							 'border-top': 'solid',
+							 'border-right': 'solid',
+							 'border-width': 'thin'})
+			           .width(ui.size.width)
+					   .height( $("#frame").height() - ui.size.height - 1);
+
+			$("#cell4").css({'display': 'inline-block',
+							 'border': 'transparent',
+							 'border-top': 'solid',
+							 'border-left': 'solid',
+							 'border-width': 'thin'})
+			           .width( $("#frame").width() - ui.size.width - 1);
+		    });
+
+$("#cell3").on("resize", function(event, ui){
+			$("#cell1").width(ui.size.width);
+			$("#cell2").width( $("#frame").width() - ui.size.width - 1);
+            $("#cell4").width( $("#frame").width() - ui.size.width - 1);
+			});
+
+$("#cell2").on("resize", function(event, ui){
+           $("#cell4").height( $("#frame").height() - ui.size.height - 1);
+		   });
+
+
+//add cell selection:
+//$("#cell1").on( "click", function() { $("#cell1_selector").toggleClass("change-color-selector-div"); });
+//$("#cell2").on( "click", function() { $("#cell2_selector").toggleClass("change-color-selector-div"); });
+//$("#cell3").on( "click", function() { $("#cell3_selector").toggleClass("change-color-selector-div"); });
+//$("#cell4").on( "click", function() { $("#cell4_selector").toggleClass("change-color-selector-div"); });
+
+//add css on runtime to button and divs, to make it look the same for all browsers:
+$(function() {
+  $(".cell-selector-buttons").css({
+  "font-size": "8px",
+  "padding": "0px",
+  "width": "12px",
+  "height": "12px",
+  "text-align": "center",
+  "font-size": "8px"
+  });
+});
+
+$("#cell1_selector").on("click", function() { $(this).toggleClass("change-color-selector-div"); });
+$("#cell2_selector").on("click", function() { $(this).toggleClass("change-color-selector-div"); });
+$("#cell3_selector").on("click", function() { $(this).toggleClass("change-color-selector-div"); });
+$("#cell4_selector").on("click", function() { $(this).toggleClass("change-color-selector-div"); });
+
+//add cell clear button function:
+$("#cell_clear_button").on("click", function() {
+  $(".change-color-selector-div").each(function () {
+     d3.select('#' + this.id.split("_")[0]).select('svg').remove();
+  });
+});
+
+//add cell full screen button:
+$("#cel_full_screen_button").on("click", function() {
+   var cell_id = $(".change-color-selector-div")[0].id;
+   $(".cell-selector-div").each(function () {
+      if (this.id == cell_id) {
+	  console.log("#"+cell_id.split("_")[0])
+        $("#"+cell_id.split("_")[0]).height($("#frame").height())
+                                    .width($("#frame").width());
+	  }
+	  else {
+	  console.log("#" + this.id.split("_")[0])
+        $("#"+this.id.split("_")[0]).height(0).width(0);
+	  }
+   });
+});
+
+//add unfold effect to menu:
+$( "#menu_unfold_button" ).on( "click", function() {
+  $( "#menu" ).toggle( "slide", {direction: 'up'}, 350);
+  $( "#menu_unfold_button_icon" ).toggleClass("ui-icon-triangle-1-n ui-icon-triangle-1-s");
+});
+
+//add hierarch_menu_unfold_button button handler to display hierarchichal menu:
+$( "#hierarch_menu_unfold_button" ).on( "click", function(e) {
+	$("#hierarch_menu").menu().toggle("slide", {direction: 'up'}, 350).position({
+        my: "left top",
+        at: "left bottom",
+        of: $(this)});
+	$("#hierarch_menu_unfold_button_icon").toggleClass("ui-icon-circle-arrow-s ui-icon-circle-arrow-n");
+	return false;
+});
+
+//add jquery UI hierarch_menu handler:
+$( function() {
+  $( "#hierarch_menu" ).on( "menuselect", function( event, ui ) {
+                            select_val = ui.item.children().attr("value")
+	                        if ( select_val != null) {
+							     $(".change-color-selector-div").each(function () {
+                                    load_svg("diagrams/" + select_val, this.id.split("_")[0])
+								 });
+		                    }
+						    $(this).hide("fade", 350);
+							$("#hierarch_menu_unfold_button_icon").toggleClass("ui-icon-circle-arrow-s ui-icon-circle-arrow-n");
+  });
+});
+
+//add select2 selection menu
+$(document).ready(function() {
+    $('#hierarch_menu_with_search').select2({
+	    placeholder: 'Navigate...',
+		//allowClear: true,
+	    data: select2_menu
+	})
+    .on("select2:select", function (e) {
+	    var selected_element = $(e.currentTarget);
+		var select_val = selected_element.val();
+		if (select_val != "") {
+			$(".change-color-selector-div").each(function () {
+                load_svg("diagrams/" + select_val, this.id.split("_")[0])
+		    });
+		}
+	});
+});
+
+//add D3 dropdown to menu
+//var dropdownChange = function() {
+//    svg_file = d3.select(this).property('value')
+//	load_svg(svg_file)
+//};
+//
+//var selector = menu.insert("select")
+//	                .on("change", dropdownChange)
+//	                .attr("id", "graphselector")
+//			.style('width', '200px');
+//
+////have to use '"svg_files.csv?"+(new Date().getTime()' to force browser to load new file as it was caching it
+//d3.csv("svg_files.csv?"+(new Date()).getTime()).then(function(data){
+//	console.log(data)
+//	return	selector.selectAll("option")
+//		       .data(data)
+//	 	       .enter().append("option")
+//	 	       .text(function(d) { return d.graph; })
+//	  	       .attr("value", function(d) {return d.value; })
+//});
+
+
+//var slider = menu.append("p").append("input")
+//    .datum({})
+//	  .style('width', '200px')
+//    .attr("type", "range")
+//    .attr("value", 1)
+//    .attr("min", zoom.scaleExtent()[0])
+//    .attr("max", zoom.scaleExtent()[1])
+//    .attr("step", (zoom.scaleExtent()[1] - 1) / 100)
+//    .on("input", slided);
+
+//function slided(d) {
+//    zoom.scaleTo(svg, d3.select(this).property("value"));
+//  };
+
+
+//load external svg:
+function load_svg(file_name, cell_id) {
+
+//create gharph div:
+var graphDiv = d3.select('#' + cell_id);
+
+//check if graphdiv exists, if not - create it, else wipe it out and recreate:
+if (graphDiv.empty() == false) {
+	graphDiv.select('svg').remove()
+}
+
+//load svg as xml data
+d3.xml(file_name).then(data => {
+
+    document.getElementById(cell_id).append(data.documentElement);
+
+    //add zoom to svg
+    var zoom = d3.zoom()
+        .scaleExtent([0.1, 1.9])
+        .on("zoom", function () {
+            graphDiv.select("g").attr('transform', d3.event.transform)
+    	    //update slider value as well in case if zoomed by mouse wheel
+    	    //slider.property("value", d3.event.transform.k);
+        });
+
+    var svg = graphDiv.select("svg")
+                .attr("width", "100%")
+                .attr("height", "100%");
+
+    //add zoom using mouse wheel to SVG
+	//adding zoom adds dragging automatically.
+	svg.call(zoom);
+
+	//add dragging handling - used for tooltips only
+    var drag = d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+
+    //offset values for mouse position within tooltip
+    //need it to prevent tooltip from relocation to mouse
+    //position immidiately after start dragging
+	var offsetX = "";
+    var offsetY = "";
+
+    function dragstarted(d) {
+	    offsetX = d3.mouse(this)[0]
+	    offsetY = d3.mouse(this)[1]
+        d3.event.sourceEvent.stopPropagation();
+        d3.select(this).classed("dragging", true);
+    }
+
+    function dragged(d) {
+	    var x = d3.event.x - offsetX
+	    var y = d3.event.y - offsetY
+        d3.select(this).attr("transform", "translate(" + x + ',' + y + ")");
+    }
+
+    function dragended(d) {
+        d3.select(this).select("#path")
+		               .classed("dragging", false);
+    }
+
+	//make svg text elemnts selectable:
+	graphDiv.selectAll('text').on("mousedown", function(){
+	    d3.event.stopPropagation();})
+	                          .on("dblclick", function(){
+	    d3.event.stopPropagation();})
+		                      .on("click", function(){
+	    d3.event.stopPropagation();
+	});
+
+	//add tooltips and elements highlight:
+    graphDiv.selectAll('g').on("click", function(){
+
+	    //find tolltip text by id:
+	    var this_id = d3.select(this).attr('id');
+
+	    if ( this_id != null) {
+	        //try to select path of the edge to highlight it
+		    var path = d3.select(this).select('path');
+
+		    if (path.empty() != true){
+		        if (path.attr('stroke-width') == '4'){
+		    	   path.attr('stroke-width', null) //delete highlight
+		    	} else {
+		    	   path.attr('stroke-width', '4') //add highlight
+		    	};
+		    };
+
+			//add tooltips:
+			var tooltipGroup = graphDiv.select("[id='tooltip." + this_id + "']")
+							  .attr("pointer-events", "yes")
+							  .call(drag);
+
+            if (tooltipGroup.attr("visibility") == "hidden"){
+                 var mouseX = d3.mouse(this)[0] + 10;
+				 var mouseY = d3.mouse(this)[1] + 10;
+                 tooltipGroup.attr("transform", "translate(" + mouseX + ',' + mouseY + ")")
+                             .attr("visibility", "visible");
+               }
+			 else {
+                 tooltipGroup.attr("visibility", "hidden");
+			 }
+		}
+	 });
+  });
+};
+</script>
+    </body>
+</html>

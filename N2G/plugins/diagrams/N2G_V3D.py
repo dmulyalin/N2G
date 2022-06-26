@@ -513,33 +513,28 @@ class v3d_diagramm:
         with open(folder + filename, "w") as outfile:
             outfile.write(self.dump_json(**json_kwargs))
 
-    def run(self, ip="0.0.0.0", port=9000, dry_run=False):
+    def run(
+        self,
+        ip: str = "0.0.0.0",
+        port: int = 9000,
+        debug: bool = True,
+        dry_run: bool = False,
+    ) -> None:
         """
         Method to run FLASK web server using built-in browser app.
         
-        :param ip: (str) IP address to bound WEB server to
-        :param port: (int) port number to run WEB server on
-        :dry_run: (bool) if True, do not start, return status info instead, 
-          default is False
+        :param ip: IP address to bound WEB server to
+        :param port: port number to run WEB server on
+        :param debug: If True run Flask server in debug mode
+        :param dry_run: (bool) if True, do not start, return status info instead
         """
-        from flask import Flask, render_template_string, Markup
-        from N2G.utils.V3D_web_server import graph_browser
-
-        app = Flask(__name__)
-
-        # based on https://stackoverflow.com/a/19269087/12300761 answer:
-        app.jinja_env.filters["json"] = lambda v: Markup(json.dumps(v))
-
-        @app.route("/")
-        def home():
-            return render_template_string(graph_browser, json_data=self.dump_json())
-
-        print("Starting server on http://{}:{}".format(ip, port))
         if dry_run:
             return {
                 "message": "would start flask development server using graph_browser app",
                 "ip": ip,
                 "port": port,
             }
-        else:
-            app.run(host=ip, port=port, debug=True)
+
+        from N2G.plugins.viewers.v3d_viewer import run_v3d_viewer
+
+        run_v3d_viewer(ip=ip, port=port, debug=debug, diagram_data=self.dump_json())

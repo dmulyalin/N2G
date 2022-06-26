@@ -1,4 +1,3 @@
-graph_browser = """
 <head>
   <style> body { margin: 0; } </style>
 
@@ -22,7 +21,8 @@ graph_browser = """
   <div id="3d-graph"></div>
 
   <script type="module">
-    import { UnrealBloomPass } from '//cdn.skypack.dev/three/examples/jsm/postprocessing/UnrealBloomPass.js';
+    //import { UnrealBloomPass } from '//cdn.skypack.dev/three/examples/jsm/postprocessing/UnrealBloomPass.js';
+    import { UnrealBloomPass } from '//cdn.skypack.dev/three@0.136/examples/jsm/postprocessing/UnrealBloomPass.js';
 
     const elem = document.getElementById("3d-graph");
     const json_data = {{ json_data | json }};
@@ -87,4 +87,3 @@ graph_browser = """
 
   </script>
 </body>
-"""

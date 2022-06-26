@@ -1,0 +1,111 @@
+          html, body {
+              height: 98.5%;
+			  width: 98.5%;
+          }
+
+		  #frame {
+			  position: absolute;
+              top: 0px;
+              left: 0px;
+              height: 98.5%;
+			  width: 99.5%
+          }
+
+		  #hierarch_menu_with_search {
+		    width: 150px;
+			font-size: 4px;
+		 }
+
+		  #menu_unfold_button {
+             position: absolute;
+             top: -1px;
+             left: 16px;
+             width: 25px;
+			 height: 17px;
+			 padding: 0px;
+			 border-top-left-radius: 0px;
+			 border-top-right-radius: 0px;
+		  }
+
+		  #menu {
+		    border: thin solid;
+			border-color: black;
+			border-top: transparent;
+			position: absolute;
+            top: 0px;
+            left: 70px;
+			width: 215px;
+			height: 30px;
+			padding: 5px;
+			background: #efefef;
+			border-bottom-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+		  }
+
+		 #hierarch_menu_unfold_button {
+		   padding: 0px;
+		   height: 28px;
+		 }
+
+         #cell1 {
+		     position: absolute;
+			 top: 0;
+			 left: 0;
+             height: 100%;
+		     width: 100%;
+		     border: transparent;
+		     border-right: solid;
+		     border-bottom: solid;
+		     border-color: black;
+		     border-width: thin;
+         }
+
+         #cell2 {
+		     position: absolute;
+			 right: 0;
+			 top: 0;
+			 display: none;
+         }
+
+         #cell3 {
+			 position: absolute;
+			 left: 0;
+			 bottom: 0;
+         }
+
+         #cell4 {
+			 position: absolute;
+			 right: 0;
+			 bottom: 0;
+         }
+
+		.cell-selector-div  {
+		   background: white;
+		   padding: 0px;
+		   width: 10px;
+		   height: 12px;
+		   border: solid;
+		   border-width: 1px;
+		   border-color: #efefef;
+		   font-size: 10px;
+		   text-align: center;
+		}
+
+		#cell_selectors {
+		  display: flex;
+		  flex-wrap: wrap;
+		  justify-content: space-evenly;
+		  align-items: center;
+		  align-content: center;
+		  position: absolute;
+          top: 5px;
+          left: 180px;
+		  width: 40px;
+		  height: 28px;
+		  padding: 0px;
+		  border-radius: 2px;
+		}
+
+        .change-color-selector-div {
+          background-color: grey;
+        }

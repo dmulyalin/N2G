@@ -1,0 +1,1 @@
+.. automodule:: N2G.plugins.viewers.yed_viewer.yed_viewer

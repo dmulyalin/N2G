@@ -168,7 +168,9 @@ import logging
 import json
 import os
 import csv
+import ipaddress
 from fnmatch import fnmatchcase
+from N2G.utils import merge_dict
 
 try:
     from ttp import ttp
@@ -373,24 +375,19 @@ class cli_isis_data:
         self.parsed_data = parser.result(structure="flat_list")
         # import pprint; pprint.pprint(self.parsed_data, width = 100)
 
-    def _process_lsp(self, lsp: dict, isis_pid: str, device: dict) -> None:
+    def _process_lsp(self, lsp: dict, isis_pid: str, hostname: str) -> None:
         """
         Method to process ISIS LSP dictionary extracting node, links and subnets.
 
         :param lsp: (dict) LSP dictionary
         :param isis_pid: (str) ISIS Process ID string
-        :param devcie: (dict) evice dictionary
+        :param hostname: device hostname LSP belongs to
         """
         # make node out of router LSP
-        self._add_node(
-            node={
-                "id": lsp["hostname"],
-                "label": lsp["hostname"],
-                "bottom_label": "Node",
-                "top_label": lsp["rid"],
-            },
-            node_data=lsp,
-        )
+        node = {"id": hostname, "label": hostname, "bottom_label": "Node"}
+        if lsp.get("rid") or lsp.get("rid_v6"):
+            node["top_label"] = lsp.get("rid") or lsp.get("rid_v6")
+        self._add_node(node, node_data=lsp)
         # go over links
         for link in lsp.get("links", []):
             # ignore ISIS links based on IP addresses
@@ -398,7 +395,7 @@ class cli_isis_data:
                 continue
             self._add_link(
                 link={
-                    "source": lsp["hostname"],
+                    "source": hostname,
                     "src_label": "{}:{}".format(
                         link.get("local_ip", link.get("local_intf_id")), link["metric"]
                     ),
@@ -411,7 +408,7 @@ class cli_isis_data:
                     "peer_ip": link.get("peer_ip"),
                     "local_ip": link.get("local_ip"),
                 },
-                link_data={lsp["hostname"]: {"isis_pid": isis_pid, **link}},
+                link_data={hostname: {"isis_pid": isis_pid, **link}},
             )
         # go over connected subnets
         if self.add_connected:
@@ -425,7 +422,7 @@ class cli_isis_data:
                 )
                 self._add_link(
                     link={
-                        "source": lsp["hostname"],
+                        "source": hostname,
                         "src_label": "M:{}".format(network["metric"]),
                         "label": lsp["level"],
                         "target": network["network"],
@@ -437,11 +434,11 @@ class cli_isis_data:
             # go over all ISIS processes on the box
             for isis_pid, isis_data in device.get("isis_processes", {}).items():
                 # process LSP
-                for lsp in isis_data.get("LSP", []):
-                    self._process_lsp(lsp, isis_pid, device)
+                for hostname, lsps in isis_data.items():
+                    for lsp in lsps:
+                        self._process_lsp(lsp, isis_pid, hostname)
 
-    def _add_node(self, node: dict, node_data: dict = None) -> None:
-        node_data = node_data or None
+    def _add_node(self, node: dict, node_data: dict = {}) -> None:
         # add new node
         if not node["id"] in self.nodes_dict:
             if node_data and self.add_data:
@@ -449,19 +446,18 @@ class cli_isis_data:
                     node_data, sort_keys=True, indent=4, separators=(",", ": ")
                 )
             self.nodes_dict[node["id"]] = node
-        # update node attributes if they do not exists already
+        # merge existing and new nodes
         else:
-            stored_node = self.nodes_dict[node["id"]]
-            for key, value in node.items():
-                if not key in stored_node:
-                    stored_node[key] = value
-            if not "description" in stored_node and node_data and self.add_data:
-                stored_node["description"] = json.dumps(
-                    node_data, sort_keys=True, indent=4, separators=(",", ": ")
+            node_ref = self.nodes_dict[node["id"]]
+            merge_dict(node_ref, node)
+            if node_data and self.add_data:
+                data_ref = json.loads(node_ref.get("description", "{}"))
+                merge_dict(data_ref, node_data)
+                node_ref["description"] = json.dumps(
+                    data_ref, sort_keys=True, indent=4, separators=(",", ": ")
                 )
 
-    def _add_link(self, link: dict, link_data: dict = None) -> None:
-        link_data = link_data or {}
+    def _add_link(self, link: dict, link_data: dict = {}) -> None:
         link_hash = self._make_hash_tuple(link)
         self.links_dict.setdefault(link_hash, [])
         if link not in self.links_dict[link_hash]:
@@ -476,12 +472,12 @@ class cli_isis_data:
         Method to iterate over links between node pairs and pack links based
         on the local and peer interface IDs
         """
-        for link_hash in self.links_dict.keys():
-            links = self.links_dict[link_hash]
+        for hash in self.links_dict.keys():
+            links = self.links_dict[hash]
             # continue if only one link between node pairs
             if len(links) <= 1:
                 continue
-            self.links_dict[link_hash] = []
+            self.links_dict[hash] = []
             while links:
                 link = links.pop()
                 pair_link_index = None

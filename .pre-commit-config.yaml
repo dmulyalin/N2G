@@ -14,13 +14,24 @@ repos:
       - id: trailing-whitespace
         exclude: ^tests/|.+/diagrams/.+\.py$
       - id: check-added-large-files
-        args: ['--maxkb=1000']
+        args: ['--maxkb=5000']
         exclude: ^tests/
   # black
   - repo: https://github.com/psf/black
     rev: 19.3b0
     hooks:
       - id: black
-        exclude: ^tests/|^docs/|gitignore|README|LICENSE|MANIFEST|requirements|.*txt|.*rst|.*svg$
+        exclude: ^tests/|^docs/|gitignore|README|LICENSE|.*txt|.*rst|.*svg$
         args:
           - "--line-length=88"
+  # pylint, to run it directly use: python3 -m pylint . --rcfile=pylintrc
+  # enabled only spelling checks for docstrings and docs
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        language: system
+        entry: pylint .
+        exclude: ^tests/|^docs/|gitignore|README|LICENSE|pylintrc|pre-commit-config|.*svg|.*gif|.*png$
+        args:
+          - "--rcfile=pylintrc"

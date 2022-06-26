@@ -3,19 +3,13 @@ Installation
 
 Install from `PYPI <https://pypi.org/project/N2G/>`_ using pip::
 
-	pip install N2G
+    pip install N2G
 
 Or copy repository from GitHub and run::
 
-	python -m pip install .
+    python -m pip install .
 
-or::
+N2G core functionality uses Python built-in libraries, but additional features
+require 3rd party dependencies that can be installed using ``full`` extras::
 
-	python setup.py install
-
-Additional dependencies
------------------------
-
-N2G uses mainly Python built-in libraries, but:
-
-* For layout method need Python `igraph <https://igraph.org/python/doc/tutorial/install.html#installing-igraph-from-the-python-package-index>`_ library to be installed on the system
+    pip install N2G[full]

@@ -520,14 +520,15 @@ def test_v3d_layout_2d_algo():
            
 # test_v3d_layout_2d_algo()
 
-def test_v3d_layout_3d_algo_custom_diemnsion_size():
+def test_v3d_layout_3d_algo_custom_dimension_size():
     v3d_drawing = create_v3d_diagram()
     v3d_drawing.from_dict(sample_data)
     v3d_drawing.layout(algo='kk3d', dx=200, dy=200, dz=200)
     # v3d_drawing.run()
     result = v3d_drawing.dump_dict()
     # pprint.pprint(result, width=200)
-    assert result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
+    assert (
+        result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
            {'data': {}, 'id': '6b78b13fcfd7ba69c4c23a4daa1057a3', 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
            {'data': {}, 'id': '7ddc80c768882b8121f24382f55971d2', 'label': 'bla3', 'source': 'node-3', 'src_label': '', 'target': 'node-5', 'trgt_label': ''},
            {'data': {}, 'id': 'd5fa69cbdbc6ae606177e052dcdf4fdc', 'label': 'bla4', 'source': 'node-3', 'src_label': '', 'target': 'node-4', 'trgt_label': ''},
@@ -542,8 +543,25 @@ def test_v3d_layout_3d_algo_custom_diemnsion_size():
            {'color': 'green', 'data': {}, 'fx': 8, 'fy': 25, 'fz': 176, 'id': 'node-33', 'label': 'node-33', 'nodeResolution': 8},
            {'color': 'green', 'data': {}, 'fx': 21, 'fy': 83, 'fz': 200, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
            {'color': 'green', 'data': {}, 'fx': 192, 'fy': 24, 'fz': 169, 'id': 'node-25', 'label': 'node-25', 'nodeResolution': 8}]}
+        or
+        result == {'links': [{'data': {}, 'id': 'b35ebf8a6eeb7084dd9f3e14ec85eb9c', 'label': 'bla1', 'source': 'node-1', 'src_label': '', 'target': 'node-2', 'trgt_label': ''},
+           {'data': {}, 'id': '6b78b13fcfd7ba69c4c23a4daa1057a3', 'label': 'bla2', 'source': 'node-1', 'src_label': '', 'target': 'node-3', 'trgt_label': ''},
+           {'data': {}, 'id': '7ddc80c768882b8121f24382f55971d2', 'label': 'bla3', 'source': 'node-3', 'src_label': '', 'target': 'node-5', 'trgt_label': ''},
+           {'data': {}, 'id': 'd5fa69cbdbc6ae606177e052dcdf4fdc', 'label': 'bla4', 'source': 'node-3', 'src_label': '', 'target': 'node-4', 'trgt_label': ''},
+           {'data': {}, 'id': '7975fd6bf9d010bd5226c4dac6e20e64', 'label': 'bla77', 'source': 'node-33', 'src_label': '', 'target': 'node-44', 'trgt_label': ''},
+           {'data': {'cd': 123, 'ef': 456}, 'id': 'b2bd8ff3afbb6b786a0607bcef755f42', 'label': 'bla6', 'source': 'node-6', 'src_label': '', 'target': 'node-1', 'trgt_label': ''}],
+ 'nodes': [{'color': 'green', 'data': {}, 'fx': 119, 'fy': 43, 'fz': 38, 'id': 'node-1', 'label': 'node-1', 'nodeResolution': 16},
+           {'color': 'green', 'data': {}, 'fx': 95, 'fy': 90, 'fz': 1, 'id': 'node-2', 'label': 'node-2', 'nodeResolution': 8},
+           {'color': 'blue', 'data': {'val': 4}, 'fx': 165, 'fy': 44, 'fz': 86, 'id': 'node-3', 'label': 'node-3', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'fx': 173, 'fy': 3, 'fz': 135, 'id': 'node-4', 'label': 'node-4', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'fx': 200, 'fy': 92, 'fz': 111, 'id': 'node-5', 'label': 'node-5', 'nodeResolution': 8},
+           {'color': 'green', 'data': {'a': 'b', 'c': 'd'}, 'fx': 71, 'fy': 1, 'fz': 28, 'id': 'node-6', 'label': 'node-6', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'fx': 0, 'fy': 65, 'fz': 157, 'id': 'node-33', 'label': 'node-33', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'fx': 40, 'fy': 66, 'fz': 199, 'id': 'node-44', 'label': 'node-44', 'nodeResolution': 8},
+           {'color': 'green', 'data': {}, 'fx': 88, 'fy': 199, 'fz': 111, 'id': 'node-25', 'label': 'node-25', 'nodeResolution': 8}]}
+    )
 
-# test_v3d_layout_3d_algo_custom_diemnsion_size()
+test_v3d_layout_3d_algo_custom_dimension_size()
 
 def test_v3d_run_dry_run():
     v3d_drawing = create_v3d_diagram()

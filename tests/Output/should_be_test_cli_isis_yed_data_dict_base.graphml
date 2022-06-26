@@ -32,13 +32,13 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X1",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "9",
             "local_ip": "10.123.0.17",
             "metric": "16777214",
@@ -49,22 +49,95 @@
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "7",
             "local_ip": "10.123.0.25",
             "metric": "802",
             "peer_intf_id": "53",
             "peer_ip": "10.123.0.26",
             "peer_name": "ROUTER-X5"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "68",
+            "metric": "10",
+            "peer_intf_id": "57",
+            "peer_name": "ROUTER-X5"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "8910",
+            "local_intf_id": "66",
+            "metric": "10",
+            "peer_intf_id": "66",
+            "peer_name": "ROUTER-X2"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "8910",
+            "local_intf_id": "64",
+            "metric": "10",
+            "peer_intf_id": "64",
+            "peer_name": "ROUTER-X3"
         }
     ],
-    "lsp_id": "ROUTER-X1",
     "networks": [
         {
+            "isis_pid": "1234",
             "metric": "0",
             "network": "10.211.1.1/32"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddd:2:c101::1/128"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "1",
+            "network": "fddc:0:1::/48"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddc:3::/36"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddc::/36"
+        },
+        {
+            "isis_pid": "8910",
+            "metric": "1",
+            "network": "fddc:0:1::/48"
+        },
+        {
+            "isis_pid": "8910",
+            "metric": "0",
+            "network": "fddd:2:c101::1/128"
+        },
+        {
+            "isis_pid": "8910",
+            "metric": "0",
+            "network": "fddc:2::/36"
         }
     ],
-    "rid": "10.211.1.1"
+    "rid": "10.211.1.1",
+    "rid_v6": "fddd:2:c101::1"
 }</data><data key="d11">{"id": "ROUTER-X1"}</data></node><node id="ROUTER-X2">
       <data key="d6">
         <y:ShapeNode>
@@ -75,13 +148,13 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X2",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "48",
             "local_ip": "10.123.0.33",
             "metric": "301",
@@ -92,22 +165,95 @@
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "50",
             "local_ip": "10.123.0.18",
             "metric": "16777214",
             "peer_intf_id": "9",
             "peer_ip": "10.123.0.17",
             "peer_name": "ROUTER-X1"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "68",
+            "metric": "10",
+            "peer_intf_id": "60",
+            "peer_name": "ROUTER-X6"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "8910",
+            "local_intf_id": "66",
+            "metric": "10",
+            "peer_intf_id": "66",
+            "peer_name": "ROUTER-X1"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "8910",
+            "local_intf_id": "64",
+            "metric": "10",
+            "peer_intf_id": "64",
+            "peer_name": "ROUTER-X4"
         }
     ],
-    "lsp_id": "ROUTER-X2",
     "networks": [
         {
+            "isis_pid": "1234",
             "metric": "0",
             "network": "10.211.1.2/32"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddc::/36"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "1",
+            "network": "fddc:0:2::/48"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddc:3::/36"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddd:2:c101::2/128"
+        },
+        {
+            "isis_pid": "8910",
+            "metric": "1",
+            "network": "fddc:0:2::/48"
+        },
+        {
+            "isis_pid": "8910",
+            "metric": "0",
+            "network": "fddd:2:c101::2/128"
+        },
+        {
+            "isis_pid": "8910",
+            "metric": "0",
+            "network": "fddc:2::/36"
         }
     ],
-    "rid": "10.211.1.2"
+    "rid": "10.211.1.2",
+    "rid_v6": "fddd:2:c101::2"
 }</data><data key="d11">{"id": "ROUTER-X2"}</data></node><node id="ROUTER-X5">
       <data key="d6">
         <y:ShapeNode>
@@ -118,13 +264,13 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X5</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.5</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X5",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "58",
             "local_ip": "10.123.0.29",
             "metric": "15",
@@ -135,26 +281,75 @@
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "53",
             "local_ip": "10.123.0.26",
             "metric": "802",
             "peer_intf_id": "7",
             "peer_ip": "10.123.0.25",
             "peer_name": "ROUTER-X1"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "57",
+            "metric": "10",
+            "peer_intf_id": "68",
+            "peer_name": "ROUTER-X1"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "64",
+            "metric": "10",
+            "peer_intf_id": "102",
+            "peer_name": "ROUTER-X7"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "60",
+            "metric": "10",
+            "peer_intf_id": "62",
+            "peer_name": "ROUTER-X6"
         }
     ],
-    "lsp_id": "ROUTER-X5",
     "networks": [
         {
+            "isis_pid": "1234",
             "metric": "0",
             "network": "10.211.0.5/32"
         },
         {
+            "isis_pid": "1234",
             "metric": "0",
             "network": "10.211.1.5/32"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddd:2:c201::1/128"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "1",
+            "network": "fddc:2:1::/48"
         }
     ],
-    "rid": "10.211.1.5"
+    "rid": "10.211.1.5",
+    "rid_v6": "fddd:2:c201::1"
 }</data><data key="d11">{"id": "ROUTER-X5"}</data></node><node id="ROUTER-X6">
       <data key="d6">
         <y:ShapeNode>
@@ -165,13 +360,13 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X6</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">10.211.1.6</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X6",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "55",
             "local_ip": "10.123.0.30",
             "metric": "15",
@@ -182,26 +377,75 @@
         {
             "affinity": "0x00000000",
             "bw_kbit": "10000000",
+            "isis_pid": "1234",
             "local_intf_id": "53",
             "local_ip": "10.123.0.34",
             "metric": "301",
             "peer_intf_id": "48",
             "peer_ip": "10.123.0.33",
             "peer_name": "ROUTER-X2"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "60",
+            "metric": "10",
+            "peer_intf_id": "68",
+            "peer_name": "ROUTER-X2"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "64",
+            "metric": "10",
+            "peer_intf_id": "102",
+            "peer_name": "ROUTER-X8"
+        },
+        {
+            "bw_kbit": "10000000",
+            "delay_avg_us": "1",
+            "delay_max_us": "1",
+            "delay_min_us": "1",
+            "delay_variation_us": "0",
+            "isis_pid": "4567",
+            "local_intf_id": "62",
+            "metric": "10",
+            "peer_intf_id": "60",
+            "peer_name": "ROUTER-X5"
         }
     ],
-    "lsp_id": "ROUTER-X6",
     "networks": [
         {
+            "isis_pid": "1234",
             "metric": "0",
             "network": "10.211.0.6/32"
         },
         {
+            "isis_pid": "1234",
             "metric": "0",
             "network": "10.211.1.6/32"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "0",
+            "network": "fddd:2:c201::2/128"
+        },
+        {
+            "isis_pid": "4567",
+            "metric": "1",
+            "network": "fddc:2:2::/48"
         }
     ],
-    "rid": "10.211.1.6"
+    "rid": "10.211.1.6",
+    "rid_v6": "fddd:2:c201::2"
 }</data><data key="d11">{"id": "ROUTER-X6"}</data></node><node id="ROUTER-X7">
       <data key="d6">
         <y:ShapeNode>
@@ -212,7 +456,6 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X7</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:2:c301::1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X7",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
@@ -222,6 +465,7 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "4567",
             "local_intf_id": "102",
             "metric": "10",
             "peer_intf_id": "64",
@@ -233,24 +477,26 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "4567",
             "local_intf_id": "103",
             "metric": "10",
             "peer_intf_id": "103",
             "peer_name": "ROUTER-X8"
         }
     ],
-    "lsp_id": "ROUTER-X7",
     "networks": [
         {
+            "isis_pid": "4567",
             "metric": "1",
             "network": "fddc:2:3::/48"
         },
         {
+            "isis_pid": "4567",
             "metric": "0",
             "network": "fddd:2:c301::1/128"
         }
     ],
-    "rid": "fddd:2:c301::1"
+    "rid_v6": "fddd:2:c301::1"
 }</data><data key="d11">{"id": "ROUTER-X7"}</data></node><node id="ROUTER-X8">
       <data key="d6">
         <y:ShapeNode>
@@ -261,7 +507,6 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X8</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:2:c301::2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X8",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
@@ -271,6 +516,7 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "4567",
             "local_intf_id": "102",
             "metric": "10",
             "peer_intf_id": "64",
@@ -282,20 +528,21 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "4567",
             "local_intf_id": "103",
             "metric": "10",
             "peer_intf_id": "103",
             "peer_name": "ROUTER-X7"
         }
     ],
-    "lsp_id": "ROUTER-X8",
     "networks": [
         {
+            "isis_pid": "4567",
             "metric": "0",
             "network": "fddd:2:c301::2/128"
         }
     ],
-    "rid": "fddd:2:c301::2"
+    "rid_v6": "fddd:2:c301::2"
 }</data><data key="d11">{"id": "ROUTER-X8"}</data></node><node id="ROUTER-X3">
       <data key="d6">
         <y:ShapeNode>
@@ -306,7 +553,6 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X3</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:3:c101::1</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X3",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
@@ -316,6 +562,7 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "8910",
             "local_intf_id": "64",
             "metric": "10",
             "peer_intf_id": "64",
@@ -327,28 +574,31 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "8910",
             "local_intf_id": "66",
             "metric": "10",
             "peer_intf_id": "66",
             "peer_name": "ROUTER-X4"
         }
     ],
-    "lsp_id": "ROUTER-X3",
     "networks": [
         {
+            "isis_pid": "8910",
             "metric": "1",
             "network": "fddc:0:3::/48"
         },
         {
+            "isis_pid": "8910",
             "metric": "0",
             "network": "fddc:3::/36"
         },
         {
+            "isis_pid": "8910",
             "metric": "0",
             "network": "fddd:3:c101::1/128"
         }
     ],
-    "rid": "fddd:3:c101::1"
+    "rid_v6": "fddd:3:c101::1"
 }</data><data key="d11">{"id": "ROUTER-X3"}</data></node><node id="ROUTER-X4">
       <data key="d6">
         <y:ShapeNode>
@@ -359,7 +609,6 @@
         <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">ROUTER-X4</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">fddd:3:c101::2</y:NodeLabel><y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="b" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70">Node</y:NodeLabel></y:ShapeNode>
       </data>
     <data key="d5">{
-    "hostname": "ROUTER-X4",
     "isis_area": "49.1234",
     "level": "Level-2",
     "links": [
@@ -369,6 +618,7 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "8910",
             "local_intf_id": "64",
             "metric": "10",
             "peer_intf_id": "64",
@@ -380,28 +630,31 @@
             "delay_max_us": "1",
             "delay_min_us": "1",
             "delay_variation_us": "0",
+            "isis_pid": "8910",
             "local_intf_id": "66",
             "metric": "10",
             "peer_intf_id": "66",
             "peer_name": "ROUTER-X3"
         }
     ],
-    "lsp_id": "ROUTER-X4",
     "networks": [
         {
+            "isis_pid": "8910",
             "metric": "1",
             "network": "fddc:0:4::/48"
         },
         {
+            "isis_pid": "8910",
             "metric": "0",
             "network": "fddc:3::/36"
         },
         {
+            "isis_pid": "8910",
             "metric": "0",
             "network": "fddd:3:c101::2/128"
         }
     ],
-    "rid": "fddd:3:c101::2"
+    "rid_v6": "fddd:3:c101::2"
 }</data><data key="d11">{"id": "ROUTER-X4"}</data></node><edge id="9c0fe588d61a7eaac2626cedbd982ebd" source="ROUTER-X2" target="ROUTER-X1">
       <data key="d10">
         <y:PolyLineEdge>

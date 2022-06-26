@@ -8,23 +8,6 @@ import logging
 
 # initiate logging
 log = logging.getLogger(__name__)
-LOG_LEVEL = "ERROR"
-LOG_FILE = None
-
-
-def logging_config(LOG_LEVEL, LOG_FILE):
-    valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    if LOG_LEVEL.upper() in valid_log_levels:
-        logging.basicConfig(
-            format="%(asctime)s.%(msecs)d [N2G_YED %(levelname)s] %(lineno)d; %(message)s",
-            datefmt="%m/%d/%Y %I:%M:%S",
-            level=LOG_LEVEL.upper(),
-            filename=LOG_FILE,
-            filemode="w",
-        )
-
-
-logging_config(LOG_LEVEL, LOG_FILE)
 
 
 class yed_diagram:
@@ -179,7 +162,7 @@ class yed_diagram:
 
     def _load_yattrs(self):
         """
-        function to load yed tags attributes adn form self.y_attr dict similar to this:
+        function to load yed tags attributes and form self.y_attr dict similar to this:
         self.y_attr = {'edge': {'description': 'd9',
                               'edgegraphics': 'd10',
                               'emetadata': 'd12',
@@ -206,10 +189,10 @@ class yed_diagram:
         xml_template,  # string, name of XML label template
         label="",  # string, center label of edge/nodes
         path="",  # string, xml tree path, if empty, work with element tag
-        **kwargs  # attributes for edge/node label lement at "path" tag
+        **kwargs  # attributes for edge/node label element at "path" tag
     ):
         """
-        function to create label elemnts for appending to edge/nodes' elements
+        function to create label elements for appending to edge/nodes' elements
         """
         element = ET.fromstring(xml_template)
         if label is not None:
@@ -593,7 +576,7 @@ class yed_diagram:
             self.add_shape_node(**kwargs)
 
     def _link_exists(self, id, edge_tup):
-        """method, used to check dublicate edges"""
+        """method, used to check duplicate edges"""
         if id in self.edges_ids:
             if self.link_duplicates == "log":
                 log.error(

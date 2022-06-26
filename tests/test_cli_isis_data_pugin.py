@@ -554,4 +554,3 @@ def test_cli_isis_yed_data_dict_base_platform_filter():
     assert not drawer.parsed_data
             
 # test_cli_isis_yed_data_dict_base_platform_filter()
-

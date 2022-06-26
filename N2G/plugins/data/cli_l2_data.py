@@ -18,7 +18,7 @@ unknown (to CDP and LLDP) but connected nodes to diagram.
 Features Supported
 ------------------
 
-**Support matrix**
+**Features Support Matrix**
 
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 |  Platform     |   CDP      |   LLDP    | interface | interface |   LAG     | links     |   node    | Add all   | Combine   |
@@ -31,6 +31,8 @@ Features Supported
 | cisco_nxos    |    YES     |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |    YES    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 | huawei        |    ---     |    YES    |    YES    |    ---    |    YES    |    YES    |    YES    |    ---    |    YES    |
++---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| juniper       |    ---     |    YES    |    YES    |    YES    |    YES    |    YES    |    ---    |    YES    |    YES    |
 +---------------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
 **Features Description**
@@ -48,7 +50,14 @@ Features Supported
 Required Commands output
 ------------------------
 
-cisco_ios, cisco_xr, cisco_nxos:
+cisco_xr:
+
+* ``show cdp neighbor details`` and/or ``show lldp neighbor details`` - mandatory
+* ``show lldp`` - optional, to extract local hostname
+* ``show running-configuration interface`` - optional, used for LAG and interfaces config
+* ``show interfaces`` - optional, used for interfaces state and to add all connected nodes
+
+cisco_ios, cisco_nxos:
 
 * ``show cdp neighbor details`` and/or ``show lldp neighbor details`` - mandatory
 * ``show running-configuration`` - optional, used for LAG and interfaces config
@@ -59,6 +68,13 @@ huawei:
 * ``display lldp neighbor details`` - mandatory
 * ``display current-configuration`` - optional, used for LAG and interfaces config
 * ``display interface`` - optional, used for interfaces state and to add all connected nodes
+
+juniper:
+
+* ``show lldp local-information`` - to extract local hostname
+* ``show lldp neighbors`` - to extract LLDP neighbors
+* ``show configuration interfaces | display set`` - to extract interfaces configuration and LAG details
+* ``show interfaces detail`` - to extract interfaces state to add all connected devices
 
 Sample Usage
 ------------
@@ -149,6 +165,11 @@ API Reference
 .. autoclass:: N2G.plugins.data.cli_l2_data.cli_l2_data
    :members:
 """
+if __name__ == "__main__":
+    import sys
+
+    sys.path.insert(0, ".")
+
 import logging
 import pprint
 import json
@@ -574,7 +595,7 @@ class cli_l2_data:
 
     def _add_all_connected(self):
         """
-        Method to iterate over all interfaces and fine theones that are
+        Method to iterate over all interfaces and fine the ones that are
         in up state but having no CDP/LLDP peers, add nodes connected
         to such interfaces to graph
         """
@@ -668,7 +689,7 @@ class cli_l2_data:
     def _combine_peers(self):
         """
         self.combine_peers_dict is a dictionary of {("hostname", "interface"): [links_hashes]}
-        if length of [links_hashes] is more than 1, wehave several LLDP/CDP
+        if length of [links_hashes] is more than 1, we have several LLDP/CDP
         peers behind that port, usually happens with VMs sitting on host
         or some form of VPLS transport - we have L2 domain in between this port
         and CDP/LLDP peer.

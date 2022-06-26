@@ -26,10 +26,12 @@ filename and folder options.
     -ipl, --ip_lookup    Path to CSV file for IP lookups, first column header must be ``ip``
     --no-data            Do not add any data to links or nodes
     --layout             Name of iGraph layout algorithm to run for the diagram e.g. "kk", "tree" etc.
+    --log-level          Logging level, default is ``ERROR``
+    --port               Port number to run viewer server (V3D, yED) on, default is 9000
+    --ip                 IP address to run viewer server (V3D, yED) on, default is ``0.0.0.0``
 
     V3D Module arguments:
     --run                Run built in test web server to display topology instead of saving to file
-    --port               Port number to run server on
 
     XLSX data adapter. -d should point to ".xlsx" spreadsheet file.
     -nt,     --node-tabs           Comma separate list of tabs with nodes data
@@ -59,10 +61,19 @@ filename and folder options.
     ISIS LSDB Data Plugin:
     -ISIS               Diagram ISIS LSDB data
     -ISIS-add-con       Add connected subnets to diagram
+
+    yED SVG Viewer:
+    --yed-svg-viewer    Run yED SVG Viewer
+    --diagrams-dir      OS Path to directory with diagrams svg files
+
+    V3D Diagram Viewer:
+    --v3d-viewer        Run V3D JSON files viewer
+    --diagram-file      OS Path to JSON file with diagram data
 """
 import argparse
 import time
 import os
+import logging
 
 # if run as a script, inject N2G folder in system path
 if __name__ == "__main__":
@@ -80,6 +91,10 @@ from N2G import (
     cli_ospf_data,
     cli_isis_data,
 )
+from N2G.plugins.viewers.yed_viewer import run_yed_viewer
+from N2G.plugins.viewers.v3d_viewer import run_v3d_viewer
+
+log = logging.getLogger(__name__)
 
 __version__ = "0.2.0"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
@@ -94,10 +109,12 @@ Parsing order is: CDP/LLDP (L2)  => IP => OSPF => ISIS
 -ipl, --ip_lookup    Path to CSV file for IP lookups, first column header must be ``ip``
 --no-data            Do not add any data to links or nodes
 --layout             Name of iGraph layout algorithm to run for the diagram e.g. "kk", "tree" etc.
+--log-level          Logging level, default is ``ERROR``
+--port               Port number to run viewer server (V3D, yED) on, default is 9000
+--ip                 IP address to run viewer server (V3D, yED) on, default is ``0.0.0.0``
 
 V3D Module arguments:
 --run                Run built in test web server to display topology instead of saving to file
---port               Port number to run server on
 
 XLSX data adapter. -d should point to ".xlsx" spreadsheet file.
 -nt,     --node-tabs           Comma separate list of tabs with nodes data
@@ -127,7 +144,21 @@ OSPF LSDB Data Plugin:
 ISIS LSDB Data Plugin:
 -ISIS               Diagram ISIS LSDB data
 -ISIS-add-con       Add connected subnets to diagram
+
+yED SVG Viewer:
+--yed-svg-viewer    Run yED SVG Viewer
+--diagrams-dir      OS Path to directory with diagrams svg files
+
+V3D Diagram Viewer:
+--v3d-viewer        Run V3D JSON files viewer
+--diagram-file      OS Path to JSON file with diagram data
 """
+
+
+def logging_config(LOG_LEVEL):
+    valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    if LOG_LEVEL.upper() in valid_log_levels:
+        logging.basicConfig(level=LOG_LEVEL.upper())
 
 
 def cli_tool():
@@ -202,6 +233,15 @@ def cli_tool():
         type=str,
         help=argparse.SUPPRESS,
     )
+    run_options.add_argument(
+        "--log-level",
+        action="store",
+        dest="LOG_LEVEL",
+        default="DEBUG",
+        type=str,
+        help=argparse.SUPPRESS,
+    )
+
     # -----------------------------------------------------------------------------
     # V3D options
     # -----------------------------------------------------------------------------
@@ -214,6 +254,14 @@ def cli_tool():
         dest="PORT",
         default=9000,
         type=int,
+        help=argparse.SUPPRESS,
+    )
+    run_options.add_argument(
+        "--ip",
+        action="store",
+        dest="IP_ADDRESS",
+        default="0.0.0.0",
+        type=str,
         help=argparse.SUPPRESS,
     )
 
@@ -341,6 +389,42 @@ def cli_tool():
         help=argparse.SUPPRESS,
     )
     # -----------------------------------------------------------------------------
+    # yEd SVG viewer options
+    # -----------------------------------------------------------------------------
+    run_options.add_argument(
+        "--yed-svg-viewer",
+        action="store_true",
+        dest="YED_SVG_VIEWER",
+        default=False,
+        help=argparse.SUPPRESS,
+    )
+    run_options.add_argument(
+        "--diagrams-dir",
+        action="store",
+        dest="DIAGRAMS_DIR",
+        default=None,
+        type=str,
+        help=argparse.SUPPRESS,
+    )
+    # -----------------------------------------------------------------------------
+    # V3D Diagram Viewer
+    # -----------------------------------------------------------------------------
+    run_options.add_argument(
+        "--v3d-viewer",
+        action="store_true",
+        dest="V3D_VIEWER",
+        default=False,
+        help=argparse.SUPPRESS,
+    )
+    run_options.add_argument(
+        "--diagram-file",
+        action="store",
+        dest="V3D_DIAGRAM_FILE",
+        default=None,
+        type=str,
+        help=argparse.SUPPRESS,
+    )
+    # -----------------------------------------------------------------------------
     # Parse arguments
     # -----------------------------------------------------------------------------
     args = argparser.parse_args()
@@ -353,10 +437,12 @@ def cli_tool():
     IP_LOOKUP = args.IP_LOOKUP
     NO_DATA = args.NO_DATA
     LAYOUT = args.LAYOUT
+    LOG_LEVEL = args.LOG_LEVEL
 
     # V3D arguments
     RUN = args.RUN
     PORT = args.PORT
+    IP_ADDRESS = args.IP_ADDRESS
 
     # XLSX data plugin arguments
     XLSX_NODE_TABS = args.XLSX_NODE_TABS
@@ -384,6 +470,37 @@ def cli_tool():
     # ISIS data plugin arguments
     ISIS = args.ISIS
     ISIS_ADD_CON = args.ISIS_ADD_CON
+
+    # yEd SVG viewer
+    YED_SVG_VIEWER = args.YED_SVG_VIEWER
+    DIAGRAMS_DIR = args.DIAGRAMS_DIR
+
+    # V3D Viewer
+    V3D_VIEWER = args.V3D_VIEWER
+    V3D_DIAGRAM_FILE = args.V3D_DIAGRAM_FILE
+
+    # init logging
+    logging_config(LOG_LEVEL)
+
+    # check if need to run viewer
+    if YED_SVG_VIEWER:
+        run_yed_viewer(
+            ip=IP_ADDRESS,
+            port=PORT,
+            debug=True if LOG_LEVEL.lower() == "debug" else False,
+            diagrams_dir=DIAGRAMS_DIR,
+        )
+        return
+
+    # check if need to run V3D viewer
+    if V3D_VIEWER:
+        run_v3d_viewer(
+            ip=IP_ADDRESS,
+            port=PORT,
+            debug=True if LOG_LEVEL.lower() == "debug" else False,
+            diagram_file=V3D_DIAGRAM_FILE,
+        )
+        return
 
     # Instantiate diagram
     ext = "txt"
@@ -469,7 +586,11 @@ def cli_tool():
     # save diagram
     if RUN and MODULE == "v3d":
         # run V3D built in topology browser
-        drawing.run(port=PORT)
+        drawing.run(
+            ip=IP_ADDRESS,
+            port=PORT,
+            debug=True if LOG_LEVEL.lower() == "debug" else False,
+        )
     else:
         # save results in file
         drawing.dump_file(filename=FILENAME, folder=OUT_FOLDER)

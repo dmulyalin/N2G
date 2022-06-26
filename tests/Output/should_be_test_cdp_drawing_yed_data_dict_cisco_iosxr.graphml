@@ -144,7 +144,8 @@
     "router_XR_01:GE0/0/0/8": {
         "chassis_id": "0026.9815.c3e6",
         "peer_capabilities": "R",
-        "peer_port_description": "GigabitEthernet0/0/0/8 peer"
+        "peer_port_description": "GigabitEthernet0/0/0/8 peer",
+        "peer_system_description": "Cisco IOS XR Software, Version 4.1.0.32I[Default]"
     }
 }</data><data key="d12">{"sid": "router_XR_01", "tid": "asr9k-5", "id": "1622cd9fc587ffbf13edc2529e82c55e"}</data></edge></graph>
     <data key="d7">

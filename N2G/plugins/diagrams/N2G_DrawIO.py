@@ -5,23 +5,6 @@ import logging
 
 # initiate logging
 log = logging.getLogger(__name__)
-LOG_LEVEL = "ERROR"
-LOG_FILE = None
-
-
-def logging_config(LOG_LEVEL, LOG_FILE):
-    valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    if LOG_LEVEL.upper() in valid_log_levels:
-        logging.basicConfig(
-            format="%(asctime)s.%(msecs)d [N2G_DRAWIO %(levelname)s] %(lineno)d; %(message)s",
-            datefmt="%m/%d/%Y %I:%M:%S",
-            level=LOG_LEVEL.upper(),
-            filename=LOG_FILE,
-            filemode="w",
-        )
-
-
-logging_config(LOG_LEVEL, LOG_FILE)
 
 
 class drawio_diagram:
@@ -119,7 +102,7 @@ class drawio_diagram:
     def go_to_diagram(self, diagram_name=None, diagram_index=None):
         """
         DrawIO supports adding multiple diagram tabs within single document.
-        This method allows to switch between diarams in different tabs. That
+        This method allows to switch between diagrams in different tabs. That
         way each tab can be updated separately.
 
         **Parameters**
@@ -127,7 +110,7 @@ class drawio_diagram:
         * ``diagram_name`` (str) name of diagram tab to switch to
         * ``diagram_index`` (int) index of diagram tab to switch to, will
           change to last tab if index is out of range. Index can be positive
-          or negative number and follows Python list index behaviour. For
+          or negative number and follows Python list index behavior. For
           instance, index equal to "-1" we go to last tab, "0" will go to
           first tab
 
@@ -322,7 +305,7 @@ class drawio_diagram:
 
         * ``source`` (str) mandatory, source node id
         * ``source`` (str) mandatory, target node id
-        * ``label`` (str) link label to display at the centre of the link
+        * ``label`` (str) link label to display at the center of the link
         * ``data`` (dict) dictionary of key value pairs to add as link data
         * ``url`` (str) url string to save as link ``url`` attribute
         * ``style`` (str) string or OS path to text file with style to apply to the link

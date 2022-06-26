@@ -6,19 +6,19 @@
           <mxCell id="1" parent="0" />
         <object bottom_label="core" description="Core Router" id="r1" label="r1" pic="" top_label="1.1.1.1">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="492" y="809" />
+          <mxGeometry as="geometry" height="60" width="120" x="299" y="272" />
       </mxCell>
     </object><object bottom_label="core" description="Core Router" id="r2" label="r2" pic="" top_label="2.2.2.2">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="249" y="300" />
+          <mxGeometry as="geometry" height="60" width="120" x="457" y="79" />
       </mxCell>
     </object><object bottom_label="edge" description="Edge Router" id="r3" label="r3" pic="" top_label="3.3.3.3">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="296" y="609" />
+          <mxGeometry as="geometry" height="60" width="120" x="704" y="0" />
       </mxCell>
     </object><object bottom_label="edge" description="Edge Router" id="r4" label="r4" pic="" top_label="4.4.4.4">
       <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="514" y="355" />
+          <mxGeometry as="geometry" height="60" width="120" x="993" y="77" />
       </mxCell>
     </object><mxCell connectable="0" id="4c783d026b64f7f34abadd5be66e427d-src" parent="4c783d026b64f7f34abadd5be66e427d" style="labelBackgroundColor=#ffffff;;" value="Gi1/1" vertex="1">
       <mxGeometry as="geometry" relative="1" x="-0.5">
