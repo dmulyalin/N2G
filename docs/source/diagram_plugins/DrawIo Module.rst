@@ -194,7 +194,7 @@ N2G DrawIO module provides ``from_file`` and ``from_text`` methods to load exist
     from N2G import drawio_diagram
 
     diagram = drawio_diagram()
-    drawing.from_file("./source/old_office_diagram.drawio")
+    diagram.from_file("./source/old_office_diagram.drawio")
 
 After diagram loaded it can be modified or updated using ``add_x``, ``from_x``, ``delete_x`` or ``compare`` methods.
 
