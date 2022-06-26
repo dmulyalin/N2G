@@ -25,7 +25,7 @@ copyright = '2020, Denis Mulyalin'
 author = 'Denis Mulyalin'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
+release = '0.3.0'
 
 # use index.rst instead of contents.rst:
 master_doc = 'index'
