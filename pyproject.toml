@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "n2g"
-version = "0.3.0"
+name = "N2G"
+version = "0.3.1"
 description = "Need To Graph"
 authors = ["Denis Mulyalin <d.mulyalin@gmail.com>"]
 maintainers = ["Denis Mulyalin <d.mulyalin@gmail.com>"]

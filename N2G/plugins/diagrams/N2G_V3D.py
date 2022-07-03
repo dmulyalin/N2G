@@ -502,15 +502,14 @@ class v3d_diagramm:
         import time
 
         json_kwargs = json_kwargs or {"sort_keys": True, "indent": 4}
-        # check output folder, if not exists, create it
-        if not os.path.exists(folder):
-            os.makedirs(folder)
+        # create output folder if it does not exists
+        os.makedirs(folder, exist_ok=True)
         # create file name
         if not filename:
             ctime = time.ctime().replace(":", "-")
             filename = "{}_output.txt".format(ctime)
         # save file to disk
-        with open(folder + filename, "w") as outfile:
+        with open(os.path.join(folder, filename), "w") as outfile:
             outfile.write(self.dump_json(**json_kwargs))
 
     def run(

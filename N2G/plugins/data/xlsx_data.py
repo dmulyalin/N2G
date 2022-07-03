@@ -109,7 +109,7 @@ log = logging.getLogger(__name__)
 try:
     from openpyxl import load_workbook
 except ImportError:
-    log.error("Failed to import openpyxl module")
+    log.debug("N2G xlsx data plugin failed to import openpyxl module")
 
 
 def translate_headers(headers, translate_dict):

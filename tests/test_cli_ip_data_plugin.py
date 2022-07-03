@@ -717,23 +717,23 @@ config system interface
         set ip 10.1.0.1 255.255.255.252
         set description "bgp to upstream FW"
     next
-	
+    
 forti-fw-01 (Corporate) # get system arp 
 Address           Age(min)   Hardware Addr      Interface
 1.1.1.10          0          22:31:5e:00:34:d1  vms_vlan
 10.0.0.10         0          22:31:5e:00:34:c2  NMS_mgmt
 10.0.0.31         0          22:31:5e:00:34:31  NMS_mgmt
-	""",
-	"""
+    """,
+    """
 forti-fw-02 (Corporate) # get system config 
 config system interface
     edit "fw_1"
         set vdom "root"
         set ip 10.1.0.2 255.255.255.252
         set description "bgp to forti-fw-01"
-    next	
-	"""]
-	}
+    next    
+    """]
+    }
     config = {
         "add_arp": True
     }
@@ -746,4 +746,20 @@ config system interface
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
 
 # test_ip_drawing_yed_data_dict_fortigate()
-	
+    
+    
+def test_ip_drawing_yed_data_dict_cisco_xr():
+    with open("./Data/SAMPLE_CISCO_IOSXR_IP/cisco_xr/iosxr1.txt") as f:
+        data = {"cisco_xr": [f.read()]}
+    config = {
+        "add_arp": True
+    }
+    drawing = create_yed_diagram()
+    drawer = cli_ip_data(drawing, **config)    
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_cisco_xr.graphml", folder="./Output/")    
+    with open ("./Output/test_ip_drawing_yed_data_dict_cisco_xr.graphml") as produced:
+        with open("./Output/should_be_test_ip_drawing_yed_data_dict_cisco_xr.graphml") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
+            
+# test_ip_drawing_yed_data_dict_cisco_xr()

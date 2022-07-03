@@ -48,21 +48,31 @@ for example::
         ]
     }
 """
-from flask import Flask, render_template, Markup
 import os
 import json
 import logging
+
+try:
+    from flask import Flask, render_template, Markup
+
+    HAS_FLASK = True
+except ImportError:
+    HAS_FLASK = False
 
 log = logging.getLogger(__name__)
 
 app_dir = os.path.abspath(os.path.dirname(__file__))
 
-app = Flask(
-    __name__, static_folder=app_dir, static_url_path="", template_folder=app_dir
-)
+if HAS_FLASK:
+    app = Flask(
+        __name__, static_folder=app_dir, static_url_path="", template_folder=app_dir
+    )
+    # based on https://stackoverflow.com/a/19269087/12300761 answer
+    app.jinja_env.filters["json"] = lambda v: Markup(json.dumps(v))
 
-# based on https://stackoverflow.com/a/19269087/12300761 answer
-app.jinja_env.filters["json"] = lambda v: Markup(json.dumps(v))
+    @app.route("/")
+    def home():
+        return render_template("v3d_viewer.html", json_data=diagram_content)
 
 
 def run_v3d_viewer(
@@ -97,8 +107,3 @@ def run_v3d_viewer(
         log.error("No diagram file or diagram data provided, stopping...")
         return
     app.run(host=ip, port=port, debug=debug, **kwargs)
-
-
-@app.route("/")
-def home():
-    return render_template("v3d_viewer.html", json_data=diagram_content)

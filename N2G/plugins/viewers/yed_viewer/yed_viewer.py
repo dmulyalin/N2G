@@ -29,18 +29,34 @@ path using ``N2G_DIAGRAMS_DIR`` environment variable.
 Diagrams directory should contain SVG files produced by yED Graph Editor application
 using ``File -> Export -> Save as type: SVG format`` feature.
 """
-from flask import Flask, render_template
 import os
 import json
 import logging
+
+try:
+    from flask import Flask, render_template
+
+    HAS_FLASK = True
+except ImportError:
+    HAS_FLASK = False
 
 log = logging.getLogger(__name__)
 
 app_dir = os.path.abspath(os.path.dirname(__file__))
 
-app = Flask(
-    __name__, static_folder=app_dir, static_url_path="", template_folder=app_dir
-)
+if HAS_FLASK:
+    app = Flask(
+        __name__, static_folder=app_dir, static_url_path="", template_folder=app_dir
+    )
+
+    @app.route("/")
+    def home():
+        return render_template("yed_viewer.html", select2_menu_data=scan_graphs())
+
+    @app.route("/diagrams/<diagram_name>")
+    def get_diagram(diagram_name):
+        with open(os.path.join(diagrams_directory, diagram_name)) as f:
+            return f.read()
 
 
 def scan_graphs() -> str:
@@ -79,17 +95,6 @@ def run_yed_viewer(
         f"Starting server on 'http://{ip}:{port}', diagrams directory: '{diagrams_directory}'"
     )
     app.run(host=ip, port=port, debug=debug, **kwargs)
-
-
-@app.route("/")
-def home():
-    return render_template("yed_viewer.html", select2_menu_data=scan_graphs())
-
-
-@app.route("/diagrams/<diagram_name>")
-def get_diagram(diagram_name):
-    with open(os.path.join(diagrams_directory, diagram_name)) as f:
-        return f.read()
 
 
 if __name__ == "__main__":

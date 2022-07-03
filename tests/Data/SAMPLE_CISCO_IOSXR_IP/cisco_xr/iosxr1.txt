@@ -1,0 +1,169 @@
+Sun Jul  3 06:30:39.479 UTC
+interface Bundle-Ether10
+ l2transport
+ !
+!
+interface Loopback0
+ ipv4 address 2.2.2.2/32
+ ipv6 address fc00::1/128
+!
+interface Loopback1
+ description WHATEVER
+ ipv4 address 2.2.2.20/24
+!
+interface Loopback2
+ description loopback2
+ ipv4 address 2.2.2.2/24
+!
+interface Loopback13
+ ipv4 address 1.1.1.10/24
+!
+interface Loopback19
+ description David
+ ipv4 address 20.20.20.20/24
+!
+interface Loopback21
+ ipv6 address 2345:425:2ca1::567:5673:23b5/128
+!
+interface Loopback99
+!
+interface Loopback100
+ description ##locator##
+ ipv6 address fc00:1000:10::4/128
+ ipv6 address fc00:1011:20::4/128
+ ipv6 address fc00:1081:90::9/122
+!
+interface Loopback101
+ ipv4 address 192.0.2.18/24
+ ipv4 address 203.0.113.4/24 secondary
+ ipv6 address 2001:db8:f00d::1/64
+!
+interface Loopback111
+ description Configured by NETCONF
+ ipv4 address 9.9.8.8/32
+!
+interface Loopback123
+ description "123 pyats 123"
+!
+interface Loopback200
+ description ***MERGE LOOPBACK 200****
+ ipv4 address 1.1.1.200/32
+!
+interface Loopback555
+ ipv4 address 2.2.2.2/24
+!
+interface Loopback556
+ ipv4 address 3.3.3.3/24
+!
+interface Loopback666
+ description "Link to Chamuco
+!
+interface Loopback701
+ ipv4 address 10.0.1.1/24
+!
+interface Loopback702
+ ipv4 address 10.0.2.1/24
+!
+interface Loopback703
+ ipv4 address 192.168.0.1/24
+!
+interface Loopback777
+ description "Link to Chamuco"
+!
+interface Loopback1000
+ ipv6 address e:0:0:66:44::/64
+ ipv6 enable
+!
+interface Loopback1001
+ ipv4 address 192.168.0.1/32
+!
+interface Loopback1002
+ ipv4 address 192.168.0.2/32
+!
+interface Loopback1003
+ ipv4 address 192.168.51.1/24
+ shutdown
+!
+interface Loopback6500
+ ipv4 address 198.51.100.0/32
+!
+interface Loopback20222
+!
+interface tunnel-ip99
+ ipv4 mtu 1476
+ ipv4 address 1.1.1.1/31
+ tunnel mode gre ipv4
+ tunnel source 99.99.99.1
+ tunnel destination 2.2.2.2
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address 10.10.20.175/24
+!
+interface GigabitEthernet0/0/0/0.100
+ description test1
+ ipv4 address 10.1.1.1/29
+ encapsulation dot1q 100
+!
+interface GigabitEthernet0/0/0/0.200
+ ipv4 address 10.1.1.1/29
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 20.20.20.50/24
+!
+interface GigabitEthernet0/0/0/1.200
+ description test2
+ ipv4 address 10.1.1.1/29
+!
+interface GigabitEthernet0/0/0/2
+ description Hola esto es una prueba
+ shutdown
+!
+interface GigabitEthernet0/0/0/3
+ bundle id 20 mode active
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface BVI511
+ description BVI 511
+ service-policy type pbr input POLICY-VL3929-INBOUND
+ ipv4 address 10.200.188.33/24
+!
+interface preconfigure GigabitEthernet0/9/0/14
+ bundle id 140 mode active
+ load-interval 30
+!
+interface preconfigure GigabitEthernet0/9/0/15
+ shutdown
+!
+interface preconfigure GigabitEthernet0/9/0/16
+ shutdown
+!
+interface preconfigure GigabitEthernet0/9/0/17
+ shutdown
+!
+interface preconfigure GigabitEthernet0/9/0/18
+ shutdown
+!
+interface preconfigure GigabitEthernet0/9/0/19
+ shutdown
+!
+interface preconfigure GigabitEthernet0/9/0/19.1300
+ description MPLS:911042372:VPN-BREB
+ bandwidth 50000
+ ipv4 mtu 1500
+ ipv4 address 100.64.98.154/31
+ proxy-arp
+ encapsulation dot1q 1371
+!
+
+RP/0/RP0/CPU0:ansible-iosxr#
+Sun Jul  3 06:30:40.380 UTC
+RP/0/RP0/CPU0:ansible-iosxr#

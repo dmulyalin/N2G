@@ -951,15 +951,14 @@ class yed_diagram:
         import os
         import time
 
-        # check output folder, if not exists, create it
-        if not os.path.exists(folder):
-            os.makedirs(folder)
+        # create output folder if it does not exists
+        os.makedirs(folder, exist_ok=True)
         # create file name
         if not filename:
             ctime = time.ctime().replace(":", "-")
             filename = "{}_output.graphml".format(ctime)
         # save file to disk
-        with open(folder + filename, "w") as outfile:
+        with open(os.path.join(folder, filename), "w") as outfile:
             outfile.write(self.dump_xml())
 
     def set_attributes(

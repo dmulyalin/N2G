@@ -66,7 +66,7 @@ cisco_ios, cisco_nxos:
 huawei:
 
 * ``display lldp neighbor details`` - mandatory
-* ``display current-configuration`` - optional, used for LAG and interfaces config
+* ``display current-configuration interface`` - optional, used for LAG and interfaces config
 * ``display interface`` - optional, used for interfaces state and to add all connected nodes
 
 juniper:
