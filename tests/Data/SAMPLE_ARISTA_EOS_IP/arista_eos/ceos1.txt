@@ -1,0 +1,93 @@
+ceos1#show run
+! Command: show running-config
+! device: ceos1 (cEOSLab, EOS-4.26.0F-21792469.4260F (engineering build))
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model ribd
+!
+agent Bfd shutdown
+agent PowerManager shutdown
+agent LedPolicy shutdown
+agent Thermostat shutdown
+agent PowerFuse shutdown
+agent StandbyCpld shutdown
+agent LicenseManager shutdown
+!
+no logging console
+logging host 1.1.1.1 514
+logging host 1.2.3.4 514
+logging host 1.2.3.5 514
+logging host 1.2.3.6 514
+logging host 2.2.2.2 514
+logging host 4.3.2.1 514
+logging host 5.5.5.5 514
+logging host 7.7.7.7 514
+logging host 9.9.9.9 514
+!
+logging level AAA informational
+!
+hostname ceos1
+!
+ntp server 1.1.1.1
+ntp server 1.1.1.2
+ntp server 1.1.1.10
+ntp server 1.1.1.11
+ntp server 2.2.2.2
+ntp server 2.2.2.3
+ntp server 3.3.3.3
+ntp server 3.3.3.4
+ntp server 4.3.2.1
+ntp server 6.6.6.6
+ntp server 7.7.7.7
+ntp server 7.7.7.8
+!
+snmp-server location "North West Hall DC1"
+snmp-server local-interface Ethernet1
+snmp-server host 1.2.3.4 version 2c test
+snmp-server host 1.2.3.5 version 2c test
+!
+spanning-tree mode mstp
+!
+no aaa root
+!
+username nornir privilege 15 secret sha512 $6$EkriX8oB5g3Midq4$ErOpqzIWT7FxiW1IkSNQKS8gEqsn9HsbRVm8.Zw47y3Xm9a.GywP9zPF/avyTBBS8c5/ZSMMj/6BHL64KcW2I1
+!
+interface Ethernet1
+   description Configured by NETCONF
+   mtu 9200
+   no switchport
+   ip address 10.0.1.4/24
+!
+interface Loopback1
+   ip address 1.1.1.1/24
+!
+interface Loopback2
+   description Lopback2 for Customer 27123
+   ip address 2.2.2.2/24
+!
+interface Loopback3
+   description Customer #56924 service
+   ip address 1.2.3.4/24
+!
+interface Loopback1000
+!
+no ip routing
+!
+management api http-commands
+   protocol http
+   no shutdown
+!
+management api gnmi
+   transport grpc default
+!
+management api netconf
+   transport ssh def
+!
+end
+ceos1#  show ip arp vrf all
+
+VRF: default
+Address         Age (sec)  Hardware Addr   Interface
+10.0.1.3          0:00:16  0242.0a00.0103  Ethernet1
+ceos1#

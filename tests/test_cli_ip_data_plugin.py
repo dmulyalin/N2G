@@ -763,3 +763,22 @@ def test_ip_drawing_yed_data_dict_cisco_xr():
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
 # test_ip_drawing_yed_data_dict_cisco_xr()
+
+
+
+def test_ip_drawing_yed_data_dict_arista_eos():
+    data = {"arista_eos": []}
+    with open("./Data/SAMPLE_ARISTA_EOS_IP/arista_eos/ceos1.txt") as f:
+        data["arista_eos"].append(f.read())
+    with open("./Data/SAMPLE_ARISTA_EOS_IP/arista_eos/ceos2.txt") as f:
+        data["arista_eos"].append(f.read())
+    config = {"add_arp": True}
+    drawing = create_yed_diagram()
+    drawer = cli_ip_data(drawing, **config)    
+    drawer.work(data)
+    drawer.drawing.dump_file(filename="test_ip_drawing_yed_data_dict_arista_eos.graphml", folder="./Output/")    
+    with open ("./Output/test_ip_drawing_yed_data_dict_arista_eos.graphml") as produced:
+        with open("./Output/should_be_test_ip_drawing_yed_data_dict_arista_eos.graphml") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
+            
+# test_ip_drawing_yed_data_dict_arista_eos()
