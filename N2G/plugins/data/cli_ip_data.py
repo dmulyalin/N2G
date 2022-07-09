@@ -27,23 +27,25 @@ Features Supported
 +---------------+------------+-----------+-----------+-----------+-----------+
 | fortinet      |    YES     |    YES    |    YES    |    YES    |    ---    |
 +---------------+------------+-----------+-----------+-----------+-----------+
+| arista_eos    |    YES     |    YES    |    YES    |    YES    |    ---    |
++---------------+------------+-----------+-----------+-----------+-----------+
 
 Required Commands output
 ------------------------
 
 cisco_ios:
 
-* ``show running-configuration`` or ``show running-configuration | section interface`` - mandatory output, used to parse interfaces IP addresses
+* ``show running-config`` or ``show running-config | section interface`` - mandatory output, used to parse interfaces IP addresses
 * ``show ip arp`` and/or ``show ip arp vrf xyz`` - required by ARP visualization feature
 
 cisco_xr:
 
-* ``show running-configuration`` or ``show running-configuration interface`` - mandatory output, used to parse interfaces IP addresses
+* ``show running-config`` or ``show running-config interface`` - mandatory output, used to parse interfaces IP addresses
 * ``show arp`` and/or ``show arp vrf xyz/all`` - required by ARP visualization feature
 
 cisco_nxos:
 
-* ``show running-configuration`` or ``show running-configuration | section interface`` - mandatory output, used to parse interfaces IP addresses
+* ``show running-config`` or ``show running-config | section interface`` - mandatory output, used to parse interfaces IP addresses
 * ``show ip arp`` - required by ARP visualization feature
 
 huawei:
@@ -55,6 +57,11 @@ fortinet:
 
 * ``get system config``  - mandatory output, used to parse interfaces IP addresses
 * ``get system arp`` - required by ARP visualization feature
+
+arista_eos:
+
+* ``show running-config`` or ``show running-config | section interface`` - mandatory output, used to parse interfaces IP addresses
+* ``show ip arp`` and/or ``show ip arp vrf all`` - required by ARP visualization feature
 
 Sample Usage
 ------------
