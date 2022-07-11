@@ -11,10 +11,6 @@ next comes the options of various Data Plugins, such as L2 - layer 2 data plugin
 And finally, results need to be saved somewhere on the local file system using
 filename and folder options.
 
-*Sample Usage*::
-
-    n2g -d ./path/to/data/ -L2 -L2-group-links -fn diagram_1.graphml -f ./Output/
-
 *Supported options*::
 
     Parsing order is: CDP/LLDP (L2)  => IP => OSPF => ISIS
@@ -69,6 +65,13 @@ filename and folder options.
     V3D Diagram Viewer:
     --v3d-viewer        Run V3D JSON files viewer
     --diagram-file      OS Path to JSON file with diagram data
+
+*Sample Usage*
+
+To make L2 (CDP and LLDP) diagram in yEd format and save it into ``./Output/diagram_1.graphml``
+file grouping L2 links::
+
+    n2g -d ./path/to/data/ -m yed -L2 -L2-group-links -fn diagram_1.graphml -of ./Output/
 """
 import argparse
 import time
