@@ -2,8 +2,8 @@
 V3D Diagrams Viewer
 *******************
 
-V3D Diagrams Viewer allows to start simple Flask WEB UI application
-to visualize network data in 3D space using
+V3D (Vasturiano 3D) Diagrams Viewer allows to start simple Flask WEB UI application
+to visualize network data in 3D using
 `force-3d-graph <https://github.com/vasturiano/3d-force-graph>`_ library.
 
 This viewer needs to have Flask installed::
@@ -12,17 +12,25 @@ This viewer needs to have Flask installed::
 
 Flask installed as part of ``full`` extras as well.
 
-To run using N2G CLI tool::
+First, produce JSON file using N2G V3D diagram module using preferred data
+plugin, L2 in this case::
 
-    N2G --v3d-viewer --diagram-file /Diagrams/sample_v3d_viewer_file.json
+    N2G -d ./Data/ -m v3d -L2 -fn sample_v3d_viewer_file
 
-Access WEB UI application via URL ``http://127.0.0.1:9000`` using your browser.
+Next, run V3D viewer application using N2G CLI tool::
+
+    N2G --v3d-viewer --diagram-file Output/sample_v3d_viewer_file.txt
+
+Access WEB UI application via URL ``http://127.0.0.1:9000`` using your browser. It
+should look similar to this:
+
+.. image:: ../_images/v3d_viewer/v3d_viewer_1.png
 
 By default Flask server starts and listens on all operating system interfaces, but
 specific IP address and port number can be specified as required using ``--ip`` and
 ``--port`` N2G CLI arguments.
 
-Where ``sample_v3d_viewer_file.json`` file content should contain JSON data
+Where ``sample_v3d_viewer_file.txt`` file content should contain JSON data
 conforming to force-3d-graph input
 `JSON syntax format <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_
 for example::
@@ -32,12 +40,10 @@ for example::
             {
                 "id": "id1",
                 "name": "name1",
-                "val": 1
             },
             {
                 "id": "id2",
                 "name": "name2",
-                "val": 10
             }
         ],
         "links": [

@@ -5,17 +5,37 @@ yEd SVG Viewer
 yED SVG Viewer allows to start simple Flask WEB UI application to visualize network
 data using `D3.js <https://d3js.org/>`_ library.
 
+yED SVG Viewer supports diagram files in SVG format produced by yED Graph Editor
+application using ``File -> Export -> Save as type: SVG format`` feature.
+
 This viewer needs to have Flask installed::
 
     pip install flask
 
 Flask installed as part of ``full`` extras as well.
 
-To run using N2G CLI tool::
+**Tutorial How to Make SVG Diagrams**
 
-    N2G --yed-svg-viewer --diagrams-dir /Diagrams/
+Open diagram in yEd graph editor application and navigate to ``File -> Export``:
+
+.. image:: ../_images/yed_viewer/yed_export_1.png
+
+Choose SVG format and click save:
+
+.. image:: ../_images/yed_viewer/yed_export_2.png
+
+In export menu, make sure to select "Export URL" and "Export Description as
+Tooltip", press "Ok" button:
+
+.. image:: ../_images/yed_viewer/yed_export_3.png
+
+Navigate to folder with exported SVG file and run yEd SVG viewer using N2G CLI tool::
+
+    N2G --yed-svg-viewer --diagrams-dir "."
 
 Access WEB UI application via URL ``http://127.0.0.1:9000`` using your browser.
+
+.. image:: ../_images/yed_viewer/yed_export_4.png
 
 By default Flask server starts and listens on all operating system interfaces, but
 specific IP address and port number can be specified as required using ``--ip`` and
@@ -26,8 +46,7 @@ N2G CLI tool argument or using ``N2G_DIAGRAMS_DIR`` environment variable. If no
 ``--diagrams-dir`` argument provided, N2G attempts to retrieve diagrams directory
 path using ``N2G_DIAGRAMS_DIR`` environment variable.
 
-Diagrams directory should contain SVG files produced by yED Graph Editor application
-using ``File -> Export -> Save as type: SVG format`` feature.
+
 """
 import os
 import json

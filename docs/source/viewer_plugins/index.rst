@@ -1,7 +1,7 @@
 Viewer Plugins
 ==============
 
-Viewer plugins is a collection of applications that can be used to view
+Viewer plugins are standalone WEB UI applications that can be used to view
 diagrams content.
 
 .. toctree::
