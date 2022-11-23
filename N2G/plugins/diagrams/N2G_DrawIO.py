@@ -483,7 +483,7 @@ class drawio_diagram:
             )
         # iterate over diagrams and layout elements
         for diagram in self.drawing.findall("./diagram"):
-            igraph_graph = ig()
+            igraph_graph = ig(directed=True)
             self.go_to_diagram(diagram.attrib["name"])
             # populate igraph with nodes and edges from object tags
             for item in self.current_root.iterfind("./object"):
