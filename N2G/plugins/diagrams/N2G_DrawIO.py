@@ -489,8 +489,6 @@ class drawio_diagram:
             for item in self.current_root.iterfind("./object"):
                 # add edges, item[0] refernece to object's mxCell child tag
                 if item[0].get("source") and item[0].get("target"):
-                    igraph_graph.add_vertex(name=item[0].get("source"))
-                    igraph_graph.add_vertex(name=item[0].get("target"))
                     igraph_graph.add_edge(
                         source=item[0].get("source"), target=item[0].get("target")
                     )
