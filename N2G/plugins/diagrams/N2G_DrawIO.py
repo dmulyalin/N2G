@@ -36,11 +36,9 @@ class drawio_diagram:
     """
 
     drawio_node_object_xml = """
-    <object id="{id}" label="{label}">
-      <mxCell style="{style}" vertex="1" parent="1">
+      <mxCell id="{id}" label="{label}" style="{style}" vertex="1" parent="{parent}">
           <mxGeometry x="{x_pos}" y="{y_pos}" width="{width}" height="{height}" as="geometry"/>
       </mxCell>
-    </object>
     """
 
     drawio_link_object_xml = """
@@ -165,6 +163,7 @@ class drawio_diagram:
         height=60,
         x_pos=200,
         y_pos=150,
+        parent=1,
         **kwargs
     ):
         """
@@ -211,6 +210,7 @@ class drawio_diagram:
                 x_pos=x_pos,
                 y_pos=y_pos,
                 style=style if style else self.default_node_style,
+                parent=parent,
             )
         )
         # add data attributes and/or url to node
