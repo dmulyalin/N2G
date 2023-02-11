@@ -25,7 +25,7 @@
     <node id="a">
       <data key="d6">
         <y:SVGNode>
-          <y:Geometry height="66.39871382636656" width="100.0" x="200" y="150" />
+          <y:Geometry width="100.0" height="66.39871382636656" x="200" y="150" />
           <y:Fill color="#CCCCFF" transparent="false" />
           <y:BorderStyle color="#000000" type="line" width="1.0" />
           <y:SVGNodeProperties usingVisualBounds="true" />
@@ -55,7 +55,7 @@
     <data key="d5">some node description</data><data key="d11">{"id": "c"}</data></node><node id="d">
       <data key="d6">
         <y:SVGNode>
-          <y:Geometry height="100.0" width="88.30935251798562" x="200" y="150" />
+          <y:Geometry width="88.30935251798562" height="100.0" x="200" y="150" />
           <y:Fill color="#CCCCFF" transparent="false" />
           <y:BorderStyle color="#000000" type="line" width="1.0" />
           <y:SVGNodeProperties usingVisualBounds="true" />
@@ -67,7 +67,7 @@
     <data key="d5">some node description</data><data key="d11">{"id": "d"}</data></node><node id="e">
       <data key="d6">
         <y:SVGNode>
-          <y:Geometry height="100.0" width="99.53198127925117" x="200" y="150" />
+          <y:Geometry width="99.53198127925117" height="100.0" x="200" y="150" />
           <y:Fill color="#CCCCFF" transparent="false" />
           <y:BorderStyle color="#000000" type="line" width="1.0" />
           <y:SVGNodeProperties usingVisualBounds="true" />

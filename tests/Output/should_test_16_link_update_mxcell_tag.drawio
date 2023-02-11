@@ -1,0 +1,84 @@
+<mxfile host="Electron" modified="2023-02-11T01:33:36.691Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/20.8.16 Chrome/106.0.5249.199 Electron/21.4.0 Safari/537.36" etag="jWyU28ThjUCjtA8JbwYX" compressed="false" version="20.8.16" type="device" pages="2">
+  <diagram id="id-diagram-page-1" name="Page-1">
+    <mxGraphModel dx="1584" dy="498" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="id-link-222-label" value="Link-222" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="40515a90eb36f28b3713bb95607977b0" vertex="1" connectable="0">
+          <mxGeometry x="0.4467" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="biXBsdljV1pCoRGDaEFb-2" value="Link-222-label2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="40515a90eb36f28b3713bb95607977b0">
+          <mxGeometry x="-0.5889" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object label="Node-111" a="1" b="2" id="id-node-111">
+          <mxCell style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+            <mxGeometry x="280" y="170" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="id-node-222" value="Node-222" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="460" y="370" width="80" height="80" as="geometry" />
+        </mxCell>
+        <object label="" c="3" d="4" link="foobar.com" id="id-link-111">
+          <mxCell style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="id-node-111" target="id-node-222" edge="1">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="id-link-111-label" value="Link-111" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="id-link-111" vertex="1" connectable="0">
+          <mxGeometry x="-0.6133" y="-5" relative="1" as="geometry">
+            <mxPoint x="7" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      <mxCell id="40515a90eb36f28b3713bb95607977b0-src" value="Eth1" style="labelBackgroundColor=#ffffff;;" vertex="1" connectable="0" parent="40515a90eb36f28b3713bb95607977b0">
+      <mxGeometry x="-0.5" relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><mxCell id="40515a90eb36f28b3713bb95607977b0-trgt" value="Eth2" style="labelBackgroundColor=#ffffff;;" vertex="1" connectable="0" parent="40515a90eb36f28b3713bb95607977b0">
+      <mxGeometry x="0.5" relative="-1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell><object id="40515a90eb36f28b3713bb95607977b0" a="b" src_label="Eth1" trgt_label="Eth2" link="http://foobar1234.com" label="Link-222 new label">
+    <mxCell style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;" parent="1" source="id-node-111" target="id-node-222" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        </object></root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="id-diagram-page-2" name="Page-2">
+    <mxGraphModel dx="1102" dy="993" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="id-link-444" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="id-node-333" target="id-node-444">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="id-link-444-label" value="Link-444" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="id-link-444">
+          <mxGeometry x="0.4467" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object label="Node-333" a="111" b="222" id="id-node-333">
+          <mxCell style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+            <mxGeometry x="280" y="170" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="id-node-444" value="Node-444" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="460" y="370" width="80" height="80" as="geometry" />
+        </mxCell>
+        <object label="" c="333" d="444" id="id-link-333">
+          <mxCell style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="id-node-333" target="id-node-444">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="id-link-333-label" value="Link-333" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="id-link-333">
+          <mxGeometry x="-0.6133" y="-5" relative="1" as="geometry">
+            <mxPoint x="7" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

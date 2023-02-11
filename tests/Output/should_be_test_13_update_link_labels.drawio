@@ -1,55 +1,55 @@
-<mxfile compressed="false" type="device">
+<mxfile type="device" compressed="false">
     <diagram id="Page-1" name="Page-1">
-      <mxGraphModel arrows="1" connect="1" dx="1360" dy="864" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="1169" pageScale="1" pageWidth="827" shadow="1" tooltips="1">
+      <mxGraphModel dx="1360" dy="864" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
         <root>
           <mxCell id="0" />   
           <mxCell id="1" parent="0" />
         <object id="node-1" label="node-1">
-      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="150" width="120" height="60" as="geometry" />
       </mxCell>
     </object><object id="node-2" label="node-2">
-      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="150" width="120" height="60" as="geometry" />
       </mxCell>
     </object><object id="node-3" label="node-3">
-      <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1">
-          <mxGeometry as="geometry" height="60" width="120" x="200" y="150" />
+      <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="150" width="120" height="60" as="geometry" />
       </mxCell>
-    </object><mxCell connectable="0" id="947728752830898de867889aff4f80fe-src" parent="947728752830898de867889aff4f80fe" style="labelBackgroundColor=#ffffff;;labelBorderColor=#000000;fontColor=#FF66B3;fontStyle=1" value="GigEth1/1" vertex="1">
-      <mxGeometry as="geometry" relative="1" x="-0.5">
+    </object><mxCell id="1ed5d2723307a169fc0a48a174559633-src" value="GigEth1/1" style="labelBackgroundColor=#ffffff;;labelBorderColor=#000000;fontColor=#FF66B3;fontStyle=1" vertex="1" connectable="0" parent="1ed5d2723307a169fc0a48a174559633">
+      <mxGeometry x="-0.5" relative="1" as="geometry">
         <mxPoint as="offset" />
       </mxGeometry>
-    </mxCell><mxCell connectable="0" id="947728752830898de867889aff4f80fe-trgt" parent="947728752830898de867889aff4f80fe" style="labelBackgroundColor=#ffffff;;labelBorderColor=#000000;fontColor=#FF66B3;fontStyle=1" value="GigEth2/29" vertex="1">
-      <mxGeometry as="geometry" relative="-1" x="0.5">
+    </mxCell><mxCell id="1ed5d2723307a169fc0a48a174559633-trgt" value="GigEth2/29" style="labelBackgroundColor=#ffffff;;labelBorderColor=#000000;fontColor=#FF66B3;fontStyle=1" vertex="1" connectable="0" parent="1ed5d2723307a169fc0a48a174559633">
+      <mxGeometry x="0.5" relative="-1" as="geometry">
         <mxPoint as="offset" />
       </mxGeometry>
-    </mxCell><object a="b" id="947728752830898de867889aff4f80fe" label="bla1" source="node-1" src_label="GigEth1/1" target="node-2" trgt_label="GigEth2/29">
-      <mxCell edge="1" parent="1" source="node-1" style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;" target="node-2">
-          <mxGeometry as="geometry" relative="1" />
+    </mxCell><object id="1ed5d2723307a169fc0a48a174559633" label="bla1" src_label="GigEth1/1" trgt_label="GigEth2/29" source="node-1" target="node-2" a="b">
+      <mxCell style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;" edge="1" parent="1" source="node-1" target="node-2">
+          <mxGeometry relative="1" as="geometry" />
       </mxCell>
-    </object><object id="df47ed684b5ba493aaf3c28656d8b9ce" label="" source="node-2" src_label="Gi1/1" target="node-3" trgt_label="Gi2/29">
-      <mxCell edge="1" parent="1" source="node-2" style="endArrow=none;" target="node-3">
-          <mxGeometry as="geometry" relative="1" />
+    </object><object id="de2f8e0ddf04062333906b101e970534" label="" source="node-2" target="node-3" src_label="Gi1/1" trgt_label="Gi2/29">
+      <mxCell style="endArrow=none;" edge="1" parent="1" source="node-2" target="node-3">
+          <mxGeometry relative="1" as="geometry" />
       </mxCell>
-    </object><mxCell connectable="0" id="206555ab2c35b090dcb3e5ac10dc56d3-src" parent="206555ab2c35b090dcb3e5ac10dc56d3" style="labelBackgroundColor=#ffffff;;" value="GE3/6" vertex="1">
-      <mxGeometry as="geometry" relative="1" x="-0.5">
+    </object><mxCell id="90df5c85cf4f352564068238298e238a-src" value="GE3/6" style="labelBackgroundColor=#ffffff;;" vertex="1" connectable="0" parent="90df5c85cf4f352564068238298e238a">
+      <mxGeometry x="-0.5" relative="1" as="geometry">
         <mxPoint as="offset" />
       </mxGeometry>
-    </mxCell><mxCell connectable="0" id="206555ab2c35b090dcb3e5ac10dc56d3-trgt" parent="206555ab2c35b090dcb3e5ac10dc56d3" style="labelBackgroundColor=#ffffff;;" value="GE5/21" vertex="1">
-      <mxGeometry as="geometry" relative="-1" x="0.5">
+    </mxCell><mxCell id="90df5c85cf4f352564068238298e238a-trgt" value="GE5/21" style="labelBackgroundColor=#ffffff;;" vertex="1" connectable="0" parent="90df5c85cf4f352564068238298e238a">
+      <mxGeometry x="0.5" relative="-1" as="geometry">
         <mxPoint as="offset" />
       </mxGeometry>
-    </mxCell><object id="206555ab2c35b090dcb3e5ac10dc56d3" label="" source="node-3" src_label="GE3/6" target="node-1" trgt_label="GE5/21">
-      <mxCell edge="1" parent="1" source="node-3" style="endArrow=none;" target="node-1">
-          <mxGeometry as="geometry" relative="1" />
+    </mxCell><object id="90df5c85cf4f352564068238298e238a" label="" src_label="GE3/6" trgt_label="GE5/21" source="node-3" target="node-1">
+      <mxCell style="endArrow=none;" edge="1" parent="1" source="node-3" target="node-1">
+          <mxGeometry relative="1" as="geometry" />
       </mxCell>
-    </object><mxCell connectable="0" id="df47ed684b5ba493aaf3c28656d8b9ce-src" parent="df47ed684b5ba493aaf3c28656d8b9ce" style="labelBackgroundColor=#ffffff;;" value="Gi1/1" vertex="1">
-      <mxGeometry as="geometry" relative="1" x="-0.5">
+    </object><mxCell id="de2f8e0ddf04062333906b101e970534-src" value="Gi1/1" style="labelBackgroundColor=#ffffff;;" vertex="1" connectable="0" parent="de2f8e0ddf04062333906b101e970534">
+      <mxGeometry x="-0.5" relative="1" as="geometry">
         <mxPoint as="offset" />
       </mxGeometry>
-    </mxCell><mxCell connectable="0" id="df47ed684b5ba493aaf3c28656d8b9ce-trgt" parent="df47ed684b5ba493aaf3c28656d8b9ce" style="labelBackgroundColor=#ffffff;;" value="Gi2/29" vertex="1">
-      <mxGeometry as="geometry" relative="-1" x="0.5">
+    </mxCell><mxCell id="de2f8e0ddf04062333906b101e970534-trgt" value="Gi2/29" style="labelBackgroundColor=#ffffff;;" vertex="1" connectable="0" parent="de2f8e0ddf04062333906b101e970534">
+      <mxGeometry x="0.5" relative="-1" as="geometry">
         <mxPoint as="offset" />
       </mxGeometry>
     </mxCell></root>

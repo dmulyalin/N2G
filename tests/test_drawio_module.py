@@ -33,7 +33,7 @@ def test_1_add_elements_one_by_one():
         with open("./Output/should_be_test_1_add_elements_one_by_one.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
     
-# test_1_add_elements_one_by_one()
+test_1_add_elements_one_by_one()
     
 def test_2_from_dict():
     ###########################################
@@ -404,3 +404,63 @@ def test_15_from_dict_layout():
             assert not (elem.attrib["x"] == "200" and elem.attrib["y"] == "150"), "Detected default (x, y) coordinate values"
             
 # test_15_from_dict_layout()
+
+
+def test_16_from_file_with_mxcell_and_object_nodes_edges_tags():
+    drawio_drawing = create_drawio_diagram()
+    drawio_drawing.from_file("./Data/test_load_no_object_tags.drawio")
+    
+    assert drawio_drawing.nodes_ids == {'id-diagram-page-1': ['id-node-111', 'id-node-222'], 'id-diagram-page-2': ['id-node-333', 'id-node-444']}
+    assert drawio_drawing.edges_ids == {'id-diagram-page-1': ['id-link-111', 'id-link-222'], 'id-diagram-page-2': ['id-link-333', 'id-link-444']}
+
+# test_16_from_file_with_mxcell_and_object_nodes_edges_tags()
+
+
+def test_16_link_update_mxcell_tag():
+    """
+    test_load_no_object_tags.drawio contains links that does not enveloped into object tag
+    but use mxCell tag directly instead
+    """
+    new_link_style="endArrow=classic;fillColor=#f8cecc;strokeColor=#FF3399;dashed=1;edgeStyle=entityRelationEdgeStyle;startArrow=diamondThin;startFill=1;endFill=0;strokeWidth=5;"
+    
+    drawio_drawing = create_drawio_diagram()
+    drawio_drawing.from_file("./Data/test_load_no_object_tags.drawio")
+    
+    drawio_drawing.update_link(
+        edge_id="id-link-222",
+        new_label="Link-222 new label", 
+        style=new_link_style, 
+        data={"a": "b"},
+        url="http://foobar1234.com",
+        new_src_label="Eth1",
+        new_trgt_label="Eth2",
+    )
+    
+    drawio_drawing.dump_file(filename="test_16_link_update_mxcell_tag.drawio", folder="./Output/")     
+    with open ("./Output/test_16_link_update_mxcell_tag.drawio") as produced:
+        with open("./Output/should_test_16_link_update_mxcell_tag.drawio") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
+            
+# test_16_link_update_mxcell_tag()
+
+
+def test_17_link_delete_mxcell_tag():
+    drawio_drawing = create_drawio_diagram()
+    drawio_drawing.from_file("./Data/test_load_no_object_tags.drawio")
+    drawio_drawing.delete_link(id="id-link-222")
+    drawio_drawing.dump_file(filename="test_17_link_delete_mxcell_tag.drawio", folder="./Output/")     
+    with open ("./Output/test_17_link_delete_mxcell_tag.drawio") as produced:
+        with open("./Output/should_test_17_link_delete_mxcell_tag.drawio") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())     
+    
+    
+def test_18_node_update_mxcell_tag():
+    pass
+    
+    
+def test_19_node_delete_mxcell_tag():  
+    pass
+    
+    
+def test_20_compare_mxcell_tag():
+    pass
