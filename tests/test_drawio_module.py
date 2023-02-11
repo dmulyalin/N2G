@@ -1,4 +1,5 @@
 import sys
+import pprint
 sys.path.insert(0,'..')
 # after updated sys path, can do N2G import from parent dir
 from N2G import drawio_diagram as create_drawio_diagram
@@ -410,6 +411,11 @@ def test_16_from_file_with_mxcell_and_object_nodes_edges_tags():
     drawio_drawing = create_drawio_diagram()
     drawio_drawing.from_file("./Data/test_load_no_object_tags.drawio")
     
+    print("drawio_drawing.nodes_ids: ")
+    pprint.pprint(drawio_drawing.nodes_ids)
+    print("drawio_drawing.edges_ids: ")
+    pprint.pprint(drawio_drawing.edges_ids)
+    
     assert drawio_drawing.nodes_ids == {'id-diagram-page-1': ['id-node-111', 'id-node-222'], 'id-diagram-page-2': ['id-node-333', 'id-node-444']}
     assert drawio_drawing.edges_ids == {'id-diagram-page-1': ['id-link-111', 'id-link-222'], 'id-diagram-page-2': ['id-link-333', 'id-link-444']}
 
@@ -438,7 +444,7 @@ def test_16_link_update_mxcell_tag():
     
     drawio_drawing.dump_file(filename="test_16_link_update_mxcell_tag.drawio", folder="./Output/")     
     with open ("./Output/test_16_link_update_mxcell_tag.drawio") as produced:
-        with open("./Output/should_test_16_link_update_mxcell_tag.drawio") as should_be:
+        with open("./Output/should_be_test_16_link_update_mxcell_tag.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read()) 
             
 # test_16_link_update_mxcell_tag()
@@ -450,17 +456,31 @@ def test_17_link_delete_mxcell_tag():
     drawio_drawing.delete_link(id="id-link-222")
     drawio_drawing.dump_file(filename="test_17_link_delete_mxcell_tag.drawio", folder="./Output/")     
     with open ("./Output/test_17_link_delete_mxcell_tag.drawio") as produced:
-        with open("./Output/should_test_17_link_delete_mxcell_tag.drawio") as should_be:
+        with open("./Output/should_be_test_17_link_delete_mxcell_tag.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())     
     
-    
+# test_17_link_delete_mxcell_tag()
+   
 def test_18_node_update_mxcell_tag():
-    pass
-    
-    
+    qsfp_router_style="shape=mxgraph.cisco.misc.asr_1000_series;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;"
+    drawio_drawing = create_drawio_diagram()
+    drawio_drawing.from_file("./Data/test_load_no_object_tags.drawio")
+    drawio_drawing.update_node(id="id-node-222", label="Node-222 Updated label")
+    drawio_drawing.update_node(id="id-node-111", style=qsfp_router_style, width=88, height=86, label="Node-111 Updated label")
+    drawio_drawing.dump_file(filename="test_18_node_update_mxcell_tag.drawio", folder="./Output/") 
+    with open ("./Output/test_18_node_update_mxcell_tag.drawio") as produced:
+        with open("./Output/should_be_test_18_node_update_mxcell_tag.drawio") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())    
+            
+# test_18_node_update_mxcell_tag()
+
 def test_19_node_delete_mxcell_tag():  
-    pass
+    drawio_drawing = create_drawio_diagram()
+    drawio_drawing.from_file("./Data/test_load_no_object_tags.drawio")
+    drawio_drawing.delete_node(id="id-node-222")
+    drawio_drawing.dump_file(filename="test_19_node_delete_mxcell_tag.drawio", folder="./Output/") 
+    with open ("./Output/test_19_node_delete_mxcell_tag.drawio") as produced:
+        with open("./Output/should_be_test_19_node_delete_mxcell_tag.drawio") as should_be:
+            assert normalize_xml(produced.read()) == normalize_xml(should_be.read())    
     
-    
-def test_20_compare_mxcell_tag():
-    pass
+# test_19_node_delete_mxcell_tag()

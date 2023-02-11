@@ -9,10 +9,10 @@ log = logging.getLogger(__name__)
 
 class v3d_diagramm:
     """
-    Class to produce JSON data structure compatible with 
-    `3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_ 
+    Class to produce JSON data structure compatible with
+    `3D Force-Directed Graph <https://github.com/vasturiano/3d-force-graph>`_
     library `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_
-    
+
     :param node_duplicates: (str) what to do with node duplicates - ``skip`` (default), ``update`` or ``log``
     :param link_duplicates: (str) what to do with link duplicates - ``skip`` (default), ``update`` or ``log``
     """
@@ -66,7 +66,7 @@ class v3d_diagramm:
         :param fy: (int) node position on y axis
         :param fz: (int) node position on z axis
         :param color: (str) node color e.g. ``blue``, default is ``green``
-        :param nodeResolution: (int) geometric resolution of the node, expressed in how 
+        :param nodeResolution: (int) geometric resolution of the node, expressed in how
           many slice segments to divide the circumference. Higher values yield smoother spheres.
         :param kwargs: (dict) any additional kwargs to add to node dictionary as per
           `node styling attributes <https://github.com/vasturiano/3d-force-graph#node-styling>`_
@@ -149,14 +149,14 @@ class v3d_diagramm:
         :param trgt_label: (str) link label to use next to target node
         :param id: (str) explicit link identifier to use
         :param kwargs: (dict) any additional kwargs to add to link dictionary
-        
+
         .. note:: If source or target nodes does not exists, they will be automatically
           created
 
         All labels are optional and substituted with empty values to calculate link id.
-        
+
         By default V3D uses below code to produce MD5 hash digest for link id::
-        
+
             link_tup = tuple(sorted([label, source, target, src_label, trgt_label]))
             link_id = hashlib.md5(",".join(edge_tup).encode()).hexdigest()
         """
@@ -215,9 +215,9 @@ class v3d_diagramm:
         **kwargs
     ):
         """
-        Method to update link details. Uses link ``id`` to search for link to update, if no ``id`` 
+        Method to update link details. Uses link ``id`` to search for link to update, if no ``id``
         provided uses ``source, target, label, src_label, trgt_label`` to calculate edge id.
-        
+
         :param source: (str) source node id
         :param target: (str) target node id
         :param label: (str) existing link label
@@ -263,9 +263,9 @@ class v3d_diagramm:
         self, source=None, target=None, label="", src_label="", trgt_label="", id=None
     ):
         """
-        Method to delete link. Uses link ``id`` to search for link to delete, if no ``id`` 
+        Method to delete link. Uses link ``id`` to search for link to delete, if no ``id``
         provided uses ``source, target, label, src_label, trgt_label`` to calculate edge id.
-        
+
         :param source: (str) source node id
         :param target: (str) target node id
         :param label: (str) existing link label
@@ -317,7 +317,7 @@ class v3d_diagramm:
         +---------------------------------+----------------------------------------------------------------------------------------------------------------+
         | sphere, spherical, circular_3d  | Deterministic layout that places the vertices evenly on the surface of a sphere                                |
         +---------------------------------+----------------------------------------------------------------------------------------------------------------+
-        
+
         .. note:: if 2d layout algorithm called, z axis coordinate set to 0
         """
         try:
@@ -357,7 +357,7 @@ class v3d_diagramm:
         Method to build graph from dictionary.
 
         :param data: (dict) dictionary with nodes and link/edges details
-        
+
         Sample data dictionary::
 
             sample_graph = {
@@ -413,7 +413,7 @@ class v3d_diagramm:
         Method to build graph from list.
 
         :param data: (list) list of link dictionaries
-        
+
         Sample list data::
 
             sample_graph = [
@@ -443,9 +443,9 @@ class v3d_diagramm:
         * dictionary ``target``/``source`` node must contain ``id`` attribute and
           other supported node attributes
 
-        .. note:: By default drawio_diagram object ``node_duplicates`` action set to 'skip' 
-            meaning that node will be added on first occurrence and ignored after that. Set 
-            ``node_duplicates`` to 'update' if node with given id need to be updated by later 
+        .. note:: By default drawio_diagram object ``node_duplicates`` action set to 'skip'
+            meaning that node will be added on first occurrence and ignored after that. Set
+            ``node_duplicates`` to 'update' if node with given id need to be updated by later
             occurrences in the list.
         """
         for edge in data:
@@ -455,7 +455,7 @@ class v3d_diagramm:
         """
         Method to load `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_
         data into diagram plugin, presumably to perform various manipulations.
-        
+
         :param data: (str) string of `JSON input syntax <https://github.com/vasturiano/3d-force-graph#input-json-syntax>`_ format
         """
         data_json = json.loads(data)
@@ -482,7 +482,7 @@ class v3d_diagramm:
     def dump_json(self, **kwargs):
         """
         Method to transform graph data in a JSON formatted string.
-        
+
         :param kwargs: (dict) kwargs to use with ``json.dumps`` method
         """
         gdict = self.dump_dict()
@@ -495,8 +495,8 @@ class v3d_diagramm:
         :param filename: (str) name of the file to save diagram into
         :param folder: (str) OS path to folder where to save diagram file, default is ``./Output/``
         :param json_kwargs: (dict) kwargs to use with ``json.dumps`` method
-        
-        If no ``filename`` provided, timestamped format used to produce filename, 
+
+        If no ``filename`` provided, timestamped format used to produce filename,
         e.g.: ``Sun Jun 28 20-30-57 2020_output.txt``
         """
         import time
@@ -521,7 +521,7 @@ class v3d_diagramm:
     ) -> None:
         """
         Method to run FLASK web server using built-in browser app.
-        
+
         :param ip: IP address to bound WEB server to
         :param port: port number to run WEB server on
         :param debug: If True run Flask server in debug mode

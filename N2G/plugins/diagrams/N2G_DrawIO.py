@@ -35,10 +35,10 @@ class drawio_diagram:
     </diagram>
     """
 
-    # Node and Edge templates  enveloped into <object> tag to normilize the 
-    # output - drawio by default uses mxCell tags to denote edges and nodes. 
-    # However, as soon as data added to element or url attribute, drawio 
-    # envelops mxCell into <object> tags to store data and url attribute. N2G 
+    # Node and Edge templates  enveloped into <object> tag to normilize the
+    # output - drawio by default uses mxCell tags to denote edges and nodes.
+    # However, as soon as data or url added to node or link, drawio envelops
+    # mxCell into <object> tags to store data and url attributes. N2G
     # always creates nodes and edges with <object> tags to simplify the code
     drawio_node_object_xml = """
     <object id="{id}" label="{label}">
@@ -68,7 +68,7 @@ class drawio_diagram:
     <object id="{id}">
     </object>
     """
-    
+
     def __init__(self, node_duplicates="skip", link_duplicates="skip"):
         self.drawing = ET.fromstring(self.drawio_drawing_xml)
         self.nodes_ids = {}  # dictionary of {diagram_name: [node_id1, node_id2]}
@@ -148,27 +148,9 @@ class drawio_diagram:
                     diagram_id=diagram_link.attrib["id"]
                 )
             attribs["link"] = url
-        # handle object tag
-        if element.tag == "object":            
-            element.attrib.update(attribs)
-        # handle mxCell tag
-        elif element.tag == "mxCell":           
-            self.current_root.remove(element)
-            # envelop mxCell into <object> tag
-            object_ele = ET.fromstring(
-                self.drawio_object_xml.format(
-                    id=element.attrib.pop("id")
-                )
-            )           
-            object_ele.append(element)
-            # move label for nodes to <object> tag
-            if element.attrib.get("value"):
-                object_ele.attrib["label"] = element.attrib.pop("value")
-            # add data and URL attributes
-            object_ele.attrib.update(attribs)
-            self.current_root.append(object_ele)
-            return object_ele
-            
+
+        element.attrib.update(attribs)
+
         return element
 
     def _node_exists(self, id, **kwargs):
@@ -194,7 +176,7 @@ class drawio_diagram:
         height=60,
         x_pos=200,
         y_pos=150,
-        **kwargs
+        **kwargs,
     ):
         """
         Method to add node to the diagram.
@@ -257,7 +239,7 @@ class drawio_diagram:
         style="",
         width="",
         height="",
-        **kwargs
+        **kwargs,
     ):
         """
         Method to update node details. Uses node ``id`` to search for node to update
@@ -325,7 +307,7 @@ class drawio_diagram:
         src_label_style="",
         trgt_label_style="",
         link_id=None,
-        **kwargs
+        **kwargs,
     ):
         """
         Method to add link between nodes to the diagram.
@@ -683,10 +665,39 @@ class drawio_diagram:
         self.drawing = ET.fromstring(text_data)
         # extract diagrams, nodes, edges IDs
         for diagram_elem in self.drawing.findall("./diagram"):
+            diagram_root = diagram_elem.find("./mxGraphModel/root")
+
             self.nodes_ids.setdefault(diagram_elem.attrib["id"], [])
-            self.edges_ids.setdefault(diagram_elem.attrib["id"], [])            
+            self.edges_ids.setdefault(diagram_elem.attrib["id"], [])
+
+            # envelop all mxCell node and edge tags into <object> tags
+            for mxcell in diagram_root.findall("./mxCell"):
+                # check if this is an edge
+                if mxcell.attrib.get("edge") == "1":
+                    diagram_root.remove(mxcell)
+                    # envelop mxCell into <object> tag
+                    object_tag = ET.fromstring(
+                        self.drawio_object_xml.format(id=mxcell.attrib.pop("id"))
+                    )
+                    object_tag.append(mxcell)
+                    diagram_root.append(object_tag)
+                # check if this is a node
+                elif (
+                    mxcell.attrib.get("vertex") == "1"
+                    and mxcell.attrib.get("parent") == "1"
+                ):
+                    diagram_root.remove(mxcell)
+                    # envelop mxCell into <object> tag
+                    object_tag = ET.fromstring(
+                        self.drawio_object_xml.format(id=mxcell.attrib.pop("id"))
+                    )
+                    object_tag.append(mxcell)
+                    if mxcell.attrib.get("value"):
+                        object_tag.attrib["label"] = mxcell.attrib.pop("value")
+                    diagram_root.append(object_tag)
+
             # iterate over object/mxCell to extract nodes and edges
-            for object_tag in diagram_elem.findall("./mxGraphModel/root/object"):
+            for object_tag in diagram_root.findall("./object"):
                 object_id = object_tag.attrib["id"]
                 mxCell = object_tag.find("./mxCell")
                 # check if this is an edge
@@ -694,15 +705,7 @@ class drawio_diagram:
                     self.edges_ids[diagram_elem.attrib["id"]].append(object_id)
                 else:
                     self.nodes_ids[diagram_elem.attrib["id"]].append(object_id)
-            # iterate over mxCell directly to extract nodes and edges
-            for mxcell in diagram_elem.findall("./mxGraphModel/root/mxCell"):
-                mxcell_id = mxcell.attrib["id"]
-                # check if this is an edge
-                if "source" in mxcell.attrib and "target" in mxcell.attrib:
-                    self.edges_ids[diagram_elem.attrib["id"]].append(mxcell_id)
-                # check if this is a node
-                elif mxcell.attrib.get("vertex") == "1" and mxcell.attrib.get("parent") == "1":
-                    self.nodes_ids[diagram_elem.attrib["id"]].append(mxcell_id)
+
         self.go_to_diagram(diagram_index=0)
 
     def from_csv(self, text_data):
@@ -774,7 +777,6 @@ class drawio_diagram:
         new_trgt_label=None,
         src_label_style="",
         trgt_label_style="",
-        **kwargs
     ):
         """
         Method to update edge/link details.
@@ -819,7 +821,6 @@ class drawio_diagram:
         New style will replace existing style.
         """
         data = data or {}
-        link_data = {}
         # get new label
         new_label = new_label or label
         new_src_label = new_src_label or src_label
@@ -837,21 +838,21 @@ class drawio_diagram:
             self.edges_ids[self.current_diagram_id].append(new_edge_id)
         else:
             log.warning(
-                "update_link, link does not exist - source '{}', target '{}', label '{}'".format(
-                    source, target, label
-                )
+                f"update_link: link does not exist - source '{source}', "
+                f"target '{target}', label '{label}'"
             )
             return
         # find edge element
-        edge = self.current_root.find("./*[@id='{}']".format(edge_id))
+        edge = self.current_root.find("./object[@id='{}']".format(edge_id))
         # update edge id
-        edge.attrib.update({"id": new_edge_id})
+        edge.attrib["id"] = new_edge_id
         # update labels
         if new_src_label:
             src_label_obj = self.current_root.find(
                 "./mxCell[@id='{}']".format("{}-src".format(edge_id))
             )
-            if not src_label_obj is None:
+            # update existing label
+            if src_label_obj:
                 src_label_obj.attrib.update(
                     {
                         "id": "{}-src".format(new_edge_id),
@@ -874,12 +875,13 @@ class drawio_diagram:
                     )
                 )
                 self.current_root.append(src_label_obj)
-            kwargs["src_label"] = new_src_label
+            data["src_label"] = new_src_label
         if new_trgt_label:
             trgt_label_obj = self.current_root.find(
                 "./mxCell[@id='{}']".format("{}-trgt".format(edge_id))
             )
-            if not trgt_label_obj is None:
+            # update existing label
+            if trgt_label_obj:
                 trgt_label_obj.attrib.update(
                     {
                         "id": "{}-trgt".format(new_edge_id),
@@ -901,18 +903,16 @@ class drawio_diagram:
                     )
                 )
                 self.current_root.append(trgt_label_obj)
-            kwargs["trgt_label"] = new_trgt_label
-        # iterate over all existing labels for this edge and update parent id
-        for label_elem in self.current_root.findall(f"./*[@parent='{edge_id}']"):
-            label_elem.attrib["parent"] = new_edge_id
-        # update edge data and url and also envelop edge <mxCell> tag  into <object> tag
-        link_data.update(data)
-        link_data.update(kwargs)
-        edge = self._add_data_or_url(edge, link_data, url)
-        # update this edge label after its converted to <object> tag
+            data["trgt_label"] = new_trgt_label
+        # update this edge label
         if new_label:
             edge.attrib["label"] = new_label
-        # add style into tag    
+        # iterate over all existing labels for this edge and update parent id
+        for label_elem in self.current_root.findall(f"./mxCell[@parent='{edge_id}']"):
+            label_elem.attrib["parent"] = new_edge_id
+        # update edge data and url
+        edge = self._add_data_or_url(edge, data, url)
+        # add style into tag
         if style:
             # load style from file if its an OS Path
             if os.path.isfile(style[:5000]):
@@ -920,8 +920,6 @@ class drawio_diagram:
                     style = style_file.read()
             mxCell_elem = edge.find("./mxCell")
             mxCell_elem.attrib["style"] = style
-         
-
 
     def compare(
         self, data, diagram_name=None, missing_colour="#C0C0C0", new_colour="#00FF00"
@@ -1075,21 +1073,27 @@ class drawio_diagram:
             if not node is None:
                 self.current_root.remove(node)
                 self.nodes_ids[self.current_diagram_id].remove(node_id)
-                # remove edges:
-                # below xpath selects all parents - '..' - of children that
-                # has source or target equal to node id
+                # remove edges, xpath below selects all parents of children that
+                # has source or target equal to node id using '..'
                 for edge in self.current_root.iterfind(
-                    ".//mxCell[@source='{}']/..".format(node_id)
+                    f".//mxCell[@source='{node_id}']/.."
                 ):
-                    self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
-                    self.current_root.remove(edge)
+                    self.delete_link(id=edge.get("id"))
                 for edge in self.current_root.iterfind(
-                    ".//mxCell[@target='{}']/..".format(node_id)
+                    f".//mxCell[@target='{node_id}']/.."
                 ):
-                    self.edges_ids[self.current_diagram_id].remove(edge.get("id"))
-                    self.current_root.remove(edge)
+                    self.delete_link(id=edge.get("id"))
 
-    def delete_link(self, id=None, ids=None, label="", source="", target="", src_label="", trgt_label=""):
+    def delete_link(
+        self,
+        id=None,
+        ids=None,
+        label="",
+        source="",
+        target="",
+        src_label="",
+        trgt_label="",
+    ):
         """
         Method to delete link by its id. Bulk delete operation
         supported by providing list of link ids to delete.
@@ -1119,10 +1123,12 @@ class drawio_diagram:
         else:
             ids = ids + [id] if id else ids
         for edge_id in ids:
-            edge = self.current_root.find("./*[@id='{}']".format(edge_id))
+            edge = self.current_root.find("./object[@id='{}']".format(edge_id))
             if edge:
                 self.current_root.remove(edge)
                 self.edges_ids[self.current_diagram_id].remove(edge_id)
                 # delete all label object referring to this edge
-                for label_ele in self.current_root.findall(f"./*[@parent='{edge_id}']"):
+                for label_ele in self.current_root.findall(
+                    f"./mxCell[@parent='{edge_id}']"
+                ):
                     self.current_root.remove(label_ele)
