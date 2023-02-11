@@ -3401,6 +3401,9 @@ Holdtime : 147 sec
         with open("./Output/should_be_test_cdp_drawing_yed_data_dict_cisco_iosxr.graphml") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
             
+test_cdp_drawing_yed_data_dict_cisco_iosxr()
+            
+            
 def test_cdp_drawing_yed_data_dict_huawei_base():
     data = { "huawei": [
     """

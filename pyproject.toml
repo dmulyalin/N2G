@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "N2G"
-version = "0.3.2"
+version = "0.3.3"
 description = "Need To Graph"
 authors = ["Denis Mulyalin <d.mulyalin@gmail.com>"]
 maintainers = ["Denis Mulyalin <d.mulyalin@gmail.com>"]
@@ -12,7 +12,6 @@ documentation = "https://n2g.readthedocs.io/"
 keywords = ["Diagramming", "Graphing", "Networks"]
 classifiers = [
     "Topic :: Utilities",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -22,23 +21,23 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 
 # optional dependencies for extras definition
 ttp = { version = "0.9.*", optional = true, markers = "python_version >= '3.6'" }
 ttp_templates = { version = "0.3.*", optional = true, markers = "python_version >= '3.6'" }
-flask = { version = "2.1.2", optional = true, markers = "python_version >= '3.7'" }
-openpyxl = { version = "3.0.*", optional = true, markers = "python_version >= '3.7'" }
-python-igraph = { version = "0.9.*", optional = true, markers = "python_version >= '3.6'" }
+flask = { version = "2.2.2", optional = true, markers = "python_version >= '3.7'" }
+openpyxl = { version = "3.1.*", optional = true, markers = "python_version >= '3.7'" }
+python-igraph = { version = "0.10.*", optional = true, markers = "python_version >= '3.6'" }
 
 [tool.poetry.dev-dependencies]
 bandit = { version = "1.7.*", markers = "python_version >= '3.7'" }
-black = { version = "22.3.*", markers = "python_version >= '3.7'" }
+black = { version = "23.1.*", markers = "python_version >= '3.7'" }
 flake8 = { version = "4.0.*", markers = "python_version >= '3.7'" }
 pre-commit = { version = "2.15.*", markers = "python_version >= '3.7'" }
 pyenchant = { version = "3.2.*", markers = "python_version >= '3.7'" }
 pylint = { version = "2.12.*", markers = "python_version >= '3.7'" }
-pytest = { version = "^7.1.*", markers = "python_version >= '3.7'" }
+pytest = { version = "^7.2.*", markers = "python_version >= '3.7'" }
 xmltodict = { version = "^0.*", markers = "python_version >= '3.7'" }
 
 [build-system]

@@ -10,15 +10,15 @@
       </mxCell>
     </object><object id="r2" label="r2" pic="" bottom_label="core" top_label="2.2.2.2" description="Core Router">
       <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="637" y="294" width="120" height="60" as="geometry" />
+          <mxGeometry x="631" y="296" width="120" height="60" as="geometry" />
       </mxCell>
     </object><object id="r3" label="r3" pic="" bottom_label="edge" top_label="3.3.3.3" description="Edge Router">
       <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="723" y="570" width="120" height="60" as="geometry" />
+          <mxGeometry x="729" y="568" width="120" height="60" as="geometry" />
       </mxCell>
     </object><object id="r4" label="r4" pic="" bottom_label="edge" top_label="4.4.4.4" description="Edge Router">
       <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1081" y="324" width="120" height="60" as="geometry" />
+          <mxGeometry x="1082" y="323" width="120" height="60" as="geometry" />
       </mxCell>
     </object><mxCell id="4c783d026b64f7f34abadd5be66e427d-src" value="Gi1/1" style="labelBackgroundColor=#ffffff;;" vertex="1" connectable="0" parent="4c783d026b64f7f34abadd5be66e427d">
       <mxGeometry x="-0.5" relative="1" as="geometry">

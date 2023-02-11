@@ -99,7 +99,7 @@ from N2G.plugins.viewers.v3d_viewer import run_v3d_viewer
 
 log = logging.getLogger(__name__)
 
-__version__ = "0.2.0"
+__version__ = "0.3.3"
 ctime = time.strftime("%Y-%m-%d_%H-%M-%S")
 
 cli_help = """
