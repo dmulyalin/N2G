@@ -442,17 +442,20 @@ class drawio_diagram:
         with open(os.path.join(folder, filename), "w") as outfile:
             outfile.write(self.dump_xml())
 
-    def layout(self, algo="kk", **kwargs):
+    def layout(self, algo="kk", ig_kwargs=None, **kwargs):
         """
         Method to calculate graph layout using Python
-        `igraph <https://igraph.org/python/doc/tutorial/tutorial.html#layout-algorithms>`_
+        `igraph <https://igraph.org/python/versions/latest/tutorial.html>`_
         library
 
         **Parameters**
 
         * ``algo`` (str) name of layout algorithm to use, default is 'kk'. Reference
           `Layout algorithms` table below for valid algo names
+        * ``ig_kwargs`` (dict) arguments to use to instantiate igraph's Graph instance
+          as per `documentation <https://igraph.org/python/versions/latest/api/igraph.Graph.html#__init__>`_
         * ``kwargs`` any additional kwargs to pass to igraph ``Graph.layout`` method
+          as per `documentation <https://igraph.org/python/versions/latest/api/igraph.Graph.html#layout>`_
 
         **Layout algorithms**
 
@@ -492,19 +495,18 @@ class drawio_diagram:
             raise SystemExit(
                 "Failed to import igraph, install - pip install python-igraph"
             )
+        ig_kwargs = ig_kwargs or {}
         # iterate over diagrams and layout elements
         for diagram in self.drawing.findall("./diagram"):
-            igraph_graph = ig()
+            igraph_graph = ig(**ig_kwargs)
             self.go_to_diagram(diagram.attrib["name"])
             # populate igraph with nodes and edges from object tags
             for item in self.current_root.iterfind("./object"):
                 # add edges, item[0] refernece to object's mxCell child tag
                 if item[0].get("source") and item[0].get("target"):
-                    igraph_graph.add_vertex(name=item[0].get("source"))
-                    igraph_graph.add_vertex(name=item[0].get("target"))
-                    igraph_graph.add_edge(
-                        source=item[0].get("source"), target=item[0].get("target")
-                    )
+                    src = igraph_graph.add_vertex(name=item[0].get("source"))
+                    tgt = igraph_graph.add_vertex(name=item[0].get("target"))
+                    igraph_graph.add_edge(source=src, target=tgt)
                 # add nodes
                 else:
                     igraph_graph.add_vertex(name=item.get("id"))
