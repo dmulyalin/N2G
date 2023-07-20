@@ -503,9 +503,17 @@ class drawio_diagram:
             # populate igraph with nodes and edges from object tags
             for item in self.current_root.iterfind("./object"):
                 # add edges, item[0] refernece to object's mxCell child tag
-                if item[0].get("source") and item[0].get("target"):
-                    src = igraph_graph.add_vertex(name=item[0].get("source"))
-                    tgt = igraph_graph.add_vertex(name=item[0].get("target"))
+                src = item[0].get("source")
+                tgt = item[0].get("target")
+                if src and tgt:
+                    try:
+                        src = igraph_graph.vs.find(src)
+                    except ValueError:
+                        src = igraph_graph.add_vertex(name=src)
+                    try:
+                        tgt = igraph_graph.vs.find(tgt)
+                    except ValueError:
+                        tgt = igraph_graph.add_vertex(name=tgt)
                     igraph_graph.add_edge(source=src, target=tgt)
                 # add nodes
                 else:
