@@ -681,6 +681,8 @@ class drawio_diagram:
                     object_tag = ET.fromstring(
                         self.drawio_object_xml.format(id=mxcell.attrib.pop("id"))
                     )
+                    for attr in mxcell.attrib:
+                        object_tag.attrib[attr] = mxcell.attrib[attr]
                     object_tag.append(mxcell)
                     diagram_root.append(object_tag)
                 # check if this is a node
