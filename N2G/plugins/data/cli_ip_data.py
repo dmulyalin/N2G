@@ -67,7 +67,11 @@ Sample Usage
 ------------
 
 Code to populate yEd diagram object with IP and subnet nodes using data dictionary::
-
+    # run "pip install ttp[full]" before execute the code
+    
+    from N2G import yed_diagram as create_yed_diagram
+    from N2G import cli_ip_data
+    
     data = {"huawei": ['''
     <hua_sw1>dis current-configuration interface
     #
@@ -162,7 +166,7 @@ Code to populate yEd diagram object with IP and subnet nodes using data dictiona
     10.134.137.31  91  d094.7890.beef  Vlan134
     10.134.137.81  81  d094.7890.feeb  Vlan134
     10.222.137.2   21  d094.7890.2222  Vlan222
-    '''
+    ''']
     }
 
     drawing = create_yed_diagram()
