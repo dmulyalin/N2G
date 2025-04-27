@@ -34,7 +34,7 @@ def test_1_add_elements_one_by_one():
         with open("./Output/should_be_test_1_add_elements_one_by_one.drawio") as should_be:
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())
     
-test_1_add_elements_one_by_one()
+# test_1_add_elements_one_by_one()
     
 def test_2_from_dict():
     ###########################################
@@ -484,3 +484,40 @@ def test_19_node_delete_mxcell_tag():
             assert normalize_xml(produced.read()) == normalize_xml(should_be.read())    
     
 # test_19_node_delete_mxcell_tag()
+
+def test_20_link_waypoints():
+    """
+    Test creating and updating links with waypoints (mxPoint geometry).
+    """
+    print("test_20_link_waypoints")
+    drawio_drawing = create_drawio_diagram()
+    drawio_drawing.add_diagram("Page-1")
+    drawio_drawing.add_node(id="A", label="Node A", x_pos=100, y_pos=100)
+    drawio_drawing.add_node(id="B", label="Node B", x_pos=400, y_pos=300)
+    # Add link with waypoints
+    waypoints1 = [(200, 120), (300, 280), (350, 200)]
+    drawio_drawing.add_link(source="A", target="B", label="A to B", waypoints=waypoints1)
+    drawio_drawing.dump_file(filename="test_20_link_waypoints_1.drawio", folder="./Output/")
+    # Check waypoints in output
+    with open("./Output/test_20_link_waypoints_1.drawio") as f:
+        xml = f.read()
+        assert '<Array as="points">' in xml
+        assert '<mxPoint x="200.0" y="120.0" />' in xml
+        assert '<mxPoint x="300.0" y="280.0" />' in xml
+        assert '<mxPoint x="350.0" y="200.0" />' in xml
+    # Update link with new waypoints
+    waypoints2 = [(150, 150), (250, 250)]
+    # Find the link id (should be only one link)
+    link_id = drawio_drawing.edges_ids[drawio_drawing.current_diagram_id][0]
+    drawio_drawing.update_link(edge_id=link_id, waypoints=waypoints2)
+    drawio_drawing.dump_file(filename="test_20_link_waypoints_2.drawio", folder="./Output/")
+    # Check updated waypoints in output
+    with open("./Output/test_20_link_waypoints_2.drawio") as f:
+        xml = f.read()
+        assert '<Array as="points">' in xml
+        assert '<mxPoint x="150.0" y="150.0" />' in xml
+        assert '<mxPoint x="250.0" y="250.0" />' in xml
+        assert '<mxPoint x="200.0" y="120.0" />' not in xml  # old point should be gone
+        assert '<mxPoint x="350.0" y="200.0" />' not in xml
+        
+test_20_link_waypoints()
