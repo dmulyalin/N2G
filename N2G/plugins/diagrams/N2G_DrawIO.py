@@ -307,6 +307,7 @@ class drawio_diagram:
         src_label_style="",
         trgt_label_style="",
         link_id=None,
+        waypoints=None, # Add waypoints parameter
         **kwargs,
     ):
         """
@@ -315,7 +316,7 @@ class drawio_diagram:
         **Parameters**
 
         * ``source`` (str) mandatory, source node id
-        * ``source`` (str) mandatory, target node id
+        * ``target`` (str) mandatory, target node id
         * ``label`` (str) link label to display at the center of the link
         * ``data`` (dict) dictionary of key value pairs to add as link data
         * ``url`` (str) url string to save as link ``url`` attribute
@@ -325,6 +326,7 @@ class drawio_diagram:
         * ``src_label_style`` (str) source label style string
         * ``trgt_label_style`` (str) target label style string
         * ``link_id`` (str or int) optional link id value, must be unique across all links
+        * ``waypoints`` (list) optional list of (x, y) tuples defining intermediate points for the link path. Example: [(100, 150), (200, 150)]
 
         Sample DrawIO style string for the link::
 
@@ -402,11 +404,29 @@ class drawio_diagram:
             )
             self.current_root.append(trgt_label_obj)
             kwargs["trgt_label"] = trgt_label
-        # add links data and url
+        # add links data and url (do NOT include waypoints in link_data)
         link_data.update(data)
         link_data.update(kwargs)
         link_data.update({"source": source, "target": target})
+        link_data.pop("waypoints", None)  # Remove waypoints from attributes if present
         link = self._add_data_or_url(link, link_data, url)
+
+        # add or update waypoints if provided
+        if waypoints and isinstance(waypoints, list):
+            mxCell = link.find("./mxCell")
+            mxGeometry = mxCell.find("./mxGeometry")
+            if mxGeometry is None:
+                mxGeometry = ET.SubElement(mxCell, "mxGeometry", {"relative": "1", "as": "geometry"})
+            # Remove any existing Array as="points"
+            for arr in mxGeometry.findall("./Array[@as='points']"):
+                mxGeometry.remove(arr)
+            array_elem = ET.SubElement(mxGeometry, "Array", {"as": "points"})
+            for x, y in waypoints:
+                try:
+                    ET.SubElement(array_elem, "mxPoint", {"x": str(float(x)), "y": str(float(y))})
+                except Exception:
+                    continue
+
         # save link to graph
         self.current_root.append(link)
 
@@ -779,6 +799,7 @@ class drawio_diagram:
         new_trgt_label=None,
         src_label_style="",
         trgt_label_style="",
+        waypoints=None, # Add waypoints parameter
     ):
         """
         Method to update edge/link details.
@@ -800,6 +821,8 @@ class drawio_diagram:
         * ``new_trgt_label`` (str) - new edge target label
         * ``src_label_style`` (str) - string with style to apply to source label
         * ``trgt_label_style`` (str) - strung with style to apply to target label
+        * ``waypoints`` (list or None) - optional list of (x, y) tuples defining new intermediate points.
+          If provided, replaces any existing waypoints. If None, existing waypoints are unchanged.
 
         Either of these must be provided to find link element to update:
 
@@ -922,6 +945,20 @@ class drawio_diagram:
                     style = style_file.read()
             mxCell_elem = edge.find("./mxCell")
             mxCell_elem.attrib["style"] = style
+        # Add or update waypoints if provided
+        if waypoints is not None:
+            mxGeometry = edge.find("./mxCell/mxGeometry")
+            # Remove existing Array as="points" if present
+            array_elem = mxGeometry.find("./Array[@as='points']")
+            if array_elem is not None:
+                mxGeometry.remove(array_elem)
+            if waypoints:
+                array_elem = ET.SubElement(mxGeometry, "Array", {"as": "points"})
+                for x, y in waypoints:
+                    try:
+                        ET.SubElement(array_elem, "mxPoint", {"x": str(float(x)), "y": str(float(y))})
+                    except Exception:
+                        continue
 
     def compare(
         self, data, diagram_name=None, missing_colour="#C0C0C0", new_colour="#00FF00"
