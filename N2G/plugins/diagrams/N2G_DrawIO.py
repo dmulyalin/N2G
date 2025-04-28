@@ -701,6 +701,8 @@ class drawio_diagram:
                     object_tag = ET.fromstring(
                         self.drawio_object_xml.format(id=mxcell.attrib.pop("id"))
                     )
+                    for attr in mxcell.attrib:
+                        object_tag.attrib[attr] = mxcell.attrib[attr]
                     object_tag.append(mxcell)
                     diagram_root.append(object_tag)
                 # check if this is a node
@@ -716,6 +718,8 @@ class drawio_diagram:
                     object_tag.append(mxcell)
                     if mxcell.attrib.get("value"):
                         object_tag.attrib["label"] = mxcell.attrib.pop("value")
+                    for attr in mxcell.attrib:
+                        object_tag.attrib[attr] = mxcell.attrib[attr]
                     diagram_root.append(object_tag)
 
             # iterate over object/mxCell to extract nodes and edges
